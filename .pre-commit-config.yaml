@@ -13,8 +13,10 @@ repos:
     hooks:
       - id: fmt
         args: [--all]
+        pass_filenames: false
       - id: clippy
         args: [--all-targets, --all-features, --, -D, warnings]
+        pass_filenames: false
 
   - repo: local
     hooks:
