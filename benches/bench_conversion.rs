@@ -3,8 +3,8 @@
 // Criterion benchmarks for BalineseDate construction throughput.
 // Run with: cargo bench
 
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use balinese_calendar::BalineseDate;
+use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 fn bench_single_date(c: &mut Criterion) {
     c.bench_function("BalineseDate::from_ymd (single)", |b| {
@@ -30,5 +30,10 @@ fn bench_flat_record(c: &mut Criterion) {
     });
 }
 
-criterion_group!(benches, bench_single_date, bench_year_range, bench_flat_record);
+criterion_group!(
+    benches,
+    bench_single_date,
+    bench_year_range,
+    bench_flat_record
+);
 criterion_main!(benches);

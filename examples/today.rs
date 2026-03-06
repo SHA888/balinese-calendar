@@ -10,20 +10,35 @@ fn main() {
     let d = BalineseDate::today().expect("failed to compute today's date");
 
     println!("═══════════════════════════════════════════════════════");
-    println!("  KALENDER BALI — {}/{:02}/{:02}", d.gregorian_year, d.gregorian_month, d.gregorian_day);
+    println!(
+        "  KALENDER BALI — {}/{:02}/{:02}",
+        d.gregorian_year, d.gregorian_month, d.gregorian_day
+    );
     println!("═══════════════════════════════════════════════════════");
     println!();
     println!("  {}", d.to_balinese_string());
     println!();
     println!("── Pawukon ─────────────────────────────────────────────");
-    println!("  Wuku        : {} (#{}, day {}/7)",
-        d.wuku.name(), d.wuku as u8 + 1, d.wuku_day + 1);
+    println!(
+        "  Wuku        : {} (#{}, day {}/7)",
+        d.wuku.name(),
+        d.wuku as u8 + 1,
+        d.wuku_day + 1
+    );
     println!("  Pawukon day : {}/210", d.pawukon_day + 1);
     println!("  Ecology tag : {}", d.wuku.ecology_tag());
     println!();
     println!("── Wewaran ─────────────────────────────────────────────");
-    println!("  Saptawara   : {} ({})", d.saptawara.name(), d.saptawara.name_indonesian());
-    println!("  Pancawara   : {} (urip {})", d.pancawara.name(), d.pancawara.urip());
+    println!(
+        "  Saptawara   : {} ({})",
+        d.saptawara.name(),
+        d.saptawara.name_indonesian()
+    );
+    println!(
+        "  Pancawara   : {} (urip {})",
+        d.pancawara.name(),
+        d.pancawara.urip()
+    );
     println!("  Triwara     : {}", d.triwara.name());
     println!("  Dwiwara     : {}", d.dwiwara.name());
     println!("  Caturwara   : {}", d.caturwara.name());

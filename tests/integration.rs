@@ -24,8 +24,8 @@ fn test_nyepi_2026() {
 
 #[test]
 fn test_flat_record_fields() {
-    let d  = BalineseDate::from_ymd(2026, 3, 6).unwrap();
-    let r  = d.to_flat_record();
+    let d = BalineseDate::from_ymd(2026, 3, 6).unwrap();
+    let r = d.to_flat_record();
     assert_eq!(r.saka_year, 1948);
     assert_eq!(r.sasih_name, "Kasanga");
     assert_eq!(r.sasih_season_tag, "pancaroba_1");
@@ -38,8 +38,8 @@ fn test_balinese_string_contains_key_parts() {
     let d = BalineseDate::from_ymd(2026, 3, 6).unwrap();
     let s = d.to_balinese_string();
     assert!(s.contains("Sungsang"), "wuku missing: {s}");
-    assert!(s.contains("Kasanga"),  "sasih missing: {s}");
-    assert!(s.contains("1948"),     "saka year missing: {s}");
+    assert!(s.contains("Kasanga"), "sasih missing: {s}");
+    assert!(s.contains("1948"), "saka year missing: {s}");
 }
 
 #[test]
@@ -61,7 +61,7 @@ fn test_wuku_cycle_210_days() {
     // After 210 days, Wuku resets to same position
     use balinese_calendar::utils::gregorian_to_jdn;
     let jdn0 = gregorian_to_jdn(2026, 1, 1).unwrap();
-    let d0   = BalineseDate::from_jdn(jdn0);
+    let d0 = BalineseDate::from_jdn(jdn0);
     let d210 = BalineseDate::from_jdn(jdn0 + 210);
     assert_eq!(d0.wuku, d210.wuku);
     assert_eq!(d0.pancawara, d210.pancawara);

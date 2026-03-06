@@ -40,9 +40,9 @@ pub const PAWUKON_EPOCH_JDN: i64 = 2_232_407;
 //   - 1993–2002:     Sasih Kesinambungan rules apply
 //   - 2003–present:  Nampih Sasih (standard intercalary, PHDI-regulated)
 // For production use, verify intercalary months annually against PHDI calendar.
-pub const SASIH_EPOCH_JDN: i64    = 2_440_588; // Jan 1, 1969 CE
-pub const NGUNARATRI_PERIOD: i64  = 63;         // every 63 solar days, one ngunaratri
-pub const LUNATION_DAYS: f64      = 29.530_588_853; // mean synodic month
+pub const SASIH_EPOCH_JDN: i64 = 2_440_588; // Jan 1, 1969 CE
+pub const NGUNARATRI_PERIOD: i64 = 63; // every 63 solar days, one ngunaratri
+pub const LUNATION_DAYS: f64 = 29.530_588_853; // mean synodic month
 
 // ── Saka Year Offset ──────────────────────────────────────────────────────────
 // Saka year = Gregorian year − 78  (corrected by Nyepi date within the year)
@@ -107,7 +107,11 @@ mod tests {
         for (y, m, d) in cases {
             let jdn = gregorian_to_jdn(y, m, d).unwrap();
             let (yr, mo, da) = jdn_to_gregorian(jdn);
-            assert_eq!((yr, mo, da), (y, m, d), "roundtrip failed for {y}-{m:02}-{d:02}");
+            assert_eq!(
+                (yr, mo, da),
+                (y, m, d),
+                "roundtrip failed for {y}-{m:02}-{d:02}"
+            );
         }
     }
 

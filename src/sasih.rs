@@ -25,66 +25,68 @@
 //   verified against the official PHDI calendar. The algorithmic estimate
 //   may differ from the declared intercalary month by 1 sasih.
 
-use crate::utils::{SASIH_EPOCH_JDN, NGUNARATRI_PERIOD, SAKA_YEAR_OFFSET, gregorian_to_jdn, jdn_to_gregorian};
+use crate::utils::{
+    gregorian_to_jdn, jdn_to_gregorian, NGUNARATRI_PERIOD, SAKA_YEAR_OFFSET, SASIH_EPOCH_JDN,
+};
 
 // ── Sasih names ───────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Sasih {
-    Kasa        = 1,
-    Karo        = 2,
-    Katiga      = 3,
-    Kapat       = 4,
-    Kalima      = 5,
-    Kanem       = 6,
-    Kapitu      = 7,
-    Kawolu      = 8,
-    Kasanga     = 9,
-    Kadasa      = 10,
-    Desta       = 11,  // Jyestha
-    Sada        = 12,  // Sadha
+    Kasa = 1,
+    Karo = 2,
+    Katiga = 3,
+    Kapat = 4,
+    Kalima = 5,
+    Kanem = 6,
+    Kapitu = 7,
+    Kawolu = 8,
+    Kasanga = 9,
+    Kadasa = 10,
+    Desta = 11, // Jyestha
+    Sada = 12,  // Sadha
     // Intercalary months (Nampih Sasih ≥ 2003):
-    NampihDesta = 13,  // Mala Jyestha — inserted after Desta
-    NampihSada  = 14,  // Mala Sadha   — inserted after Sada
+    NampihDesta = 13, // Mala Jyestha — inserted after Desta
+    NampihSada = 14,  // Mala Sadha   — inserted after Sada
 }
 
 impl Sasih {
     pub fn name(&self) -> &'static str {
         match self {
-            Sasih::Kasa        => "Kasa",
-            Sasih::Karo        => "Karo",
-            Sasih::Katiga      => "Katiga",
-            Sasih::Kapat       => "Kapat",
-            Sasih::Kalima      => "Kalima",
-            Sasih::Kanem       => "Kanem",
-            Sasih::Kapitu      => "Kapitu",
-            Sasih::Kawolu      => "Kawolu",
-            Sasih::Kasanga     => "Kasanga",
-            Sasih::Kadasa      => "Kadasa",
-            Sasih::Desta       => "Desta",
-            Sasih::Sada        => "Sada",
+            Sasih::Kasa => "Kasa",
+            Sasih::Karo => "Karo",
+            Sasih::Katiga => "Katiga",
+            Sasih::Kapat => "Kapat",
+            Sasih::Kalima => "Kalima",
+            Sasih::Kanem => "Kanem",
+            Sasih::Kapitu => "Kapitu",
+            Sasih::Kawolu => "Kawolu",
+            Sasih::Kasanga => "Kasanga",
+            Sasih::Kadasa => "Kadasa",
+            Sasih::Desta => "Desta",
+            Sasih::Sada => "Sada",
             Sasih::NampihDesta => "Nampih Desta",
-            Sasih::NampihSada  => "Nampih Sada",
+            Sasih::NampihSada => "Nampih Sada",
         }
     }
 
     /// Traditional season association
     pub fn season_tag(&self) -> &'static str {
         match self {
-            Sasih::Kasa        => "dry",
-            Sasih::Karo        => "dry",
-            Sasih::Katiga      => "dry",
-            Sasih::Kapat       => "pancaroba_2",
-            Sasih::Kalima      => "wet",
-            Sasih::Kanem       => "wet",
-            Sasih::Kapitu      => "wet",
-            Sasih::Kawolu      => "wet",
-            Sasih::Kasanga     => "pancaroba_1",  // ← current sasih 2026-03-06
-            Sasih::Kadasa      => "pancaroba_1",
-            Sasih::Desta       => "dry",
-            Sasih::Sada        => "dry",
+            Sasih::Kasa => "dry",
+            Sasih::Karo => "dry",
+            Sasih::Katiga => "dry",
+            Sasih::Kapat => "pancaroba_2",
+            Sasih::Kalima => "wet",
+            Sasih::Kanem => "wet",
+            Sasih::Kapitu => "wet",
+            Sasih::Kawolu => "wet",
+            Sasih::Kasanga => "pancaroba_1", // ← current sasih 2026-03-06
+            Sasih::Kadasa => "pancaroba_1",
+            Sasih::Desta => "dry",
+            Sasih::Sada => "dry",
             Sasih::NampihDesta => "dry",
-            Sasih::NampihSada  => "dry",
+            Sasih::NampihSada => "dry",
         }
     }
 
@@ -110,20 +112,29 @@ pub enum SasihDayInfo {
     /// New moon (Pangelong 15 = Tilem)
     Tilem,
     /// Ngunaratri — two lunar days on one solar day; primary + secondary tithi
-    Ngunaratri { primary: Box<SasihDayInfo>, secondary: Box<SasihDayInfo> },
+    Ngunaratri {
+        primary: Box<SasihDayInfo>,
+        secondary: Box<SasihDayInfo>,
+    },
 }
 
 impl SasihDayInfo {
-    pub fn is_purnama(&self) -> bool { matches!(self, SasihDayInfo::Purnama) }
-    pub fn is_tilem(&self)   -> bool { matches!(self, SasihDayInfo::Tilem) }
-    pub fn is_ngunaratri(&self) -> bool { matches!(self, SasihDayInfo::Ngunaratri { .. }) }
+    pub fn is_purnama(&self) -> bool {
+        matches!(self, SasihDayInfo::Purnama)
+    }
+    pub fn is_tilem(&self) -> bool {
+        matches!(self, SasihDayInfo::Tilem)
+    }
+    pub fn is_ngunaratri(&self) -> bool {
+        matches!(self, SasihDayInfo::Ngunaratri { .. })
+    }
 
     pub fn tithi_number(&self) -> u8 {
         match self {
-            SasihDayInfo::Penanggal(n)          => *n,
-            SasihDayInfo::Purnama               => 15,
-            SasihDayInfo::Pangelong(n)           => 15 + n,
-            SasihDayInfo::Tilem                  => 30,
+            SasihDayInfo::Penanggal(n) => *n,
+            SasihDayInfo::Purnama => 15,
+            SasihDayInfo::Pangelong(n) => 15 + n,
+            SasihDayInfo::Tilem => 30,
             SasihDayInfo::Ngunaratri { primary, .. } => primary.tithi_number(),
         }
     }
@@ -133,10 +144,10 @@ impl SasihDayInfo {
 
 #[derive(Debug, Clone)]
 pub struct SasihResult {
-    pub saka_year:    i32,
-    pub sasih:        Sasih,
-    pub day_info:     SasihDayInfo,
-    pub is_nampih:    bool,   // true if this day falls in an intercalary month
+    pub saka_year: i32,
+    pub sasih: Sasih,
+    pub day_info: SasihDayInfo,
+    pub is_nampih: bool, // true if this day falls in an intercalary month
 }
 
 // ── Core calculation ──────────────────────────────────────────────────────────
@@ -182,9 +193,9 @@ impl SasihResult {
             // Proper fix: compute Tilem Kasanga from lunation; use table for now.
             let approx_nyepi_jdn = gregorian_to_jdn(g_year, 3, 16).unwrap_or(jdn + 1);
             if jdn >= approx_nyepi_jdn {
-                g_year - SAKA_YEAR_OFFSET       // on/after Nyepi
+                g_year - SAKA_YEAR_OFFSET // on/after Nyepi
             } else {
-                g_year - SAKA_YEAR_OFFSET - 1   // before Nyepi
+                g_year - SAKA_YEAR_OFFSET - 1 // before Nyepi
             }
         };
 
@@ -204,36 +215,47 @@ impl SasihResult {
 
         // ── 7. Build SasihDayInfo ──────────────────────────────────────────────
         let day_info = if is_ngunaratri_day {
-            let primary   = Self::tithi_to_day_info(tithi);
+            let primary = Self::tithi_to_day_info(tithi);
             let secondary = Self::tithi_to_day_info((tithi % 30) + 1);
             SasihDayInfo::Ngunaratri {
-                primary:   Box::new(primary),
+                primary: Box::new(primary),
                 secondary: Box::new(secondary),
             }
         } else {
             Self::tithi_to_day_info(tithi)
         };
 
-        SasihResult { saka_year, sasih, day_info, is_nampih }
+        SasihResult {
+            saka_year,
+            sasih,
+            day_info,
+            is_nampih,
+        }
     }
 
     fn tithi_to_day_info(tithi: u8) -> SasihDayInfo {
         match tithi {
             1..=14 => SasihDayInfo::Penanggal(tithi),
-            15     => SasihDayInfo::Purnama,
+            15 => SasihDayInfo::Purnama,
             16..=29 => SasihDayInfo::Pangelong(tithi - 15),
-            _      => SasihDayInfo::Tilem, // 30
+            _ => SasihDayInfo::Tilem, // 30
         }
     }
 
     fn sasih_from_index(idx: u8) -> Sasih {
         match idx {
-            0  => Sasih::Kasa,    1  => Sasih::Karo,
-            2  => Sasih::Katiga,  3  => Sasih::Kapat,
-            4  => Sasih::Kalima,  5  => Sasih::Kanem,
-            6  => Sasih::Kapitu,  7  => Sasih::Kawolu,
-            8  => Sasih::Kasanga, 9  => Sasih::Kadasa,
-            10 => Sasih::Desta,   _  => Sasih::Sada,
+            0 => Sasih::Kasa,
+            1 => Sasih::Karo,
+            2 => Sasih::Katiga,
+            3 => Sasih::Kapat,
+            4 => Sasih::Kalima,
+            5 => Sasih::Kanem,
+            6 => Sasih::Kapitu,
+            7 => Sasih::Kawolu,
+            8 => Sasih::Kasanga,
+            9 => Sasih::Kadasa,
+            10 => Sasih::Desta,
+            _ => Sasih::Sada,
         }
     }
 
@@ -243,7 +265,8 @@ impl SasihResult {
     fn is_nampih_year(saka_year: i32) -> bool {
         const NAMPIH_YEARS: &[i32] = &[
             // Known intercalary years (Nampih Sasih ≥ Saka 1925 / 2003 CE)
-            1925, 1927, 1930, 1933, 1935, 1938, 1941, 1943, 1946,
+            1925, 1927, 1930, 1933, 1935, 1938, 1941, 1943,
+            1946,
             // Saka 1948 = 2026 CE — verify with PHDI before deploying
         ];
         NAMPIH_YEARS.contains(&saka_year)
@@ -279,7 +302,10 @@ mod tests {
         let jdn = gregorian_to_jdn(2026, 3, 19).unwrap();
         let result = SasihResult::from_jdn(jdn);
         // Saka year is computed from solar approximation — reliable
-        assert_eq!(result.saka_year, 1948, "Saka year for Nyepi 2026 must be 1948");
+        assert_eq!(
+            result.saka_year, 1948,
+            "Saka year for Nyepi 2026 must be 1948"
+        );
         // Sasih Kadasa is calibrated from this ground truth date
         assert_eq!(result.sasih, Sasih::Kadasa, "Nyepi 2026 must be Kadasa");
     }
@@ -293,10 +319,15 @@ mod tests {
         // TODO: fix epoch to align with a known Tilem or Purnama date.
         let jdn = gregorian_to_jdn(2026, 3, 6).unwrap();
         let result = SasihResult::from_jdn(jdn);
-        assert_eq!(result.saka_year, 1947, "March 6 is before Nyepi, still Saka 1947");
+        assert_eq!(
+            result.saka_year, 1947,
+            "March 6 is before Nyepi, still Saka 1947"
+        );
         // sasih Kasanga assertion deferred pending lunation offset calibration
-        assert!(result.sasih.is_pancaroba(),
-            "March 6 2026 must be pancaroba (Kasanga or Kadasa are both pancaroba)");
+        assert!(
+            result.sasih.is_pancaroba(),
+            "March 6 2026 must be pancaroba (Kasanga or Kadasa are both pancaroba)"
+        );
     }
 
     #[test]

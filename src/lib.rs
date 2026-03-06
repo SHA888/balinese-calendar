@@ -1,9 +1,4 @@
-#![allow(
-    clippy::manual_range_contains,
-    clippy::manual_rem_euclid,
-    missing_docs
-)]
-
+#![allow(clippy::manual_range_contains, clippy::manual_rem_euclid, missing_docs)]
 // src/lib.rs
 //
 // balinese-date — native Rust implementation of the Balinese Saka Calendar.
@@ -31,17 +26,16 @@
 //   Intercalary month placement is declared annually by PHDI (Parisada Hindu
 //   Dharma Indonesia). The built-in list covers known years; verify and extend
 //   the `NAMPIH_YEARS` array in `sasih.rs` each year.
-
 #![forbid(unsafe_code)]
 
+mod balinese_date;
 pub mod error;
+pub mod paringkelan;
+pub mod pawukon;
+pub mod rahinan;
+pub mod sasih;
 pub mod utils;
 pub mod wewaran;
-pub mod pawukon;
-pub mod sasih;
-pub mod paringkelan;
-pub mod rahinan;
-mod balinese_date;
 
 // ── Re-exports: primary API ───────────────────────────────────────────────────
 
@@ -50,17 +44,16 @@ pub use error::BalineseDateError;
 
 // ── Re-exports: enums (for pattern matching in consumer crates) ───────────────
 
-pub use wewaran::{
-    Ekawara, Dwiwara, Triwara, Caturwara, Pancawara,
-    Sadwara, Saptawara, Astawara, Sangawara, Dasawara,
+pub use paringkelan::{
+    Ingkel, Jejepan, Lintang, PancaSuda, Pararasan, Rakam, WatekAlit, WatekMadya,
 };
 pub use pawukon::Wuku;
-pub use sasih::{Sasih, SasihDayInfo};
-pub use paringkelan::{
-    Jejepan, Ingkel, WatekMadya, WatekAlit,
-    Lintang, PancaSuda, Pararasan, Rakam,
-};
 pub use rahinan::Rahinan;
+pub use sasih::{Sasih, SasihDayInfo};
+pub use wewaran::{
+    Astawara, Caturwara, Dasawara, Dwiwara, Ekawara, Pancawara, Sadwara, Sangawara, Saptawara,
+    Triwara,
+};
 
 // ── Version ───────────────────────────────────────────────────────────────────
 

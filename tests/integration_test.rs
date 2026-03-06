@@ -8,7 +8,7 @@
 // To re-run: `cargo test`
 // To run with output: `cargo test -- --nocapture`
 
-use balinese_calendar::{BalineseDate, Sasih, Wuku, Rahinan, Saptawara, Pancawara};
+use balinese_calendar::{BalineseDate, Pancawara, Rahinan, Saptawara, Sasih, Wuku};
 
 // ── Helper ────────────────────────────────────────────────────────────────────
 
@@ -62,8 +62,11 @@ fn test_today_wuku() {
     // Validate wuku for 2026-03-06 against kalenderbali.org
     // Expected: Wuku Sungsang (wind_watch ecology tag)
     let d = date(2026, 3, 6);
-    assert_eq!(d.wuku.ecology_tag(), "wind_watch",
-               "2026-03-06 should be in Wuku Sungsang (wind watch)");
+    assert_eq!(
+        d.wuku.ecology_tag(),
+        "wind_watch",
+        "2026-03-06 should be in Wuku Sungsang (wind watch)"
+    );
 }
 
 #[test]
@@ -82,8 +85,10 @@ fn test_galungan_2025() {
     assert_eq!(d.wuku, Wuku::Dungulan);
     assert_eq!(d.saptawara, Saptawara::Buda);
     assert_eq!(d.pancawara, Pancawara::Kliwon);
-    assert!(d.rahinan.contains(&Rahinan::Galungan),
-            "July 2, 2025 should be Galungan");
+    assert!(
+        d.rahinan.contains(&Rahinan::Galungan),
+        "July 2, 2025 should be Galungan"
+    );
 }
 
 #[test]
@@ -120,10 +125,10 @@ fn test_pawukon_210_day_cycle() {
     // Any date + 210 days should have the same wuku and all wewaran
     let d1 = date(2026, 1, 1);
     let d2 = BalineseDate::from_jdn(d1.jdn + 210);
-    assert_eq!(d1.wuku,      d2.wuku);
+    assert_eq!(d1.wuku, d2.wuku);
     assert_eq!(d1.pancawara, d2.pancawara);
     assert_eq!(d1.saptawara, d2.saptawara);
-    assert_eq!(d1.triwara,   d2.triwara);
+    assert_eq!(d1.triwara, d2.triwara);
     assert_eq!(d1.pawukon_day, d2.pawukon_day);
 }
 
@@ -131,14 +136,20 @@ fn test_pawukon_210_day_cycle() {
 fn test_saptawara_7_day_cycle() {
     let d1 = date(2026, 3, 6); // Sukra (Friday)
     let d7 = BalineseDate::from_jdn(d1.jdn + 7);
-    assert_eq!(d1.saptawara, d7.saptawara, "Saptawara must repeat every 7 days");
+    assert_eq!(
+        d1.saptawara, d7.saptawara,
+        "Saptawara must repeat every 7 days"
+    );
 }
 
 #[test]
 fn test_pancawara_5_day_cycle() {
     let d1 = date(2026, 3, 6);
     let d5 = BalineseDate::from_jdn(d1.jdn + 5);
-    assert_eq!(d1.pancawara, d5.pancawara, "Pancawara must repeat every 5 days");
+    assert_eq!(
+        d1.pancawara, d5.pancawara,
+        "Pancawara must repeat every 5 days"
+    );
 }
 
 // ── FlatRecord output ─────────────────────────────────────────────────────────
@@ -146,7 +157,10 @@ fn test_pancawara_5_day_cycle() {
 #[test]
 fn test_flat_record_pancaroba_flag() {
     let rec = date(2026, 3, 6).to_flat_record();
-    assert!(rec.pancaroba_flag, "FlatRecord should have pancaroba_flag=true");
+    assert!(
+        rec.pancaroba_flag,
+        "FlatRecord should have pancaroba_flag=true"
+    );
     assert_eq!(rec.sasih_season_tag, "pancaroba_1");
     assert_eq!(rec.wuku_ecology_tag, "wind_watch");
 }
@@ -168,7 +182,7 @@ fn test_flat_record_fields_populated() {
 fn test_balinese_string_format() {
     let s = date(2026, 3, 6).to_balinese_string();
     assert!(s.contains("Kasanga"), "String should mention current sasih");
-    assert!(s.contains("1948"),    "String should mention Saka year 1948");
+    assert!(s.contains("1948"), "String should mention Saka year 1948");
 }
 
 // ── Urip values ───────────────────────────────────────────────────────────────
@@ -177,21 +191,21 @@ fn test_balinese_string_format() {
 fn test_pancawara_urip_values() {
     use balinese_calendar::Pancawara::*;
     assert_eq!(Umanis.urip(), 5);
-    assert_eq!(Paing.urip(),  9);
-    assert_eq!(Pon.urip(),    7);
-    assert_eq!(Wage.urip(),   4);
+    assert_eq!(Paing.urip(), 9);
+    assert_eq!(Pon.urip(), 7);
+    assert_eq!(Wage.urip(), 4);
     assert_eq!(Kliwon.urip(), 8);
 }
 
 #[test]
 fn test_saptawara_urip_values() {
     use balinese_calendar::Saptawara::*;
-    assert_eq!(Redite.urip(),    5);
-    assert_eq!(Soma.urip(),      4);
-    assert_eq!(Anggara.urip(),   3);
-    assert_eq!(Buda.urip(),      7);
-    assert_eq!(Wraspati.urip(),  8);
-    assert_eq!(Sukra.urip(),     6);
+    assert_eq!(Redite.urip(), 5);
+    assert_eq!(Soma.urip(), 4);
+    assert_eq!(Anggara.urip(), 3);
+    assert_eq!(Buda.urip(), 7);
+    assert_eq!(Wraspati.urip(), 8);
+    assert_eq!(Sukra.urip(), 6);
     assert_eq!(Saniscara.urip(), 9);
 }
 
@@ -208,5 +222,12 @@ fn test_out_of_range_returns_error() {
 fn test_invalid_month_returns_error() {
     use balinese_calendar::BalineseDateError;
     let result = BalineseDate::from_ymd(2026, 13, 1);
-    assert!(matches!(result, Err(BalineseDateError::InvalidDate { year: 2026, month: 13, day: 1 })));
+    assert!(matches!(
+        result,
+        Err(BalineseDateError::InvalidDate {
+            year: 2026,
+            month: 13,
+            day: 1
+        })
+    ));
 }
