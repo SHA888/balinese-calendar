@@ -1,0 +1,29 @@
+[package]
+name = "balinese-calendar"
+version = "0.1.0"
+edition = "2021"
+authors = ["Kresna Sucandra"]
+description = "Balinese Saka Calendar (Kalender Bali) — the first native Rust implementation. Computes Pawukon, Wewaran, Sasih, Paringkelan, Rahinan and Saka year from any Gregorian date."
+license = "Apache-2.0"
+repository = "https://github.com/SHA888/balinese-calendar"
+documentation = "https://docs.rs/balinese-calendar"
+readme = "README.md"
+keywords = ["bali", "calendar", "saka", "pawukon", "indonesia"]
+categories = ["date-and-time", "localization"]
+exclude = [".github/", "benches/"]
+
+[dependencies]
+chrono    = { version = "0.4", default-features = false, features = ["std", "clock"] }
+thiserror = "1"
+
+[dev-dependencies]
+chrono = { version = "0.4", features = ["std"] }
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "bench_conversion"
+harness = false
+
+[profile.release]
+lto     = true
+opt-level = 3
