@@ -25,4 +25,4 @@ repos:
         entry: cargo test --lib --all-features
         language: system
         pass_filenames: false
-        stages: [commit]
+        stages: [pre-commit]
