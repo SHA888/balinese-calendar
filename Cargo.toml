@@ -1,6 +1,6 @@
 [package]
 name = "balinese-calendar"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Kresna Sucandra"]
 description = "Balinese Saka Calendar (Kalender Bali) — the first native Rust implementation. Computes Pawukon, Wewaran, Sasih, Paringkelan, Rahinan and Saka year from any Gregorian date."
