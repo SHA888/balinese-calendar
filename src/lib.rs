@@ -1,7 +1,6 @@
 #![allow(
     clippy::manual_range_contains,
     clippy::manual_rem_euclid,
-    clippy::uninlined_format_args,
     missing_docs
 )]
 

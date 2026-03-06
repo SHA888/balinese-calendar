@@ -37,9 +37,9 @@ fn test_flat_record_fields() {
 fn test_balinese_string_contains_key_parts() {
     let d = BalineseDate::from_ymd(2026, 3, 6).unwrap();
     let s = d.to_balinese_string();
-    assert!(s.contains("Sungsang"), "wuku missing: {}", s);
-    assert!(s.contains("Kasanga"),  "sasih missing: {}", s);
-    assert!(s.contains("1948"),     "saka year missing: {}", s);
+    assert!(s.contains("Sungsang"), "wuku missing: {s}");
+    assert!(s.contains("Kasanga"),  "sasih missing: {s}");
+    assert!(s.contains("1948"),     "saka year missing: {s}");
 }
 
 #[test]

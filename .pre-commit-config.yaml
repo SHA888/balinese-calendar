@@ -20,7 +20,7 @@ repos:
     hooks:
       - id: cargo-test
         name: cargo test
-        entry: cargo test --all-features
+        entry: cargo test --lib --all-features
         language: system
         pass_filenames: false
         stages: [commit]

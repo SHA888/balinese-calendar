@@ -172,15 +172,15 @@ impl BalineseDate {
     /// Example: "Kamis Umanis Sungsang, Penanggal 15 Kasanga 1948"
     pub fn to_balinese_string(&self) -> String {
         let tithi = match &self.sasih_day {
-            SasihDayInfo::Penanggal(n)  => format!("Penanggal {}", n),
+            SasihDayInfo::Penanggal(n)  => format!("Penanggal {n}"),
             SasihDayInfo::Purnama       => "Purnama".to_string(),
-            SasihDayInfo::Pangelong(n)  => format!("Pangelong {}", n),
+            SasihDayInfo::Pangelong(n)  => format!("Pangelong {n}"),
             SasihDayInfo::Tilem         => "Tilem".to_string(),
             SasihDayInfo::Ngunaratri { primary, .. } => {
                 format!("Ngunaratri ({})", match primary.as_ref() {
-                    SasihDayInfo::Penanggal(n) => format!("Penanggal {}", n),
+                    SasihDayInfo::Penanggal(n) => format!("Penanggal {n}"),
                     SasihDayInfo::Purnama      => "Purnama".to_string(),
-                    SasihDayInfo::Pangelong(n) => format!("Pangelong {}", n),
+                    SasihDayInfo::Pangelong(n) => format!("Pangelong {n}"),
                     SasihDayInfo::Tilem        => "Tilem".to_string(),
                     _                          => "?".to_string(),
                 })

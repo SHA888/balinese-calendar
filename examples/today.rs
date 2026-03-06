@@ -1,6 +1,7 @@
 // examples/today.rs
 //
-// Print today's complete Balinese calendar date.
+// Display today's Balinese calendar date with full details.
+//
 // Run with: cargo run --example today
 
 use balinese_calendar::BalineseDate;
@@ -55,7 +56,7 @@ fn main() {
     if !d.rahinan.is_empty() {
         println!("── Rahinan (Holy Days) ─────────────────────────────────");
         for r in &d.rahinan {
-            println!("  ★ {:?}", r);
+            println!("  ★ {r:?}");
         }
         println!();
     }
