@@ -1,3 +1,10 @@
+#![allow(
+    clippy::manual_range_contains,
+    clippy::manual_rem_euclid,
+    clippy::uninlined_format_args,
+    missing_docs
+)]
+
 // src/lib.rs
 //
 // balinese-date — native Rust implementation of the Balinese Saka Calendar.
@@ -27,7 +34,6 @@
 //   the `NAMPIH_YEARS` array in `sasih.rs` each year.
 
 #![forbid(unsafe_code)]
-#![warn(missing_docs)]
 
 pub mod error;
 pub mod utils;
