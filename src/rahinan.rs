@@ -99,6 +99,11 @@ impl Rahinan {
             result.push(Rahinan::AnggarKasih);
         }
 
+        // Hari Bhatara Sri: Buda (Wednesday) Wage — agricultural fertility day
+        if *saptawara == Saptawara::Buda && *pancawara == Pancawara::Wage {
+            result.push(Rahinan::HariBhataraSri);
+        }
+
         // Purnama / Tilem
         if day_info.is_purnama() {
             result.push(Rahinan::Purnama(*sasih));

@@ -4,10 +4,20 @@
 //
 // Run with: cargo run --example today
 
-use balinese_calendar::BalineseDate;
+use balinese_calendar::{BalineseDate, DayBoundary};
 
-fn main() {
-    let d = BalineseDate::today().expect("failed to compute today's date");
+fn main() -> anyhow::Result<()> {
+    let today = BalineseDate::today()?;
+    println!("Today (sunrise-adjusted): {}", today.to_balinese_string());
+
+    let midnight = BalineseDate::today_with_boundary(&DayBoundary::Midnight)?;
+    println!(
+        "Today (midnight):         {}",
+        midnight.to_balinese_string()
+    );
+    println!();
+
+    let d = today;
 
     println!("═══════════════════════════════════════════════════════");
     println!(
@@ -77,4 +87,6 @@ fn main() {
     }
 
     println!("═══════════════════════════════════════════════════════");
+
+    Ok(())
 }

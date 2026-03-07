@@ -8,6 +8,7 @@
 
 use chrono::{Datelike, NaiveDate};
 
+use crate::boundary::DayBoundary;
 use crate::error::BalineseDateError;
 use crate::paringkelan::{
     Ingkel, Jejepan, Lintang, PancaSuda, Pararasan, Rakam, WatekAlit, WatekMadya,
@@ -73,6 +74,11 @@ pub struct BalineseDate {
 }
 
 impl BalineseDate {
+    // ── Constants ─────────────────────────────────────────────────────────────
+
+    /// Bali time zone offset from UTC in hours (WITA = UTC+8).
+    const BALI_UTC_OFFSET_HOURS: i64 = 8;
+
     // ── Constructors ─────────────────────────────────────────────────────────
 
     /// Create from a Gregorian calendar date.
@@ -94,10 +100,52 @@ impl BalineseDate {
 
     // ── Today ─────────────────────────────────────────────────────────────────
 
-    /// Create for today's date (uses system clock via chrono).
+    /// Returns today's Balinese date using the default day boundary:
+    /// `FixedSunrise(6)` — Bali sunrise offset over WITA (UTC+8).
     pub fn today() -> Result<Self, BalineseDateError> {
-        let today = chrono::Local::now().date_naive();
-        Self::from_naive_date(today)
+        Self::today_with_boundary(&DayBoundary::default())
+    }
+
+    /// Returns today's Balinese date using an explicit [`DayBoundary`].
+    ///
+    /// # Example
+    /// ```rust
+    /// use balinese_calendar::{BalineseDate, DayBoundary};
+    /// let date = BalineseDate::today_with_boundary(&DayBoundary::FixedSunrise(6))?;
+    /// # Ok::<(), balinese_calendar::BalineseDateError>(())
+    /// ```
+    pub fn today_with_boundary(boundary: &DayBoundary) -> Result<Self, BalineseDateError> {
+        use chrono::Utc;
+        let utc_now = Utc::now();
+        Self::from_utc_datetime_with_boundary(utc_now, boundary)
+    }
+
+    /// Computes a Balinese date from a provided UTC datetime using an explicit [`DayBoundary`].
+    ///
+    /// This helper enables deterministic tests by injecting a fixed UTC instant.
+    pub(crate) fn from_utc_datetime_with_boundary(
+        utc_now: chrono::DateTime<chrono::Utc>,
+        boundary: &DayBoundary,
+    ) -> Result<Self, BalineseDateError> {
+        let date = match boundary {
+            DayBoundary::Midnight => {
+                (utc_now + chrono::Duration::hours(Self::BALI_UTC_OFFSET_HOURS)).date_naive()
+            }
+            DayBoundary::FixedSunrise(hour) => {
+                if *hour > 23 {
+                    return Err(BalineseDateError::InvalidBoundaryHour(*hour));
+                }
+                let offset_hours = Self::BALI_UTC_OFFSET_HOURS - (*hour as i64);
+                (utc_now + chrono::Duration::hours(offset_hours)).date_naive()
+            }
+            #[cfg(feature = "astronomical")]
+            DayBoundary::Astronomical { lat: _, lon: _ } => {
+                return Err(BalineseDateError::NotImplemented(
+                    "astronomical sunrise not yet implemented; use FixedSunrise(6)".into(),
+                ));
+            }
+        };
+        Self::from_naive_date(date)
     }
 
     // ── Internal construction ─────────────────────────────────────────────────
@@ -187,30 +235,12 @@ impl BalineseDate {
     /// Format: "Saptawara Pancawara Wuku, Tithi Sasih Saka-year"
     /// Example: "Kamis Umanis Sungsang, Penanggal 15 Kasanga 1948"
     pub fn to_balinese_string(&self) -> String {
-        let tithi = match &self.sasih_day {
-            SasihDayInfo::Penanggal(n) => format!("Penanggal {n}"),
-            SasihDayInfo::Purnama => "Purnama".to_string(),
-            SasihDayInfo::Pangelong(n) => format!("Pangelong {n}"),
-            SasihDayInfo::Tilem => "Tilem".to_string(),
-            SasihDayInfo::Ngunaratri { primary, .. } => {
-                format!(
-                    "Ngunaratri ({})",
-                    match primary.as_ref() {
-                        SasihDayInfo::Penanggal(n) => format!("Penanggal {n}"),
-                        SasihDayInfo::Purnama => "Purnama".to_string(),
-                        SasihDayInfo::Pangelong(n) => format!("Pangelong {n}"),
-                        SasihDayInfo::Tilem => "Tilem".to_string(),
-                        _ => "?".to_string(),
-                    }
-                )
-            }
-        };
         format!(
             "{} {} {}, {} {} Saka {}",
             self.saptawara.name(),
             self.pancawara.name(),
             self.wuku.name(),
-            tithi,
+            self.sasih_day,
             self.sasih.name(),
             self.saka_year,
         )
@@ -246,6 +276,93 @@ impl BalineseDate {
             saptawara_urip: self.saptawara.urip(),
             dasawara_name: self.dasawara.name(),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use chrono::TimeZone;
+
+    /// 2026-03-08 00:30 WITA = 2026-03-07 16:30 UTC
+    /// With FixedSunrise(6): UTC+2 offset → date = 2026-03-07
+    /// With Midnight:        UTC+8 offset → date = 2026-03-08 (Gregorian)
+    #[test]
+    fn fixed_sunrise_before_dawn_returns_prior_gregorian_day() {
+        let utc = chrono::DateTime::parse_from_rfc3339("2026-03-07T16:30:00Z").unwrap();
+        let date = BalineseDate::from_utc_datetime_with_boundary(
+            utc.with_timezone(&chrono::Utc),
+            &DayBoundary::FixedSunrise(6),
+        )
+        .unwrap();
+        assert_eq!(date.gregorian_year, 2026);
+        assert_eq!(date.gregorian_month, 3);
+        assert_eq!(date.gregorian_day, 7);
+    }
+
+    #[test]
+    fn midnight_boundary_returns_gregorian_date_unchanged() {
+        let utc = chrono::DateTime::parse_from_rfc3339("2026-03-07T16:30:00Z").unwrap();
+        let date = BalineseDate::from_utc_datetime_with_boundary(
+            utc.with_timezone(&chrono::Utc),
+            &DayBoundary::Midnight,
+        )
+        .unwrap();
+        assert_eq!(date.gregorian_year, 2026);
+        assert_eq!(date.gregorian_month, 3);
+        assert_eq!(date.gregorian_day, 8);
+    }
+
+    #[test]
+    fn fixed_sunrise_after_dawn_returns_same_day() {
+        // 2026-03-08 07:15 WITA = 2026-03-07 23:15 UTC
+        let utc = chrono::DateTime::parse_from_rfc3339("2026-03-07T23:15:00Z").unwrap();
+        let date = BalineseDate::from_utc_datetime_with_boundary(
+            utc.with_timezone(&chrono::Utc),
+            &DayBoundary::FixedSunrise(6),
+        )
+        .unwrap();
+        assert_eq!(date.gregorian_year, 2026);
+        assert_eq!(date.gregorian_month, 3);
+        assert_eq!(date.gregorian_day, 8);
+    }
+
+    #[test]
+    fn fixed_sunrise_valid_range() {
+        assert!(BalineseDate::from_utc_datetime_with_boundary(
+            chrono::Utc.with_ymd_and_hms(2026, 3, 7, 0, 0, 0).unwrap(),
+            &DayBoundary::FixedSunrise(0),
+        )
+        .is_ok());
+        assert!(BalineseDate::from_utc_datetime_with_boundary(
+            chrono::Utc.with_ymd_and_hms(2026, 3, 7, 0, 0, 0).unwrap(),
+            &DayBoundary::FixedSunrise(23),
+        )
+        .is_ok());
+        let err = BalineseDate::from_utc_datetime_with_boundary(
+            chrono::Utc.with_ymd_and_hms(2026, 3, 7, 0, 0, 0).unwrap(),
+            &DayBoundary::FixedSunrise(24),
+        )
+        .unwrap_err();
+        assert!(matches!(err, BalineseDateError::InvalidBoundaryHour(24)));
+    }
+
+    #[test]
+    fn day_boundary_default_is_fixed_sunrise_6() {
+        assert_eq!(DayBoundary::default(), DayBoundary::FixedSunrise(6));
+    }
+
+    #[test]
+    fn day_boundary_midnight_variant() {
+        assert_eq!(DayBoundary::Midnight, DayBoundary::Midnight);
+    }
+
+    #[test]
+    fn day_boundary_clone_and_debug() {
+        let boundary = DayBoundary::FixedSunrise(6);
+        let cloned = boundary.clone();
+        assert_eq!(boundary, cloned);
+        assert_eq!(format!("{boundary:?}"), "FixedSunrise(6)");
     }
 }
 

@@ -11,43 +11,43 @@
 //   Ngunaratri — "minus one night": every 63 solar days, a lunar day is skipped
 //                (two lunar days fall on one solar day)
 //   Nampih Sasih — intercalary (13th) month inserted to re-sync with solar year
-//                  Placement determined by PHDI annually (≥ 2003)
 //
 // Algorithm basis:
+//   - peradnya/balinese-date-js-lib (Apache-2.0) — walk-forward pivot algorithm
 //   - Pendit, N.S. (2001). "Nyepi: kebangkitan, toleransi, dan kerukunan."
 //   - babadbali.com Sasih algorithm
-//   - peradnya/balinese-date-js-lib (Apache-2.0) — behaviour reference
 //
-// Epoch: JDN 2440588 = January 1, 1969 CE = Penanggal 1 Sasih Kasa Saka 1890
+// The algorithm uses two pivot points (known dates with all sasih parameters)
+// and walks forward or backward to the target date, counting sasih boundaries
+// and determining nampih (intercalary) months algorithmically from the
+// 19-year Metonic-like cycle (saka_year % 19).
 //
 // ⚠ PRODUCTION NOTE:
-//   The Nampih Sasih (intercalary month) placement for each year MUST be
-//   verified against the official PHDI calendar. The algorithmic estimate
-//   may differ from the declared intercalary month by 1 sasih.
+//   The Nampih Sasih placement computed algorithmically may differ from the
+//   official PHDI calendar by 1 sasih in some years. Verify critical dates
+//   against the PHDI calendar or kalenderbali.org.
 
-use crate::utils::{
-    gregorian_to_jdn, jdn_to_gregorian, NGUNARATRI_PERIOD, SAKA_YEAR_OFFSET, SASIH_EPOCH_JDN,
-};
+use crate::utils::{NGUNARATRI_PERIOD, SAKA_YEAR_OFFSET};
 
 // ── Sasih names ───────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Sasih {
-    Kasa = 1,
-    Karo = 2,
-    Katiga = 3,
-    Kapat = 4,
-    Kalima = 5,
-    Kanem = 6,
-    Kapitu = 7,
-    Kawolu = 8,
-    Kasanga = 9,
-    Kadasa = 10,
-    Desta = 11, // Jyestha
-    Sada = 12,  // Sadha
-    // Intercalary months (Nampih Sasih ≥ 2003):
-    NampihDesta = 13, // Mala Jyestha — inserted after Desta
-    NampihSada = 14,  // Mala Sadha   — inserted after Sada
+    Kasa = 0,
+    Karo = 1,
+    Katiga = 2,
+    Kapat = 3,
+    Kalima = 4,
+    Kanem = 5,
+    Kapitu = 6,
+    Kawolu = 7,
+    Kasanga = 8,
+    Kadasa = 9,
+    Desta = 10, // Jyestha
+    Sada = 11,  // Sadha
+    // Intercalary months (Nampih Sasih):
+    NampihDesta = 12, // Mala/Nampih Jyestha — inserted after Desta
+    NampihSada = 13,  // Mala/Nampih Sadha   — inserted after Sada
 }
 
 impl Sasih {
@@ -81,7 +81,7 @@ impl Sasih {
             Sasih::Kanem => "wet",
             Sasih::Kapitu => "wet",
             Sasih::Kawolu => "wet",
-            Sasih::Kasanga => "pancaroba_1", // ← current sasih 2026-03-06
+            Sasih::Kasanga => "pancaroba_1",
             Sasih::Kadasa => "pancaroba_1",
             Sasih::Desta => "dry",
             Sasih::Sada => "dry",
@@ -97,6 +97,23 @@ impl Sasih {
     pub fn is_planting_signal(&self) -> bool {
         matches!(self, Sasih::Katiga | Sasih::Kapat | Sasih::Kalima)
     }
+
+    fn from_index(idx: i32) -> Self {
+        match ((idx % 12) + 12) % 12 {
+            0 => Sasih::Kasa,
+            1 => Sasih::Karo,
+            2 => Sasih::Katiga,
+            3 => Sasih::Kapat,
+            4 => Sasih::Kalima,
+            5 => Sasih::Kanem,
+            6 => Sasih::Kapitu,
+            7 => Sasih::Kawolu,
+            8 => Sasih::Kasanga,
+            9 => Sasih::Kadasa,
+            10 => Sasih::Desta,
+            _ => Sasih::Sada,
+        }
+    }
 }
 
 // ── SasihDayInfo — phase within the lunar month ───────────────────────────────
@@ -111,11 +128,26 @@ pub enum SasihDayInfo {
     Pangelong(u8),
     /// New moon (Pangelong 15 = Tilem)
     Tilem,
-    /// Ngunaratri — two lunar days on one solar day; primary + secondary tithi
+    /// Ngunaratri — two lunar days on one solar day; primary + secondary tithi.
+    /// Invariant: inner values are never `Ngunaratri` (ngunaratri cannot nest).
+    /// `Box` is used to avoid infinite enum size; a non-recursive `TithiPhase`
+    /// type would be cleaner — see TODO for future refactor.
     Ngunaratri {
         primary: Box<SasihDayInfo>,
         secondary: Box<SasihDayInfo>,
     },
+}
+
+impl std::fmt::Display for SasihDayInfo {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            SasihDayInfo::Penanggal(n) => write!(f, "Penanggal {n}"),
+            SasihDayInfo::Purnama => write!(f, "Purnama"),
+            SasihDayInfo::Pangelong(n) => write!(f, "Pangelong {n}"),
+            SasihDayInfo::Tilem => write!(f, "Tilem"),
+            SasihDayInfo::Ngunaratri { primary, .. } => write!(f, "Ngunaratri ({primary})"),
+        }
+    }
 }
 
 impl SasihDayInfo {
@@ -150,126 +182,263 @@ pub struct SasihResult {
     pub is_nampih: bool, // true if this day falls in an intercalary month
 }
 
+// ── Pivot points ──────────────────────────────────────────────────────────────
+// Known dates with fully characterized sasih parameters.
+// Source: peradnya/balinese-date-js-lib (Apache-2.0).
+
+struct Pivot {
+    jdn: i64,
+    sasih_day: i64,      // day within the 30-day sasih at this pivot (0-based)
+    ngunaratri_day: i64, // ngunaratri offset at this pivot
+    saka: i32,
+    sasih_id: i32, // 0-based sasih index (Kasa=0 .. Sada=11)
+    is_nampih: bool,
+}
+
+// PIVOT_1971: January 27, 1971 — Penanggal 1 Kapitu Saka 1892
+const PIVOT_1971: Pivot = Pivot {
+    jdn: 2_440_979, // gregorian_to_jdn(1971, 1, 27)
+    sasih_day: 0,
+    ngunaratri_day: 0,
+    saka: 1892,
+    sasih_id: 6, // Kapitu
+    is_nampih: false,
+};
+
+// PIVOT_2000: January 18, 2000 — Pangelong 12 Kapitu Saka 1921
+const PIVOT_2000: Pivot = Pivot {
+    jdn: 2_451_562, // gregorian_to_jdn(2000, 1, 18)
+    sasih_day: 12,
+    ngunaratri_day: 0,
+    saka: 1921,
+    sasih_id: 6, // Kapitu
+    is_nampih: false,
+};
+
+// Sasih Kesinambungan (SK) period boundaries (JDN)
+// During this period (1993-01-24 to 2003-01-03), different nampih rules apply.
+const SK_START_JDN: i64 = 2_448_998; // 1993-01-24
+const SK_END_JDN: i64 = 2_452_642; // 2003-01-03
+
+// ── Euclidean modulo helper ──────────────────────────────────────────────────
+fn emod(a: i64, b: i64) -> i64 {
+    ((a % b) + b) % b
+}
+
 // ── Core calculation ──────────────────────────────────────────────────────────
 
 impl SasihResult {
     pub fn from_jdn(jdn: i64) -> Self {
-        let days_since_epoch = jdn - SASIH_EPOCH_JDN;
-
-        // ── 1. Count Ngunaratri adjustments ──────────────────────────────────
-        // Every 63 solar days, one ngunaratri occurs (a lunar day is skipped).
-        // This keeps the lunar calendar from drifting too far from the moon.
-        let ngunaratri_count = days_since_epoch.div_euclid(NGUNARATRI_PERIOD);
-        let ngunaratri_remainder = days_since_epoch.rem_euclid(NGUNARATRI_PERIOD);
-        let is_ngunaratri_day = ngunaratri_remainder == 62; // last day of the 63-day block
-
-        // ── 2. Effective lunar day count (adjusted for ngunaratri) ────────────
-        // Each ngunaratri removes one lunar day from the count.
-        let lunar_day_count = days_since_epoch - ngunaratri_count;
-
-        // ── 3. Sasih (lunar month) index and day within month ─────────────────
-        // 30 lunar days per sasih
-        let sasih_raw_idx = lunar_day_count.div_euclid(30);
-        let tithi = (lunar_day_count.rem_euclid(30) + 1) as u8; // 1–30
-
-        // ── 4. Saka year — solar approximation ───────────────────────────────
-        // Using lunation_count / 12 drifts because intercalary months aren't
-        // factored into the denominator. Better approach: derive Saka year from
-        // the Gregorian year adjusted for the Nyepi boundary (~March).
-        //
-        // Nyepi is always Tilem Kasanga, which falls between late February and
-        // late March. We approximate the Nyepi boundary as DOY 75 (mid-March).
-        // This is accurate for most dates; for dates within ±2 weeks of Nyepi,
-        // the sasih boundary itself will be the authoritative indicator.
-        let (g_year, g_month, _g_day) = jdn_to_gregorian(jdn);
-        let saka_year = if g_month <= 2 {
-            // January–February: always still in previous Saka year
-            g_year - SAKA_YEAR_OFFSET - 1
-        } else if g_month >= 4 {
-            // April–December: always in new Saka year (Nyepi has passed)
-            g_year - SAKA_YEAR_OFFSET
+        // Select the best pivot point
+        let pivot = if jdn < 2_451_550 {
+            // Before ~Jan 6, 2000 (Pangalantaka Paing)
+            &PIVOT_1971
         } else {
-            // March: check against approximate Nyepi (day 75 of year ≈ March 16)
-            // Proper fix: compute Tilem Kasanga from lunation; use table for now.
-            let approx_nyepi_jdn = gregorian_to_jdn(g_year, 3, 16).unwrap_or(jdn + 1);
-            if jdn >= approx_nyepi_jdn {
-                g_year - SAKA_YEAR_OFFSET // on/after Nyepi
-            } else {
-                g_year - SAKA_YEAR_OFFSET - 1 // before Nyepi
-            }
+            &PIVOT_2000
         };
 
-        // ── 5. Map sasih index to Sasih enum ─────────────────────────────────
-        // Calibration: Nyepi 2026 (March 19, JDN 2461119) = Penanggal 1 Kadasa 1948.
-        // At JDN 2461119: days_from_epoch=20531, ngunaratri=325, lunar_day=20206
-        // sasih_raw_idx = 20206/30 = 673; 673 % 12 = 1
-        // For index 1 to map to Kadasa (enum index 9 from Kasa=0): offset = (9-1+12)%12 = 8
-        const EPOCH_SASIH_OFFSET: u8 = 8;
-        let sasih_idx_in_year = ((sasih_raw_idx.rem_euclid(12)) as u8 + EPOCH_SASIH_OFFSET) % 12;
-        let sasih = Self::sasih_from_index(sasih_idx_in_year);
+        let day_diff = jdn - pivot.jdn;
 
-        // ── 6. Nampih Sasih detection (≥ 2003) ───────────────────────────────
-        // This requires the PHDI lookup table for exact placement.
-        // TODO: replace with PHDI-verified lookup table for production use.
-        let is_nampih = Self::is_nampih_year(saka_year) && sasih == Sasih::Desta;
+        // ── 1. Compute sasih day info (tithi, phase, ngunaratri) ─────────
+        let day_skip = if day_diff >= 0 {
+            // ceil(day_diff / 63) for positive
+            (day_diff + NGUNARATRI_PERIOD - 1) / NGUNARATRI_PERIOD
+        } else {
+            // ceil for negative = -floor(abs/63)
+            -((-day_diff) / NGUNARATRI_PERIOD)
+        };
+        let day_total = pivot.sasih_day + day_diff + day_skip;
 
-        // ── 7. Build SasihDayInfo ──────────────────────────────────────────────
-        let day_info = if is_ngunaratri_day {
-            let primary = Self::tithi_to_day_info(tithi);
-            let secondary = Self::tithi_to_day_info((tithi % 30) + 1);
-            SasihDayInfo::Ngunaratri {
-                primary: Box::new(primary),
-                secondary: Box::new(secondary),
+        let raw_day = emod(day_total, 30) as u8; // 0–29
+        let is_pangelong = raw_day == 0 || raw_day > 15;
+        let is_ngunaratri = emod(day_diff, NGUNARATRI_PERIOD) == 0 && day_diff != 0;
+
+        let tithi_in_phase = emod(day_total, 15) as u8; // 0–14
+        let tithi = if tithi_in_phase == 0 {
+            15
+        } else {
+            tithi_in_phase
+        };
+
+        let day_info = Self::build_day_info(tithi, is_pangelong, is_ngunaratri);
+
+        // ── 2. Walk-forward to determine sasih and saka year ─────────────
+        let pivot_offset = if pivot.sasih_day == 0 && pivot.ngunaratri_day == 0 {
+            0
+        } else {
+            1
+        };
+
+        let total_sasih = if day_diff >= 0 {
+            (day_total + 29) / 30 - pivot_offset // ceil(day_total / 30) - offset
+        } else {
+            -((-day_total) / 30) - pivot_offset
+        };
+
+        let mut current_sasih = pivot.sasih_id;
+        let mut current_saka = pivot.saka - if current_sasih == 9 { 1 } else { 0 }; // Kadasa offset
+        let mut nampih_count: i32 = if pivot.is_nampih { 1 } else { 0 };
+        let mut in_sk = pivot.jdn >= SK_START_JDN && pivot.jdn < SK_END_JDN;
+
+        let mut remaining = total_sasih;
+
+        while remaining != 0 {
+            if day_diff >= 0 {
+                // Walking forward
+                if nampih_count == 0 || nampih_count == 2 {
+                    nampih_count = 0;
+                    current_sasih = emod(current_sasih as i64 + 1, 12) as i32;
+                }
+                remaining -= 1;
+
+                if current_sasih == 9 && nampih_count == 0 {
+                    // Kadasa = start of new Saka year
+                    current_saka += 1;
+                }
+
+                // SK period tracking
+                if current_sasih == 7 && current_saka == 1914 {
+                    in_sk = true;
+                } else if current_sasih == 7 && current_saka == 1924 {
+                    in_sk = false;
+                }
+            } else {
+                // Walking backward
+                if nampih_count == 0 || nampih_count == 2 {
+                    nampih_count = 0;
+                    current_sasih = emod(current_sasih as i64 - 1, 12) as i32;
+                }
+                remaining += 1;
+
+                if current_sasih == 8 && nampih_count == 0 {
+                    // Kasanga going backward = leaving this Saka year
+                    current_saka -= 1;
+                }
+
+                // SK period tracking (reverse)
+                if current_sasih == 6 && current_saka == 1914 {
+                    in_sk = false;
+                } else if current_sasih == 6 && current_saka == 1924 {
+                    in_sk = true;
+                }
+            }
+
+            // Nampih detection via 19-year Metonic-like cycle
+            nampih_count += Self::nampih_increment(current_saka, current_sasih, in_sk);
+        }
+
+        let is_nampih = nampih_count == 1;
+        let sasih = if is_nampih {
+            match Sasih::from_index(current_sasih) {
+                Sasih::Desta => Sasih::NampihDesta,
+                Sasih::Sada => Sasih::NampihSada,
+                other => other, // fallback — shouldn't happen with correct algorithm
             }
         } else {
-            Self::tithi_to_day_info(tithi)
+            Sasih::from_index(current_sasih)
         };
 
         SasihResult {
-            saka_year,
+            saka_year: current_saka,
             sasih,
             day_info,
             is_nampih,
         }
     }
 
-    fn tithi_to_day_info(tithi: u8) -> SasihDayInfo {
-        match tithi {
-            1..=14 => SasihDayInfo::Penanggal(tithi),
-            15 => SasihDayInfo::Purnama,
-            16..=29 => SasihDayInfo::Pangelong(tithi - 15),
-            _ => SasihDayInfo::Tilem, // 30
+    /// Determine if the current sasih in the given saka year triggers a nampih.
+    /// Returns 1 if nampih should be inserted, 0 otherwise.
+    /// Based on the 19-year Metonic-like cycle from peradnya.
+    fn nampih_increment(saka: i32, sasih_id: i32, in_sk: bool) -> i32 {
+        let cycle = ((saka % 19) + 19) % 19;
+        match cycle {
+            0 | 6 | 11 => {
+                if sasih_id == 10 && !in_sk && saka != 1925 {
+                    1 // Desta
+                } else {
+                    0
+                }
+            }
+            3 | 8 | 14 | 16 => {
+                if sasih_id == 11 && !in_sk {
+                    1 // Sada
+                } else {
+                    0
+                }
+            }
+            // SK-period specific rules
+            2 | 10 => {
+                if sasih_id == 10 && in_sk {
+                    1 // Desta during SK
+                } else {
+                    0
+                }
+            }
+            4 => {
+                if sasih_id == 2 && in_sk {
+                    1 // Katiga during SK
+                } else {
+                    0
+                }
+            }
+            7 => {
+                if sasih_id == 0 && in_sk {
+                    1 // Kasa during SK
+                } else {
+                    0
+                }
+            }
+            13 => {
+                if sasih_id == 9 && in_sk {
+                    1 // Kadasa during SK
+                } else {
+                    0
+                }
+            }
+            15 => {
+                if sasih_id == 1 && in_sk {
+                    1 // Karo during SK
+                } else {
+                    0
+                }
+            }
+            _ => 0,
         }
     }
 
-    fn sasih_from_index(idx: u8) -> Sasih {
-        match idx {
-            0 => Sasih::Kasa,
-            1 => Sasih::Karo,
-            2 => Sasih::Katiga,
-            3 => Sasih::Kapat,
-            4 => Sasih::Kalima,
-            5 => Sasih::Kanem,
-            6 => Sasih::Kapitu,
-            7 => Sasih::Kawolu,
-            8 => Sasih::Kasanga,
-            9 => Sasih::Kadasa,
-            10 => Sasih::Desta,
-            _ => Sasih::Sada,
-        }
-    }
+    fn build_day_info(tithi: u8, is_pangelong: bool, is_ngunaratri: bool) -> SasihDayInfo {
+        let primary = if is_pangelong {
+            if tithi == 15 || (tithi == 14 && is_ngunaratri) {
+                SasihDayInfo::Tilem
+            } else {
+                SasihDayInfo::Pangelong(tithi)
+            }
+        } else if tithi == 15 || (tithi == 14 && is_ngunaratri) {
+            SasihDayInfo::Purnama
+        } else {
+            SasihDayInfo::Penanggal(tithi)
+        };
 
-    /// Known Nampih (intercalary) Saka years from PHDI records.
-    /// ⚠ This list must be extended annually from the official PHDI calendar.
-    /// Sources: PHDI Pusat, kalenderbali.org validation data.
-    fn is_nampih_year(saka_year: i32) -> bool {
-        const NAMPIH_YEARS: &[i32] = &[
-            // Known intercalary years (Nampih Sasih ≥ Saka 1925 / 2003 CE)
-            1925, 1927, 1930, 1933, 1935, 1938, 1941, 1943,
-            1946,
-            // Saka 1948 = 2026 CE — verify with PHDI before deploying
-        ];
-        NAMPIH_YEARS.contains(&saka_year)
+        if is_ngunaratri {
+            let next_tithi = if tithi == 15 { 1 } else { tithi + 1 };
+            let secondary = if is_pangelong {
+                if next_tithi > 14 {
+                    SasihDayInfo::Tilem
+                } else {
+                    SasihDayInfo::Pangelong(next_tithi)
+                }
+            } else if next_tithi > 14 {
+                SasihDayInfo::Purnama
+            } else {
+                SasihDayInfo::Penanggal(next_tithi)
+            };
+            SasihDayInfo::Ngunaratri {
+                primary: Box::new(primary),
+                secondary: Box::new(secondary),
+            }
+        } else {
+            primary
+        }
     }
 }
 
@@ -287,52 +456,66 @@ mod tests {
     use crate::utils::gregorian_to_jdn;
 
     #[test]
-    fn test_epoch_day_kawolu() {
-        // JDN 2440588 = Jan 1, 1970 (Unix epoch). Before Nyepi March 1970 = Saka 1891.
-        // ⚠ Exact sasih identity requires cross-validation against kalenderbali.org.
-        // Saka year from solar approximation is reliable; sasih offset pending calibration.
-        let result = SasihResult::from_jdn(2_440_588);
-        // Just assert saka_year for now; sasih identity is TODO
-        let _ = result; // placeholder until calibrated
+    fn test_pivot_1971_sasih() {
+        // PIVOT_1971: Jan 27, 1971 = Penanggal 1 Kapitu Saka 1892
+        let result = SasihResult::from_jdn(PIVOT_1971.jdn);
+        assert_eq!(result.sasih, Sasih::Kapitu);
+        assert_eq!(result.saka_year, 1892);
+    }
+
+    #[test]
+    fn test_pivot_2000_sasih() {
+        // PIVOT_2000: Jan 18, 2000 = Kapitu Saka 1921
+        let result = SasihResult::from_jdn(PIVOT_2000.jdn);
+        assert_eq!(result.sasih, Sasih::Kapitu);
+        assert_eq!(result.saka_year, 1921);
     }
 
     #[test]
     fn test_nyepi_2026_is_kadasa() {
-        // Nyepi 2026 = March 19, 2026 = Penanggal 1 Kadasa Saka 1948 (ground truth)
+        // Nyepi 2026 = March 19, 2026 = Penanggal 1 Kadasa Saka 1948
         let jdn = gregorian_to_jdn(2026, 3, 19).unwrap();
         let result = SasihResult::from_jdn(jdn);
-        // Saka year is computed from solar approximation — reliable
         assert_eq!(
             result.saka_year, 1948,
             "Saka year for Nyepi 2026 must be 1948"
         );
-        // Sasih Kadasa is calibrated from this ground truth date
         assert_eq!(result.sasih, Sasih::Kadasa, "Nyepi 2026 must be Kadasa");
     }
 
     #[test]
     fn test_today_is_kasanga() {
-        // March 6, 2026 = before Nyepi (March 19) = Saka 1947, Kasanga (pancaroba)
-        // ⚠ sasih at -13 days from calibration anchor: 20531-13=20518 days
-        // lunar_day=20193, sasih_raw_idx=673 — same idx as Nyepi!
-        // Root cause: tithi offset within sasih needs lunation boundary calibration.
-        // TODO: fix epoch to align with a known Tilem or Purnama date.
+        // March 6, 2026 = before Nyepi (March 19) = Saka 1947, Kasanga
+        // Source: kalenderbali.org
         let jdn = gregorian_to_jdn(2026, 3, 6).unwrap();
         let result = SasihResult::from_jdn(jdn);
-        assert_eq!(
-            result.saka_year, 1947,
-            "March 6 is before Nyepi, still Saka 1947"
-        );
-        // sasih Kasanga assertion deferred pending lunation offset calibration
-        assert!(
-            result.sasih.is_pancaroba(),
-            "March 6 2026 must be pancaroba (Kasanga or Kadasa are both pancaroba)"
-        );
+        assert_eq!(result.saka_year, 1947);
+        assert_eq!(result.sasih, Sasih::Kasanga);
     }
 
     #[test]
-    fn test_saka_year_offset() {
-        assert_eq!(approx_saka_year(2026), 1948);
-        assert_eq!(approx_saka_year(2000), 1922);
+    fn cross_validate_kalenderbali_org() {
+        // 2026-03-03: Purnama Kasanga per kalenderbali.org
+        let d1 = SasihResult::from_jdn(gregorian_to_jdn(2026, 3, 3).unwrap());
+        assert_eq!(d1.sasih, Sasih::Kasanga, "2026-03-03 should be Kasanga");
+        assert!(d1.day_info.is_purnama(), "2026-03-03 should be Purnama");
+
+        // 2026-03-19: Nyepi Tahun Baru Saka 1948
+        let d2 = SasihResult::from_jdn(gregorian_to_jdn(2026, 3, 19).unwrap());
+        assert_eq!(d2.saka_year, 1948, "2026-03-19 Nyepi should be Saka 1948");
+        assert_eq!(d2.sasih, Sasih::Kadasa, "2026-03-19 should be Kadasa");
+
+        // 2026-03-18: Tilem Kasanga (day before Nyepi)
+        let d3 = SasihResult::from_jdn(gregorian_to_jdn(2026, 3, 18).unwrap());
+        assert!(d3.day_info.is_tilem(), "2026-03-18 should be Tilem");
+        assert_eq!(d3.sasih, Sasih::Kasanga, "2026-03-18 should be Kasanga");
+
+        // 2026-01-01: Saka 1947
+        let d4 = SasihResult::from_jdn(gregorian_to_jdn(2026, 1, 1).unwrap());
+        assert_eq!(d4.saka_year, 1947, "2026-01-01 should be Saka 1947");
+
+        // 2025-12-15: Saka 1947
+        let d5 = SasihResult::from_jdn(gregorian_to_jdn(2025, 12, 15).unwrap());
+        assert_eq!(d5.saka_year, 1947, "2025-12-15 should be Saka 1947");
     }
 }

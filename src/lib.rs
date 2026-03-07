@@ -23,12 +23,14 @@
 // Validation target: kalenderbali.org (I Wayan Nuarsa, Universitas Udayana)
 //
 // ⚠ PRODUCTION NOTE (Nampih Sasih):
-//   Intercalary month placement is declared annually by PHDI (Parisada Hindu
-//   Dharma Indonesia). The built-in list covers known years; verify and extend
-//   the `NAMPIH_YEARS` array in `sasih.rs` each year.
+//   Intercalary month placement is computed algorithmically from a 19-year
+//   Metonic-like cycle (saka_year % 19), matching the peradnya reference
+//   implementation. The algorithmic estimate may differ from the PHDI
+//   (Parisada Hindu Dharma Indonesia) declaration by 1 sasih in rare years.
 #![forbid(unsafe_code)]
 
 mod balinese_date;
+pub mod boundary;
 pub mod error;
 pub mod paringkelan;
 pub mod pawukon;
@@ -40,6 +42,7 @@ pub mod wewaran;
 // ── Re-exports: primary API ───────────────────────────────────────────────────
 
 pub use balinese_date::{BalineseDate, FlatRecord};
+pub use boundary::DayBoundary;
 pub use error::BalineseDateError;
 
 // ── Re-exports: enums (for pattern matching in consumer crates) ───────────────

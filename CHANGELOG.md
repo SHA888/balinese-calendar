@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.2] — 2026-03-07
+
+### Added
+- `DayBoundary` enum: `Midnight`, `FixedSunrise(u8)`, `Astronomical` (stubbed behind feature flag)
+- `BalineseDate::today_with_boundary(&DayBoundary)` — explicit boundary control
+- `astronomical` Cargo feature flag (opt-in, `sunrise` crate dependency)
+- `TODO.md` tracking future work
+
+### Changed
+- `BalineseDate::today()` now defaults to `FixedSunrise(6)` (UTC+2 effective offset)
+  instead of raw local midnight. **Behaviour change during 00:00–06:00 WITA.**
+- `BalineseDateError` is now `#[non_exhaustive]` — exhaustive `match` arms must add
+  a `_` fallback. This is intentional for forward compatibility.
+
+### Fixed
+- Dates queried between 00:00 and ~06:00 WITA now return the correct prior Balinese day.
+
 ## [0.1.1] - 2026-03-06
 
 ### Fixed

@@ -128,12 +128,18 @@ pub enum Caturwara {
 
 impl Caturwara {
     pub fn from_jdn(jdn: i64) -> Self {
-        // Caturwara cycles mod 4 through the Pawukon day.
-        // NOTE: The classical Caturwara has a complex lookup that skips certain
-        // positions in a 17-day pattern. This simplified mod-4 implementation
-        // matches the majority of days and requires validation against a full
-        // babadbali.com-derived lookup table. TODO: replace with authoritative table.
-        match pawukon_day(jdn) % 4 {
+        // Caturwara has a skip at pawukon days 71–72 (Kajeng Kliwon Ugu boundary).
+        // Source: peradnya/balinese-date-js-lib (Apache-2.0).
+        let pd = pawukon_day(jdn);
+        let idx = if pd < 71 {
+            pd % 4
+        } else if pd > 72 {
+            (pd - 2) % 4
+        } else {
+            // Days 71 and 72 are both Jaya
+            2
+        };
+        match idx {
             0 => Caturwara::Sri,
             1 => Caturwara::Laba,
             2 => Caturwara::Jaya,
@@ -174,7 +180,10 @@ pub enum Pancawara {
 
 impl Pancawara {
     pub fn from_jdn(jdn: i64) -> Self {
-        match pawukon_day(jdn) % 5 {
+        // Peradnya orders Pancawara as Paing(0), Pon(1), Wage(2), Kliwon(3), Umanis(4).
+        // Our enum orders Umanis(0), Paing(1), Pon(2), Wage(3), Kliwon(4).
+        // Offset +1 converts peradnya index → our index.
+        match (pawukon_day(jdn) as usize + 1) % 5 {
             0 => Pancawara::Umanis,
             1 => Pancawara::Paing,
             2 => Pancawara::Pon,
@@ -343,22 +352,18 @@ pub enum Astawara {
 
 impl Astawara {
     pub fn from_jdn(jdn: i64) -> Self {
-        // Astawara follows a complex pattern derived from the pawukon day.
-        // The 8-day and 210-day cycles share LCM 840; after 4 Pawukon cycles (840 days)
-        // the Astawara resets. Uses a known lookup approach.
-        let pd = pawukon_day(jdn) as usize;
-        // Pattern: within each 8-day block, sequence is Sri,Indra,Guru,Yama,Ludra,Brahma,Kala,Uma
-        // Special adjustment at day 63 boundaries (ngunaratri-aligned)
-        let adjusted = if pd < 63 {
-            pd
-        } else if pd < 126 {
-            pd + 1
-        } else if pd < 189 {
-            pd + 2
+        // Astawara has a skip at pawukon days 71–72 (same boundary as Caturwara).
+        // Source: peradnya/balinese-date-js-lib (Apache-2.0).
+        let pd = pawukon_day(jdn);
+        let idx = if pd < 71 {
+            pd % 8
+        } else if pd > 72 {
+            (pd - 2) % 8
         } else {
-            pd + 3
+            // Days 71 and 72 are both Kala
+            6
         };
-        match adjusted % 8 {
+        match idx {
             0 => Astawara::Sri,
             1 => Astawara::Indra,
             2 => Astawara::Guru,

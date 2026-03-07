@@ -59,14 +59,10 @@ fn test_today_pancaroba() {
 
 #[test]
 fn test_today_wuku() {
-    // Validate wuku for 2026-03-06 against kalenderbali.org
-    // Expected: Wuku Sungsang (wind_watch ecology tag)
+    // 2026-03-06 = Wuku Ugu (harvest_2) with corrected Pawukon epoch
     let d = date(2026, 3, 6);
-    assert_eq!(
-        d.wuku.ecology_tag(),
-        "wind_watch",
-        "2026-03-06 should be in Wuku Sungsang (wind watch)"
-    );
+    assert_eq!(d.wuku, Wuku::Ugu);
+    assert_eq!(d.wuku.ecology_tag(), "harvest_2");
 }
 
 #[test]
@@ -77,23 +73,24 @@ fn test_today_saptawara() {
 }
 
 // ── Known Galungan (Buda Kliwon Dungulan) ─────────────────────────────────────
-// Galungan 2025: July 2, 2025
+// Galungan 2025: April 23, 2025 (peradnya-aligned Pawukon epoch)
 
 #[test]
 fn test_galungan_2025() {
-    let d = date(2025, 7, 2);
+    let d = date(2025, 4, 23);
     assert_eq!(d.wuku, Wuku::Dungulan);
     assert_eq!(d.saptawara, Saptawara::Buda);
     assert_eq!(d.pancawara, Pancawara::Kliwon);
     assert!(
         d.rahinan.contains(&Rahinan::Galungan),
-        "July 2, 2025 should be Galungan"
+        "April 23, 2025 should be Galungan"
     );
 }
 
 #[test]
 fn test_kuningan_2025() {
-    let d = date(2025, 7, 12);
+    // Kuningan = 10 days after Galungan (April 23 + 10 = May 3)
+    let d = date(2025, 5, 3);
     assert_eq!(d.wuku, Wuku::Kuningan);
     assert_eq!(d.saptawara, Saptawara::Saniscara);
     assert_eq!(d.pancawara, Pancawara::Kliwon);
@@ -101,21 +98,19 @@ fn test_kuningan_2025() {
 }
 
 // ── Saraswati (Saniscara Umanis Watugunung) ───────────────────────────────
-// Saraswati 2025: August 23, 2025 — verify against printed calendar
+// Saraswati = Saniscara Umanis Watugunung
+// 2025-09-06 (peradnya-aligned Pawukon epoch)
 
 #[test]
 fn test_saraswati_detection() {
-    // Find next Saniscara Umanis Watugunung after 2025-08-01
-    // Saraswati repeats every 210 days
-    let d = date(2025, 8, 23);
-    // If this test fails, adjust the date against kalenderbali.org
-    if d.wuku == Wuku::Watugunung
-        && d.saptawara == Saptawara::Saniscara
-        && d.pancawara == Pancawara::Umanis
-    {
-        assert!(d.rahinan.contains(&Rahinan::Saraswati));
-    }
-    // If date is off, the wuku check will fail silently — add assert_eq! after validating date
+    let d = date(2025, 9, 6);
+    assert_eq!(d.wuku, Wuku::Watugunung);
+    assert_eq!(d.saptawara, Saptawara::Saniscara);
+    assert_eq!(d.pancawara, Pancawara::Umanis);
+    assert!(
+        d.rahinan.contains(&Rahinan::Saraswati),
+        "2025-09-06 should be Saraswati"
+    );
 }
 
 // ── Pawukon cycle integrity ───────────────────────────────────────────────────
@@ -162,7 +157,7 @@ fn test_flat_record_pancaroba_flag() {
         "FlatRecord should have pancaroba_flag=true"
     );
     assert_eq!(rec.sasih_season_tag, "pancaroba_1");
-    assert_eq!(rec.wuku_ecology_tag, "wind_watch");
+    assert_eq!(rec.wuku_ecology_tag, "harvest_2");
 }
 
 #[test]
@@ -182,7 +177,7 @@ fn test_flat_record_fields_populated() {
 fn test_balinese_string_format() {
     let s = date(2026, 3, 6).to_balinese_string();
     assert!(s.contains("Kasanga"), "String should mention current sasih");
-    assert!(s.contains("1948"), "String should mention Saka year 1948");
+    assert!(s.contains("1947"), "String should mention Saka year 1947");
 }
 
 // ── Urip values ───────────────────────────────────────────────────────────────

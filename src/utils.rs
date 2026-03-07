@@ -17,32 +17,23 @@ use crate::error::BalineseDateError;
 
 // ── Pawukon Epoch ─────────────────────────────────────────────────────────────
 //
-// The 210-day Pawukon cycle is anchored to a known Redite (Sunday) Kliwon Sinta day.
-// Epoch: JDN 2232407 = Sunday, Kliwon, Wuku Sinta (day 0 of the Pawukon cycle).
-// Source: "Pokok-Pokok Wariga" (Ardhana, 2005), cross-validated against babadbali.com.
+// The 210-day Pawukon cycle is anchored to a known Redite (Sunday) Umanis Sinta day.
+// Epoch: JDN 2440976 = Sunday, day 0 of the Pawukon cycle.
 //
-// Verification test vector (validate against kalenderbali.org after cloning):
-//   JDN 2451545 (Jan 1, 2000 CE) → Wuku Sungsang (9), Pancawara Paing (1),
-//                                   Saptawara Saniscara (6)
-pub const PAWUKON_EPOCH_JDN: i64 = 2_232_407;
+// Derived from the peradnya/balinese-date-js-lib (Apache-2.0) pivot:
+//   PIVOT_1971: Jan 27, 1971 (JDN 2440979), pawukonDay=3
+//   → epoch = 2440979 - 3 = 2440976
+//
+// Verification test vectors (peradnya cross-validated):
+//   PIVOT_2000: Jan 18, 2000 (JDN 2451562), pawukonDay=86
+//   → (2451562 - 2440976) % 210 = 86 ✓
+pub const PAWUKON_EPOCH_JDN: i64 = 2_440_976;
 
-// ── Sasih / Saka Epoch ────────────────────────────────────────────────────────
-//
-// The Sasih (lunar month) calculation uses the lunation count anchored to:
-// JDN 2415021 = January 1, 1900 CE = 1 Kasa Saka 1821 (approximately).
-//
-// The actual epoch used in the peradnya implementation is JDN 2440588
-// (January 1, 1969) = Penanggal 1 Sasih Kasa Saka 1890.
-// We use the 1969 epoch to match the JS/Java library behaviour for >= 2003 dates.
-//
-// IMPORTANT: Intercalary month (Nampih Sasih) placement changed over time:
-//   - Before 1993:   Malamasa rules apply
-//   - 1993–2002:     Sasih Kesinambungan rules apply
-//   - 2003–present:  Nampih Sasih (standard intercalary, PHDI-regulated)
-// For production use, verify intercalary months annually against PHDI calendar.
-pub const SASIH_EPOCH_JDN: i64 = 2_440_588; // Jan 1, 1969 CE
-pub const NGUNARATRI_PERIOD: i64 = 63; // every 63 solar days, one ngunaratri
-pub const LUNATION_DAYS: f64 = 29.530_588_853; // mean synodic month
+// ── Ngunaratri Period ────────────────────────────────────────────────────────
+// Every 63 solar days, one ngunaratri occurs (a lunar day is skipped).
+// The sasih walk-forward algorithm in `sasih.rs` uses pivot points from
+// peradnya/balinese-date-js-lib for all sasih/saka calculations.
+pub const NGUNARATRI_PERIOD: i64 = 63;
 
 // ── Saka Year Offset ──────────────────────────────────────────────────────────
 // Saka year = Gregorian year − 78  (corrected by Nyepi date within the year)
