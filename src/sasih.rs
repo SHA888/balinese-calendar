@@ -116,10 +116,10 @@ impl Sasih {
     }
 }
 
-// ── SasihDayInfo — phase within the lunar month ───────────────────────────────
+// ── Tithi phase representations ───────────────────────────────────────────────
 
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum SasihDayInfo {
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum TithiPhase {
     /// Waxing moon — day 1–14 (Penanggal 1–14)
     Penanggal(u8),
     /// Full moon (Penanggal 15 = Purnama)
@@ -128,23 +128,50 @@ pub enum SasihDayInfo {
     Pangelong(u8),
     /// New moon (Pangelong 15 = Tilem)
     Tilem,
+}
+
+impl TithiPhase {
+    pub fn tithi_number(&self) -> u8 {
+        match self {
+            TithiPhase::Penanggal(n) => *n,
+            TithiPhase::Purnama => 15,
+            TithiPhase::Pangelong(n) => 15 + n,
+            TithiPhase::Tilem => 30,
+        }
+    }
+}
+
+impl std::fmt::Display for TithiPhase {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            TithiPhase::Penanggal(n) => write!(f, "Penanggal {n}"),
+            TithiPhase::Purnama => write!(f, "Purnama"),
+            TithiPhase::Pangelong(n) => write!(f, "Pangelong {n}"),
+            TithiPhase::Tilem => write!(f, "Tilem"),
+        }
+    }
+}
+
+// ── SasihDayInfo — phase within the lunar month, including ngunaratri ────────
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum SasihDayInfo {
+    /// Single tithi on this solar day
+    Single(TithiPhase),
     /// Ngunaratri — two lunar days on one solar day; primary + secondary tithi.
-    /// Invariant: inner values are never `Ngunaratri` (ngunaratri cannot nest).
-    /// `Box` is used to avoid infinite enum size; a non-recursive `TithiPhase`
-    /// type would be cleaner — see TODO for future refactor.
     Ngunaratri {
-        primary: Box<SasihDayInfo>,
-        secondary: Box<SasihDayInfo>,
+        primary: TithiPhase,
+        secondary: TithiPhase,
     },
 }
 
 impl std::fmt::Display for SasihDayInfo {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            SasihDayInfo::Penanggal(n) => write!(f, "Penanggal {n}"),
-            SasihDayInfo::Purnama => write!(f, "Purnama"),
-            SasihDayInfo::Pangelong(n) => write!(f, "Pangelong {n}"),
-            SasihDayInfo::Tilem => write!(f, "Tilem"),
+            SasihDayInfo::Single(TithiPhase::Penanggal(n)) => write!(f, "Penanggal {n}"),
+            SasihDayInfo::Single(TithiPhase::Purnama) => write!(f, "Purnama"),
+            SasihDayInfo::Single(TithiPhase::Pangelong(n)) => write!(f, "Pangelong {n}"),
+            SasihDayInfo::Single(TithiPhase::Tilem) => write!(f, "Tilem"),
             SasihDayInfo::Ngunaratri { primary, .. } => write!(f, "Ngunaratri ({primary})"),
         }
     }
@@ -152,10 +179,24 @@ impl std::fmt::Display for SasihDayInfo {
 
 impl SasihDayInfo {
     pub fn is_purnama(&self) -> bool {
-        matches!(self, SasihDayInfo::Purnama)
+        matches!(
+            self,
+            SasihDayInfo::Single(TithiPhase::Purnama)
+                | SasihDayInfo::Ngunaratri {
+                    primary: TithiPhase::Purnama,
+                    ..
+                }
+        )
     }
     pub fn is_tilem(&self) -> bool {
-        matches!(self, SasihDayInfo::Tilem)
+        matches!(
+            self,
+            SasihDayInfo::Single(TithiPhase::Tilem)
+                | SasihDayInfo::Ngunaratri {
+                    primary: TithiPhase::Tilem,
+                    ..
+                }
+        )
     }
     pub fn is_ngunaratri(&self) -> bool {
         matches!(self, SasihDayInfo::Ngunaratri { .. })
@@ -163,10 +204,7 @@ impl SasihDayInfo {
 
     pub fn tithi_number(&self) -> u8 {
         match self {
-            SasihDayInfo::Penanggal(n) => *n,
-            SasihDayInfo::Purnama => 15,
-            SasihDayInfo::Pangelong(n) => 15 + n,
-            SasihDayInfo::Tilem => 30,
+            SasihDayInfo::Single(phase) => phase.tithi_number(),
             SasihDayInfo::Ngunaratri { primary, .. } => primary.tithi_number(),
         }
     }
@@ -407,37 +445,37 @@ impl SasihResult {
     }
 
     fn build_day_info(tithi: u8, is_pangelong: bool, is_ngunaratri: bool) -> SasihDayInfo {
-        let primary = if is_pangelong {
+        let primary_phase = if is_pangelong {
             if tithi == 15 || (tithi == 14 && is_ngunaratri) {
-                SasihDayInfo::Tilem
+                TithiPhase::Tilem
             } else {
-                SasihDayInfo::Pangelong(tithi)
+                TithiPhase::Pangelong(tithi)
             }
         } else if tithi == 15 || (tithi == 14 && is_ngunaratri) {
-            SasihDayInfo::Purnama
+            TithiPhase::Purnama
         } else {
-            SasihDayInfo::Penanggal(tithi)
+            TithiPhase::Penanggal(tithi)
         };
 
         if is_ngunaratri {
             let next_tithi = if tithi == 15 { 1 } else { tithi + 1 };
-            let secondary = if is_pangelong {
+            let secondary_phase = if is_pangelong {
                 if next_tithi > 14 {
-                    SasihDayInfo::Tilem
+                    TithiPhase::Tilem
                 } else {
-                    SasihDayInfo::Pangelong(next_tithi)
+                    TithiPhase::Pangelong(next_tithi)
                 }
             } else if next_tithi > 14 {
-                SasihDayInfo::Purnama
+                TithiPhase::Purnama
             } else {
-                SasihDayInfo::Penanggal(next_tithi)
+                TithiPhase::Penanggal(next_tithi)
             };
             SasihDayInfo::Ngunaratri {
-                primary: Box::new(primary),
-                secondary: Box::new(secondary),
+                primary: primary_phase,
+                secondary: secondary_phase,
             }
         } else {
-            primary
+            SasihDayInfo::Single(primary_phase)
         }
     }
 }

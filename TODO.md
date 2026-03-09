@@ -18,9 +18,9 @@
 - [x] Fix Pancawara, Caturwara, Astawara computations to match peradnya reference
 
 ### Code Quality
-- [ ] Refactor `PancaSuda`, `Pararasan`, `Rakam` to take pre-computed `&Pancawara`/`&Saptawara`
+- [x] Refactor `PancaSuda`, `Pararasan`, `Rakam` to take pre-computed `&Pancawara`/`&Saptawara`
       instead of calling `from_jdn()` internally (follow the `Dasawara::from_wewaran` pattern)
-- [ ] Flatten `SasihDayInfo::Ngunaratri` from `Box<SasihDayInfo>` to non-recursive `TithiPhase`;
+- [x] Flatten `SasihDayInfo::Ngunaratri` from `Box<SasihDayInfo>` to non-recursive `TithiPhase`;
       make `SasihDayInfo` `Copy` to match the stated design goal
 - [x] Add `HariBhataraSri` (Buda Wage) detection in `Rahinan::detect()` — variant exists but is never matched
 - [x] Add `impl fmt::Display for SasihDayInfo` and use it in `to_balinese_string()` to remove inline tithi formatting

@@ -299,9 +299,14 @@ pub enum PancaSuda {
 
 impl PancaSuda {
     pub fn from_jdn(jdn: i64) -> Self {
-        let panca = Pancawara::from_jdn(jdn) as u8;
-        let sapta = Saptawara::from_jdn(jdn) as u8;
-        let idx = (panca + sapta) % 7;
+        let panca = Pancawara::from_jdn(jdn);
+        let sapta = Saptawara::from_jdn(jdn);
+        Self::from_wewaran(&panca, &sapta)
+    }
+
+    /// Construct from precomputed Pancawara and Saptawara (avoids duplicate lookups).
+    pub fn from_wewaran(panca: &Pancawara, sapta: &Saptawara) -> Self {
+        let idx = (*panca as u8 + *sapta as u8) % 7;
         match idx {
             0 => PancaSuda::Lebu,
             1 => PancaSuda::Wisesa,
@@ -345,9 +350,14 @@ pub enum Pararasan {
 
 impl Pararasan {
     pub fn from_jdn(jdn: i64) -> Self {
-        let panca = Pancawara::from_jdn(jdn) as u8;
-        let sapta = Saptawara::from_jdn(jdn) as u8;
-        let idx = (panca + sapta) % 10;
+        let panca = Pancawara::from_jdn(jdn);
+        let sapta = Saptawara::from_jdn(jdn);
+        Self::from_wewaran(&panca, &sapta)
+    }
+
+    /// Construct from precomputed Pancawara and Saptawara (avoids duplicate lookups).
+    pub fn from_wewaran(panca: &Pancawara, sapta: &Saptawara) -> Self {
+        let idx = (*panca as u8 + *sapta as u8) % 10;
         match idx {
             0 => Pararasan::HalangAri,
             1 => Pararasan::Aras,
@@ -392,9 +402,14 @@ pub enum Rakam {
 
 impl Rakam {
     pub fn from_jdn(jdn: i64) -> Self {
-        let panca = Pancawara::from_jdn(jdn) as u8;
-        let sapta = Saptawara::from_jdn(jdn) as u8;
-        let idx = (panca + sapta) % 5;
+        let panca = Pancawara::from_jdn(jdn);
+        let sapta = Saptawara::from_jdn(jdn);
+        Self::from_wewaran(&panca, &sapta)
+    }
+
+    /// Construct from precomputed Pancawara and Saptawara (avoids duplicate lookups).
+    pub fn from_wewaran(panca: &Pancawara, sapta: &Saptawara) -> Self {
+        let idx = (*panca as u8 + *sapta as u8) % 5;
         match idx {
             0 => Rakam::Payu,
             1 => Rakam::Caka,

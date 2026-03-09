@@ -174,9 +174,9 @@ impl BalineseDate {
         let watek_madya = WatekMadya::from_jdn(jdn);
         let watek_alit = WatekAlit::from_jdn(jdn);
         let lintang = Lintang::from_jdn(jdn);
-        let panca_suda = PancaSuda::from_jdn(jdn);
-        let pararasan = Pararasan::from_jdn(jdn);
-        let rakam = Rakam::from_jdn(jdn);
+        let panca_suda = PancaSuda::from_wewaran(&pancawara, &saptawara);
+        let pararasan = Pararasan::from_wewaran(&pancawara, &saptawara);
+        let rakam = Rakam::from_wewaran(&pancawara, &saptawara);
 
         // Sasih
         let sasih_result = SasihResult::from_jdn(jdn);
@@ -235,12 +235,17 @@ impl BalineseDate {
     /// Format: "Saptawara Pancawara Wuku, Tithi Sasih Saka-year"
     /// Example: "Kamis Umanis Sungsang, Penanggal 15 Kasanga 1948"
     pub fn to_balinese_string(&self) -> String {
+        let tithi = match self.sasih_day {
+            SasihDayInfo::Single(phase) => phase.to_string(),
+            SasihDayInfo::Ngunaratri { primary, .. } => format!("Ngunaratri ({primary})"),
+        };
+
         format!(
             "{} {} {}, {} {} Saka {}",
             self.saptawara.name(),
             self.pancawara.name(),
             self.wuku.name(),
-            self.sasih_day,
+            tithi,
             self.sasih.name(),
             self.saka_year,
         )
