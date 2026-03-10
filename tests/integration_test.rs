@@ -181,6 +181,31 @@ fn test_pawukon_210_day_cycle() {
 }
 
 #[test]
+fn test_astawara_sangawara_reference_values() {
+    let samples = [
+        (2026, 1, 1, "Guru", "Dadi"),
+        (2026, 3, 6, "Guru", "Dangu"),
+        (2026, 3, 7, "Yama", "Jangur"),
+        (2026, 3, 19, "Uma", "Ogan"),
+        (2026, 5, 10, "Yama", "Dadi"),
+    ];
+
+    for (y, m, d, expected_asta, expected_sanga) in samples {
+        let bd = date(y, m, d);
+        assert_eq!(
+            bd.astawara.name(),
+            expected_asta,
+            "{y}-{m:02}-{d:02} astawara"
+        );
+        assert_eq!(
+            bd.sangawara.name(),
+            expected_sanga,
+            "{y}-{m:02}-{d:02} sangawara"
+        );
+    }
+}
+
+#[test]
 fn test_saptawara_7_day_cycle() {
     let d1 = date(2026, 3, 6); // Sukra (Friday)
     let d7 = BalineseDate::from_jdn(d1.jdn + 7);
