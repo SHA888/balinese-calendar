@@ -27,7 +27,7 @@
 
 ### Tests
 - [x] Fix silent Saraswati test (`tests/integration_test.rs`) — converted to unconditional `assert_eq!`
-- [ ] Add Ngunaratri edge case tests: verify specific ngunaratri dates produce `SasihDayInfo::Ngunaratri`
+- [x] Add Ngunaratri edge case tests: verify specific ngunaratri dates produce `SasihDayInfo::Ngunaratri`
       with correct primary/secondary tithis, plus a cycle integrity check (every 63 days from epoch)
 - [ ] Add Astawara and Sangawara spot-check tests for known dates (these have the most complex
       adjustment logic and currently zero test coverage)

@@ -9,6 +9,7 @@
 // To run with output: `cargo test -- --nocapture`
 
 use balinese_calendar::{BalineseDate, Pancawara, Rahinan, Saptawara, Sasih, Wuku};
+use chrono::{Datelike, NaiveDate};
 
 // ── Helper ────────────────────────────────────────────────────────────────────
 
@@ -31,6 +32,58 @@ fn test_j2000_epoch() {
 fn test_nyepi_2026_saka_year() {
     let d = date(2026, 3, 19);
     assert_eq!(d.saka_year, 1948);
+}
+
+// ── Ngunaratri edge cases ─────────────────────────────────────────────────────
+
+fn find_ngunaratri(start: NaiveDate, days: i32) -> Vec<BalineseDate> {
+    (0..days)
+        .filter_map(|offset| {
+            let d = start + chrono::Duration::days(offset as i64);
+            BalineseDate::from_ymd(d.year(), d.month(), d.day())
+                .ok()
+                .filter(|b| b.sasih_day.is_ngunaratri())
+        })
+        .collect()
+}
+
+#[test]
+fn test_ngunaratri_spacing_and_tithis() {
+    // Scan ~2 years starting from pivot era to capture multiple ngunaratri events.
+    let start = NaiveDate::from_ymd_opt(1971, 1, 1).unwrap();
+    let ngunaratri_days = find_ngunaratri(start, 500);
+
+    // Expect multiple occurrences and constant 63-day spacing between them.
+    assert!(
+        ngunaratri_days.len() >= 5,
+        "expected at least 5 ngunaratri occurrences"
+    );
+
+    for window in ngunaratri_days.windows(2) {
+        let diff = window[1].jdn - window[0].jdn;
+        assert_eq!(diff, 63, "ngunaratri spacing should be 63 days");
+    }
+
+    // Primary/secondary tithi must progress by +1 in sequence (Tilem wraps to Penanggal 1).
+    for d in ngunaratri_days {
+        if let balinese_calendar::SasihDayInfo::Ngunaratri { primary, secondary } = d.sasih_day {
+            let expected_next = if primary.tithi_number() == 30 {
+                1
+            } else {
+                primary.tithi_number() + 1
+            };
+            assert_eq!(
+                secondary.tithi_number(),
+                expected_next,
+                "secondary tithi should be primary+1 ({} -> {}) on {}",
+                primary,
+                secondary,
+                d.gregorian_day
+            );
+        } else {
+            unreachable!("filtered to ngunaratri only");
+        }
+    }
 }
 
 #[test]
