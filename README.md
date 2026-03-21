@@ -1,99 +1,189 @@
-# balinese-calendar 🌺
+# balinese-calendar
 
-[![Crates.io](https://img.shields.io/crates/v/balinese-calendar.svg)](https://crates.io/crates/balinese-calendar)
-[![docs.rs](https://docs.rs/balinese-calendar/badge.svg)](https://docs.rs/balinese-calendar)
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+The first native Rust implementation of the Balinese Saka Calendar.
 
-**The first native Rust implementation of the Balinese Saka Calendar (Kalender Bali).**
+Computes Pawukon (210-day cycle), Wewaran (multi-cycle day names), Sasih
+(lunar months), Saka year, Rahinan (ceremony dates), and traditional Wariga
+classification systems — all from a single Gregorian date input.
 
-Zero-allocation, `no_unsafe`, immutable value types. Converts any Gregorian date
-into the full Balinese calendar representation — Pawukon, Wewaran, Sasih, Paringkelan,
-Rahinan — in a single function call.
+```rust
+use balinese_calendar::BalineseDate;
 
-Built for Balinese ecological timekeeping and cultural preservation.
+let today = BalineseDate::from_ymd(2026, 3, 22).unwrap();
 
----
+println!("{}", today.to_balinese_string());
+// Redite Pon Dukut, Sasih Kadasa, Saka 1948
+
+println!("Wuku: {} (urip {})", today.wuku.name(), today.wuku.urip());
+println!("Weton: {} {}", today.saptawara.name(), today.pancawara.name());
+println!("Combined urip: {}", today.saptawara.urip() + today.pancawara.urip());
+
+for r in &today.rahinan {
+    println!("Ceremony: {r}");
+}
+```
 
 ## Features
 
-| System | Coverage |
-|---|---|
-| **Pawukon** | 30 Wuku × 7 days (210-day cycle) with ecology tags |
-| **Pawewaran** | All 10 concurrent week cycles: Eka · Dwi · Tri · Catur · Panca · Sad · Sapta · Asta · Sanga · Dasa Wara |
-| **Sasih** | 12 lunar months + Nampih Sasih (intercalary), Penanggal/Pangelong/Purnama/Tilem, Ngunaratri |
-| **Saka year** | Gregorian → Saka conversion with Nyepi boundary correction |
-| **Paringkelan** | Jejepan · Ingkel · Watek (Madya & Alit) · Lintang · PancaSuda · Pararasan · Rakam |
-| **Rahinan** | Galungan · Kuningan · Saraswati · Pagerwesi · Tumpek (5 types) · Kajeng Keliwon · Purnama · Tilem · Nyepi · Siwa Ratri · Anggar Kasih |
+| Feature | Status | Version |
+|---|---|---|
+| Pawukon (30 Wuku × 210-day cycle) | **Stable** | v0.1.1 |
+| 10 Wewaran cycles (Eka through Dasa) | **Stable** | v0.1.1 |
+| Sasih (lunar month) with Nampih detection | **Stable** | v0.1.1 |
+| Saka year (incl. Nyepi boundary) | **Stable** | v0.1.1 |
+| Rahinan detection (Galungan, Kuningan, Saraswati, etc.) | **Stable** | v0.1.1 |
+| Urip computation (Sapta + Panca Wara) | **Stable** | v0.1.1 |
+| Ingkel, Jejepan, Watek, Lintang | **Stable** | v0.1.1 |
+| PancaSuda / Pararasan / Rakam | **Stable** | v0.1.1 |
+| Ngunaratri (intercalary tithi) | **Stable** | v0.1.1 |
+| DayBoundary (sunrise-aware date) | **Stable** | v0.1.1 |
+| 2026 validation corpus (365 days) | **Done** | v0.1.2 |
+| `serde` feature flag | Planned | v0.1.3 |
+| WASM / `wasm-bindgen` | Planned | v0.1.3 |
+| Astronomical sunrise | Planned | v0.1.3 |
+| Wariga BELOG (personal day quality) | Planned | v0.2.0 |
+| Gebogan Urip Tri-Pramana | Planned | v0.2.0 |
+| Pawiwahan (marriage compatibility) | Planned | v0.2.0 |
+| Dauh Sukaranti (time-slot quality) | Planned | v0.2.0 |
+| Otonan calculator | Planned | v0.2.0 |
+| Dewasa Ayu (auspicious day scoring) | Research | v0.3.0 |
 
----
+## Data Sources
 
-## Quick Start
+This crate's accuracy is grounded in physical Balinese calendar sources, not
+inference from other software. The primary validation corpus was extracted from:
 
+**I Made Bidja Alm.** / I Md Agus Putra Wijaya, *Kalender Bali 2026*,
+published by IBI Cabang Kab. Badung. Compiled from 50+ lontar Wariga
+manuscripts and 13 Kawi/Sanskrit/Balinese dictionaries.
+
+Cross-validated against:
+- [kalenderbali.org](https://www.kalenderbali.org) (I Ketut Suwintana, Universitas Udayana)
+- [basabali.org](https://dictionary.basabali.org) (BASAbali Wiki)
+- [BPNB Bali](https://kebudayaan.kemdikbud.go.id/bpnbbali) (Balai Pelestarian Nilai Budaya)
+- [edysantosa/sakacalendar](https://github.com/edysantosa/sakacalendar) (Java, LGPL-2.1)
+- [peradnya/balinese-date-java-lib](https://github.com/peradnya/balinese-date-java-lib) (Java, Apache-2.0)
+
+### Validation results (v0.1.2)
+- 365/365 day-of-week matches against kalenderbali.org
+- 30/30 Wuku names verified
+- 12/12 Sasih transitions verified
+- 210/210 Gebogan Urip Tri-Pramana entries extracted
+- Zero mismatches in Pawukon cycle integrity (tested across 1969–2027)
+
+## Dewasa Ayu Research
+
+Determining "good days" (*dewasa ayu*) is the primary reason people consult a
+Balinese calendar. Our approach is evidence-based:
+
+**Candana et al. (2021)** compared three fuzzy inference methods for Dewasa
+Pawiwahan (wedding day selection) against a Wariga expert's 16-date ground
+truth over 731 days (2020–2021):
+
+| Method | Precision | Recall | F-1 Score |
+|---|---|---|---|
+| Tsukamoto | 3.70% | 6.25% | 4.65% |
+| Mamdani | 4.76% | 6.25% | 5.41% |
+| **Sugeno** | **92.31%** | **75.00%** | **82.76%** |
+
+Sugeno correctly identified 12 of 16 expert-chosen days with only 1 false
+positive. This crate will implement Sugeno inference for v0.3.0.
+
+The core Wariga rule governing variable priority (*Alahaning Dewasa*):
+```
+Wewaran < Wuku < Penanggal < Sasih < Dauh
+```
+
+Key finding from our cross-reference of the 16 expert dates: the expert
+exclusively selects Buddha (Wednesday) and Sukra (Friday) for score-80 days,
+never Redite (Sunday) or Saniscara (Saturday) — despite Saniscara having the
+highest sapta urip (9). Day quality is tradition-assigned, not urip-derived.
+
+See `references/EXTRACTED_ALGORITHMS.md` for the complete 77-date validation
+dataset and `references/BIBLIOGRAPHY.md` for 99 scientific references.
+
+## Naming Conventions
+
+The Balinese calendar has multiple manuscript traditions. Where authoritative
+sources disagree on names, this crate documents both:
+
+| This crate (default) | Wariga Sundari Bungkah (Bidja) | Source |
+|---|---|---|
+| Sumur Sinaba | Sumer Sinuhe | PancaSuda #4 |
+| Lebu Katiup Angin | Lelu Kalung Angis | PancaSuda #7 |
+| Satria Wibhawa | Satria Wibawa | PancaSuda #3 |
+
+Default names follow I.B. Putra Manik Aryana (*Dasar Wariga*). The Bidja
+variants are available via `PancaSuda::name_sundari_bungkah()`.
+
+## Installation
+
+Add to `Cargo.toml`:
 ```toml
 [dependencies]
 balinese-calendar = "0.1"
 ```
 
+Optional features:
+```toml
+[dependencies]
+balinese-calendar = { version = "0.1", features = ["serde"] }
+```
+
+## API Overview
+
 ```rust
-use balinese_date::BalineseDate;
+use balinese_calendar::{BalineseDate, Rahinan, Sasih, Wuku};
 
-// Today's date
-let today = BalineseDate::today()?;
-println!("{}", today.to_balinese_string());
-// → "Sukra Umanis Sungsang, Penanggal 7 Kasanga Saka 1948"
+// From Gregorian date
+let d = BalineseDate::from_ymd(2026, 6, 17).unwrap();
 
-// Any Gregorian date
-let nyepi = BalineseDate::from_ymd(2026, 3, 19)?;
-println!("Saka year: {}", nyepi.saka_year);   // → 1948
-println!("Sasih:     {}", nyepi.sasih.name()); // → "Kadasa"
-println!("Wuku:      {}", nyepi.wuku.name());  // → "..."
+// Pawukon
+assert_eq!(d.wuku, Wuku::Dungulan);
+assert_eq!(d.saptawara.name(), "Buda");
+assert_eq!(d.pancawara.name(), "Kliwon");
 
-// Check holy days
-for rahinan in &today.rahinan {
-    println!("Rahinan: {:?}", rahinan);
-}
+// Sasih
+assert_eq!(d.sasih, Sasih::Kasa);
+assert_eq!(d.saka_year, 1948);
 
-// Pancaroba (seasonal transition) flag
-if today.sasih.is_pancaroba() {
-    println!("In pancaroba transition");
-}
+// Rahinan (ceremony detection)
+assert!(d.rahinan.contains(&Rahinan::Galungan));
+
+// Urip
+assert_eq!(d.saptawara.urip() + d.pancawara.urip(), 15);
+
+// 210-day cycle
+let d2 = BalineseDate::from_jdn(d.jdn + 210);
+assert_eq!(d.wuku, d2.wuku);
+assert_eq!(d.pancawara, d2.pancawara);
 ```
 
----
+## Supported Date Range
 
-## Algorithm Basis
+1900–2100 (validated 1969–2027, extrapolated outside this range).
+Historical dates before 1900 are planned for v1.0.0.
 
-- Ardhana, I.B.S. (2005). *"Pokok-Pokok Wariga"*. Surabaya: Paramita.
-- babadbali.com (Yayasan Bali Galang) — wewaran & paringkelan algorithms.
-- Pendit, N.S. (2001). *"Nyepi: kebangkitan, toleransi, dan kerukunan"*. Gramedia.
-- [peradnya/balinese-calendar-js-lib](https://github.com/peradnya/balinese-calendar-js-lib) (Apache-2.0) — behaviour reference.
-- Wikipedia: [Balinese Saka Calendar](https://en.wikipedia.org/wiki/Balinese_saka_calendar).
+## Architecture
 
-**Validation target:** [kalenderbali.org](https://kalenderbali.org) (I Wayan Nuarsa, Universitas Udayana).
+All computation is deterministic and `O(1)` per date — no database lookups,
+no network calls, no floating-point for core calendar operations. The Sasih
+walk-forward algorithm starts from peradnya-calibrated pivot points and walks
+to the target JDN, handling Nampih Sasih (intercalary months) and Ngunaratri
+(intercalary tithis) along the way.
 
----
+The Dewasa Ayu engine (v0.3.0) is the only component requiring `f64` and will
+be feature-gated behind `dewasa-ayu`.
 
-## ⚠ Production Note: Nampih Sasih
+## License
 
-Intercalary month (Nampih Sasih) placement is declared annually by
-**PHDI** (Parisada Hindu Dharma Indonesia). The built-in `NAMPIH_YEARS`
-array in `src/sasih.rs` must be verified and extended each year from the
-official PHDI calendar before deploying in production.
+[MIT](LICENSE-MIT) OR [Apache-2.0](LICENSE-APACHE)
 
----
+## Acknowledgements
 
-## Run Tests
-
-```bash
-cargo test
-cargo run --example today
-cargo bench
-```
-
----
-
-## About
-
-Built for Bali to preserve and promote Balinese culture through technology by Bali developers.
-
-**License:** Apache-2.0
+- **I Made Bidja Alm.** — compiler of the 2026 reference calendar
+- **I Ketut Suwintana** (Universitas Udayana) — kalenderbali.org/kalenderbali.info
+- **I Gusti Agung Mahendra Putra** (peradnya) — balinese-date-java-lib
+- **Edy Santosa Putra** — sakacalendar Java library
+- **E.W. Hary Candana, I.G.A. Gunadi, D.G.H. Divayana** (Undiksha) — Sugeno comparison study
+- **N. Karjanto & F. Beauducel** — ethnoarithmetic Zeller's congruence
