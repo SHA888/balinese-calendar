@@ -6,7 +6,8 @@
 //! Generated 2026-03-22 from OCR extraction of 12 monthly calendar pages.
 //! 365/365 day-of-week assertions verified. Sasih transitions extracted from headers.
 
-use balinese_date::BalineseDate;
+use balinese_calendar::{BalineseDate, Rahinan};
+use chrono::Datelike;
 
 // ============================================================
 // SECTION 1: PAWUKON — Full-year spot checks (1st, 15th, last of each month)
@@ -20,26 +21,26 @@ fn pawukon_january_2026() {
     // Jan 1: Wraspati Pon Krulut
     let d = BalineseDate::from_ymd(2026, 1, 1).unwrap();
     assert_eq!(d.wuku.name(), "Krulut");
-    assert_eq!(d.sapta_wara.name(), "Wraspati");
-    assert_eq!(d.panca_wara.name(), "Pon");
+    assert_eq!(d.saptawara.name(), "Wraspati");
+    assert_eq!(d.pancawara.name(), "Pon");
 
     // Jan 3: Saniscara Kliwon Krulut (Tumpek Krulut + Purnama)
     let d = BalineseDate::from_ymd(2026, 1, 3).unwrap();
     assert_eq!(d.wuku.name(), "Krulut");
-    assert_eq!(d.sapta_wara.name(), "Saniscara");
-    assert_eq!(d.panca_wara.name(), "Kliwon");
+    assert_eq!(d.saptawara.name(), "Saniscara");
+    assert_eq!(d.pancawara.name(), "Kliwon");
 
     // Jan 15: Wraspati Paing Tambir
     let d = BalineseDate::from_ymd(2026, 1, 15).unwrap();
     assert_eq!(d.wuku.name(), "Tambir");
-    assert_eq!(d.sapta_wara.name(), "Wraspati");
-    assert_eq!(d.panca_wara.name(), "Paing");
+    assert_eq!(d.saptawara.name(), "Wraspati");
+    assert_eq!(d.pancawara.name(), "Paing");
 
     // Jan 31: Saniscara Pon Matal
     let d = BalineseDate::from_ymd(2026, 1, 31).unwrap();
     assert_eq!(d.wuku.name(), "Matal");
-    assert_eq!(d.sapta_wara.name(), "Saniscara");
-    assert_eq!(d.panca_wara.name(), "Pon");
+    assert_eq!(d.saptawara.name(), "Saniscara");
+    assert_eq!(d.pancawara.name(), "Pon");
 }
 
 #[test]
@@ -47,18 +48,18 @@ fn pawukon_february_2026() {
     // Feb 1: Redite Wage Uye
     let d = BalineseDate::from_ymd(2026, 2, 1).unwrap();
     assert_eq!(d.wuku.name(), "Uye");
-    assert_eq!(d.sapta_wara.name(), "Redite");
-    assert_eq!(d.panca_wara.name(), "Wage");
+    assert_eq!(d.saptawara.name(), "Redite");
+    assert_eq!(d.pancawara.name(), "Wage");
 
     // Feb 14: Saniscara Pon Prangbakat (from OCR: S. KAWULU 13, URIP 9+7)
     let d = BalineseDate::from_ymd(2026, 2, 14).unwrap();
     assert_eq!(d.wuku.name(), "Prangbakat");
-    assert_eq!(d.sapta_wara.name(), "Saniscara");
+    assert_eq!(d.saptawara.name(), "Saniscara");
 
     // Feb 28: Saniscara Pon Bala (last day)
     let d = BalineseDate::from_ymd(2026, 2, 28).unwrap();
     assert_eq!(d.wuku.name(), "Bala");
-    assert_eq!(d.sapta_wara.name(), "Saniscara");
+    assert_eq!(d.saptawara.name(), "Saniscara");
 }
 
 #[test]
@@ -66,18 +67,18 @@ fn pawukon_march_2026() {
     // Mar 15: Redite Kliwon Klawu — NYEPI (Tahun Baru Saka 1948)
     let d = BalineseDate::from_ymd(2026, 3, 15).unwrap();
     assert_eq!(d.wuku.name(), "Klawu");
-    assert_eq!(d.sapta_wara.name(), "Redite");
+    assert_eq!(d.saptawara.name(), "Redite");
 
     // Mar 19: Wraspati Kliwon Klawu — Sasih Kadasa 1 (day after Tilem Kasanga)
     let d = BalineseDate::from_ymd(2026, 3, 19).unwrap();
     assert_eq!(d.wuku.name(), "Klawu");
-    assert_eq!(d.sapta_wara.name(), "Wraspati");
-    assert_eq!(d.panca_wara.name(), "Kliwon");
+    assert_eq!(d.saptawara.name(), "Wraspati");
+    assert_eq!(d.pancawara.name(), "Kliwon");
 
     // Mar 31: Anggara Paing Watugunung
     let d = BalineseDate::from_ymd(2026, 3, 31).unwrap();
     assert_eq!(d.wuku.name(), "Watugunung");
-    assert_eq!(d.sapta_wara.name(), "Anggara");
+    assert_eq!(d.saptawara.name(), "Anggara");
 }
 
 #[test]
@@ -86,21 +87,21 @@ fn pawukon_april_2026() {
     // Note: Galungan is Buda Kliwon Dungulan, but in April 2026 the source
     // marks Apr 4 as Galungan. Cross-verify wuku.
     let d = BalineseDate::from_ymd(2026, 4, 4).unwrap();
-    assert_eq!(d.sapta_wara.name(), "Saniscara");
+    assert_eq!(d.saptawara.name(), "Saniscara");
 
     // Apr 14: Anggara Paing Landep — Kuningan
     let d = BalineseDate::from_ymd(2026, 4, 14).unwrap();
     assert_eq!(d.wuku.name(), "Landep");
-    assert_eq!(d.sapta_wara.name(), "Anggara");
+    assert_eq!(d.saptawara.name(), "Anggara");
 
     // Apr 19: Redite Wage Ukir — Tumpek Landep
     let d = BalineseDate::from_ymd(2026, 4, 19).unwrap();
-    assert_eq!(d.sapta_wara.name(), "Redite");
+    assert_eq!(d.saptawara.name(), "Redite");
 
     // Apr 30: Wraspati Wage Kulantir
     let d = BalineseDate::from_ymd(2026, 4, 30).unwrap();
     assert_eq!(d.wuku.name(), "Kulantir");
-    assert_eq!(d.sapta_wara.name(), "Wraspati");
+    assert_eq!(d.saptawara.name(), "Wraspati");
 }
 
 #[test]
@@ -108,71 +109,71 @@ fn pawukon_may_through_december() {
     // May 1: Sukra Kliwon Kulantir
     let d = BalineseDate::from_ymd(2026, 5, 1).unwrap();
     assert_eq!(d.wuku.name(), "Kulantir");
-    assert_eq!(d.sapta_wara.name(), "Sukra");
-    assert_eq!(d.panca_wara.name(), "Kliwon");
+    assert_eq!(d.saptawara.name(), "Sukra");
+    assert_eq!(d.pancawara.name(), "Kliwon");
 
     // Jun 17: Buda Kliwon Dungulan — GALUNGAN (June)
     let d = BalineseDate::from_ymd(2026, 6, 17).unwrap();
     assert_eq!(d.wuku.name(), "Dungulan");
-    assert_eq!(d.sapta_wara.name(), "Buda");
-    assert_eq!(d.panca_wara.name(), "Kliwon");
+    assert_eq!(d.saptawara.name(), "Buda");
+    assert_eq!(d.pancawara.name(), "Kliwon");
 
     // Jun 27: Saniscara Kliwon Kuningan — KUNINGAN (June)
     let d = BalineseDate::from_ymd(2026, 6, 27).unwrap();
     assert_eq!(d.wuku.name(), "Kuningan");
-    assert_eq!(d.sapta_wara.name(), "Saniscara");
-    assert_eq!(d.panca_wara.name(), "Kliwon");
+    assert_eq!(d.saptawara.name(), "Saniscara");
+    assert_eq!(d.pancawara.name(), "Kliwon");
 
     // Jul 28: Anggara Paing Krulut — near Purnama Karo
     let d = BalineseDate::from_ymd(2026, 7, 28).unwrap();
     assert_eq!(d.wuku.name(), "Krulut");
-    assert_eq!(d.sapta_wara.name(), "Anggara");
+    assert_eq!(d.saptawara.name(), "Anggara");
 
     // Aug 17: Soma Pon Medangkungan — HUT RI ke-81
     let d = BalineseDate::from_ymd(2026, 8, 17).unwrap();
     assert_eq!(d.wuku.name(), "Medangkungan");
-    assert_eq!(d.sapta_wara.name(), "Soma");
-    assert_eq!(d.panca_wara.name(), "Pon");
+    assert_eq!(d.saptawara.name(), "Soma");
+    assert_eq!(d.pancawara.name(), "Pon");
 
     // Sep 2: Rabu/Buda Uye — Tumpek Uye/Kandang
     let d = BalineseDate::from_ymd(2026, 9, 2).unwrap();
     assert_eq!(d.wuku.name(), "Uye");
-    assert_eq!(d.sapta_wara.name(), "Buda");
+    assert_eq!(d.saptawara.name(), "Buda");
 
     // Oct 10: Saniscara Kliwon Wayang — Tumpek Wayang
     let d = BalineseDate::from_ymd(2026, 10, 10).unwrap();
     assert_eq!(d.wuku.name(), "Wayang");
-    assert_eq!(d.sapta_wara.name(), "Saniscara");
-    assert_eq!(d.panca_wara.name(), "Kliwon");
+    assert_eq!(d.saptawara.name(), "Saniscara");
+    assert_eq!(d.pancawara.name(), "Kliwon");
 
     // Oct 17: Saniscara Umanis Watugunung — Saraswati
     let d = BalineseDate::from_ymd(2026, 10, 17).unwrap();
     assert_eq!(d.wuku.name(), "Watugunung");
-    assert_eq!(d.sapta_wara.name(), "Saniscara");
-    assert_eq!(d.panca_wara.name(), "Umanis");
+    assert_eq!(d.saptawara.name(), "Saniscara");
+    assert_eq!(d.pancawara.name(), "Umanis");
 
     // Oct 29: Wraspati Wage Sinta — GALUNGAN (October)
     // Galungan = Buda Kliwon Dungulan — need to verify this date from source
     let d = BalineseDate::from_ymd(2026, 10, 29).unwrap();
-    assert_eq!(d.sapta_wara.name(), "Wraspati");
+    assert_eq!(d.saptawara.name(), "Wraspati");
 
     // Nov 4: Buda Kliwon Sinta — Pagerwesi
     let d = BalineseDate::from_ymd(2026, 11, 4).unwrap();
     assert_eq!(d.wuku.name(), "Sinta");
-    assert_eq!(d.sapta_wara.name(), "Buda");
-    assert_eq!(d.panca_wara.name(), "Kliwon");
+    assert_eq!(d.saptawara.name(), "Buda");
+    assert_eq!(d.pancawara.name(), "Kliwon");
 
     // Dec 5: Saniscara Kliwon Wariga — Tumpek Wariga
     let d = BalineseDate::from_ymd(2026, 12, 5).unwrap();
     assert_eq!(d.wuku.name(), "Wariga");
-    assert_eq!(d.sapta_wara.name(), "Saniscara");
-    assert_eq!(d.panca_wara.name(), "Kliwon");
+    assert_eq!(d.saptawara.name(), "Saniscara");
+    assert_eq!(d.pancawara.name(), "Kliwon");
 
     // Dec 31: Wraspati Paing Julungwangi
     let d = BalineseDate::from_ymd(2026, 12, 31).unwrap();
     assert_eq!(d.wuku.name(), "Julungwangi");
-    assert_eq!(d.sapta_wara.name(), "Wraspati");
-    assert_eq!(d.panca_wara.name(), "Paing");
+    assert_eq!(d.saptawara.name(), "Wraspati");
+    assert_eq!(d.pancawara.name(), "Paing");
 }
 
 // ============================================================
@@ -327,19 +328,19 @@ fn urip_computation() {
 
     // Jan 1: Wraspati(8) + Pon(7) = 15
     let d = BalineseDate::from_ymd(2026, 1, 1).unwrap();
-    assert_eq!(d.sapta_wara.urip() + d.panca_wara.urip(), 15);
+    assert_eq!(d.saptawara.urip() + d.pancawara.urip(), 15);
 
     // Jan 3: Saniscara(9) + Kliwon(8) = 17
     let d = BalineseDate::from_ymd(2026, 1, 3).unwrap();
-    assert_eq!(d.sapta_wara.urip() + d.panca_wara.urip(), 17);
+    assert_eq!(d.saptawara.urip() + d.pancawara.urip(), 17);
 
     // Jun 17: Buda(7) + Kliwon(8) = 15 (Galungan)
     let d = BalineseDate::from_ymd(2026, 6, 17).unwrap();
-    assert_eq!(d.sapta_wara.urip() + d.panca_wara.urip(), 15);
+    assert_eq!(d.saptawara.urip() + d.pancawara.urip(), 15);
 
     // Dec 31: Wraspati(8) + Paing(9) = 17
     let d = BalineseDate::from_ymd(2026, 12, 31).unwrap();
-    assert_eq!(d.sapta_wara.urip() + d.panca_wara.urip(), 17);
+    assert_eq!(d.saptawara.urip() + d.pancawara.urip(), 17);
 }
 
 // ============================================================
@@ -373,8 +374,8 @@ fn rahinan_saraswati_pagerwesi_2026() {
     // Nov 4 from source: "Hari Pagerwesi"
     let d = BalineseDate::from_ymd(2026, 11, 4).unwrap();
     assert_eq!(d.wuku.name(), "Sinta");
-    assert_eq!(d.sapta_wara.name(), "Buda");
-    assert_eq!(d.panca_wara.name(), "Kliwon");
+    assert_eq!(d.saptawara.name(), "Buda");
+    assert_eq!(d.pancawara.name(), "Kliwon");
     assert!(d.rahinan.iter().any(|r| matches!(r, Rahinan::Pagerwesi)));
 }
 
@@ -389,7 +390,7 @@ fn rahinan_tumpek_2026() {
     // Tumpek Landep = Saniscara Kliwon Landep
     // Tumpek Wariga (Uduh): May 25, Dec 5
     let d = BalineseDate::from_ymd(2026, 12, 5).unwrap();
-    assert!(d.rahinan.iter().any(|r| matches!(r, Rahinan::TumpekWariga)));
+    assert!(d.rahinan.iter().any(|r| matches!(r, Rahinan::TumpekUduh)));
 
     // Tumpek Kandang (Uye): Sep 2 area
     // Tumpek Wayang: Oct 10
@@ -402,10 +403,16 @@ fn rahinan_kajeng_keliwon_2026() {
     // Kajeng Keliwon = Kajeng (Triwara) + Kliwon (Pancawara), every 15 days
     // From kalenderbali.org January: Jan 13, Jan 28
     let d = BalineseDate::from_ymd(2026, 1, 13).unwrap();
-    assert!(d.rahinan.iter().any(|r| matches!(r, Rahinan::KajengKeliwon)));
+    assert!(d
+        .rahinan
+        .iter()
+        .any(|r| matches!(r, Rahinan::KajengKeliwon)));
 
     let d = BalineseDate::from_ymd(2026, 1, 28).unwrap();
-    assert!(d.rahinan.iter().any(|r| matches!(r, Rahinan::KajengKeliwon)));
+    assert!(d
+        .rahinan
+        .iter()
+        .any(|r| matches!(r, Rahinan::KajengKeliwon)));
 }
 
 #[test]
@@ -438,20 +445,20 @@ fn rahinan_nyepi_2026() {
 #[test]
 fn pararasan_spot_checks() {
     // Jan 1: SATO Satria Wirang
-    let d = BalineseDate::from_ymd(2026, 1, 1).unwrap();
+    let _d = BalineseDate::from_ymd(2026, 1, 1).unwrap();
     // Verify pararasan name matches — adapt enum variant name to crate's naming
     // assert_eq!(d.pararasan.name(), "Satria Wirang");
 
     // Jan 3: WONG Tunggak Semi
-    let d = BalineseDate::from_ymd(2026, 1, 3).unwrap();
+    let _d = BalineseDate::from_ymd(2026, 1, 3).unwrap();
     // assert_eq!(d.pararasan.name(), "Tunggak Semi");
 
     // Mar 19: TARU Lelu Kalung Angis (Nyepi)
-    let d = BalineseDate::from_ymd(2026, 3, 19).unwrap();
+    let _d = BalineseDate::from_ymd(2026, 3, 19).unwrap();
     // assert_eq!(d.pararasan.name(), "Lelu Kalung Angis");
 
     // Dec 31: NINA Lelu Kalung Angis
-    let d = BalineseDate::from_ymd(2026, 12, 31).unwrap();
+    let _d = BalineseDate::from_ymd(2026, 12, 31).unwrap();
     // assert_eq!(d.pararasan.name(), "Lelu Kalung Angis");
 
     // NOTE: Uncomment assertions above once you verify the crate's Pararasan
@@ -498,14 +505,14 @@ fn pawukon_cycle_completes_in_210_days() {
     let d1 = BalineseDate::from_ymd(2026, 1, 1).unwrap();
     let d2 = BalineseDate::from_ymd(2026, 7, 30).unwrap(); // Jan 1 + 210 days
     assert_eq!(d1.wuku.name(), d2.wuku.name());
-    assert_eq!(d1.sapta_wara.name(), d2.sapta_wara.name());
-    assert_eq!(d1.panca_wara.name(), d2.panca_wara.name());
+    assert_eq!(d1.saptawara.name(), d2.saptawara.name());
+    assert_eq!(d1.pancawara.name(), d2.pancawara.name());
 
     // Second cycle: Jul 30 + 210 = Feb 24, 2027
     let d3 = BalineseDate::from_ymd(2027, 2, 24).unwrap();
     assert_eq!(d1.wuku.name(), d3.wuku.name());
-    assert_eq!(d1.sapta_wara.name(), d3.sapta_wara.name());
-    assert_eq!(d1.panca_wara.name(), d3.panca_wara.name());
+    assert_eq!(d1.saptawara.name(), d3.saptawara.name());
+    assert_eq!(d1.pancawara.name(), d3.pancawara.name());
 }
 
 #[test]
@@ -517,13 +524,9 @@ fn all_30_wukus_appear_in_2026() {
     let start = NaiveDate::from_ymd_opt(2026, 1, 1).unwrap();
     for offset in (0..365).step_by(7) {
         let greg = start + chrono::Duration::days(offset);
-        let d = BalineseDate::from_ymd(
-            greg.year() as i32,
-            greg.month(),
-            greg.day(),
-        ).unwrap();
+        let d = BalineseDate::from_ymd(greg.year(), greg.month(), greg.day()).unwrap();
         seen.insert(d.wuku.name().to_string());
     }
     // We should see all 30 wukus (365/7 = 52 samples, 52 > 30)
-    assert_eq!(seen.len(), 30, "Expected all 30 wukus, found: {:?}", seen);
+    assert_eq!(seen.len(), 30, "Expected all 30 wukus, found: {seen:?}");
 }
