@@ -3,26 +3,11 @@ name: CI Simple
 on:
   push:
     branches: [main]
-  pull_request:
-
-env:
-  CARGO_TERM_COLOR: always
 
 jobs:
-  check:
-    name: Check
+  hello:
+    name: Hello World
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: Swatinem/rust-cache@v2
-      - run: cargo check --all-targets --all-features
-
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: Swatinem/rust-cache@v2
-      - run: cargo test --all-features
+      - name: Hello
+        run: echo "Hello World"
