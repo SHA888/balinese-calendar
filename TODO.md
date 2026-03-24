@@ -37,12 +37,12 @@
       - 365/365 day-of-week matches · 30/30 Wuku · 12/12 Sasih · zero mismatches
 
 ### Remaining before tag
-- [ ] **A2: Paringkelan spot-checks** — assert Watek (Madya & Alit) and Lintang
+- [x] **A2: Paringkelan spot-checks** — assert Watek (Madya & Alit) and Lintang
       output against ~30 dates from 2026 corpus. Cross-validate names against
       edysantosa/sakacalendar (LGPL-2.1) tables:
       - Watek Alit (4): Uler, Gajah, Lembu, Lintah
       - Watek Madya (5): Gajah, Watu, Buta, Suku, Wong
-      - Lintang (35): Gajah through Begoong
+      - Lintang (35): Gajah through Pucang
       Source: I.B. Putra Manik Aryana, *Dasar Wariga* + *Tenung Wariga*;
       I.B. Supartha Ardana, *Pokok-Pokok Wariga* (2005).
 - [ ] **A3: Pararasan validation** — uncomment assertions in `validation_2026_test.rs`.

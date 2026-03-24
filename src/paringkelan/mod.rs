@@ -91,12 +91,10 @@ impl Ingkel {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum WatekMadya {
     Gajah = 0,
-    Wrigaden = 1,
-    Perahu = 2,
-    Taru = 3,
-    Sama = 4,
-    Guru = 5,
-    Mahulu = 6,
+    Watu = 1,
+    Buta = 2,
+    Suku = 3,
+    Wong = 4,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -109,25 +107,21 @@ pub enum WatekAlit {
 
 impl WatekMadya {
     pub fn from_jdn(jdn: i64) -> Self {
-        match pawukon_day(jdn) % 7 {
+        match pawukon_day(jdn) % 5 {
             0 => WatekMadya::Gajah,
-            1 => WatekMadya::Wrigaden,
-            2 => WatekMadya::Perahu,
-            3 => WatekMadya::Taru,
-            4 => WatekMadya::Sama,
-            5 => WatekMadya::Guru,
-            _ => WatekMadya::Mahulu,
+            1 => WatekMadya::Watu,
+            2 => WatekMadya::Buta,
+            3 => WatekMadya::Suku,
+            _ => WatekMadya::Wong,
         }
     }
     pub fn name(&self) -> &'static str {
         match self {
             WatekMadya::Gajah => "Gajah",
-            WatekMadya::Wrigaden => "Wrigaden",
-            WatekMadya::Perahu => "Perahu",
-            WatekMadya::Taru => "Taru",
-            WatekMadya::Sama => "Sama",
-            WatekMadya::Guru => "Guru",
-            WatekMadya::Mahulu => "Mahulu",
+            WatekMadya::Watu => "Watu",
+            WatekMadya::Buta => "Buta",
+            WatekMadya::Suku => "Suku",
+            WatekMadya::Wong => "Wong",
         }
     }
 }
