@@ -1,0 +1,39 @@
+[book]
+title = "Balinese Calendar Documentation"
+authors = ["Kresna Sucandra"]
+description = "Complete documentation for the Balinese Calendar Rust crate"
+language = "en"
+multilingual = false
+src = "src"
+
+[build]
+build-dir = "book"
+create-missing = true
+
+[output.html]
+default-theme = "light"
+preferred-dark-theme = "navy"
+git-repository-url = "https://github.com/SHA888/balinese-calendar"
+git-repository-icon = "fa-github"
+edit-url-template = "https://github.com/SHA888/balinese-calendar/edit/main/docs/{path}"
+site-url = "/balinese-calendar/"
+
+[output.html.fold]
+enable = true
+level = 0
+
+[output.html.playground]
+editable = true
+copyable = true
+line-numbers = true
+
+[output.html.search]
+enable = true
+limit-results = 30
+teaser-word-count = 30
+use-boolean-and = true
+boost-title = 2
+boost-hierarchy = 1
+boost-paragraph = 1
+expand = true
+heading-split-level = 3

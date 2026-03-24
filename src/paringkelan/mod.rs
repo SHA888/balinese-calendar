@@ -32,6 +32,19 @@ impl Jejepan {
             _ => Jejepan::Lembu,
         }
     }
+
+    /// Optimized constructor that accepts precomputed pawukon_day
+    pub fn from_pawukon_day(pawukon_day: u16) -> Self {
+        match pawukon_day % 6 {
+            0 => Jejepan::Mina,
+            1 => Jejepan::Paksian,
+            2 => Jejepan::Sato,
+            3 => Jejepan::Cokcok,
+            4 => Jejepan::Godel,
+            _ => Jejepan::Lembu,
+        }
+    }
+
     pub fn name(&self) -> &'static str {
         match self {
             Jejepan::Mina => "Mina",
@@ -62,6 +75,19 @@ pub enum Ingkel {
 impl Ingkel {
     pub fn from_jdn(jdn: i64) -> Self {
         match (pawukon_day(jdn) / 7) % 7 {
+            0 => Ingkel::Wong,
+            1 => Ingkel::Sato,
+            2 => Ingkel::Mina,
+            3 => Ingkel::Manuk,
+            4 => Ingkel::Taru,
+            5 => Ingkel::Buku,
+            _ => Ingkel::Uled,
+        }
+    }
+
+    /// Optimized constructor that accepts precomputed pawukon_day
+    pub fn from_pawukon_day(pawukon_day: u16) -> Self {
+        match (pawukon_day / 7) % 7 {
             0 => Ingkel::Wong,
             1 => Ingkel::Sato,
             2 => Ingkel::Mina,
@@ -115,6 +141,17 @@ impl WatekMadya {
             _ => WatekMadya::Wong,
         }
     }
+
+    /// Optimized constructor that accepts precomputed pawukon_day
+    pub fn from_pawukon_day(pawukon_day: u16) -> Self {
+        match pawukon_day % 5 {
+            0 => WatekMadya::Gajah,
+            1 => WatekMadya::Watu,
+            2 => WatekMadya::Buta,
+            3 => WatekMadya::Suku,
+            _ => WatekMadya::Wong,
+        }
+    }
     pub fn name(&self) -> &'static str {
         match self {
             WatekMadya::Gajah => "Gajah",
@@ -129,6 +166,16 @@ impl WatekMadya {
 impl WatekAlit {
     pub fn from_jdn(jdn: i64) -> Self {
         match pawukon_day(jdn) % 4 {
+            0 => WatekAlit::Lintah,
+            1 => WatekAlit::Uler,
+            2 => WatekAlit::Gajah,
+            _ => WatekAlit::Lembu,
+        }
+    }
+
+    /// Optimized constructor that accepts precomputed pawukon_day
+    pub fn from_pawukon_day(pawukon_day: u16) -> Self {
+        match pawukon_day % 4 {
             0 => WatekAlit::Lintah,
             1 => WatekAlit::Uler,
             2 => WatekAlit::Gajah,
@@ -192,6 +239,12 @@ impl Lintang {
     pub fn from_jdn(jdn: i64) -> Self {
         let lintang_idx =
             ((Pancawara::from_jdn(jdn) as u8) * 7 + (Saptawara::from_jdn(jdn) as u8)) % 35;
+        Self::from_index(lintang_idx as usize)
+    }
+
+    /// Optimized constructor that accepts precomputed Pancawara and Saptawara
+    pub fn from_wewaran(panca: &Pancawara, sapta: &Saptawara) -> Self {
+        let lintang_idx = (*panca as u8 * 7 + *sapta as u8) % 35;
         Self::from_index(lintang_idx as usize)
     }
 
@@ -279,7 +332,6 @@ impl Lintang {
 // ─────────────────────────────────────────────────────────────────────────────
 // PANCASUDA  (7-day cycle from Saptawara + adjustments)
 // ─────────────────────────────────────────────────────────────────────────────
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PancaSuda {
     Lebu = 0,
@@ -327,19 +379,21 @@ impl PancaSuda {
 // ─────────────────────────────────────────────────────────────────────────────
 // PARARASAN  (10-day cycle)
 // ─────────────────────────────────────────────────────────────────────────────
+// Two naming traditions supported:
+// 1. Aryana (edysantosa/sakacalendar) - canonical scholarly tradition
+// 2. Sundari Bungkah (I Made Bidja OCR corpus) - regional variant
+// Source: I.B. Putra Manik Aryana, Dasar Wariga + Tenung Wariga; I.B. Supartha Ardana, Pokok-Pokok Wariga (2005)
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Pararasan {
-    HalangAri = 0,
-    Aras = 1,
-    Aras2 = 2,
-    Ambarwatek = 3,
-    Tur = 4,
-    Alembana = 5,
-    Satriya = 6,
-    Sangkur = 7,
-    Alang = 8,
-    Celeng = 9,
+    WisesaSegara = 0,
+    TunggakSemi = 1,
+    SatriaWibhawa = 2,
+    SumurSinaba = 3,
+    BumiKapetak = 4,
+    SatriaWirang = 5,
+    SatriaSegara = 6,
+    LebuKatiupAngin = 7,
 }
 
 impl Pararasan {
@@ -351,32 +405,45 @@ impl Pararasan {
 
     /// Construct from precomputed Pancawara and Saptawara (avoids duplicate lookups).
     pub fn from_wewaran(panca: &Pancawara, sapta: &Saptawara) -> Self {
-        let idx = (*panca as u8 + *sapta as u8) % 10;
+        let idx = (*panca as u8 + *sapta as u8) % 8;
         match idx {
-            0 => Pararasan::HalangAri,
-            1 => Pararasan::Aras,
-            2 => Pararasan::Aras2,
-            3 => Pararasan::Ambarwatek,
-            4 => Pararasan::Tur,
-            5 => Pararasan::Alembana,
-            6 => Pararasan::Satriya,
-            7 => Pararasan::Sangkur,
-            8 => Pararasan::Alang,
-            _ => Pararasan::Celeng,
+            0 => Pararasan::WisesaSegara,
+            1 => Pararasan::TunggakSemi,
+            2 => Pararasan::SatriaWibhawa,
+            3 => Pararasan::SumurSinaba,
+            4 => Pararasan::BumiKapetak,
+            5 => Pararasan::SatriaWirang,
+            6 => Pararasan::SatriaSegara,
+            _ => Pararasan::LebuKatiupAngin,
         }
     }
+
+    /// Returns the canonical Aryana (edysantosa/sakacalendar) name - default tradition
     pub fn name(&self) -> &'static str {
         match self {
-            Pararasan::HalangAri => "Halang Ari",
-            Pararasan::Aras => "Aras",
-            Pararasan::Aras2 => "Aras",
-            Pararasan::Ambarwatek => "Ambarwatek",
-            Pararasan::Tur => "Tur",
-            Pararasan::Alembana => "Alembana",
-            Pararasan::Satriya => "Satriya",
-            Pararasan::Sangkur => "Sangkur",
-            Pararasan::Alang => "Alang",
-            Pararasan::Celeng => "Celeng",
+            Pararasan::WisesaSegara => "Wisesa Segara",
+            Pararasan::TunggakSemi => "Tunggak Semi",
+            Pararasan::SatriaWibhawa => "Satria Wibhawa",
+            Pararasan::SumurSinaba => "Sumur Sinaba",
+            Pararasan::BumiKapetak => "Bumi Kapetak",
+            Pararasan::SatriaWirang => "Satria Wirang",
+            Pararasan::SatriaSegara => "Satria Segara",
+            Pararasan::LebuKatiupAngin => "Lebu Katiup Angin",
+        }
+    }
+
+    /// Returns the Sundari Bungkah (I Made Bidja OCR corpus) variant name
+    /// Source: I Made Bidja, Kalender Bali 2026 (IBI Cabang Kab. Badung)
+    pub fn name_sundari_bungkah(&self) -> &'static str {
+        match self {
+            Pararasan::WisesaSegara => "Wisesa Segara",  // Match
+            Pararasan::TunggakSemi => "Tunggak Semi",    // Match
+            Pararasan::SatriaWibhawa => "Satria Wibawa", // Spelling variant
+            Pararasan::SumurSinaba => "Sumer Sinuhe",    // Different tradition
+            Pararasan::BumiKapetak => "Bumi Kapetak",    // Match
+            Pararasan::SatriaWirang => "Satria Wirang",  // Match
+            Pararasan::SatriaSegara => "Satria Segara",  // Match
+            Pararasan::LebuKatiupAngin => "Lelu Kalung Angis", // Different tradition
         }
     }
 }

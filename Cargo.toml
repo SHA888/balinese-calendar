@@ -2,23 +2,34 @@
 name = "balinese-calendar"
 version = "0.1.2"
 edition = "2021"
+rust-version = "1.70.0"  # MSRV
 authors = ["Kresna Sucandra"]
 description = "Balinese Saka Calendar (Kalender Bali) — the first native Rust implementation. Computes Pawukon, Wewaran, Sasih, Paringkelan, Rahinan and Saka year from any Gregorian date."
 license = "Apache-2.0"
 repository = "https://github.com/SHA888/balinese-calendar"
 documentation = "https://docs.rs/balinese-calendar"
+homepage = "https://github.com/SHA888/balinese-calendar"
 readme = "README.md"
 keywords = ["bali", "calendar", "saka", "pawukon", "indonesia"]
 categories = ["date-and-time", "localization"]
-exclude = [".github/", "benches/"]
+exclude = [
+    ".github/",
+    "benches/",
+    "debug/",
+    "*.log",
+    "target/",
+    "Cargo.lock"
+]
 
 [features]
 default = []
 astronomical = ["dep:sunrise"]
+serde = ["dep:serde", "chrono/serde"]
 
 [dependencies]
 chrono    = { version = "0.4", default-features = false, features = ["std", "clock"] }
 thiserror = "1"
+serde = { version = "1.0", features = ["derive"], optional = true }
 
 [dependencies.sunrise]
 version = "2.1"
@@ -28,11 +39,23 @@ optional = true
 anyhow = "1"
 chrono = { version = "0.4", features = ["std"] }
 criterion = { version = "0.5", features = ["html_reports"] }
+serde_json = "1.0"
 
 [[bench]]
 name = "bench_conversion"
 harness = false
 
 [profile.release]
-lto     = true
+lto = true
 opt-level = 3
+codegen-units = 1
+
+[profile.bench]
+lto = true
+opt-level = 3
+codegen-units = 1
+
+# Metadata for docs.rs
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]

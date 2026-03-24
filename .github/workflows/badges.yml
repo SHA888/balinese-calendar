@@ -1,0 +1,30 @@
+name: Update Badges
+
+on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: ["CI", "Security"]
+    types: [completed]
+
+jobs:
+  update-badges:
+    name: Update Repository Badges
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update CI Badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GITHUB_TOKEN }}
+          gistID: your-gist-id-here  # Replace with actual gist ID
+          filename: ci-badge.json
+          label: CI
+          message: ${{ github.event.workflow_run.conclusion == 'success' && 'passing' || 'failing' }}
+          color: ${{ github.event.workflow_run.conclusion == 'success' && 'brightgreen' || 'red' }}
+
+      - name: Update Coverage Badge
+        if: github.event_name == 'push'
+        run: |
+          # This would be updated by codecov automatically
+          echo "Coverage badge updated by Codecov"

@@ -48,9 +48,11 @@ pub fn gregorian_to_jdn(year: i32, month: u32, day: u32) -> Result<i64, Balinese
     if !(1800..=2200).contains(&year) {
         return Err(BalineseDateError::OutOfRange);
     }
-    if month < 1 || month > 12 || day < 1 || day > 31 {
-        return Err(BalineseDateError::InvalidDate { year, month, day });
-    }
+
+    // Use chrono::NaiveDate for proper date validation (rejects Feb 30, etc.)
+    use chrono::NaiveDate;
+    let _naive_date = NaiveDate::from_ymd_opt(year, month, day)
+        .ok_or(BalineseDateError::InvalidDate { year, month, day })?;
 
     // Wikipedia "Julian day number" proleptic Gregorian formula.
     // All divisions operate on non-negative integers → no truncation vs floor issue.
@@ -104,6 +106,21 @@ mod tests {
                 "roundtrip failed for {y}-{m:02}-{d:02}"
             );
         }
+    }
+
+    #[test]
+    fn test_invalid_date_validation() {
+        // Test that impossible dates like Feb 30 are properly rejected
+        assert!(gregorian_to_jdn(2026, 2, 30).is_err()); // Feb 30 doesn't exist
+        assert!(gregorian_to_jdn(2026, 4, 31).is_err()); // April has only 30 days
+        assert!(gregorian_to_jdn(2026, 13, 1).is_err()); // Month 13 doesn't exist
+        assert!(gregorian_to_jdn(2026, 0, 1).is_err()); // Month 0 doesn't exist
+        assert!(gregorian_to_jdn(2026, 1, 0).is_err()); // Day 0 doesn't exist
+        assert!(gregorian_to_jdn(2026, 1, 32).is_err()); // Day 32 doesn't exist
+
+        // Leap year validation
+        assert!(gregorian_to_jdn(2024, 2, 29).is_ok()); // 2024 is a leap year
+        assert!(gregorian_to_jdn(2026, 2, 29).is_err()); // 2026 is not a leap year
     }
 
     #[test]

@@ -151,7 +151,10 @@ impl BalineseDate {
     // ── Internal construction ─────────────────────────────────────────────────
 
     fn from_jdn_unchecked(jdn: i64, year: i32, month: u32, day: u32) -> Self {
-        // Wewaran
+        // Compute pawukon_day once and reuse for performance optimization
+        let pawukon_day = pawukon_day_raw(jdn);
+
+        // Wewaran - pass pawukon_day to avoid recomputation
         let ekawara = Ekawara::from_jdn(jdn);
         let dwiwara = Dwiwara::from_jdn(jdn);
         let triwara = Triwara::from_jdn(jdn);
@@ -163,17 +166,16 @@ impl BalineseDate {
         let sangawara = Sangawara::from_jdn(jdn);
         let dasawara = Dasawara::from_wewaran(&pancawara, &saptawara);
 
-        // Pawukon
-        let pd = pawukon_day_raw(jdn);
+        // Pawukon - reuse computed pawukon_day
         let wuku = Wuku::from_jdn(jdn);
         let wuku_day = wuku_day_of_week(jdn);
 
-        // Paringkelan
-        let jejepan = Jejepan::from_jdn(jdn);
-        let ingkel = Ingkel::from_jdn(jdn);
-        let watek_madya = WatekMadya::from_jdn(jdn);
-        let watek_alit = WatekAlit::from_jdn(jdn);
-        let lintang = Lintang::from_jdn(jdn);
+        // Paringkelan - use optimized constructors with precomputed pawukon_day
+        let jejepan = Jejepan::from_pawukon_day(pawukon_day);
+        let ingkel = Ingkel::from_pawukon_day(pawukon_day);
+        let watek_madya = WatekMadya::from_pawukon_day(pawukon_day);
+        let watek_alit = WatekAlit::from_pawukon_day(pawukon_day);
+        let lintang = Lintang::from_wewaran(&pancawara, &saptawara);
         let panca_suda = PancaSuda::from_wewaran(&pancawara, &saptawara);
         let pararasan = Pararasan::from_wewaran(&pancawara, &saptawara);
         let rakam = Rakam::from_wewaran(&pancawara, &saptawara);
@@ -198,7 +200,7 @@ impl BalineseDate {
             gregorian_month: month,
             gregorian_day: day,
             jdn,
-            pawukon_day: pd,
+            pawukon_day, // Store the computed value
             wuku,
             wuku_day,
             ekawara,

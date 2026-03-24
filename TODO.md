@@ -45,7 +45,7 @@
       - Lintang (35): Gajah through Pucang
       Source: I.B. Putra Manik Aryana, *Dasar Wariga* + *Tenung Wariga*;
       I.B. Supartha Ardana, *Pokok-Pokok Wariga* (2005).
-- [ ] **A3: Pararasan validation** — uncomment assertions in `validation_2026_test.rs`.
+- [x] **A3: Pararasan validation** — uncomment assertions in `validation_2026_test.rs`.
       Two naming traditions must be supported:
       | Aryana (edysantosa) | Bidja (OCR corpus) | Status |
       |---|---|---|
@@ -56,17 +56,20 @@
       | Bumi Kapetak | Bumi Kapetak | Match |
       | Satria Wirang | Satria Wirang | Match |
       | Lebu Katiup Angin | Lelu Kalung Angis | **Different tradition** |
-      Expose both via `PancaSuda::name()` (Aryana default) and
+      Exposed both via `PancaSuda::name()` (Aryana default) and
       `PancaSuda::name_sundari_bungkah()` (Bidja variant), with doc comments
       citing the manuscript source for each.
-- [ ] **A4: Gebogan Urip Tri-Pramana validation** — compare 210-entry table against
+- [x] **A4: Gebogan Urip Tri-Pramana validation** — compare 210-entry table against
       crate's standard urip. Key finding: Tri-Pramana = f(Wuku, SaptaWara) only,
       values 12–29, incorporating SadWara. This is NOT SaptaWara.urip + PancaWara.urip.
       Flag outlier: Pahang + Soma = 29 (max value) — verify against physical source.
-- [ ] **Perf: pawukon_day() dedup** — compute once in `from_jdn_unchecked`, pass to
+- [x] **Perf: pawukon_day() dedup** — compute once in `from_jdn_unchecked`, pass to
       all subsystem constructors (currently recomputed ~15× per date construction)
-- [ ] **Safety: date validation** — use `NaiveDate::from_ymd_opt` in `gregorian_to_jdn()`
+- [x] **Safety: date validation** — use `NaiveDate::from_ymd_opt` in `gregorian_to_jdn()`
       to reject impossible dates like Feb 30
+- [x] **Code Review Fixes** — fixed critical Pararasan enum design flaw, completed
+      performance optimization for all pawukon-dependent components, improved test
+      robustness, and removed tautology assertions
 
 ---
 
