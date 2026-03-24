@@ -17,11 +17,9 @@ jobs:
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           auth: ${{ secrets.GITHUB_TOKEN }}
-          gistID: your-gist-id-here  # Replace with actual gist ID
-          filename: ci-badge.json
-          label: CI
-          message: ${{ github.event.workflow_run.conclusion == 'success' && 'passing' || 'failing' }}
-          color: ${{ github.event.workflow_run.conclusion == 'success' && 'brightgreen' || 'red' }}
+          # gistID needs to be set up if you want to use dynamic badges
+          # For now, this step is disabled
+        if: false
 
       - name: Update Coverage Badge
         if: github.event_name == 'push'
