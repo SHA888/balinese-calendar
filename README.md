@@ -1,12 +1,8 @@
 <div align="center">
 
-# 🏛️ Balinese Calendar
+# Balinese Calendar 🌺
 
 **The first native Rust implementation of the Balinese Saka Calendar**
-
-Computes Pawukon (210-day cycle), Wewaran (multi-cycle day names), Sasih
-(lunar months), Saka year, Rahinan (ceremony dates), and traditional Wariga
-classification systems — all from a single Gregorian date input.
 
 [![Crates.io](https://img.shields.io/crates/v/balinese-calendar)](https://crates.io/crates/balinese-calendar)
 [![docs.rs](https://img.shields.io/docsrs/balinese-calendar)](https://docs.rs/balinese-calendar)
@@ -15,6 +11,10 @@ classification systems — all from a single Gregorian date input.
 [![Downloads](https://img.shields.io/crates/d/balinese-calendar)](https://crates.io/crates/balinese-calendar)
 
 </div>
+
+Computes Pawukon (210-day cycle), Wewaran (multi-cycle day names), Sasih
+(lunar months), Saka year, Rahinan (ceremony dates), and traditional Wariga
+classification systems — all from a single Gregorian date input.
 
 ## 📚 Documentation
 
@@ -25,7 +25,7 @@ Complete documentation is available at **[sha888.github.io/balinese-calendar](ht
 - [📚 Concepts](https://sha888.github.io/balinese-calendar/concepts/calendar-systems)
 - [💡 Examples](https://sha888.github.io/balinese-calendar/guide/basic-usage)
 
-## 🚀 Quick Start
+## Quick Start
 
 ```rust
 use balinese_calendar::BalineseDate;
@@ -44,100 +44,48 @@ for r in &today.rahinan {
 }
 ```
 
-```rust
-use balinese_calendar::BalineseDate;
+## Features
 
-let today = BalineseDate::from_ymd(2026, 3, 22).unwrap();
-
-println!("{}", today.to_balinese_string());
-// Redite Pon Dukut, Sasih Kadasa, Saka 1948
-
-println!("Wuku: {} (urip {})", today.wuku.name(), today.wuku.urip());
-println!("Weton: {} {}", today.saptawara.name(), today.pancawara.name());
-println!("Combined urip: {}", today.saptawara.urip() + today.pancawara.urip());
-
-for r in &today.rahinan {
-    println!("Ceremony: {r}");
-}
-```
-
-## ✨ Features
-
-| Feature | Status | Version |
-|---|---|---|
-| 🗓️ Pawukon (30 Wuku × 210-day cycle) | **Stable** | v0.1.1 |
-| 🔄 10 Wewaran cycles (Eka through Dasa) | **Stable** | v0.1.1 |
-| 🌙 Sasih (lunar month) with Nampih detection | **Stable** | v0.1.1 |
-| 📅 Saka year (incl. Nyepi boundary) | **Stable** | v0.1.1 |
-| 🏛️ Rahinan detection (Galungan, Kuningan, Saraswati, etc.) | **Stable** | v0.1.1 |
-| 🔢 Urip computation (Sapta + Panca Wara) | **Stable** | v0.1.1 |
-| 📊 Ingkel, Jejepan, Watek, Lintang | **Stable** | v0.1.1 |
-| 🌟 PancaSuda / Pararasan / Rakam | **Stable** | v0.1.1 |
-| ⏰ Ngunaratri (intercalary tithi) | **Stable** | v0.1.1 |
-| 🌅 DayBoundary (sunrise-aware date) | **Stable** | v0.1.1 |
-| ✅ 2026 validation corpus (365 days) | **Done** | v0.1.2 |
-| 📦 `serde` feature flag | Planned | v0.1.3 |
-| 🌐 WASM / `wasm-bindgen` | Planned | v0.1.3 |
-| ☀️ Astronomical sunrise | Planned | v0.1.3 |
-| 🎭 Wariga BELOG (personal day quality) | Planned | v0.2.0 |
-| 🎯 Gebogan Urip Tri-Pramana | Planned | v0.2.0 |
-| 💑 Pawiwahan (marriage compatibility) | Planned | v0.2.0 |
-| ⏳ Dauh Sukaranti (time-slot quality) | Planned | v0.2.0 |
-| 🎂 Otonan calculator | Planned | v0.2.0 |
-| 🌟 Dewasa Ayu (auspicious day scoring) | Research | v0.3.0 |
-
-## 📚 Table of Contents
-
-- [📚 Documentation](#-documentation)
-- [🚀 Quick Start](#-quick-start)
-- [✨ Features](#-features)
-- [📊 Data Sources](#-data-sources)
-- [🔍 Validation Results](#-validation-results)
-- [🎯 Dewasa Ayu Research](#-dewasa-ayu-research)
-- [📝 Naming Conventions](#-naming-conventions)
-- [📦 Installation](#-installation)
-- [🔧 API Overview](#-api-overview)
-- [📅 Supported Date Range](#-supported-date-range)
-- [🏗️ Architecture](#-architecture)
-- [📄 License](#-license)
-- [🙏 Acknowledgements](#-acknowledgements)
+- **Pawukon (30 Wuku × 210-day cycle)**
+- **10 Wewaran cycles** (Eka through Dasa)
+- **Sasih (lunar month)** with Nampih detection
+- **Saka year** (incl. Nyepi boundary)
+- **Rahinan detection** (Galungan, Kuningan, Saraswati, etc.)
+- **Urip computation** (Sapta + Panca Wara)
+- **Ingkel, Jejepan, Watek, Lintang**
+- **PancaSuda / Pararasan / Rakam**
+- **Ngunaratri** (intercalary tithi)
+- **DayBoundary** (sunrise-aware date)
 
 ---
 
-## 📊 Data Sources
+## Data Sources
 
-> 📖 **This crate's accuracy is grounded in physical Balinese calendar sources, not inference from other software.**
+This crate's accuracy is grounded in physical Balinese calendar sources, not inference from other software.
 
-**Primary Source:**
-**I Made Bidja Alm.** / I Md Agus Putra Wijaya, *Kalender Bali 2026*,
-published by IBI Cabang Kab. Badung. Compiled from 50+ lontar Wariga
-manuscripts and 13 Kawi/Sanskrit/Balinese dictionaries.
+**Primary Source:** I Made Bidja Alm. / I Md Agus Putra Wijaya, *Kalender Bali 2026*, published by IBI Cabang Kab. Badung. Compiled from 50+ lontar Wariga manuscripts and 13 Kawi/Sanskrit/Balinese dictionaries.
 
 **Cross-validated against:**
-- 🌐 [kalenderbali.org](https://www.kalenderbali.org) (I Ketut Suwintana, Universitas Udayana)
-- 📚 [basabali.org](https://dictionary.basabali.org) (BASAbali Wiki)
-- 🏛️ [BPNB Bali](https://kebudayaan.kemdikbud.go.id/bpnbbali) (Balai Pelestarian Nilai Budaya)
-- 💻 [edysantosa/sakacalendar](https://github.com/edysantosa/sakacalendar) (Java, LGPL-2.1)
-- 🔧 [peradnya/balinese-date-java-lib](https://github.com/peradnya/balinese-date-java-lib) (Java, Apache-2.0)
+- [kalenderbali.org](https://www.kalenderbali.org) (I Ketut Suwintana, Universitas Udayana)
+- [basabali.org](https://dictionary.basabali.org) (BASAbali Wiki)
+- [BPNB Bali](https://kebudayaan.kemdikbud.go.id/bpnbbali) (Balai Pelestarian Nilai Budaya)
+- [edysantosa/sakacalendar](https://github.com/edysantosa/sakacalendar) (Java, LGPL-2.1)
+- [peradnya/balinese-date-java-lib](https://github.com/peradnya/balinese-date-java-lib) (Java, Apache-2.0)
 
-### 🔍 Validation Results (v0.1.2)
-
-- ✅ **365/365** day-of-week matches against kalenderbali.org
-- ✅ **30/30** Wuku names verified
-- ✅ **12/12** Sasih transitions verified
-- ✅ **210/210** Gebogan Urip Tri-Pramana entries extracted
-- ✅ **Zero mismatches** in Pawukon cycle integrity (tested across 1969–2027)
+**Validation Results (v0.1.2)**
+- 365/365 day-of-week matches against kalenderbali.org
+- 30/30 Wuku names verified
+- 12/12 Sasih transitions verified
+- 210/210 Gebogan Urip Tri-Pramana entries extracted
+- Zero mismatches in Pawukon cycle integrity (tested across 1969–2027)
 
 ---
 
-## 🎯 Dewasa Ayu Research
+## Dewasa Ayu Research
 
-Determining "good days" (*dewasa ayu*) is the primary reason people consult a
-Balinese calendar. Our approach is evidence-based:
+Determining "good days" (*dewasa ayu*) is the primary reason people consult a Balinese calendar. Our approach is evidence-based.
 
-**Candana et al. (2021)** compared three fuzzy inference methods for Dewasa
-Pawiwahan (wedding day selection) against a Wariga expert's 16-date ground
-truth over 731 days (2020–2021):
+**Candana et al. (2021)** compared three fuzzy inference methods for Dewasa Pawiwahan (wedding day selection) against a Wariga expert's 16-date ground truth over 731 days (2020–2021):
 
 | Method | Precision | Recall | F-1 Score |
 |---|---|---|---|
@@ -145,21 +93,16 @@ truth over 731 days (2020–2021):
 | Mamdani | 4.76% | 6.25% | 5.41% |
 | **Sugeno** | **92.31%** | **75.00%** | **82.76%** |
 
-Sugeno correctly identified 12 of 16 expert-chosen days with only 1 false
-positive. This crate will implement Sugeno inference for v0.3.0.
+Sugeno correctly identified 12 of 16 expert-chosen days with only 1 false positive. This crate will implement Sugeno inference for v0.3.0.
 
 The core Wariga rule governing variable priority (*Alahaning Dewasa*):
 ```
 Wewaran < Wuku < Penanggal < Sasih < Dauh
 ```
 
-Key finding from our cross-reference of the 16 expert dates: the expert
-exclusively selects Buddha (Wednesday) and Sukra (Friday) for score-80 days,
-never Redite (Sunday) or Saniscara (Saturday) — despite Saniscara having the
-highest sapta urip (9). Day quality is tradition-assigned, not urip-derived.
+Key finding: the expert exclusively selects Buddha (Wednesday) and Sukra (Friday) for score-80 days, never Redite (Sunday) or Saniscara (Saturday) — despite Saniscara having the highest sapta urip (9). Day quality is tradition-assigned, not urip-derived.
 
-See `references/EXTRACTED_ALGORITHMS.md` for the complete 77-date validation
-dataset and `references/BIBLIOGRAPHY.md` for 99 scientific references.
+See `references/EXTRACTED_ALGORITHMS.md` for the complete 77-date validation dataset and `references/BIBLIOGRAPHY.md` for 99 scientific references.
 
 ## Naming Conventions
 
@@ -175,7 +118,7 @@ sources disagree on names, this crate documents both:
 Default names follow I.B. Putra Manik Aryana (*Dasar Wariga*). The Bidja
 variants are available via `PancaSuda::name_sundari_bungkah()`.
 
-## 📦 Installation
+## Installation
 
 Add to `Cargo.toml`:
 ```toml
@@ -183,9 +126,8 @@ Add to `Cargo.toml`:
 balinese-calendar = "0.1"
 ```
 
-### 🌟 Optional Features
+**Optional Features:**
 ```toml
-[dependencies]
 balinese-calendar = { version = "0.1", features = ["serde"] }
 ```
 
@@ -193,7 +135,7 @@ Available features:
 - `serde` - Enable serialization/deserialization support
 - `astronomical` - Enable astronomical sunrise calculations
 
-## 🔧 API Overview
+## API Overview
 
 ```rust
 use balinese_calendar::{BalineseDate, Rahinan, Sasih, Wuku};
@@ -201,66 +143,56 @@ use balinese_calendar::{BalineseDate, Rahinan, Sasih, Wuku};
 // From Gregorian date
 let d = BalineseDate::from_ymd(2026, 6, 17)?;
 
-// 🗓️ Pawukon
+// Pawukon
 assert_eq!(d.wuku, Wuku::Dungulan);
 assert_eq!(d.saptawara, Saptawara::Buda);
 assert_eq!(d.pancawara, Pancawara::Kliwon);
 
-// 🌙 Sasih
+// Sasih
 assert_eq!(d.sasih, Sasih::Kasa);
 assert_eq!(d.saka_year, 1948);
 
-// 🏛️ Rahinan (ceremony detection)
+// Rahinan (ceremony detection)
 assert!(d.rahinan.iter().any(|r| matches!(r, Rahinan::Galungan)));
 
-// 🔢 Urip
+// Urip
 assert_eq!(d.saptawara.urip() + d.pancawara.urip(), 15);
 
-// 🔄 210-day cycle
+// 210-day cycle
 let d2 = BalineseDate::from_jdn(d.jdn + 210);
 assert_eq!(d.wuku, d2.wuku);
 assert_eq!(d.pancawara, d2.pancawara);
 ```
 
-## 📅 Supported Date Range
+## Supported Date Range
 
-> 📅 **1900–2100** (validated 1969–2027, extrapolated outside this range)
->
-> Historical dates before 1900 are planned for v1.0.0.
+1900–2100 (validated 1969–2027, extrapolated outside this range). Historical dates before 1900 are planned for v1.0.0.
 
----
+## Architecture
 
-## 🏗️ Architecture
-
-> ⚡ **All computation is deterministic and `O(1)` per date** — no database lookups, no network calls, no floating-point for core calendar operations.
+All computation is deterministic and `O(1)` per date — no database lookups, no network calls, no floating-point for core calendar operations.
 
 The Sasih walk-forward algorithm starts from peradnya-calibrated pivot points and walks to the target JDN, handling Nampih Sasih (intercalary months) and Ngunaratri (intercalary tithis) along the way.
 
 The Dewasa Ayu engine (v0.3.0) is the only component requiring `f64` and will be feature-gated behind `dewasa-ayu`.
 
----
+## License
 
-## 📄 License
+[MIT](LICENSE-MIT) OR [Apache-2.0](LICENSE-APACHE)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-OR
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+## Acknowledgements
 
----
-
-## 🙏 Acknowledgements
-
-- **📚 I Made Bidja Alm.** — compiler of the 2026 reference calendar
-- **🎓 I Ketut Suwintana** (Universitas Udayana) — kalenderbali.org/kalenderbali.info
-- **🔧 I Gusti Agung Mahendra Putra** (peradnya) — balinese-date-java-lib
-- **💻 Edy Santosa Putra** — sakacalendar Java library
-- **📊 E.W. Hary Candana, I.G.A. Gunadi, D.G.H. Divayana** (Undiksha) — Sugeno comparison study
-- **🔍 N. Karjanto & F. Beauducel** — ethnoarithmetic Zeller's congruence
+- **I Made Bidja Alm.** — compiler of the 2026 reference calendar
+- **I Ketut Suwintana** (Universitas Udayana) — kalenderbali.org/kalenderbali.info
+- **I Gusti Agung Mahendra Putra** (peradnya) — balinese-date-java-lib
+- **Edy Santosa Putra** — sakacalendar Java library
+- **E.W. Hary Candana, I.G.A. Gunadi, D.G.H. Divayana** (Undiksha) — Sugeno comparison study
+- **N. Karjanto & F. Beauducel** — ethnoarithmetic Zeller's congruence
 
 ---
 
 <div align="center">
 
-**⭐ If you find this crate useful, please consider giving it a star on [GitHub](https://github.com/SHA888/balinese-calendar)!**
+**If you find this crate useful, please consider giving it a star on [GitHub](https://github.com/SHA888/balinese-calendar)!**
 
 </div>
