@@ -47,14 +47,40 @@ jobs:
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Release version: $VERSION"
-      - name: Wait for CI to complete
+      - name: Verify CI passed for tag
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-        uses: lewagon/wait-on-check-action@v1.3.1
-        with:
-          ref: ${{ github.ref }}
-          check-name: 'CI'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
+        run: |
+          # Get the commit SHA that the tag points to
+          COMMIT_SHA=$(git rev-parse HEAD)
+          echo "Tag points to commit: $COMMIT_SHA"
+
+          # Wait for CI to complete and check status
+          echo "Waiting for CI to complete on commit $COMMIT_SHA..."
+          for i in {1..30}; do
+            # Get the latest CI run for this commit
+            CI_STATUS=$(gh run list --commit $COMMIT_SHA --workflow=CI --limit=1 --json status,conclusion | jq -r '.[0].status')
+            CI_CONCLUSION=$(gh run list --commit $COMMIT_SHA --workflow=CI --limit=1 --json status,conclusion | jq -r '.[0].conclusion')
+
+            echo "Attempt $i: CI status=$CI_STATUS, conclusion=$CI_CONCLUSION"
+
+            if [[ "$CI_STATUS" == "completed" ]]; then
+              if [[ "$CI_CONCLUSION" == "success" ]]; then
+                echo "✅ CI passed!"
+                exit 0
+              else
+                echo "❌ CI failed with conclusion: $CI_CONCLUSION"
+                exit 1
+              fi
+            fi
+
+            echo "CI still running, waiting 10 seconds..."
+            sleep 10
+          done
+
+          echo "❌ Timeout waiting for CI to complete"
+          exit 1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Verify CI passed for manual dispatch
         if: github.event_name == 'workflow_dispatch'
         run: |
