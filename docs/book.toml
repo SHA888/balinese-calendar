@@ -3,7 +3,6 @@ title = "Balinese Calendar Documentation"
 authors = ["Kresna Sucandra"]
 description = "Complete documentation for the Balinese Calendar Rust crate"
 language = "en"
-multilingual = false
 src = "src"
 
 [build]
@@ -14,7 +13,6 @@ create-missing = true
 default-theme = "light"
 preferred-dark-theme = "navy"
 git-repository-url = "https://github.com/SHA888/balinese-calendar"
-git-repository-icon = "fa-github"
 edit-url-template = "https://github.com/SHA888/balinese-calendar/edit/main/docs/{path}"
 site-url = "/balinese-calendar/"
 
