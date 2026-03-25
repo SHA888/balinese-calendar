@@ -21,6 +21,10 @@ on:
         default: true
         type: boolean
 
+permissions:
+  contents: write
+  packages: write
+
 env:
   CARGO_TERM_COLOR: always
 
@@ -102,8 +106,6 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     if: (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) || (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true')
-    outputs:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -131,27 +133,41 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        run: |
+          VERSION="${{ needs.check-ci.outputs.version }}"
+          TAG_NAME="v$VERSION"
+
+          # Determine if prerelease
+          PRERELEASE=""
+          if [[ "$VERSION" == *"alpha"* ]] || [[ "$VERSION" == *"beta"* ]] || [[ "$VERSION" == *"rc"* ]]; then
+            PRERELEASE="--prerelease"
+          fi
+
+          # Create release body
+          cat > /tmp/release_body.md << 'EOF'
+          ## Changes in ${{ needs.check-ci.outputs.version }}
+
+          ${{ steps.changelog.outputs.CHANGELOG }}
+
+          ## Installation
+
+          Add this to your `Cargo.toml`:
+
+          ```toml
+          [dependencies]
+          balinese-calendar = "${{ needs.check-ci.outputs.version }}"
+          ```
+          EOF
+
+          # Create release using gh CLI
+          gh release create "$TAG_NAME" \
+            --title "Release $VERSION" \
+            --notes-file /tmp/release_body.md \
+            $PRERELEASE
+
+          echo "Release created: $TAG_NAME"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ needs.check-ci.outputs.version }}
-          release_name: Release ${{ needs.check-ci.outputs.version }}
-          body: |
-            ## Changes in ${{ needs.check-ci.outputs.version }}
-
-            ${{ steps.changelog.outputs.CHANGELOG }}
-
-            ## Installation
-
-            Add this to your `Cargo.toml`:
-
-            ```toml
-            [dependencies]
-            balinese-calendar = "${{ needs.check-ci.outputs.version }}"
-            ```
-          draft: false
-          prerelease: ${{ contains(needs.check-ci.outputs.version, 'alpha') || contains(needs.check-ci.outputs.version, 'beta') || contains(needs.check-ci.outputs.version, 'rc') }}
 
   # Publish to crates.io
   publish:
