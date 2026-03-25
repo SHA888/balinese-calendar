@@ -9,3 +9,12 @@ book/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Node.js
+node_modules/
+dist/
+*.wasm
+*.so
+
+# pnpm
+.pnpm-store/

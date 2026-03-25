@@ -1,0 +1,86 @@
+---
+// Sidebar navigation component
+---
+
+<aside class="fixed left-0 top-16 h-full w-64 bg-white border-r border-balinese-light-stone overflow-y-auto hidden lg:block">
+	<div class="p-4">
+		<nav class="space-y-6">
+			<!-- User Guide -->
+			<div>
+				<h3 class="font-display text-sm font-semibold text-balinese-gold uppercase tracking-wider mb-3">User Guide</h3>
+				<ul class="space-y-2">
+					<li><a href="/balinese-calendar/guide/getting-started" class="toc-link">Getting Started</a></li>
+					<li><a href="/balinese-calendar/guide/installation" class="toc-link">Installation</a></li>
+					<li><a href="/balinese-calendar/guide/quick-start" class="toc-link">Quick Start</a></li>
+					<li><a href="/balinese-calendar/guide/basic-usage" class="toc-link">Basic Usage</a></li>
+					<li><a href="/balinese-calendar/guide/advanced-features" class="toc-link">Advanced Features</a></li>
+				</ul>
+			</div>
+
+			<!-- Concepts -->
+			<div>
+				<h3 class="font-display text-sm font-semibold text-balinese-gold uppercase tracking-wider mb-3">Concepts</h3>
+				<ul class="space-y-2">
+					<li><a href="/balinese-calendar/concepts/calendar-systems" class="toc-link">Calendar Systems</a></li>
+					<li><a href="/balinese-calendar/concepts/pawukon" class="toc-link">Pawukon Cycle</a></li>
+					<li><a href="/balinese-calendar/concepts/wewaran" class="toc-link">Wewaran Cycles</a></li>
+					<li><a href="/balinese-calendar/concepts/sasih" class="toc-link">Sasih (Lunar Month)</a></li>
+					<li><a href="/balinese-calendar/concepts/paringkelan" class="toc-link">Paringkelan</a></li>
+					<li><a href="/balinese-calendar/concepts/rahinan" class="toc-link">Rahinan (Holy Days)</a></li>
+				</ul>
+			</div>
+
+			<!-- API Reference -->
+			<div>
+				<h3 class="font-display text-sm font-semibold text-balinese-gold uppercase tracking-wider mb-3">API Reference</h3>
+				<ul class="space-y-2">
+					<li><a href="/balinese-calendar/api/balinese-date" class="toc-link">BalineseDate</a></li>
+					<li><a href="/balinese-calendar/api/wewaran" class="toc-link">Wewaran Types</a></li>
+					<li><a href="/balinese-calendar/api/pawukon" class="toc-link">Pawukon Types</a></li>
+					<li><a href="/balinese-calendar/api/paringkelan" class="toc-link">Paringkelan Types</a></li>
+					<li><a href="/balinese-calendar/api/sasih" class="toc-link">Sasih Types</a></li>
+					<li><a href="/balinese-calendar/api/errors" class="toc-link">Error Handling</a></li>
+				</ul>
+			</div>
+
+			<!-- Development -->
+			<div>
+				<h3 class="font-display text-sm font-semibold text-balinese-gold uppercase tracking-wider mb-3">Development</h3>
+				<ul class="space-y-2">
+					<li><a href="/balinese-calendar/development/contributing" class="toc-link">Contributing</a></li>
+					<li><a href="/balinese-calendar/development/setup" class="toc-link">Development Setup</a></li>
+					<li><a href="/balinese-calendar/development/testing" class="toc-link">Testing</a></li>
+					<li><a href="/balinese-calendar/development/code-style" class="toc-link">Code Style</a></li>
+					<li><a href="/balinese-calendar/development/release" class="toc-link">Release Process</a></li>
+				</ul>
+			</div>
+
+			<!-- Reference -->
+			<div>
+				<h3 class="font-display text-sm font-semibold text-balinese-gold uppercase tracking-wider mb-3">Reference</h3>
+				<ul class="space-y-2">
+					<li><a href="/balinese-calendar/reference/bibliography" class="toc-link">Bibliography</a></li>
+					<li><a href="/balinese-calendar/reference/glossary" class="toc-link">Glossary</a></li>
+					<li><a href="/balinese-calendar/reference/faq" class="toc-link">FAQ</a></li>
+					<li><a href="/balinese-calendar/reference/changelog" class="toc-link">Changelog</a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+</aside>
+
+<!-- Temple gate divider -->
+<div class="temple-gate-divider"></div>
+
+<script>
+	// Highlight current page in sidebar
+	const currentPath = window.location.pathname;
+	const links = document.querySelectorAll('.toc-link');
+
+	links.forEach(link => {
+		if (link.getAttribute('href') === currentPath ||
+			(currentPath.startsWith(link.getAttribute('href')) && link.getAttribute('href') !== '/balinese-calendar/')) {
+			link.classList.add('active');
+		}
+	});
+</script>

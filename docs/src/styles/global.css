@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,WONK@0,9..144,100..900,0..1;1,9..144,100..900,0..1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom CSS for Balinese theme */
+@layer base {
+  :root {
+    --balinese-gold: #D4AF37;
+    --balinese-red: #8B0000;
+    --balinese-turquoise: #40E0D0;
+    --balinese-dark-wood: #2C1810;
+    --balinese-light-stone: #F5F1E8;
+    --balinese-warm-white: #FEFDFB;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-body text-text-primary bg-balinese-warm-white;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+  }
+
+  /* Display typography with Fraunces */
+  h1, h2, .hero-title, .section-title, blockquote {
+    @apply font-display;
+    font-variation-settings: 'WONK' 1, 'opsz' 144;
+  }
+
+  /* Code typography */
+  code, pre, .terminal, .version-string {
+    @apply font-mono;
+  }
+}
+
+@layer components {
+  /* Balinese pattern backgrounds */
+  .balinese-pattern {
+    background-image: theme('backgroundImage.balinese-pattern');
+    background-size: 100px 100px;
+  }
+
+  .temple-gate-divider {
+    background-image: theme('backgroundImage.temple-gate');
+    background-size: 120px 60px;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 60px;
+    margin: 2rem 0;
+  }
+
+  /* Gold accent animations */
+  .gold-accent {
+    @apply text-balinese-gold;
+    background: linear-gradient(90deg, #D4AF37, #F4E4C1, #D4AF37);
+    background-size: 200% 100%;
+    animation: goldShimmer 3s ease-in-out infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-balinese-light-stone;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-balinese-gold rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-balinese-red;
+  }
+
+  /* Navigation styles */
+  .nav-link {
+    @apply relative text-text-primary hover:text-balinese-gold transition-colors duration-200;
+  }
+
+  .nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-balinese-gold transition-all duration-300;
+  }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  /* Code blocks */
+  .code-block {
+    @apply relative rounded-lg overflow-hidden border border-balinese-light-stone;
+  }
+
+  .code-block pre {
+    @apply bg-balinese-dark-wood text-balinese-warm-white p-4 overflow-x-auto;
+  }
+
+  .copy-button {
+    @apply absolute top-2 right-2 bg-balinese-gold text-balinese-dark-wood px-2 py-1 rounded text-xs hover:bg-balinese-turquoise transition-colors duration-200;
+  }
+
+  /* Callouts */
+  .callout {
+    @apply border-l-4 p-4 my-6 rounded-r-lg;
+  }
+
+  .callout-info {
+    @apply bg-blue-50 border-blue-400;
+  }
+
+  .callout-tip {
+    @apply bg-green-50 border-green-400;
+  }
+
+  .callout-warning {
+    @apply bg-yellow-50 border-yellow-400;
+  }
+
+  .callout-danger {
+    @apply bg-red-50 border-red-400;
+  }
+
+  /* Interactive components */
+  .interactive-card {
+    @apply bg-white rounded-lg shadow-lg p-6 border border-balinese-light-stone hover:shadow-xl transition-all duration-300 hover:border-balinese-gold;
+  }
+
+  /* Table of contents */
+  .toc-link {
+    @apply block py-1 text-text-secondary hover:text-balinese-gold transition-colors duration-200;
+  }
+
+  .toc-link.active {
+    @apply text-balinese-gold font-semibold;
+  }
+}
+
+@layer utilities {
+  .text-shadow-balinese {
+    text-shadow: 2px 2px 4px rgba(212, 175, 55, 0.3);
+  }
+
+  .balinese-gradient {
+    background: linear-gradient(135deg, var(--balinese-gold), var(--balinese-turquoise));
+  }
+
+  .temple-shadow {
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.1),
+      0 1px 8px rgba(212, 175, 55, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --balinese-warm-white: #1A1A1A;
+    --balinese-light-stone: #2A2A2A;
+    --text-primary: #F5F1E8;
+    --text-secondary: #A0A0A0;
+  }
+
+  .callout-info {
+    @apply bg-blue-900/30 border-blue-600;
+  }
+
+  .callout-tip {
+    @apply bg-green-900/30 border-green-600;
+  }
+
+  .callout-warning {
+    @apply bg-yellow-900/30 border-yellow-600;
+  }
+
+  .callout-danger {
+    @apply bg-red-900/30 border-red-600;
+  }
+}

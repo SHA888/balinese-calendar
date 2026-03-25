@@ -1,0 +1,42 @@
+---
+import SearchBar from './SearchBar.astro';
+import ThemeToggle from './ThemeToggle.astro';
+---
+
+<nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-balinese-light-stone shadow-sm">
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="flex justify-between items-center h-16">
+			<!-- Logo -->
+			<div class="flex items-center">
+				<a href="/balinese-calendar/" class="flex items-center space-x-3 nav-link">
+					<div class="w-8 h-8 balinese-gradient rounded-lg flex items-center justify-center">
+						<span class="text-white font-bold text-lg">📅</span>
+					</div>
+					<span class="font-display text-xl gold-accent">Balinese Calendar</span>
+				</a>
+			</div>
+
+			<!-- Desktop Navigation -->
+			<div class="hidden md:flex items-center space-x-8">
+				<a href="/balinese-calendar/guide/getting-started" class="nav-link">Guide</a>
+				<a href="/balinese-calendar/concepts/calendar-systems" class="nav-link">Concepts</a>
+				<a href="/balinese-calendar/api/balinese-date" class="nav-link">API</a>
+				<a href="/balinese-calendar/development/contributing" class="nav-link">Development</a>
+				<a href="https://github.com/SHA888/balinese-calendar" target="_blank" class="nav-link">GitHub</a>
+			</div>
+
+			<!-- Right side items -->
+			<div class="flex items-center space-x-4">
+				<SearchBar />
+				<ThemeToggle />
+
+				<!-- Mobile menu button -->
+				<button class="md:hidden p-2 rounded-lg hover:bg-balinese-light-stone transition-colors">
+					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+					</svg>
+				</button>
+			</div>
+		</div>
+	</div>
+</nav>

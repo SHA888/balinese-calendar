@@ -1,0 +1,22 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description }: Props = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+	<div class="min-h-screen">
+		<Navigation />
+
+		<!-- Landing Content -->
+		<main class="flex-1">
+			<slot />
+		</main>
+	</div>
+</BaseLayout>

@@ -1,0 +1,40 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import Sidebar from '../components/Sidebar.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import EditOnGitHub from '../components/EditOnGitHub.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	editUrl?: string;
+}
+
+const { title, description, editUrl }: Props = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+	<div class="min-h-screen">
+		<Navigation />
+
+		<div class="flex">
+			<!-- Sidebar -->
+			<Sidebar />
+
+			<!-- Main Content -->
+			<main class="flex-1 lg:ml-64 xl:ml-72">
+				<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+					<!-- Breadcrumbs -->
+					<Breadcrumbs />
+
+					<!-- Edit on GitHub -->
+					{editUrl && <EditOnGitHub url={editUrl} />}
+
+					<!-- Content -->
+					<slot />
+				</div>
+			</main>
+		</div>
+	</div>
+</BaseLayout>
