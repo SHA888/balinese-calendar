@@ -143,4 +143,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
-          cname: docs.balinese-calendar.dev  # Optional: remove if no custom domain
