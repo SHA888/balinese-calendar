@@ -4,10 +4,22 @@ on:
   push:
     tags:
       - 'v*.*.*'
-  workflow_run:
-    workflows: ["CI"]
-    types: [completed]
-    branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., 0.1.3)'
+        required: true
+        type: string
+      create_release:
+        description: 'Create GitHub release'
+        required: false
+        default: true
+        type: boolean
+      publish_crates:
+        description: 'Publish to crates.io'
+        required: false
+        default: true
+        type: boolean
 
 env:
   CARGO_TERM_COLOR: always
@@ -17,21 +29,53 @@ jobs:
   check-ci:
     name: Check CI Status
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    if: (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) || github.event_name == 'workflow_dispatch'
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Determine version
+        id: version
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+          else
+            VERSION="${{ github.event.inputs.version }}"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Release version: $VERSION"
       - name: Wait for CI to complete
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
         uses: lewagon/wait-on-check-action@v1.3.1
         with:
           ref: ${{ github.ref }}
           check-name: 'CI Success'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 10
+      - name: Verify CI passed for manual dispatch
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          # Check if the latest CI run on main passed
+          echo "Checking CI status for manual dispatch..."
+          gh run list --workflow=CI --branch=main --limit=1 --json conclusion | jq -r '.[0].conclusion' > /tmp/conclusion
+          CONCLUSION=$(cat /tmp/conclusion)
+          echo "CI conclusion: $CONCLUSION"
+          if [[ "$CONCLUSION" != "success" ]]; then
+            echo "CI must pass before releasing"
+            exit 1
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # Create GitHub release
   create-release:
     needs: [check-ci]
     name: Create Release
     runs-on: ubuntu-latest
+    if: (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) || (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true')
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
@@ -41,12 +85,21 @@ jobs:
       - name: Generate changelog
         id: changelog
         run: |
-          # Extract version from tag
-          VERSION=${GITHUB_REF#refs/tags/}
+          VERSION="${{ needs.check-ci.outputs.version }}"
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
           # Generate changelog from git log
-          CHANGELOG=$(git log --pretty=format:"- %s" $(git describe --tags --abbrev=0 HEAD^)..HEAD 2>/dev/null || git log --pretty=format:"- %s" --max-count=20)
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            CHANGELOG=$(git log --pretty=format:"- %s" $(git describe --tags --abbrev=0 HEAD^)..HEAD 2>/dev/null || git log --pretty=format:"- %s" --max-count=20)
+          else
+            # For manual dispatch, get changes since last tag
+            LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+            if [[ -n "$LAST_TAG" ]]; then
+              CHANGELOG=$(git log --pretty=format:"- %s" $LAST_TAG..HEAD)
+            else
+              CHANGELOG=$(git log --pretty=format:"- %s" --max-count=20)
+            fi
+          fi
           echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGELOG" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
@@ -56,10 +109,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ steps.changelog.outputs.VERSION }}
+          tag_name: v${{ needs.check-ci.outputs.version }}
+          release_name: Release ${{ needs.check-ci.outputs.version }}
           body: |
-            ## Changes in ${{ steps.changelog.outputs.VERSION }}
+            ## Changes in ${{ needs.check-ci.outputs.version }}
 
             ${{ steps.changelog.outputs.CHANGELOG }}
 
@@ -69,16 +122,17 @@ jobs:
 
             ```toml
             [dependencies]
-            balinese-calendar = "${{ steps.changelog.outputs.VERSION }}"
+            balinese-calendar = "${{ needs.check-ci.outputs.version }}"
             ```
           draft: false
-          prerelease: ${{ contains(github.ref, 'alpha') || contains(github.ref, 'beta') || contains(github.ref, 'rc') }}
+          prerelease: ${{ contains(needs.check-ci.outputs.version, 'alpha') || contains(needs.check-ci.outputs.version, 'beta') || contains(needs.check-ci.outputs.version, 'rc') }}
 
   # Publish to crates.io
   publish:
     name: Publish to crates.io
     runs-on: ubuntu-latest
     needs: create-release
+    if: (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) || (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_crates == 'true')
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -130,6 +184,7 @@ jobs:
     name: Update Documentation
     runs-on: ubuntu-latest
     needs: publish
+    if: (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) || (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_crates == 'true')
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
