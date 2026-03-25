@@ -98,8 +98,14 @@ jobs:
 
       - name: Move book content to root
         run: |
-          mv public/book/* public/
-          rmdir public/book
+          ls -la public/
+          if [ -d "public/book" ]; then
+            mv public/book/* public/
+            rmdir public/book
+          else
+            echo "Book directory not found, checking structure..."
+            find public -name "*.html" | head -5
+          fi
 
       - name: Create index redirect
         run: |
