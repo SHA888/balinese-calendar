@@ -105,9 +105,14 @@ fn test_nyepi_2026_saptawara() {
 
 #[test]
 fn test_today_pancaroba() {
+    // Updated to match academically validated pancaroba (Kalima & Kanem only)
+    // March 6, 2026 = Kasanga (late wet season) - NOT pancaroba
     let d = date(2026, 3, 6);
     assert_eq!(d.sasih, Sasih::Kasanga);
-    assert!(d.sasih.is_pancaroba(), "Kasanga should be pancaroba");
+    assert!(
+        !d.sasih.is_pancaroba(),
+        "Kasanga should NOT be pancaroba (only Kalima & Kanem are pancaroba)"
+    );
 }
 
 #[test]
@@ -229,13 +234,16 @@ fn test_pancawara_5_day_cycle() {
 
 #[test]
 fn test_flat_record_pancaroba_flag() {
-    let rec = date(2026, 3, 6).to_flat_record();
+    // Updated to match academically validated pancaroba (Kalima & Kanem only)
+    // Test a date in Sasih Kanem (pancaroba period)
+    let d = date(2026, 11, 15); // November 15, 2026 = Sasih Kanem
+    let rec = d.to_flat_record();
     assert!(
         rec.pancaroba_flag,
-        "FlatRecord should have pancaroba_flag=true"
+        "FlatRecord should have pancaroba_flag=true for Sasih Kanem"
     );
-    assert_eq!(rec.sasih_season_tag, "pancaroba_1");
-    assert_eq!(rec.wuku_ecology_tag, "harvest_2");
+    assert_eq!(rec.sasih_season_tag, "pancaroba");
+    assert_eq!(rec.sasih_name, "Kanem");
 }
 
 #[test]

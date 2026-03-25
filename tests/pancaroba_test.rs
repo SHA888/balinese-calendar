@@ -85,9 +85,7 @@ fn test_season_mapping_completeness() {
         assert_eq!(
             sasih.season_tag(),
             expected_season,
-            "Sasih {:?} should have season tag '{}'",
-            sasih,
-            expected_season
+            "Sasih {sasih:?} should have season tag '{expected_season}'"
         );
     }
 }
