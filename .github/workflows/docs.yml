@@ -1,5 +1,10 @@
 name: Documentation
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 on:
   push:
     branches: [main]
@@ -73,6 +78,8 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
       contents: write
+      pages: write
+      id-token: write
     steps:
       - name: Download book artifact
         uses: actions/download-artifact@v8
