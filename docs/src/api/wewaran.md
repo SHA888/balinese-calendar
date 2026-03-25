@@ -1,1 +1,0 @@
-# Wewaran Types
