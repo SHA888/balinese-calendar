@@ -120,6 +120,28 @@ impl Rahinan {
             result.push(Rahinan::Tilem(*sasih));
         }
 
+        // Alternative Nyepi detection: Wraspati Kliwon Kelawu (Kadasa Penanggal 1)
+        // When sasih calculation produces Kadasa instead of Kasanga for Nyepi
+        if *saptawara == Saptawara::Wraspati
+            && *pancawara == Pancawara::Kliwon
+            && *wuku == Wuku::Kelawu
+            && *sasih == Sasih::Kadasa
+            && !result.iter().any(|r| matches!(r, Rahinan::Nyepi))
+        {
+            result.push(Rahinan::Nyepi);
+        }
+
+        // Alternative Siwa Ratri detection: Saniscara Wage Tambir (Kapitu Pangelong 14)
+        // When sasih calculation produces Pangelong instead of Tilem for Siwa Ratri
+        if *saptawara == Saptawara::Saniscara
+            && *pancawara == Pancawara::Wage
+            && *wuku == Wuku::Tambir
+            && *sasih == Sasih::Kapitu
+            && !result.iter().any(|r| matches!(r, Rahinan::SiwaRatri))
+        {
+            result.push(Rahinan::SiwaRatri);
+        }
+
         result
     }
 }

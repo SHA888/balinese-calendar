@@ -71,27 +71,58 @@ impl Sasih {
     }
 
     /// Traditional season association
+    ///
+    /// Based on academic validation from lontar texts, peer-reviewed research, and ritual tradition:
+    /// - Purwaputera et al. (2025), IJMRA Vol. 08 Issue 08 (Udayana/BMKG)
+    /// - Ginaya (2018), IJLLC 4(3), 24-37
+    /// - Lontar Purwaka Bumi, Cuda Mani, Purana Bali Dwipa
+    /// - Nangluk Merana / Caru Sasih Kalima–Kanem ritual tradition
+    ///
+    /// Pancaroba (transitional season, dry→wet) spans Sasih Kalima and Sasih Kanem,
+    /// approximately October–December Gregorian. This is the ONLY academically validated
+    /// pancaroba in the Balinese Saka Calendar.
+    ///
+    /// Season mapping:
+    /// - Dry (kemarau): Jyesta, Sadha, Kasa, Karo, Katiga, Kapat (≈Apr-Oct)
+    /// - Pancaroba (transitional): Kalima, Kanem (≈Oct-Dec)
+    /// - Wet (hujan): Kapitu, Kawulu, Kasanga, Kadasa (≈Dec-Mar)
     pub fn season_tag(&self) -> &'static str {
         match self {
-            Sasih::Kasa => "dry",
-            Sasih::Karo => "dry",
-            Sasih::Katiga => "dry",
-            Sasih::Kapat => "pancaroba_2",
-            Sasih::Kalima => "wet",
-            Sasih::Kanem => "wet",
-            Sasih::Kapitu => "wet",
-            Sasih::Kawolu => "wet",
-            Sasih::Kasanga => "pancaroba_1",
-            Sasih::Kadasa => "pancaroba_1",
-            Sasih::Desta => "dry",
-            Sasih::Sada => "dry",
-            Sasih::NampihDesta => "dry",
-            Sasih::NampihSada => "dry",
+            Sasih::Kasa => "dry",         // Peak dry season (June–Aug)
+            Sasih::Karo => "dry",         // Peak dry season
+            Sasih::Katiga => "dry",       // Dry season
+            Sasih::Kapat => "dry",        // Late dry, "blabur" possible
+            Sasih::Kalima => "pancaroba", // Early transition, onset of rain
+            Sasih::Kanem => "pancaroba",  // Full transition, Nangluk Merana period
+            Sasih::Kapitu => "wet",       // Peak wet season (Dec–Feb)
+            Sasih::Kawolu => "wet",       // Peak wet season
+            Sasih::Kasanga => "wet",      // Late wet season
+            Sasih::Kadasa => "wet",       // Waning wet, pre-Nyepi
+            Sasih::Desta => "dry",        // Early dry season (Jyesta)
+            Sasih::Sada => "dry",         // Dry season
+            Sasih::NampihDesta => "dry",  // Intercalary month follows dry season
+            Sasih::NampihSada => "dry",   // Intercalary month follows dry season
         }
     }
 
+    /// Returns true if this sasih falls in the traditional pancaroba period.
+    ///
+    /// The pancaroba (transitional season, dry→wet) spans Sasih Kalima and
+    /// Sasih Kanem, approximately October–December Gregorian. This is the
+    /// only academically and ritually validated pancaroba in the Balinese
+    /// Saka Calendar.
+    ///
+    /// Sources:
+    /// - Lontar Purwaka Bumi, Lontar Cuda Mani, Purana Bali Dwipa
+    /// - Nangluk Merana / Caru Sasih Kalima–Kanem ceremony tradition
+    /// - Purwaputera et al. (2025), IJMRA Vol. 08 Issue 08
+    /// - Ginaya (2018), IJLLC 4(3), 24-37
+    /// - I Wayan Tusan (1974), Ala Ayuning Sasih / Wariga tradition
+    ///
+    /// Note: There is NO traditional second pancaroba for wet→dry transition.
+    /// BMKG meteorological classification (April pancaroba) ≠ Balinese tradition.
     pub fn is_pancaroba(&self) -> bool {
-        matches!(self, Sasih::Kasanga | Sasih::Kadasa | Sasih::Kapat)
+        matches!(self, Sasih::Kalima | Sasih::Kanem)
     }
 
     pub fn is_planting_signal(&self) -> bool {

@@ -5,6 +5,7 @@
 //
 // Source: babadbali.com (Yayasan Bali Galang) paringkelan algorithm.
 
+use crate::pawukon::Wuku;
 use crate::wewaran::{Pancawara, Saptawara, pawukon_day};
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -69,32 +70,30 @@ pub enum Ingkel {
     Manuk = 3,
     Taru = 4,
     Buku = 5,
-    Uled = 6,
 }
 
 impl Ingkel {
     pub fn from_jdn(jdn: i64) -> Self {
-        match (pawukon_day(jdn) / 7) % 7 {
-            0 => Ingkel::Wong,
-            1 => Ingkel::Sato,
-            2 => Ingkel::Mina,
-            3 => Ingkel::Manuk,
-            4 => Ingkel::Taru,
-            5 => Ingkel::Buku,
-            _ => Ingkel::Uled,
-        }
+        let wuku = Wuku::from_jdn(jdn);
+        Self::from_wuku(wuku)
     }
 
     /// Optimized constructor that accepts precomputed pawukon_day
     pub fn from_pawukon_day(pawukon_day: u16) -> Self {
-        match (pawukon_day / 7) % 7 {
+        let wuku_index = (pawukon_day / 7) as usize;
+        let wuku = Wuku::from_index(wuku_index);
+        Self::from_wuku(wuku)
+    }
+
+    /// Constructor from Wuku - Ingkel is wuku_index % 6
+    pub fn from_wuku(wuku: Wuku) -> Self {
+        match (wuku as u8) % 6 {
             0 => Ingkel::Wong,
             1 => Ingkel::Sato,
             2 => Ingkel::Mina,
             3 => Ingkel::Manuk,
             4 => Ingkel::Taru,
-            5 => Ingkel::Buku,
-            _ => Ingkel::Uled,
+            _ => Ingkel::Buku,
         }
     }
     pub fn name(&self) -> &'static str {
@@ -105,7 +104,6 @@ impl Ingkel {
             Ingkel::Manuk => "Manuk",
             Ingkel::Taru => "Taru",
             Ingkel::Buku => "Buku",
-            Ingkel::Uled => "Uled",
         }
     }
 }

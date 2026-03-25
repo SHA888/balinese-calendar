@@ -301,6 +301,40 @@ Full bibliography extracted from supplement page (Dec_B):
 
 ---
 
+## Pancaroba and Seasonal Classification
+
+- Purwaputera, I. M. A., et al. (2025). "Analysis of Rainfall Data Compatibility from 1991 to 2020 with the Balinese Sasih Calendar in Bali Province." *International Journal of Multidisciplinary Research and Analysis (IJMRA)*, 8(8). Udayana University / BMKG Bali.
+  - Key finding: "Sasih Kanem and Sasih Kapitu represent the peak of the rainy season in Bali, while Sasih Kasa and Sasih Karo correspond to the peak of the dry season."
+  - 62% accuracy for Sasih-based rainfall frequency prediction vs. BMKG 1991–2020 data.
+  - URL: https://ijmra.in/v8i8/20.php
+
+- Ginaya, G. (2018). "The Balinese Calendar System: From Its Epistemological Perspective to Axiological Practices." *International Journal of Linguistics, Literature and Culture (IJLLC)*, 4(3), 24–37.
+  - URL: https://sloap.org/journals/index.php/ijllc/article/view/173
+  - URL: https://sloap.org/journals/index.php/ijllc/article/download/173/715/812
+
+- Sudarma, I W. "Ala-Ayuning Sasih." Dharmavada.
+  - References I Wayan Tusan (1974) and Wariga Dewasa text for seasonal classification.
+  - URL: https://dharmavada.wordpress.com/2011/12/15/ala-ayuning-sasih/
+
+- "Pangunyan Sasih, Ramalan Cuaca Bulanan Menurut Hindu Bali." Kalenderbali.org (Alitmd).
+  - Traditional sasih-based weather prediction system.
+  - URL: http://kb.alitmd.com/pangunyan-sasih-ramalan-cuaca-bulanan-menurut-hindu-bali/
+
+- "Nangluk Merana." BASAbali Wiki / Dictionary.
+  - Documentation of Nangluk Merana ceremony and its timing in Sasih Kanem.
+  - URL: https://dictionary.basabali.org/VisualArt_Nangluk_Merana
+
+### Lontar Sources (Traditional Texts Referenced)
+
+- Lontar Purwaka Bumi — pancaroba and Nangluk Merana origin
+- Lontar Cuda Mani — sasih transition balance/neutralization teachings
+- Purana Bali Dwipa — Nangluk Merana instruction (Sasih Kanem/Kapitu/Kawulu)
+- Lontar Roga Sangara Bumi — sasih-by-sasih omens and disease forecasting
+- Widhi Sastra Rogha Sanghara Bumi — basis for Bumi Sudha ceremony
+- Lontar Senggoro Bumi — Sasih Kanem character and omens
+
+---
+
 ## NOTES
 
 ### Key gap identified in the literature
