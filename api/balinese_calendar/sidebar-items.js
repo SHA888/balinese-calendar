@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["VERSION"],"mod":["boundary","error","paringkelan","pawukon","rahinan","sasih","utils","wewaran"],"struct":["BalineseDate","FlatRecord"]};

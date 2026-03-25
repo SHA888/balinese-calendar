@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Wuku"],"fn":["pawukon_position","wuku_day_of_week"]};

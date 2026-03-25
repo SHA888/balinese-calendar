@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["NGUNARATRI_PERIOD","PAWUKON_EPOCH_JDN","SAKA_YEAR_OFFSET"],"fn":["gregorian_to_jdn","jdn_to_gregorian"]};

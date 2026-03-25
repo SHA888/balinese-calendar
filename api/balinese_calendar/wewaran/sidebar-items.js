@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Astawara","Caturwara","Dasawara","Dwiwara","Ekawara","Pancawara","Sadwara","Sangawara","Saptawara","Triwara"],"fn":["pawukon_day"]};

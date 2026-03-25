@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Ingkel","Jejepan","Lintang","PancaSuda","Pararasan","Rakam","WatekAlit","WatekMadya"]};
