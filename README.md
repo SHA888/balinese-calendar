@@ -76,6 +76,7 @@ This crate's accuracy is grounded in physical Balinese calendar sources, not inf
 - 365/365 day-of-week matches against kalenderbali.org
 - 30/30 Wuku names verified
 - 12/12 Sasih transitions verified
+- ✅ **Academically validated pancaroba implementation** (Sasih Kalima–Kanem, dry→wet transition)
 - 210/210 Gebogan Urip Tri-Pramana entries extracted
 - Zero mismatches in Pawukon cycle integrity (tested across 1969–2027)
 

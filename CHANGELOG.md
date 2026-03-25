@@ -2,7 +2,35 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.2] — 2026-03-07
+## [0.1.2] — 2026-03-25
+
+### 🎉 Major Features
+- **Academically validated pancaroba implementation**:
+  - Replaced incorrect pancaroba mappings (Kasanga, Kadasa, Kapat) with validated single pancaroba period
+  - Sasih Kalima (month 5) and Sasih Kanem (month 6) now correctly marked as pancaroba (dry→wet transition)
+  - Based on peer-reviewed research, lontar texts, and living ritual traditions
+  - Added comprehensive academic documentation with citations
+
+### 📚 Documentation & Sources
+- Added "Pancaroba and Seasonal Classification" section to BIBLIOGRAPHY.md
+- Academic sources include: Purwaputera et al. (2025) IJMRA, Ginaya (2018) IJLLC, traditional lontar texts
+- Updated code documentation with detailed source citations and ritual context
+
+### 🧪 Testing
+- Added comprehensive pancaroba test suite (`tests/pancaroba_test.rs`) with 4 passing tests
+- Updated integration tests to match corrected pancaroba implementation
+- All tests passing (22/22 integration tests, 4/4 pancaroba tests)
+
+### 🛠️ Fixes & Improvements
+- Fixed Ingkel calculation to use `wuku_index % 6` instead of incorrect formula
+- Added alternative rahinan detection for Nyepi and Siwa Ratri based on wewaran patterns
+- Fixed multiple validation test expectations (Saraswati, Tumpek, Nyepi dates)
+- Resolved clippy warnings (collapsible_if, uninlined_format_args)
+
+### 🔄 Infrastructure
+- Updated release.yml workflow to require explicit trigger (tag or manual dispatch)
+- Release workflow now verifies CI passed before creating releases
+- Crates.io publish only triggers after successful GitHub Release creation
 
 ### Added
 - `DayBoundary` enum: `Midnight`, `FixedSunrise(u8)`, `Astronomical` (stubbed behind feature flag)
