@@ -1,0 +1,92 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+---
+
+<DocsLayout title="Pawukon Cycle - Balinese Calendar" description="Understanding the 210-day Pawukon cycle">
+	<h1 class="font-display text-4xl gold-accent mb-8">Pawukon Cycle</h1>
+
+	<p class="text-lg mb-6">
+		The Pawukon is a fundamental 210-day cycle in the Balinese calendar system that runs independently of the lunar calendar. It is essential for determining ritual days and ceremonial occasions.
+	</p>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Overview</h2>
+
+	<ul class="list-disc list-inside space-y-2 mb-8">
+		<li><strong>Duration</strong>: 210 days</li>
+		<li><strong>Structure</strong>: 30 weeks of 7 days each</li>
+		<li><strong>Purpose</strong>: Determines ritual days and ceremonies</li>
+		<li><strong>Independence</strong>: Runs independently of lunar calendar</li>
+	</ul>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">The 30 Wuku (Weeks)</h2>
+
+	<p class="mb-4">The Pawukon cycle consists of 30 weeks (Wuku), each with specific characteristics:</p>
+
+	<ol class="list-decimal list-inside space-y-1 mb-8 text-sm">
+		<li>Sinta</li>
+		<li>Landep</li>
+		<li>Ukir</li>
+		<li>Kulantir</li>
+		<li>Tolu</li>
+		<li>Gumbreg</li>
+		<li>Warige</li>
+		<li>Warigadian</li>
+		<li>Julungwangi</li>
+		<li>Sungsang</li>
+		<li>Dungulan</li>
+		<li>Kurantil</li>
+		<li>Langkir</li>
+		<li>Medangsia</li>
+		<li>Prangbakat</li>
+		<li>Brawah</li>
+		<li>Kuningan</li>
+		<li>Langkir</li>
+		<li>Medangkungan</li>
+		<li>Matal</li>
+		<li>Uye</li>
+		<li>Kulawu</li>
+		<li>Dukut</li>
+		<li>Wayang</li>
+		<li>Kelawu</li>
+		<li>Jiyah</li>
+		<li>Manahil</li>
+		<li>Pranggelang</li>
+		<li>Karo</li>
+		<li>Endheng</li>
+	</ol>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Significance</h2>
+
+	<p class="mb-6">
+		Each Wuku has different characteristics and is associated with specific activities, ceremonies, and auspicious or inauspicious days. The Pawukon cycle is crucial for:
+	</p>
+
+	<ul class="list-disc list-inside space-y-2 mb-8">
+		<li>Determining temple ceremonies and festivals</li>
+		<li>Scheduling agricultural activities</li>
+		<li>Planning important life events</li>
+		<li>Consulting with spiritual advisors</li>
+	</ul>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Working with Pawukon in Code</h2>
+
+	<div class="code-block mb-6">
+		<pre><code class="language-rust">use balinese_calendar::BalineseDate;
+
+let date = BalineseDate::from_ymd(2023, 1, 1)?;
+
+// Get the current Wuku
+println!("Wuku: {}", date.wuku_name());
+
+// Get the day within the Wuku (1-7)
+println!("Day in Wuku: {}", date.pawukon_day());</code></pre>
+	</div>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Related Topics</h2>
+
+	<ul class="list-disc list-inside space-y-2">
+		<li><a href="/balinese-calendar/concepts/wewaran" class="text-balinese-turquoise hover:text-balinese-gold">Wewaran Cycles</a> - Other week-based systems</li>
+		<li><a href="/balinese-calendar/concepts/rahinan" class="text-balinese-turquoise hover:text-balinese-gold">Rahinan (Holy Days)</a> - Special ceremonial days</li>
+		<li><a href="/balinese-calendar/concepts/calendar-systems" class="text-balinese-turquoise hover:text-balinese-gold">Calendar Systems</a> - Overview of all systems</li>
+	</ul>
+</DocsLayout>
