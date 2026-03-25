@@ -28,7 +28,7 @@ serde = ["dep:serde", "chrono/serde"]
 
 [dependencies]
 chrono    = { version = "0.4", default-features = false, features = ["std", "clock"] }
-thiserror = "1"
+thiserror = "2"
 serde = { version = "1.0", features = ["derive"], optional = true }
 
 [dependencies.sunrise]
