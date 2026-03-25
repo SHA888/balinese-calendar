@@ -5,7 +5,7 @@
 //
 // Source: babadbali.com (Yayasan Bali Galang) paringkelan algorithm.
 
-use crate::wewaran::{pawukon_day, Pancawara, Saptawara};
+use crate::wewaran::{Pancawara, Saptawara, pawukon_day};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // JEJEPAN  (6-day cycle, agricultural activities)

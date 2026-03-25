@@ -225,7 +225,7 @@ assert_eq!(d.pancawara, d2.pancawara);
 ## 📅 Supported Date Range
 
 > 📅 **1900–2100** (validated 1969–2027, extrapolated outside this range)
-> 
+>
 > Historical dates before 1900 are planned for v1.0.0.
 
 ---
