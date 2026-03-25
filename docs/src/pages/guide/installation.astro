@@ -1,0 +1,61 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import { Code } from 'astro:components';
+---
+
+<DocsLayout title="Installation - Balinese Calendar" description="Installation guide for the Balinese Calendar library">
+	<h1 class="font-display text-4xl gold-accent mb-8">Installation</h1>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Requirements</h2>
+
+	<ul class="list-disc list-inside space-y-2 mb-6">
+		<li><strong>Rust 1.86.0</strong> or later (MSRV)</li>
+		<li>Cargo package manager</li>
+	</ul>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Adding to Your Project</h2>
+
+	<div class="code-block mb-6">
+		<Code code={`[dependencies]
+balinese-calendar = "0.1"`} lang="toml" />
+	</div>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">With Feature Flags</h2>
+
+	<div class="code-block mb-6">
+		<Code code={`[dependencies]
+balinese-calendar = { version = "0.1", features = ["serde"] }`} lang="toml" />
+	</div>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Available Features</h3>
+
+	<ul class="list-disc list-inside space-y-2 mb-6">
+		<li><strong>serde</strong> - Enable serialization/deserialization support</li>
+		<li><strong>astronomical</strong> - Enable astronomical sunrise calculations (experimental)</li>
+	</ul>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Verifying Installation</h2>
+
+	<div class="code-block mb-6">
+		<Code code={`use balinese_calendar::BalineseDate;
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let date = BalineseDate::from_ymd(2023, 1, 1)?;
+    println!("Saka Year: {}", date.saka_year());
+    Ok(())
+}`} lang="rust" />
+	</div>
+
+	<p class="mb-6">Run with:</p>
+
+	<div class="code-block mb-6">
+		<Code code={`cargo run`} lang="bash" />
+	</div>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Next Steps</h2>
+
+	<ul class="list-disc list-inside space-y-2">
+		<li><a href="/balinese-calendar/guide/quick-start" class="text-balinese-turquoise hover:text-balinese-gold">Quick Start</a></li>
+		<li><a href="/balinese-calendar/guide/basic-usage" class="text-balinese-turquoise hover:text-balinese-gold">Basic Usage</a></li>
+	</ul>
+</DocsLayout>

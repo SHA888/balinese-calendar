@@ -1,5 +1,6 @@
 ---
 import DocsLayout from '../../layouts/DocsLayout.astro';
+import { Code } from 'astro:components';
 ---
 
 <DocsLayout title="Quick Start - Balinese Calendar" description="Quick start guide for the Balinese Calendar library">
@@ -15,7 +16,7 @@ balinese-calendar = "0.1"</code></pre>
 	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Basic Usage</h2>
 
 	<div class="code-block mb-6">
-		<pre><code class="language-rust" set:html={`use balinese_calendar::BalineseDate;
+		<Code code={`use balinese_calendar::BalineseDate;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let date = BalineseDate::from_ymd(2023, 1, 1)?;
@@ -26,13 +27,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Pawukon Day: {}", date.pawukon_day());
 
     Ok(())
-}`}></code></pre>
+}`} lang="rust" />
 	</div>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Check for Holy Days</h2>
 
 	<div class="code-block mb-6">
-		<pre><code class="language-rust" set:html={`let date = BalineseDate::from_ymd(2023, 1, 1)?;
+		<Code code={`let date = BalineseDate::from_ymd(2023, 1, 1)?;
 
 if date.is_galungan() {
     println!("Today is Galungan!");
@@ -40,7 +41,7 @@ if date.is_galungan() {
 
 if !date.rahinan().is_empty() {
     println!("Holy days: {:?}", date.rahinan());
-}`}></code></pre>
+}`} lang="rust" />
 	</div>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Next Steps</h2>

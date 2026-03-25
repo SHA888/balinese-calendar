@@ -1,5 +1,6 @@
 ---
 import DocsLayout from '../../layouts/DocsLayout.astro';
+import { Code } from 'astro:components';
 ---
 
 <DocsLayout title="Basic Usage - Balinese Calendar" description="Common usage patterns for the Balinese Calendar crate">
@@ -12,34 +13,34 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-4">Creating Dates</h2>
 
 	<div class="code-block mb-6">
-		<pre><code class="language-rust" set:html={`use balinese_calendar::BalineseDate;
+		<Code code={`use balinese_calendar::BalineseDate;
 
-let date = BalineseDate::from_ymd(2026, 3, 25)?;`}></code></pre>
+let date = BalineseDate::from_ymd(2026, 3, 25)?;`} lang="rust" />
 	</div>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-4">Accessing Calendar Components</h2>
 
 	<div class="code-block mb-6">
-		<pre><code class="language-rust" set:html={`let date = BalineseDate::from_ymd(2026, 3, 25)?;
+		<Code code={`let date = BalineseDate::from_ymd(2026, 3, 25)?;
 
 println!("Saptawara: {}", date.saptawara());
 println!("Pancawara: {}", date.pancawara());
 println!("Wuku: {}", date.wuku_name());
-println!("Pawukon day: {}", date.pawukon_day());`}></code></pre>
+println!("Pawukon day: {}", date.pawukon_day());`} lang="rust" />
 	</div>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-4">Sasih (Lunar Calendar)</h2>
 
 	<div class="code-block mb-6">
-		<pre><code class="language-rust" set:html={`println!("Sasih: {}", date.sasih_name());
+		<Code code={`println!("Sasih: {}", date.sasih_name());
 println!("Saka Year: {}", date.saka_year());
-println!("Sasih Day: {}", date.sasih_day());`}></code></pre>
+println!("Sasih Day: {}", date.sasih_day());`} lang="rust" />
 	</div>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-4">Working with Holy Days</h2>
 
 	<div class="code-block mb-6">
-		<pre><code class="language-rust" set:html={`if date.is_purnama() {
+		<Code code={`if date.is_purnama() {
     println!("Today is Purnama (full moon)");
 }
 
@@ -48,16 +49,16 @@ if !date.rahinan().is_empty() {
     for rahinan in date.rahinan() {
         println!("  - {:?}", rahinan);
     }
-}`}></code></pre>
+}`} lang="rust" />
 	</div>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-4">Error Handling</h2>
 
 	<div class="code-block mb-6">
-		<pre><code class="language-rust" set:html={`match BalineseDate::from_ymd(2026, 2, 30) {
+		<Code code={`match BalineseDate::from_ymd(2026, 2, 30) {
     Ok(date) => println!("Valid date"),
     Err(e) => eprintln!("Error: {}", e),
-}`}></code></pre>
+}`} lang="rust" />
 	</div>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-4">Next Steps</h2>

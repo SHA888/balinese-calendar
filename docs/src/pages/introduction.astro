@@ -1,5 +1,6 @@
 ---
 import DocsLayout from '../layouts/DocsLayout.astro';
+import { Code } from 'astro:components';
 ---
 
 <DocsLayout title="Introduction - Balinese Calendar" description="Welcome to the Balinese Calendar documentation">
@@ -25,13 +26,13 @@ import DocsLayout from '../layouts/DocsLayout.astro';
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Quick Example</h2>
 
 	<div class="code-block mb-6">
-		<pre><code class="language-rust" set:html={`use balinese_calendar::BalineseDate;
+		<Code code={`use balinese_calendar::BalineseDate;
 
 let date = BalineseDate::from_ymd(2026, 3, 25)?;
 
 println!("Wuku: {}", date.wuku_name());
 println!("Saptawara: {}", date.saptawara());
-println!("Sasih: {}", date.sasih_name());`}></code></pre>
+println!("Sasih: {}", date.sasih_name());`} lang="rust" />
 	</div>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Getting Started</h2>

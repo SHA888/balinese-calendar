@@ -1,5 +1,6 @@
 ---
 import DocsLayout from '../../layouts/DocsLayout.astro';
+import { Code } from 'astro:components';
 ---
 
 <DocsLayout title="Getting Started - Balinese Calendar" description="Get started with the Balinese Calendar Rust crate">
@@ -21,7 +22,7 @@ balinese-calendar = "0.1"</code></pre>
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Your First Program</h2>
 
 	<div class="code-block mb-6">
-		<pre><code class="language-rust" set:html={`use balinese_calendar::BalineseDate;
+		<Code code={`use balinese_calendar::BalineseDate;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let date = BalineseDate::from_ymd(2023, 1, 1)?;
@@ -32,7 +33,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Saptawara: {}", date.saptawara());
 
     Ok(())
-}`}></code></pre>
+}`} lang="rust" />
 	</div>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">What's Next?</h2>
