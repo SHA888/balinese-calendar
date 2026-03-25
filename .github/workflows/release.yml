@@ -135,6 +135,8 @@ jobs:
         id: create_release
         run: |
           VERSION="${{ needs.check-ci.outputs.version }}"
+          # Strip leading 'v' if present, then add it back consistently
+          VERSION="${VERSION#v}"
           TAG_NAME="v$VERSION"
 
           # Determine if prerelease
