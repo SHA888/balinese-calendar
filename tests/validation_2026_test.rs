@@ -53,11 +53,23 @@ fn pawukon_february_2026() {
 
     // Feb 14: Saniscara Pon Prangbakat (from OCR: S. KAWULU 13, URIP 9+7)
     let d = BalineseDate::from_ymd(2026, 2, 14).unwrap();
+    println!(
+        "DEBUG: 2026-02-14 - Wuku: {} (expected: Prangbakat), Saptawara: {} (expected: Saniscara), Pawukon day: {}",
+        d.wuku.name(),
+        d.saptawara.name(),
+        d.pawukon_day
+    );
     assert_eq!(d.wuku.name(), "Prangbakat");
     assert_eq!(d.saptawara.name(), "Saniscara");
 
     // Feb 28: Saniscara Pon Bala (last day)
     let d = BalineseDate::from_ymd(2026, 2, 28).unwrap();
+    println!(
+        "DEBUG: 2026-02-28 - Wuku: {} (expected: Bala), Saptawara: {} (expected: Saniscara), Pawukon day: {}",
+        d.wuku.name(),
+        d.saptawara.name(),
+        d.pawukon_day
+    );
     assert_eq!(d.wuku.name(), "Bala");
     assert_eq!(d.saptawara.name(), "Saniscara");
 }
