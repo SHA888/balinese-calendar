@@ -2,95 +2,16 @@
 import DocsLayout from '../../layouts/DocsLayout.astro';
 ---
 
-<DocsLayout title="Rahinan (Holy Days) - Balinese Calendar" description="Understanding Balinese holy days and ceremonies">
+<DocsLayout title="Rahinan (Holy Days) - Balinese Calendar" description="Understanding Balinese holy days">
 	<h1 class="font-display text-4xl gold-accent mb-8">Rahinan (Holy Days)</h1>
-
-	<p class="text-lg mb-6">
-		Rahinan refers to holy days and special ceremonial occasions in the Balinese calendar. These are determined by the combination of various calendar cycles and are important for spiritual and cultural activities.
-	</p>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Major Holy Days</h2>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Nyepi (Day of Silence)</h3>
-	<p class="mb-4">
-		The most important day in the Balinese calendar, marking the Saka New Year. On this day, the entire island observes silence and stillness.
-	</p>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Galungan</h3>
-	<p class="mb-4">
-		A 10-day festival celebrating the victory of good over evil. Occurs every 210 days (one Pawukon cycle).
-	</p>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Kuningan</h3>
-	<p class="mb-4">
-		Marks the end of the Galungan festival, occurring 10 days after Galungan begins.
-	</p>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Purnama (Full Moon)</h3>
-	<p class="mb-4">
-		Occurs on the 15th day of each lunar month and is considered an auspicious day for ceremonies.
-	</p>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Tilem (New Moon)</h3>
-	<p class="mb-4">
-		Occurs on the last day of each lunar month and is used for certain rituals and ceremonies.
-	</p>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Tumpek Ceremonies</h2>
-
-	<p class="mb-6">
-		Tumpek ceremonies occur every 35 days and are dedicated to different aspects of life:
-	</p>
-
-	<ul class="list-disc list-inside space-y-2 mb-8">
-		<li><strong>Tumpek Landep</strong> - For metal and weapons</li>
-		<li><strong>Tumpek Uduh</strong> - For plants and trees</li>
-		<li><strong>Tumpek Kandang</strong> - For animals</li>
-		<li><strong>Tumpek Wayang</strong> - For puppets and art</li>
-		<li><strong>Tumpek Pengubengan</strong> - For household items</li>
-	</ul>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Auspicious Days</h2>
-
-	<p class="mb-6">
-		Certain combinations of Wewaran cycles create auspicious days:
-	</p>
-
-	<ul class="list-disc list-inside space-y-2 mb-8">
-		<li><strong>Kajeng Kliwon</strong> - Triwara Kajeng + Pancawara Kliwon (auspicious)</li>
-		<li><strong>Buda Cemeng Klawu</strong> - Caturwara Menala + Pancawara Kliwon (inauspicious)</li>
-	</ul>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Working with Rahinan in Code</h2>
 
 	<div class="code-block mb-6">
 		<pre><code class="language-rust">use balinese_calendar::BalineseDate;
 
 let date = BalineseDate::from_ymd(2023, 1, 1)?;
 
-// Check for holy days
 if !date.rahinan().is_empty() {
-    println!("Holy days today:");
-    for rahinan in date.rahinan() {
-        println!("  - {:?}", rahinan);
-    }
-}
-
-// Check specific holy days
-if date.is_galungan() {
-    println!("Today is Galungan!");
-}
-
-if date.is_kuningan() {
-    println!("Today is Kuningan!");
+    println!("Holy days: {:?}", date.rahinan());
 }</code></pre>
 	</div>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Related Topics</h2>
-
-	<ul class="list-disc list-inside space-y-2">
-		<li><a href="/balinese-calendar/concepts/pawukon" class="text-balinese-turquoise hover:text-balinese-gold">Pawukon Cycle</a> - The 210-day ritual cycle</li>
-		<li><a href="/balinese-calendar/concepts/wewaran" class="text-balinese-turquoise hover:text-balinese-gold">Wewaran Cycles</a> - Week-based systems</li>
-		<li><a href="/balinese-calendar/concepts/sasih" class="text-balinese-turquoise hover:text-balinese-gold">Sasih (Lunar Month)</a> - The lunar calendar</li>
-	</ul>
 </DocsLayout>

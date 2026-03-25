@@ -2,84 +2,17 @@
 import DocsLayout from '../../layouts/DocsLayout.astro';
 ---
 
-<DocsLayout title="Installation - Balinese Calendar" description="Installation guide for the Balinese Calendar library">
+<DocsLayout title="Installation - Balinese Calendar" description="Installation guide">
 	<h1 class="font-display text-4xl gold-accent mb-8">Installation</h1>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Requirements</h2>
-
-	<ul class="list-disc list-inside space-y-2 mb-6">
-		<li><strong>Rust 1.86.0</strong> or later (MSRV)</li>
-		<li>Cargo package manager</li>
-	</ul>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Adding to Your Project</h2>
-
-	<p class="mb-4">Add the following to your <code>Cargo.toml</code>:</p>
 
 	<div class="code-block mb-6">
 		<pre><code class="language-toml">[dependencies]
 balinese-calendar = "0.1"</code></pre>
 	</div>
 
-	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">With Feature Flags</h2>
-
-	<p class="mb-4">The library supports optional features:</p>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-toml">[dependencies]
-balinese-calendar = { version = "0.1", features = ["serde"] }</code></pre>
-	</div>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Available Features</h3>
-
-	<ul class="list-disc list-inside space-y-2 mb-6">
-		<li><strong>serde</strong> - Enable serialization/deserialization support</li>
-		<li><strong>astronomical</strong> - Enable astronomical sunrise calculations (experimental)</li>
-	</ul>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Verifying Installation</h2>
-
-	<p class="mb-4">Create a simple test program to verify the installation:</p>
-
 	<div class="code-block mb-6">
 		<pre><code class="language-rust">use balinese_calendar::BalineseDate;
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let date = BalineseDate::from_ymd(2023, 1, 1)?;
-    println!("Saka Year: {}", date.saka_year());
-    Ok(())
-}</code></pre>
+let date = BalineseDate::from_ymd(2023, 1, 1)?;</code></pre>
 	</div>
-
-	<p class="mb-6">Run with:</p>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-bash">cargo run</code></pre>
-	</div>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Troubleshooting</h2>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Rust Version Too Old</h3>
-
-	<p class="mb-4">If you get an error about Rust version, update Rust:</p>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-bash">rustup update</code></pre>
-	</div>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Dependency Resolution Issues</h3>
-
-	<p class="mb-4">Try clearing the dependency cache:</p>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-bash">cargo clean
-cargo build</code></pre>
-	</div>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Next Steps</h2>
-
-	<ul class="list-disc list-inside space-y-2">
-		<li><a href="/balinese-calendar/guide/quick-start" class="text-balinese-turquoise hover:text-balinese-gold">Quick Start</a> - Get up and running</li>
-		<li><a href="/balinese-calendar/guide/basic-usage" class="text-balinese-turquoise hover:text-balinese-gold">Basic Usage</a> - Learn common patterns</li>
-	</ul>
 </DocsLayout>

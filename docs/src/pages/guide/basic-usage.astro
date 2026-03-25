@@ -2,124 +2,17 @@
 import DocsLayout from '../../layouts/DocsLayout.astro';
 ---
 
-<DocsLayout title="Basic Usage - Balinese Calendar" description="Common usage patterns for the Balinese Calendar crate">
+<DocsLayout title="Basic Usage - Balinese Calendar" description="Common usage patterns">
 	<h1 class="font-display text-4xl gold-accent mb-8">Basic Usage</h1>
-
-	<p class="text-lg mb-6">
-		This guide covers common usage patterns for the Balinese Calendar crate.
-	</p>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-4">Creating Dates</h2>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">From Gregorian Date</h3>
 
 	<div class="code-block mb-6">
 		<pre><code class="language-rust">use balinese_calendar::BalineseDate;
 
-// Create from year, month, day
-let date = BalineseDate::from_ymd(2026, 3, 25)?;</code></pre>
+let date = BalineseDate::from_ymd(2023, 1, 1)?;</code></pre>
 	</div>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">From Current Date</h3>
 
 	<div class="code-block mb-6">
-		<pre><code class="language-rust">use chrono::Local;
-use balinese_calendar::BalineseDate;
-
-let now = Local::now();
-let today = BalineseDate::from_ymd(
-    now.year(),
-    now.month(),
-    now.day()
-)?;</code></pre>
+		<pre><code class="language-rust">println!("Saka Year: {}", date.saka_year());
+println!("Sasih: {}", date.sasih_name());</code></pre>
 	</div>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-4">Accessing Calendar Components</h2>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Wewaran (Weekly Cycles)</h3>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-rust">let date = BalineseDate::from_ymd(2026, 3, 25)?;
-
-// 7-day week (like Sunday-Saturday)
-println!("Saptawara: {}", date.saptawara());
-
-// 5-day market week
-println!("Pancawara: {}", date.pancawara());
-
-// Other cycles
-println!("Sadwara: {}", date.sadwara());    // 6-day
-println!("Astawara: {}", date.astawara());  // 8-day
-println!("Sangawara: {}", date.sangawara()); // 9-day
-println!("Dasawara: {}", date.dasawara());  // 10-day</code></pre>
-	</div>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Pawukon System</h3>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-rust">// Wuku (30 weeks in 210-day cycle)
-println!("Wuku: {}", date.wuku_name());
-println!("Pawukon day: {}", date.pawukon_day());</code></pre>
-	</div>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Sasih (Lunar Calendar)</h3>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-rust">// Lunar month and year
-println!("Sasih: {}", date.sasih_name());
-println!("Saka Year: {}", date.saka_year());
-
-// Check for intercalary month
-if date.is_nampih() {
-    println!("This is a Nampih (intercalary) month");
-}</code></pre>
-	</div>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-4">Working with Holy Days</h2>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Finding Rahinan</h3>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-rust">// Check if there are any holy days
-if !date.rahinan().is_empty() {
-    println!("Holy days today:");
-    for rahinan in date.rahinan() {
-        println!("  - {:?}", rahinan);
-    }
-}</code></pre>
-	</div>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-4">Error Handling</h2>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Handling Invalid Dates</h3>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-rust">use balinese_calendar::{BalineseDate, BalineseDateError};
-
-match BalineseDate::from_ymd(2026, 2, 30) {
-    Ok(date) => println!("Valid date"),
-    Err(e) => eprintln!("Error: {}", e),
-}</code></pre>
-	</div>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Graceful Degradation</h3>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-rust">// Process a range of dates, skipping invalid ones
-for day in 1..=31 {
-    if let Ok(date) = BalineseDate::from_ymd(2026, 2, day) {
-        // Process valid date
-        println!("Day {}: {}", day, date.wuku_name());
-    }
-    // Invalid dates (like Feb 30) are silently skipped
-}</code></pre>
-	</div>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-4">Next Steps</h2>
-
-	<ul class="list-disc list-inside space-y-2">
-		<li><a href="/balinese-calendar/guide/advanced-features" class="text-balinese-turquoise hover:text-balinese-gold">Advanced Features</a> for more complex use cases</li>
-		<li><a href="/balinese-calendar/concepts/calendar-systems" class="text-balinese-turquoise hover:text-balinese-gold">Calendar Systems</a> to understand the concepts</li>
-		<li><a href="/balinese-calendar/api/balinese-date" class="text-balinese-turquoise hover:text-balinese-gold">API Reference</a> for complete documentation</li>
-	</ul>
 </DocsLayout>

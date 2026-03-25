@@ -2,69 +2,17 @@
 import DocsLayout from '../../layouts/DocsLayout.astro';
 ---
 
-<DocsLayout title="Quick Start - Balinese Calendar" description="Quick start guide for the Balinese Calendar library">
+<DocsLayout title="Quick Start - Balinese Calendar" description="Quick start guide">
 	<h1 class="font-display text-4xl gold-accent mb-8">Quick Start</h1>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Installation</h2>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-toml">[dependencies]
-balinese-calendar = "0.1"</code></pre>
-	</div>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Basic Usage</h2>
 
 	<div class="code-block mb-6">
 		<pre><code class="language-rust">use balinese_calendar::BalineseDate;
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Create from Gregorian date
-    let date = BalineseDate::from_ymd(2023, 1, 1)?;
-
-    // Get calendar information
-    println!("Saka Year: {}", date.saka_year());
-    println!("Sasih: {}", date.sasih_name());
-    println!("Saptawara: {}", date.saptawara());
-    println!("Pawukon Day: {}", date.pawukon_day());
-
-    Ok(())
-}</code></pre>
+let date = BalineseDate::from_ymd(2023, 1, 1)?;</code></pre>
 	</div>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Common Operations</h2>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Check for Holy Days</h3>
 
 	<div class="code-block mb-6">
-		<pre><code class="language-rust">let date = BalineseDate::from_ymd(2023, 1, 1)?;
-
-if date.is_galungan() {
-    println!("Today is Galungan!");
-}
-
-if date.is_nyepi() {
-    println!("Today is Nyepi - Day of silence");
-}</code></pre>
+		<pre><code class="language-rust">println!("Saka Year: {}", date.saka_year());
+println!("Sasih: {}", date.sasih_name());</code></pre>
 	</div>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Get All Calendar Information</h3>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-rust">let date = BalineseDate::from_ymd(2023, 1, 1)?;
-
-println!("Saka Year: {}", date.saka_year());
-println!("Sasih: {}", date.sasih_name());
-println!("Saptawara: {}", date.saptawara());
-println!("Pancawara: {}", date.pancawara());
-println!("Pawukon Day: {}", date.pawukon_day());
-println!("Wuku: {}", date.wuku_name());</code></pre>
-	</div>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Next Steps</h2>
-
-	<ul class="list-disc list-inside space-y-2">
-		<li><a href="/balinese-calendar/guide/basic-usage" class="text-balinese-turquoise hover:text-balinese-gold">Basic Usage</a> - More detailed examples</li>
-		<li><a href="/balinese-calendar/concepts/calendar-systems" class="text-balinese-turquoise hover:text-balinese-gold">Calendar Systems</a> - Understand the calendar</li>
-		<li><a href="/balinese-calendar/api/balinese-date" class="text-balinese-turquoise hover:text-balinese-gold">API Reference</a> - Complete API documentation</li>
-	</ul>
 </DocsLayout>

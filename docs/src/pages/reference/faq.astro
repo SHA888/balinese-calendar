@@ -10,19 +10,13 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
 	<h3 class="font-body text-xl font-semibold mt-6 mb-3">What is the Balinese Calendar?</h3>
 
 	<p class="mb-6">
-		The Balinese calendar is a complex system used in Bali, Indonesia that combines multiple overlapping cycles including the Saka lunar calendar, the 210-day Pawukon cycle, and nine different weekly systems (Wewaran).
-	</p>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Why use this library?</h3>
-
-	<p class="mb-6">
-		This library provides accurate, efficient, and type-safe calculations for all aspects of the Balinese calendar. It's written in Rust for performance and reliability.
+		The Balinese calendar is a complex system used in Bali, Indonesia.
 	</p>
 
 	<h3 class="font-body text-xl font-semibold mt-6 mb-3">What Rust version is required?</h3>
 
 	<p class="mb-6">
-		The minimum supported Rust version (MSRV) is 1.86.0. You can update Rust with <code>rustup update</code>.
+		The minimum supported Rust version (MSRV) is 1.86.0.
 	</p>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Usage Questions</h2>
@@ -43,49 +37,9 @@ let date = BalineseDate::from_ymd(2023, 1, 1)?;</code></pre>
 }</code></pre>
 	</div>
 
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">What date range is supported?</h3>
-
-	<p class="mb-6">
-		The library supports dates from 1800 to 2200 CE. Attempting to create a date outside this range will return an error.
-	</p>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Technical Questions</h2>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Is the library thread-safe?</h3>
-
-	<p class="mb-6">
-		Yes, <code>BalineseDate</code> is immutable and thread-safe. You can safely share it across threads.
-	</p>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Can I serialize/deserialize dates?</h3>
-
-	<p class="mb-6">
-		Yes, enable the <code>serde</code> feature in your <code>Cargo.toml</code> to use serialization with serde.
-	</p>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">What about performance?</h3>
-
-	<p class="mb-6">
-		The library is highly optimized. Creating a date and accessing all calendar components takes microseconds.
-	</p>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Troubleshooting</h2>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">I'm getting "InvalidDate" errors</h3>
-
-	<p class="mb-6">
-		Make sure you're providing valid Gregorian dates. For example, February 30 is not a valid date.
-	</p>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">The library won't compile</h3>
-
-	<p class="mb-6">
-		Check that you have Rust 1.86.0 or later installed. Run <code>rustup update</code> to update.
-	</p>
-
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Still Have Questions?</h2>
 
 	<p class="mb-6">
-		Open an issue on <a href="https://github.com/SHA888/balinese-calendar" class="text-balinese-turquoise hover:text-balinese-gold">GitHub</a> if you have questions not covered here.
+		Open an issue on <a href="https://github.com/SHA888/balinese-calendar" class="text-balinese-turquoise hover:text-balinese-gold">GitHub</a>.
 	</p>
 </DocsLayout>

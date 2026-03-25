@@ -2,128 +2,24 @@
 import DocsLayout from '../../layouts/DocsLayout.astro';
 ---
 
-<DocsLayout title="BalineseDate API - Balinese Calendar" description="Complete API reference for the BalineseDate struct">
+<DocsLayout title="BalineseDate API - Balinese Calendar" description="API reference">
 	<h1 class="font-display text-4xl gold-accent mb-8">BalineseDate API Reference</h1>
-
-	<p class="text-lg mb-6">
-		The <code>BalineseDate</code> struct is the main interface for working with Balinese calendar dates. It provides access to all calendar components and holy day information.
-	</p>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Creating Dates</h2>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">from_ymd</h3>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-rust">pub fn from_ymd(year: i32, month: u32, day: u32) -> Result<Self, BalineseDateError></code></pre>
-	</div>
-
-	<p class="mb-6">Creates a new BalineseDate from a Gregorian date (year, month, day).</p>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Calendar Components</h2>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Saka Year</h3>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-rust">pub fn saka_year(&self) -> i32</code></pre>
-	</div>
-
-	<p class="mb-6">Returns the Saka year (lunar calendar year).</p>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Sasih (Lunar Month)</h3>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-rust">pub fn sasih_name(&self) -> &'static str
-pub fn sasih_day(&self) -> u32</code></pre>
-	</div>
-
-	<p class="mb-6">Returns the lunar month name and day within the month.</p>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Pawukon System</h3>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-rust">pub fn wuku_name(&self) -> &'static str
-pub fn pawukon_day(&self) -> u32</code></pre>
-	</div>
-
-	<p class="mb-6">Returns the Wuku (week) name and day within the Pawukon cycle.</p>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Wewaran (Weekly Cycles)</h3>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-rust">pub fn saptawara(&self) -> &'static str
-pub fn pancawara(&self) -> &'static str
-pub fn triwara(&self) -> &'static str
-pub fn dwiwara(&self) -> &'static str
-pub fn sadwara(&self) -> &'static str
-pub fn astawara(&self) -> &'static str
-pub fn sangawara(&self) -> &'static str
-pub fn dasawara(&self) -> &'static str</code></pre>
-	</div>
-
-	<p class="mb-6">Returns the names of the various weekly cycles.</p>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Holy Days</h2>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Rahinan</h3>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-rust">pub fn rahinan(&self) -> Vec<Rahinan></code></pre>
-	</div>
-
-	<p class="mb-6">Returns a vector of holy days for this date.</p>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Moon Phases</h3>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-rust">pub fn is_purnama(&self) -> bool
-pub fn is_tilem(&self) -> bool</code></pre>
-	</div>
-
-	<p class="mb-6">Check if the date is a full moon (Purnama) or new moon (Tilem).</p>
-
-	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Special Days</h3>
-
-	<div class="code-block mb-6">
-		<pre><code class="language-rust">pub fn is_galungan(&self) -> bool
-pub fn is_kuningan(&self) -> bool
-pub fn is_nyepi(&self) -> bool
-pub fn is_nampih(&self) -> bool</code></pre>
-	</div>
-
-	<p class="mb-6">Check for specific important days and months.</p>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Example Usage</h2>
 
 	<div class="code-block mb-6">
 		<pre><code class="language-rust">use balinese_calendar::BalineseDate;
 
-let date = BalineseDate::from_ymd(2023, 1, 1)?;
+let date = BalineseDate::from_ymd(2023, 1, 1)?;</code></pre>
+	</div>
 
-println!("Saka Year: {}", date.saka_year());
+	<div class="code-block mb-6">
+		<pre><code class="language-rust">println!("Saka Year: {}", date.saka_year());
 println!("Sasih: {}", date.sasih_name());
-println!("Wuku: {}", date.wuku_name());
-println!("Saptawara: {}", date.saptawara());
+println!("Wuku: {}", date.wuku_name());</code></pre>
+	</div>
 
-if !date.rahinan().is_empty() {
+	<div class="code-block mb-6">
+		<pre><code class="language-rust">if !date.rahinan().is_empty() {
     println!("Holy days: {:?}", date.rahinan());
 }</code></pre>
 	</div>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Error Handling</h2>
-
-	<p class="mb-6">
-		The <code>from_ymd</code> function returns a <code>Result</code> that can contain a <code>BalineseDateError</code>:
-	</p>
-
-	<ul class="list-disc list-inside space-y-2 mb-8">
-		<li><code>InvalidDate</code> - The provided date is invalid (e.g., February 30)</li>
-		<li><code>OutOfRange</code> - The date is outside the supported range (1800-2200)</li>
-	</ul>
-
-	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Related Topics</h2>
-
-	<ul class="list-disc list-inside space-y-2">
-		<li><a href="/balinese-calendar/api/errors" class="text-balinese-turquoise hover:text-balinese-gold">Error Types</a> - Error handling reference</li>
-		<li><a href="/balinese-calendar/guide/basic-usage" class="text-balinese-turquoise hover:text-balinese-gold">Basic Usage</a> - Common usage patterns</li>
-	</ul>
 </DocsLayout>
