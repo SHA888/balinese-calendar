@@ -116,6 +116,14 @@ jobs:
           name: rustdoc
           path: public/api
 
+      - name: Debug - List public directory
+        run: |
+          echo "Contents of public directory:"
+          ls -la public/
+          echo ""
+          echo "Contents of public/index.html:"
+          head -20 public/index.html
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
