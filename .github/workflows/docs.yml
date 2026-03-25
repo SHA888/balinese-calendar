@@ -60,10 +60,11 @@ jobs:
           pnpm run build
 
       - name: Upload astro artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: astro
           path: docs/dist/
+          retention-days: 1
 
   # Build Rust API documentation
   build-rustdoc:
@@ -83,10 +84,11 @@ jobs:
           cp -r target/doc/* public/api/
 
       - name: Upload rustdoc artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: rustdoc
           path: target/doc/
+          retention-days: 1
 
   # Combine and deploy to GitHub Pages
   deploy:
