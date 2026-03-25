@@ -1,0 +1,81 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+---
+
+<DocsLayout title="Contributing - Balinese Calendar" description="How to contribute to the Balinese Calendar project">
+	<h1 class="font-display text-4xl gold-accent mb-8">Contributing</h1>
+
+	<p class="text-lg mb-6">
+		We welcome contributions from the community! This guide will help you get started with contributing to the Balinese Calendar project.
+	</p>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Getting Started</h2>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Prerequisites</h3>
+
+	<ul class="list-disc list-inside space-y-2 mb-8">
+		<li>Rust 1.86.0 or later</li>
+		<li>Git</li>
+		<li>GitHub account</li>
+	</ul>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Fork and Clone</h3>
+
+	<div class="bg-gray-100 p-4 rounded-md mb-6">
+		<p class="font-mono text-sm mb-2"># Fork the repository on GitHub</p>
+		<p class="font-mono text-sm mb-2"># Clone your fork</p>
+		<p class="font-mono text-sm mb-2">git clone https://github.com/YOUR_USERNAME/balinese-calendar.git</p>
+		<p class="font-mono text-sm mb-2">cd balinese-calendar</p>
+		<p class="font-mono text-sm mb-2"># Add upstream remote</p>
+		<p class="font-mono text-sm">git remote add upstream https://github.com/SHA888/balinese-calendar.git</p>
+	</div>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Development Workflow</h2>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Create a Feature Branch</h3>
+
+	<div class="bg-gray-100 p-4 rounded-md mb-6">
+		<p class="font-mono text-sm">git checkout -b feature/your-feature-name</p>
+	</div>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Make Your Changes</h3>
+
+	<p class="mb-6">Follow the project's code style and conventions. Run tests to ensure your changes don't break anything:</p>
+
+	<div class="bg-gray-100 p-4 rounded-md mb-6">
+		<p class="font-mono text-sm">cargo test</p>
+	</div>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Commit and Push</h3>
+
+	<div class="bg-gray-100 p-4 rounded-md mb-6">
+		<p class="font-mono text-sm mb-2">git add .</p>
+		<p class="font-mono text-sm mb-2">git commit -m "feat: describe your changes"</p>
+		<p class="font-mono text-sm">git push origin feature/your-feature-name</p>
+	</div>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Create a Pull Request</h3>
+
+	<p class="mb-6">Go to the GitHub repository and create a pull request from your feature branch to the main branch. Include a clear description of your changes.</p>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Code Style</h2>
+
+	<ul class="list-disc list-inside space-y-2 mb-8">
+		<li>Follow Rust naming conventions</li>
+		<li>Use <code>cargo fmt</code> to format your code</li>
+		<li>Run <code>cargo clippy</code> to check for common mistakes</li>
+		<li>Write clear, descriptive commit messages</li>
+	</ul>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Testing</h2>
+
+	<p class="mb-6">All contributions should include tests. Run the test suite before submitting:</p>
+
+	<div class="bg-gray-100 p-4 rounded-md mb-6">
+		<p class="font-mono text-sm">cargo test --all-features</p>
+	</div>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Questions?</h2>
+
+	<p class="mb-6">Feel free to open an issue on GitHub if you have questions or need clarification. We're here to help!</p>
+</DocsLayout>

@@ -1,0 +1,42 @@
+---
+import DocsLayout from '../layouts/DocsLayout.astro';
+---
+
+<DocsLayout title="Introduction - Balinese Calendar" description="Welcome to the Balinese Calendar documentation">
+	<h1 class="font-display text-4xl gold-accent mb-8">Introduction</h1>
+
+	<p class="text-lg mb-6">
+		Welcome to the <strong>Balinese Calendar</strong> documentation! This is the first native Rust implementation of the Balinese Saka Calendar, providing comprehensive support for computing Pawukon, Wewaran, Sasih, Paringkelan, Rahinan, and Saka year from any Gregorian date.
+	</p>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Features</h2>
+
+	<ul class="space-y-3 mb-8">
+		<li>✅ Complete Pawukon System</li>
+		<li>✅ Nine Wewaran Cycles</li>
+		<li>✅ Sasih Lunar Calendar</li>
+		<li>✅ Paringkelan Systems</li>
+		<li>✅ Rahinan Detection</li>
+		<li>✅ Performance Optimized</li>
+		<li>✅ Type Safe</li>
+		<li>✅ Well Tested</li>
+	</ul>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Quick Example</h2>
+
+	<div class="code-block mb-6">
+		<pre><code class="language-rust" set:html={`use balinese_calendar::BalineseDate;
+
+let date = BalineseDate::from_ymd(2026, 3, 25)?;
+
+println!("Wuku: {}", date.wuku_name());
+println!("Saptawara: {}", date.saptawara());
+println!("Sasih: {}", date.sasih_name());`}></code></pre>
+	</div>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Getting Started</h2>
+
+	<p class="mb-6">
+		Ready to use the Balinese Calendar in your project? Head over to the <a href="/balinese-calendar/guide/getting-started" class="text-balinese-turquoise hover:text-balinese-gold font-semibold">Getting Started</a> guide to begin!
+	</p>
+</DocsLayout>

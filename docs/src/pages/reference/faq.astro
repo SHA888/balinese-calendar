@@ -1,0 +1,73 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+---
+
+<DocsLayout title="FAQ - Balinese Calendar" description="Frequently asked questions about the Balinese Calendar">
+	<h1 class="font-display text-4xl gold-accent mb-8">Frequently Asked Questions</h1>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">General Questions</h2>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">What is the Balinese Calendar?</h3>
+
+	<p class="mb-6">
+		The Balinese calendar is a complex system used in Bali, Indonesia that combines multiple overlapping cycles including the Saka lunar calendar, the 210-day Pawukon cycle, and nine different weekly systems (Wewaran).
+	</p>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Why use this library?</h3>
+
+	<p class="mb-6">
+		This library provides accurate, efficient, and type-safe calculations for all aspects of the Balinese calendar. It's written in Rust for performance and reliability.
+	</p>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">What Rust version is required?</h3>
+
+	<p class="mb-6">
+		The minimum supported Rust version (MSRV) is 1.86.0. You can update Rust with <code>rustup update</code>.
+	</p>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Usage Questions</h2>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">How do I create a Balinese date?</h3>
+
+	<p class="mb-6">
+		Use the BalineseDate::from_ymd function to create a date from year, month, and day values.
+	</p>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">How do I check for holy days?</h3>
+
+	<p class="mb-6">
+		Use the rahinan() method to get a list of holy days for a specific date.
+	</p>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">What date range is supported?</h3>
+
+	<p class="mb-6">
+		The library supports dates from 1800 to 2200 CE. Attempting to create a date outside this range will return an error.
+	</p>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Technical Questions</h2>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Is the library thread-safe?</h3>
+
+	<p class="mb-6">
+		Yes, <code>BalineseDate</code> is immutable and thread-safe. You can safely share it across threads.
+	</p>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Can I serialize/deserialize dates?</h3>
+
+	<p class="mb-6">
+		Yes, enable the <code>serde</code> feature in your <code>Cargo.toml</code> to use serialization with serde.
+	</p>
+
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">What about performance?</h3>
+
+	<p class="mb-6">
+		The library is highly optimized. Creating a date and accessing all calendar components takes microseconds.
+	</p>
+
+	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Still Have Questions?</h2>
+
+	<p class="mb-6">
+		Open an issue on <a href="https://github.com/SHA888/balinese-calendar" class="text-balinese-turquoise hover:text-balinese-gold">GitHub</a> if you have questions not covered here.
+	</p>
+</DocsLayout>
