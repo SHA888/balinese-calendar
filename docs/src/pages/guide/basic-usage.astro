@@ -15,7 +15,12 @@ import { Code } from 'astro:components';
 	<div class="code-block mb-6">
 		<Code code={`use balinese_calendar::BalineseDate;
 
-let date = BalineseDate::from_ymd(2026, 3, 25)?;`} lang="rust" />
+let date = BalineseDate::from_ymd(2026, 3, 25)?;
+
+// Access calendar components
+println!("Saka Year: {}", date.saka_year);
+println!("Sasih: {:?}", date.sasih);
+println!("Saptawara: {:?}", date.saptawara);`} lang="rust" />
 	</div>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-4">Accessing Calendar Components</h2>
@@ -23,30 +28,31 @@ let date = BalineseDate::from_ymd(2026, 3, 25)?;`} lang="rust" />
 	<div class="code-block mb-6">
 		<Code code={`let date = BalineseDate::from_ymd(2026, 3, 25)?;
 
-println!("Saptawara: {}", date.saptawara());
-println!("Pancawara: {}", date.pancawara());
-println!("Wuku: {}", date.wuku_name());
-println!("Pawukon day: {}", date.pawukon_day());`} lang="rust" />
+println!("Saptawara: {:?}", date.saptawara);
+println!("Pancawara: {:?}", date.pancawara);
+println!("Wuku: {:?}", date.wuku);
+println!("Wuku day: {}", date.wuku_day);
+println!("Pawukon day: {}", date.pawukon_day);`} lang="rust" />
 	</div>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-4">Sasih (Lunar Calendar)</h2>
 
 	<div class="code-block mb-6">
-		<Code code={`println!("Sasih: {}", date.sasih_name());
-println!("Saka Year: {}", date.saka_year());
-println!("Sasih Day: {}", date.sasih_day());`} lang="rust" />
+		<Code code={`println!("Sasih: {:?}", date.sasih);
+println!("Saka Year: {}", date.saka_year);
+println!("Sasih Day: {:?}", date.sasih_day);`} lang="rust" />
 	</div>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-4">Working with Holy Days</h2>
 
 	<div class="code-block mb-6">
-		<Code code={`if date.is_purnama() {
+		<Code code={`if date.is_purnama {
     println!("Today is Purnama (full moon)");
 }
 
-if !date.rahinan().is_empty() {
+if !date.rahinan.is_empty() {
     println!("Holy days today:");
-    for rahinan in date.rahinan() {
+    for rahinan in &date.rahinan {
         println!("  - {:?}", rahinan);
     }
 }`} lang="rust" />

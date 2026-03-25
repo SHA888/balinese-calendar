@@ -41,7 +41,7 @@ balinese-calendar = { version = "0.1", features = ["serde"] }`} lang="toml" />
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let date = BalineseDate::from_ymd(2023, 1, 1)?;
-    println!("Saka Year: {}", date.saka_year());
+    println!("Saka Year: {}", date.saka_year);
     Ok(())
 }`} lang="rust" />
 	</div>

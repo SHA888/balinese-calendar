@@ -28,9 +28,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let date = BalineseDate::from_ymd(2023, 1, 1)?;
 
     println!("Gregorian: 2023-01-01");
-    println!("Saka Year: {}", date.saka_year());
-    println!("Sasih: {}", date.sasih_name());
-    println!("Saptawara: {}", date.saptawara());
+    println!("Saka Year: {}", date.saka_year);
+    println!("Sasih: {:?}", date.sasih);
+    println!("Saptawara: {:?}", date.saptawara);
 
     Ok(())
 }`} lang="rust" />

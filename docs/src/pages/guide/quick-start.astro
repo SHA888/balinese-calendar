@@ -21,10 +21,10 @@ balinese-calendar = "0.1"</code></pre>
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let date = BalineseDate::from_ymd(2023, 1, 1)?;
 
-    println!("Saka Year: {}", date.saka_year());
-    println!("Sasih: {}", date.sasih_name());
-    println!("Saptawara: {}", date.saptawara());
-    println!("Pawukon Day: {}", date.pawukon_day());
+    println!("Saka Year: {}", date.saka_year);
+    println!("Sasih: {:?}", date.sasih);
+    println!("Saptawara: {:?}", date.saptawara);
+    println!("Pawukon Day: {}", date.pawukon_day);
 
     Ok(())
 }`} lang="rust" />
@@ -35,12 +35,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 	<div class="code-block mb-6">
 		<Code code={`let date = BalineseDate::from_ymd(2023, 1, 1)?;
 
-if date.is_galungan() {
+if date.rahinan.iter().any(|r| matches!(r, rahinan::Galungan)) {
     println!("Today is Galungan!");
 }
 
-if !date.rahinan().is_empty() {
-    println!("Holy days: {:?}", date.rahinan());
+if !date.rahinan.is_empty() {
+    println!("Holy days: {:?}", date.rahinan);
 }`} lang="rust" />
 	</div>
 

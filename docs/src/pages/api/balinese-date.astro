@@ -24,49 +24,49 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
 	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Saka Year</h3>
 
 	<div class="bg-gray-100 p-4 rounded-md mb-6">
-		<p class="font-mono text-sm mb-2">pub fn saka_year(&self) -> i32</p>
+		<p class="font-mono text-sm mb-2">pub saka_year: i32</p>
 	</div>
 
-	<p class="mb-6">Returns the Saka year (lunar calendar year).</p>
+	<p class="mb-6">The Saka year (lunar calendar year).</p>
 
 	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Sasih (Lunar Month)</h3>
 
 	<div class="bg-gray-100 p-4 rounded-md mb-6">
-		<p class="font-mono text-sm mb-2">pub fn sasih_name(&self) -> &str</p>
-		<p class="font-mono text-sm mb-2">pub fn sasih_day(&self) -> u32</p>
+		<p class="font-mono text-sm mb-2">pub sasih: Sasih</p>
+		<p class="font-mono text-sm mb-2">pub sasih_day: SasihDayInfo</p>
 	</div>
 
-	<p class="mb-6">Returns the lunar month name and day within the month.</p>
+	<p class="mb-6">The lunar month and day within the month.</p>
 
 	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Wewaran (Weekly Cycles)</h3>
 
 	<div class="bg-gray-100 p-4 rounded-md mb-6">
-		<p class="font-mono text-sm mb-2">pub fn saptawara(&self) -> &str</p>
-		<p class="font-mono text-sm mb-2">pub fn pancawara(&self) -> &str</p>
-		<p class="font-mono text-sm mb-2">pub fn triwara(&self) -> &str</p>
+		<p class="font-mono text-sm mb-2">pub saptawara: Saptawara</p>
+		<p class="font-mono text-sm mb-2">pub pancawara: Pancawara</p>
+		<p class="font-mono text-sm mb-2">pub triwara: Triwara</p>
 	</div>
 
-	<p class="mb-6">Returns the names of the various weekly cycles.</p>
+	<p class="mb-6">The various weekly cycles.</p>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Holy Days</h2>
 
 	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Rahinan</h3>
 
 	<div class="bg-gray-100 p-4 rounded-md mb-6">
-		<p class="font-mono text-sm mb-2">pub fn rahinan(&self) -> Vec&lt;Rahinan&gt;</p>
+		<p class="font-mono text-sm mb-2">pub rahinan: Vec&lt;Rahinan&gt;</p>
 	</div>
 
-	<p class="mb-6">Returns a vector of holy days for this date.</p>
+	<p class="mb-6">A vector of holy days for this date.</p>
 
 	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Special Days</h3>
 
 	<div class="bg-gray-100 p-4 rounded-md mb-6">
-		<p class="font-mono text-sm mb-2">pub fn is_galungan(&self) -> bool</p>
-		<p class="font-mono text-sm mb-2">pub fn is_kuningan(&self) -> bool</p>
-		<p class="font-mono text-sm mb-2">pub fn is_nyepi(&self) -> bool</p>
+		<p class="font-mono text-sm mb-2">pub is_purnama: bool</p>
+		<p class="font-mono text-sm mb-2">pub is_tilem: bool</p>
+		<p class="font-mono text-sm mb-2">pub is_nampih: bool</p>
 	</div>
 
-	<p class="mb-6">Check for specific important days and months.</p>
+	<p class="mb-6">Flags for special days and months.</p>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Related Topics</h2>
 

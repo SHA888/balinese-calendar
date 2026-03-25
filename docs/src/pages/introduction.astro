@@ -30,9 +30,9 @@ import { Code } from 'astro:components';
 
 let date = BalineseDate::from_ymd(2026, 3, 25)?;
 
-println!("Wuku: {}", date.wuku_name());
-println!("Saptawara: {}", date.saptawara());
-println!("Sasih: {}", date.sasih_name());`} lang="rust" />
+println!("Wuku: {:?}", date.wuku);
+println!("Saptawara: {:?}", date.saptawara);
+println!("Sasih: {:?}", date.sasih);`} lang="rust" />
 	</div>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Getting Started</h2>
