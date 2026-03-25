@@ -1,1 +1,0 @@
-# Sasih Types
