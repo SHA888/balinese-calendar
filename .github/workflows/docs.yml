@@ -75,13 +75,13 @@ jobs:
       contents: write
     steps:
       - name: Download book artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v8
         with:
           name: book
           path: public
 
       - name: Download rustdoc artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v8
         with:
           name: rustdoc
           path: public/api
