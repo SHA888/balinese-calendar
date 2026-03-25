@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- **Rust**: 1.70.0 or later (MSRV - Minimum Supported Rust Version)
+- **Rust**: 1.86.0 or later (MSRV - Minimum Supported Rust Version)
 - **Cargo**: Comes with Rust installation
 
 ## Installing Rust
@@ -100,7 +100,7 @@ The crate is tested on:
 ### Compilation Errors
 
 If you encounter compilation errors, ensure:
-1. Your Rust version is 1.70.0 or later: `rustc --version`
+1. Your Rust version is 1.86.0 or later: `rustc --version`
 2. Dependencies are up to date: `cargo update`
 3. Clean build: `cargo clean && cargo build`
 

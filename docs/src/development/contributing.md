@@ -6,7 +6,7 @@ Thank you for your interest in contributing to the Balinese Calendar project! Th
 
 ### Prerequisites
 
-- Rust 1.70.0 or later (MSRV)
+- Rust 1.86.0 or later (MSRV)
 - Git
 - mdBook (for documentation): `cargo install mdbook`
 
