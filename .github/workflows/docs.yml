@@ -34,7 +34,7 @@ jobs:
           mdbook build
 
       - name: Upload book artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: book
           path: docs/book/
@@ -60,7 +60,7 @@ jobs:
           echo '<meta http-equiv="refresh" content="0; url=balinese_calendar">' > target/doc/index.html
 
       - name: Upload rustdoc artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: rustdoc
           path: target/doc/
