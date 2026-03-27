@@ -1,7 +1,7 @@
 //! Test serde serialization/deserialization functionality
 
 #[cfg(feature = "serde")]
-use balinese_calendar::{BalineseDate, DayBoundary, FlatRecord, Rahinan, Sasih, Wuku};
+use balinese_calendar::{BalineseDate, DayBoundary, Rahinan, Sasih, Wuku};
 
 #[cfg(feature = "serde")]
 #[test]
@@ -10,7 +10,7 @@ fn test_balinese_date_serde() {
 
     // Test serialization to JSON
     let json = serde_json::to_string(&date).expect("Failed to serialize BalineseDate");
-    println!("Serialized BalineseDate: {}", json);
+    println!("Serialized BalineseDate: {json}");
 
     // Test deserialization
     let deserialized: BalineseDate =
@@ -26,7 +26,7 @@ fn test_flat_record_serde() {
 
     // Test serialization to JSON
     let json = serde_json::to_string(&flat).expect("Failed to serialize FlatRecord");
-    println!("Serialized FlatRecord: {}", json);
+    println!("Serialized FlatRecord: {json}");
 
     // Note: FlatRecord contains &'static str fields, so deserialization requires custom handling
     // For now, we just test that serialization works

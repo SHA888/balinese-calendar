@@ -30,9 +30,6 @@ repos:
       - id: cargo-check
         description: Run cargo check to validate compilation
         args: ['--workspace', '--all-targets']
-      - id: clippy
-        description: Run cargo clippy for linting
-        args: ['--workspace', '--all-targets', '--', '-D', 'warnings']
 
   # Custom hooks for formatting, security, license, and documentation
   - repo: local
@@ -51,6 +48,14 @@ repos:
         language: system
         description: Check Rust dependencies for security vulnerabilities
         files: '^Cargo\.lock$'
+        pass_filenames: false
+
+      - id: cargo-clippy
+        name: cargo-clippy
+        entry: cargo clippy --all-targets --all-features -- -D warnings
+        language: system
+        description: Run cargo clippy for linting with all features enabled
+        files: '^src/.*\.rs$|^Cargo\.toml$'
         pass_filenames: false
 
       - id: cargo-deny
