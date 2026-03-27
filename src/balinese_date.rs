@@ -380,7 +380,14 @@ mod tests {
 
 /// Flat record struct for columnar data serialization.
 /// Suitable for Arrow, Parquet, and other columnar formats.
-/// Add `#[derive(serde::Serialize)]` when enabling the `serde` feature.
+///
+/// # Serde Limitations
+///
+/// When the `serde` feature is enabled, this struct can be serialized to JSON
+/// but **cannot be deserialized** from JSON due to the `&'static str` fields
+/// (`sasih_name`, `sasih_season_tag`, etc.). This is a design constraint
+/// required for zero-copy string references. For API integration, use this
+/// struct for JSON output only.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FlatRecord {

@@ -59,3 +59,16 @@ fn test_enums_serde() {
         serde_json::from_str(&json).expect("Failed to deserialize DayBoundary");
     assert_eq!(boundary, deserialized);
 }
+
+#[cfg(all(feature = "serde", feature = "astronomical"))]
+#[test]
+fn test_astronomical_boundary_serde() {
+    use balinese_calendar::DayBoundary;
+
+    let boundary = DayBoundary::Astronomical { lat: -8.3405, lon: 115.0920 };
+    let json =
+        serde_json::to_string(&boundary).expect("Failed to serialize Astronomical DayBoundary");
+    let deserialized: DayBoundary =
+        serde_json::from_str(&json).expect("Failed to deserialize Astronomical DayBoundary");
+    assert_eq!(boundary, deserialized);
+}
