@@ -17,6 +17,9 @@ pub enum BalineseDateError {
     #[error("invalid boundary hour {0}: must be 0–23")]
     InvalidBoundaryHour(u8),
 
+    #[error("Astronomical sunrise calculation failed")]
+    AstronomicalCalculationFailed,
+
     #[error("Not implemented: {0}")]
     NotImplemented(String),
 }

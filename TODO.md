@@ -81,17 +81,17 @@
 - [x] Enables JSON output for any API, pipelines, frontend bridges
 
 ### WASM target
-- [ ] `wasm32-unknown-unknown` support via `wasm-bindgen`
-- [ ] JS interop layer: `from_ymd()`, `today()`, rahinan list, formatted string
-- [ ] Depends on: `serde` feature (for JSON bridge to JS)
-- [ ] Enables client-side Balinese calendar in any web frontend
+- [x] `wasm32-unknown-unknown` support via `wasm-bindgen`
+- [x] JS interop layer: `from_ymd()`, `today()`, rahinan list, formatted string
+- [x] Depends on: `serde` feature (for JSON bridge to JS)
+- [x] Enables client-side Balinese calendar in any web frontend
 
 ### Astronomical sunrise
-- [ ] Implement `DayBoundary::Astronomical` using the `sunrise` crate
+- [x] Implement `DayBoundary::Astronomical` using the `sunrise` crate
       - Bali centroid default: lat -8.3405, lon 115.0920
       - Accept custom coordinates for non-Bali Hindu communities
       - Test against known sunrise times from BMKG
-- [ ] Expose `DayBoundary` in WASM bindings
+- [x] Expose `DayBoundary` in WASM bindings
 
 ---
 

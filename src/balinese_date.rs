@@ -99,6 +99,25 @@ impl BalineseDate {
         Self::from_jdn_unchecked(jdn, y, m, d)
     }
 
+    /// Computes a Balinese date from Gregorian year, month, day using an explicit day boundary.
+    /// This allows customizing the sunrise calculation (fixed hour or astronomical).
+    pub fn from_ymd_with_boundary(
+        year: i32,
+        month: u32,
+        day: u32,
+        boundary: &DayBoundary,
+    ) -> Result<Self, BalineseDateError> {
+        // Convert Gregorian date to UTC datetime at midnight, then apply boundary
+        let naive_date = chrono::NaiveDate::from_ymd_opt(year, month, day)
+            .ok_or(BalineseDateError::InvalidDate { year, month, day })?;
+        let utc_datetime = naive_date
+            .and_hms_opt(0, 0, 0)
+            .ok_or(BalineseDateError::InvalidDate { year, month, day })?
+            .and_utc();
+
+        Self::from_utc_datetime_with_boundary(utc_datetime, boundary)
+    }
+
     // ── Today ─────────────────────────────────────────────────────────────────
 
     /// Returns today's Balinese date using the default day boundary:
@@ -140,10 +159,30 @@ impl BalineseDate {
                 (utc_now + chrono::Duration::hours(offset_hours)).date_naive()
             }
             #[cfg(feature = "astronomical")]
-            DayBoundary::Astronomical { lat: _, lon: _ } => {
-                return Err(BalineseDateError::NotImplemented(
-                    "astronomical sunrise not yet implemented; use FixedSunrise(6)".into(),
-                ));
+            DayBoundary::Astronomical { lat, lon } => {
+                // Calculate astronomical sunrise for the given coordinates
+                use sunrise::{Coordinates, SolarDay, SolarEvent};
+
+                let utc_date = utc_now.date_naive();
+                let coordinates = Coordinates::new(*lat, *lon)
+                    .ok_or(BalineseDateError::AstronomicalCalculationFailed)?;
+                let solar_day = SolarDay::new(coordinates, utc_date);
+
+                // Calculate sunrise time in UTC for the given date and coordinates
+                let sunrise_datetime = solar_day
+                    .event_time(SolarEvent::Sunrise)
+                    .ok_or(BalineseDateError::AstronomicalCalculationFailed)?;
+
+                // The Balinese day starts at sunrise, so we need to adjust the date
+                // based on whether the current UTC time is before or after sunrise
+                if utc_now < sunrise_datetime {
+                    // Before sunrise, it's still the previous Balinese day
+                    (utc_now + chrono::Duration::hours(Self::BALI_UTC_OFFSET_HOURS - 1))
+                        .date_naive()
+                } else {
+                    // After sunrise, it's the current Balinese day
+                    (utc_now + chrono::Duration::hours(Self::BALI_UTC_OFFSET_HOURS)).date_naive()
+                }
             }
         };
         Self::from_naive_date(date)
