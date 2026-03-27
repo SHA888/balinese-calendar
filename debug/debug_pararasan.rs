@@ -1,4 +1,3 @@
-
 use balinese_calendar::BalineseDate;
 
 fn main() {
@@ -6,6 +5,10 @@ fn main() {
     println!("2026-01-03:");
     println!("  arya_name: {}", d.pararasan.name());
     println!("  bidja_name: {}", d.pararasan.name_sundari_bungkah());
-    println!("  pancawa: {}, sapta: {}", d.pancawara.name(), d.saptawara.name());
+    println!(
+        "  pancawa: {}, sapta: {}",
+        d.pancawara.name(),
+        d.saptawara.name()
+    );
     println!("  idx: {}", (d.pancawara as u8 + d.saptawara as u8) % 8);
 }

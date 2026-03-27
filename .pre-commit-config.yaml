@@ -1,28 +1,95 @@
+# Pre-commit hooks for nusantara-calendar Rust workspace
+# Install with: pre-commit install
+# Update with: pre-commit autoupdate
+
 repos:
+  # Basic file checks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: trailing-whitespace
+        description: Remove trailing whitespace
       - id: end-of-file-fixer
+        description: Ensure files end with newline
       - id: check-yaml
-      - id: check-added-large-files
+        description: Check YAML syntax
+      - id: check-toml
+        description: Check TOML syntax
       - id: check-merge-conflict
+        description: Check for merge conflict markers
+      - id: check-added-large-files
+        description: Prevent large files from being committed
+        args: ['--maxkb=1000']
+      - id: check-case-conflict
+        description: Check for case conflicts
 
+  # Rust specific hooks
   - repo: https://github.com/doublify/pre-commit-rust
     rev: v1.0
     hooks:
-      - id: fmt
-        args: [--all]
-        pass_filenames: false
+      - id: cargo-check
+        description: Run cargo check to validate compilation
+        args: ['--workspace', '--all-targets']
       - id: clippy
-        args: [--all-targets, --all-features, --, -D, warnings]
-        pass_filenames: false
+        description: Run cargo clippy for linting
+        args: ['--workspace', '--all-targets', '--', '-D', 'warnings']
 
+  # Custom hooks for formatting, security, license, and documentation
   - repo: local
     hooks:
-      - id: cargo-test
-        name: cargo test
-        entry: cargo test --lib --all-features
+      - id: rustfmt
+        name: rustfmt
+        entry: rustfmt
         language: system
+        description: Format Rust code with rustfmt
+        files: '^.*\.rs$'
+        types: [rust]
+
+      - id: cargo-audit
+        name: cargo-audit
+        entry: cargo audit
+        language: system
+        description: Check Rust dependencies for security vulnerabilities
+        files: '^Cargo\.lock$'
         pass_filenames: false
-        stages: [pre-commit]
+
+      - id: cargo-deny
+        name: cargo-deny
+        entry: cargo deny check
+        language: system
+        description: Check license compliance and security advisories
+        files: '^Cargo\.toml$|^Cargo\.lock$'
+        pass_filenames: false
+        stages: [manual]
+
+      - id: cargo-doc
+        name: cargo-doc
+        entry: cargo doc --no-deps --document-private-items --workspace
+        language: system
+        description: Build documentation to check for broken links
+        files: '^src/.*\.rs$|^Cargo\.toml$'
+        pass_filenames: false
+
+      - id: check-crate-structure
+        name: check-crate-structure
+        entry: bash -c 'find crates -name Cargo.toml | while read f; do crate=$(basename $(dirname $f)); if ! grep -q "^name = \"$crate\"" "$f"; then echo "Crate name mismatch in $f"; exit 1; fi; done'
+        language: system
+        description: Ensure crate names match directory names
+        files: '^crates/.*Cargo\.toml$'
+
+# Configuration
+default_language_version:
+  python: python3
+
+# Fail fast on first hook failure
+fail_fast: false
+
+# Skip hooks on certain files
+exclude: |
+  (?x)^(
+    \.git/.*|
+    \.cargo/.*|
+    target/.*|
+    \.vscode/.*|
+    \.idea/.*
+  )$
