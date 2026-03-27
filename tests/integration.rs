@@ -85,44 +85,17 @@ fn test_sasih_reference_table() {
     let cases: &[(i32, u32, u32, i32, Sasih, &str)] = &[
         // 2026
         (2026, 3, 3, 1947, Sasih::Kasanga, "Purnama Kasanga"),
-        (
-            2026,
-            3,
-            18,
-            1947,
-            Sasih::Kasanga,
-            "Tilem Kasanga (eve of Nyepi)",
-        ),
-        (
-            2026,
-            3,
-            19,
-            1948,
-            Sasih::Kadasa,
-            "Nyepi — Penanggal 1 Kadasa",
-        ),
+        (2026, 3, 18, 1947, Sasih::Kasanga, "Tilem Kasanga (eve of Nyepi)"),
+        (2026, 3, 19, 1948, Sasih::Kadasa, "Nyepi — Penanggal 1 Kadasa"),
         // 2025
-        (
-            2025,
-            3,
-            29,
-            1947,
-            Sasih::Kadasa,
-            "Nyepi 2025 — Penanggal 1 Kadasa",
-        ),
+        (2025, 3, 29, 1947, Sasih::Kadasa, "Nyepi 2025 — Penanggal 1 Kadasa"),
         (2025, 3, 28, 1946, Sasih::Kasanga, "Tilem Kasanga 2025"),
     ];
 
     for &(y, m, d, expected_saka, expected_sasih, desc) in cases {
         let bd = BalineseDate::from_ymd(y, m, d).unwrap();
-        assert_eq!(
-            bd.saka_year, expected_saka,
-            "{desc}: saka year for {y}-{m:02}-{d:02}"
-        );
-        assert_eq!(
-            bd.sasih, expected_sasih,
-            "{desc}: sasih for {y}-{m:02}-{d:02}"
-        );
+        assert_eq!(bd.saka_year, expected_saka, "{desc}: saka year for {y}-{m:02}-{d:02}");
+        assert_eq!(bd.sasih, expected_sasih, "{desc}: sasih for {y}-{m:02}-{d:02}");
     }
 }
 

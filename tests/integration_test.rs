@@ -54,10 +54,7 @@ fn test_ngunaratri_spacing_and_tithis() {
     let ngunaratri_days = find_ngunaratri(start, 500);
 
     // Expect multiple occurrences and constant 63-day spacing between them.
-    assert!(
-        ngunaratri_days.len() >= 5,
-        "expected at least 5 ngunaratri occurrences"
-    );
+    assert!(ngunaratri_days.len() >= 5, "expected at least 5 ngunaratri occurrences");
 
     for window in ngunaratri_days.windows(2) {
         let diff = window[1].jdn - window[0].jdn;
@@ -67,11 +64,8 @@ fn test_ngunaratri_spacing_and_tithis() {
     // Primary/secondary tithi must progress by +1 in sequence (Tilem wraps to Penanggal 1).
     for d in ngunaratri_days {
         if let balinese_calendar::SasihDayInfo::Ngunaratri { primary, secondary } = d.sasih_day {
-            let expected_next = if primary.tithi_number() == 30 {
-                1
-            } else {
-                primary.tithi_number() + 1
-            };
+            let expected_next =
+                if primary.tithi_number() == 30 { 1 } else { primary.tithi_number() + 1 };
             assert_eq!(
                 secondary.tithi_number(),
                 expected_next,
@@ -139,10 +133,7 @@ fn test_galungan_2025() {
     assert_eq!(d.wuku, Wuku::Dungulan);
     assert_eq!(d.saptawara, Saptawara::Buda);
     assert_eq!(d.pancawara, Pancawara::Kliwon);
-    assert!(
-        d.rahinan.contains(&Rahinan::Galungan),
-        "April 23, 2025 should be Galungan"
-    );
+    assert!(d.rahinan.contains(&Rahinan::Galungan), "April 23, 2025 should be Galungan");
 }
 
 #[test]
@@ -165,10 +156,7 @@ fn test_saraswati_detection() {
     assert_eq!(d.wuku, Wuku::Watugunung);
     assert_eq!(d.saptawara, Saptawara::Saniscara);
     assert_eq!(d.pancawara, Pancawara::Umanis);
-    assert!(
-        d.rahinan.contains(&Rahinan::Saraswati),
-        "2025-09-06 should be Saraswati"
-    );
+    assert!(d.rahinan.contains(&Rahinan::Saraswati), "2025-09-06 should be Saraswati");
 }
 
 // ── Pawukon cycle integrity ───────────────────────────────────────────────────
@@ -197,16 +185,8 @@ fn test_astawara_sangawara_reference_values() {
 
     for (y, m, d, expected_asta, expected_sanga) in samples {
         let bd = date(y, m, d);
-        assert_eq!(
-            bd.astawara.name(),
-            expected_asta,
-            "{y}-{m:02}-{d:02} astawara"
-        );
-        assert_eq!(
-            bd.sangawara.name(),
-            expected_sanga,
-            "{y}-{m:02}-{d:02} sangawara"
-        );
+        assert_eq!(bd.astawara.name(), expected_asta, "{y}-{m:02}-{d:02} astawara");
+        assert_eq!(bd.sangawara.name(), expected_sanga, "{y}-{m:02}-{d:02} sangawara");
     }
 }
 
@@ -214,20 +194,14 @@ fn test_astawara_sangawara_reference_values() {
 fn test_saptawara_7_day_cycle() {
     let d1 = date(2026, 3, 6); // Sukra (Friday)
     let d7 = BalineseDate::from_jdn(d1.jdn + 7);
-    assert_eq!(
-        d1.saptawara, d7.saptawara,
-        "Saptawara must repeat every 7 days"
-    );
+    assert_eq!(d1.saptawara, d7.saptawara, "Saptawara must repeat every 7 days");
 }
 
 #[test]
 fn test_pancawara_5_day_cycle() {
     let d1 = date(2026, 3, 6);
     let d5 = BalineseDate::from_jdn(d1.jdn + 5);
-    assert_eq!(
-        d1.pancawara, d5.pancawara,
-        "Pancawara must repeat every 5 days"
-    );
+    assert_eq!(d1.pancawara, d5.pancawara, "Pancawara must repeat every 5 days");
 }
 
 // ── FlatRecord output ─────────────────────────────────────────────────────────
@@ -238,10 +212,7 @@ fn test_flat_record_pancaroba_flag() {
     // Test a date in Sasih Kanem (pancaroba period)
     let d = date(2026, 11, 15); // November 15, 2026 = Sasih Kanem
     let rec = d.to_flat_record();
-    assert!(
-        rec.pancaroba_flag,
-        "FlatRecord should have pancaroba_flag=true for Sasih Kanem"
-    );
+    assert!(rec.pancaroba_flag, "FlatRecord should have pancaroba_flag=true for Sasih Kanem");
     assert_eq!(rec.sasih_season_tag, "pancaroba");
     assert_eq!(rec.sasih_name, "Kanem");
 }
@@ -305,10 +276,6 @@ fn test_invalid_month_returns_error() {
     let result = BalineseDate::from_ymd(2026, 13, 1);
     assert!(matches!(
         result,
-        Err(BalineseDateError::InvalidDate {
-            year: 2026,
-            month: 13,
-            day: 1
-        })
+        Err(BalineseDateError::InvalidDate { year: 2026, month: 13, day: 1 })
     ));
 }

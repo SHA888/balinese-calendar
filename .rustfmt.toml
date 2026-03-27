@@ -1,0 +1,16 @@
+# rustfmt configuration for balinese-calendar
+# Ensures consistent formatting between local development and CI
+
+# Prevent rustfmt from collapsing multi-line expressions
+use_small_heuristics = "Max"
+
+# Line width settings
+max_width = 100
+fn_call_width = 80
+struct_lit_width = 80
+array_width = 80
+chain_width = 80
+
+# Code style
+edition = "2024"
+newline_style = "Unix"

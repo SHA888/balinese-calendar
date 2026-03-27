@@ -11,10 +11,7 @@ fn main() -> anyhow::Result<()> {
     println!("Today (sunrise-adjusted): {}", today.to_balinese_string());
 
     let midnight = BalineseDate::today_with_boundary(&DayBoundary::Midnight)?;
-    println!(
-        "Today (midnight):         {}",
-        midnight.to_balinese_string()
-    );
+    println!("Today (midnight):         {}", midnight.to_balinese_string());
     println!();
 
     let d = today;
@@ -39,16 +36,8 @@ fn main() -> anyhow::Result<()> {
     println!("  Ecology tag : {}", d.wuku.ecology_tag());
     println!();
     println!("── Wewaran ─────────────────────────────────────────────");
-    println!(
-        "  Saptawara   : {} ({})",
-        d.saptawara.name(),
-        d.saptawara.name_indonesian()
-    );
-    println!(
-        "  Pancawara   : {} (urip {})",
-        d.pancawara.name(),
-        d.pancawara.urip()
-    );
+    println!("  Saptawara   : {} ({})", d.saptawara.name(), d.saptawara.name_indonesian());
+    println!("  Pancawara   : {} (urip {})", d.pancawara.name(), d.pancawara.urip());
     println!("  Triwara     : {}", d.triwara.name());
     println!("  Dwiwara     : {}", d.dwiwara.name());
     println!("  Caturwara   : {}", d.caturwara.name());

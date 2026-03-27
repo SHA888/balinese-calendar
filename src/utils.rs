@@ -100,11 +100,7 @@ mod tests {
         for (y, m, d) in cases {
             let jdn = gregorian_to_jdn(y, m, d).unwrap();
             let (yr, mo, da) = jdn_to_gregorian(jdn);
-            assert_eq!(
-                (yr, mo, da),
-                (y, m, d),
-                "roundtrip failed for {y}-{m:02}-{d:02}"
-            );
+            assert_eq!((yr, mo, da), (y, m, d), "roundtrip failed for {y}-{m:02}-{d:02}");
         }
     }
 

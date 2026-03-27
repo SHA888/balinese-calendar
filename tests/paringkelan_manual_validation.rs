@@ -59,11 +59,7 @@ fn main() {
 
 fn parse_date(s: &str) -> (i32, u32, u32) {
     let parts: Vec<_> = s.split('-').collect();
-    (
-        parts[0].parse().unwrap(),
-        parts[1].parse().unwrap(),
-        parts[2].parse().unwrap(),
-    )
+    (parts[0].parse().unwrap(), parts[1].parse().unwrap(), parts[2].parse().unwrap())
 }
 
 #[cfg(test)]

@@ -190,10 +190,7 @@ pub enum SasihDayInfo {
     /// Single tithi on this solar day
     Single(TithiPhase),
     /// Ngunaratri — two lunar days on one solar day; primary + secondary tithi.
-    Ngunaratri {
-        primary: TithiPhase,
-        secondary: TithiPhase,
-    },
+    Ngunaratri { primary: TithiPhase, secondary: TithiPhase },
 }
 
 impl std::fmt::Display for SasihDayInfo {
@@ -213,20 +210,14 @@ impl SasihDayInfo {
         matches!(
             self,
             SasihDayInfo::Single(TithiPhase::Purnama)
-                | SasihDayInfo::Ngunaratri {
-                    primary: TithiPhase::Purnama,
-                    ..
-                }
+                | SasihDayInfo::Ngunaratri { primary: TithiPhase::Purnama, .. }
         )
     }
     pub fn is_tilem(&self) -> bool {
         matches!(
             self,
             SasihDayInfo::Single(TithiPhase::Tilem)
-                | SasihDayInfo::Ngunaratri {
-                    primary: TithiPhase::Tilem,
-                    ..
-                }
+                | SasihDayInfo::Ngunaratri { primary: TithiPhase::Tilem, .. }
         )
     }
     pub fn is_ngunaratri(&self) -> bool {
@@ -323,20 +314,12 @@ impl SasihResult {
         let is_ngunaratri = emod(day_diff, NGUNARATRI_PERIOD) == 0 && day_diff != 0;
 
         let tithi_in_phase = emod(day_total, 15) as u8; // 0–14
-        let tithi = if tithi_in_phase == 0 {
-            15
-        } else {
-            tithi_in_phase
-        };
+        let tithi = if tithi_in_phase == 0 { 15 } else { tithi_in_phase };
 
         let day_info = Self::build_day_info(tithi, is_pangelong, is_ngunaratri);
 
         // ── 2. Walk-forward to determine sasih and saka year ─────────────
-        let pivot_offset = if pivot.sasih_day == 0 && pivot.ngunaratri_day == 0 {
-            0
-        } else {
-            1
-        };
+        let pivot_offset = if pivot.sasih_day == 0 && pivot.ngunaratri_day == 0 { 0 } else { 1 };
 
         let total_sasih = if day_diff >= 0 {
             (day_total + 29) / 30 - pivot_offset // ceil(day_total / 30) - offset
@@ -407,12 +390,7 @@ impl SasihResult {
             Sasih::from_index(current_sasih)
         };
 
-        SasihResult {
-            saka_year: current_saka,
-            sasih,
-            day_info,
-            is_nampih,
-        }
+        SasihResult { saka_year: current_saka, sasih, day_info, is_nampih }
     }
 
     /// Determine if the current sasih in the given saka year triggers a nampih.
@@ -491,20 +469,13 @@ impl SasihResult {
         if is_ngunaratri {
             let next_tithi = if tithi == 15 { 1 } else { tithi + 1 };
             let secondary_phase = if is_pangelong {
-                if next_tithi > 14 {
-                    TithiPhase::Tilem
-                } else {
-                    TithiPhase::Pangelong(next_tithi)
-                }
+                if next_tithi > 14 { TithiPhase::Tilem } else { TithiPhase::Pangelong(next_tithi) }
             } else if next_tithi > 14 {
                 TithiPhase::Purnama
             } else {
                 TithiPhase::Penanggal(next_tithi)
             };
-            SasihDayInfo::Ngunaratri {
-                primary: primary_phase,
-                secondary: secondary_phase,
-            }
+            SasihDayInfo::Ngunaratri { primary: primary_phase, secondary: secondary_phase }
         } else {
             SasihDayInfo::Single(primary_phase)
         }
@@ -545,10 +516,7 @@ mod tests {
         // Nyepi 2026 = March 19, 2026 = Penanggal 1 Kadasa Saka 1948
         let jdn = gregorian_to_jdn(2026, 3, 19).unwrap();
         let result = SasihResult::from_jdn(jdn);
-        assert_eq!(
-            result.saka_year, 1948,
-            "Saka year for Nyepi 2026 must be 1948"
-        );
+        assert_eq!(result.saka_year, 1948, "Saka year for Nyepi 2026 must be 1948");
         assert_eq!(result.sasih, Sasih::Kadasa, "Nyepi 2026 must be Kadasa");
     }
 

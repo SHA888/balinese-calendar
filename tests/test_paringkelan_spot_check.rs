@@ -67,12 +67,9 @@ fn lintang_cycle_completeness() {
     let mut current_date = chrono::NaiveDate::from_ymd_opt(2026, 1, 1).unwrap();
     for _ in 0..210 {
         // 210 = lcm(5,7,4,35) ensures full cycle coverage
-        let balinese = BalineseDate::from_ymd(
-            current_date.year(),
-            current_date.month(),
-            current_date.day(),
-        )
-        .unwrap();
+        let balinese =
+            BalineseDate::from_ymd(current_date.year(), current_date.month(), current_date.day())
+                .unwrap();
         seen.insert(balinese.lintang.name());
         current_date = current_date.succ_opt().unwrap();
     }

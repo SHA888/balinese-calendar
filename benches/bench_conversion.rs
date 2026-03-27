@@ -4,7 +4,7 @@
 // Run with: cargo bench
 
 use balinese_calendar::BalineseDate;
-use criterion::{criterion_group, criterion_main, Criterion};
+use criterion::{Criterion, criterion_group, criterion_main};
 use std::hint::black_box;
 
 fn bench_single_date(c: &mut Criterion) {
@@ -26,15 +26,8 @@ fn bench_year_range(c: &mut Criterion) {
 
 fn bench_flat_record(c: &mut Criterion) {
     let d = BalineseDate::from_ymd(2026, 3, 6).unwrap();
-    c.bench_function("to_flat_record()", |b| {
-        b.iter(|| black_box(d.to_flat_record()))
-    });
+    c.bench_function("to_flat_record()", |b| b.iter(|| black_box(d.to_flat_record())));
 }
 
-criterion_group!(
-    benches,
-    bench_single_date,
-    bench_year_range,
-    bench_flat_record
-);
+criterion_group!(benches, bench_single_date, bench_year_range, bench_flat_record);
 criterion_main!(benches);
