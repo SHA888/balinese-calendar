@@ -4,7 +4,12 @@
 //! Enable with the `wasm` feature flag.
 
 use crate::BalineseDate;
+use crate::boundary::DayBoundary;
+use chrono::NaiveDate;
 use wasm_bindgen::prelude::*;
+
+#[cfg(feature = "astronomical")]
+use chrono::Utc;
 
 /// JavaScript-friendly wrapper for BalineseDate
 #[wasm_bindgen]
@@ -99,7 +104,7 @@ impl WasmBalineseDate {
     /// Get list of rahinan (holy days) for this date
     #[wasm_bindgen]
     pub fn rahinan(&self) -> Vec<JsValue> {
-        self.date.rahinan.iter().map(|r| JsValue::from_str(&format!("{r:?}"))).collect()
+        self.date.rahinan.iter().map(|r| JsValue::from_str(r.name())).collect()
     }
 
     /// Check if this date is a pancaroba (transitional season)
@@ -120,6 +125,80 @@ impl WasmBalineseDate {
             Err(JsValue::from_str("serde feature not enabled"))
         }
     }
+
+    /// Create a Balinese date with custom fixed sunrise boundary
+    /// hour: 0-23 (Bali sunrise offset in hours, 6 = default)
+    #[wasm_bindgen]
+    pub fn with_fixed_sunrise(
+        year: i32,
+        month: u32,
+        day: u32,
+        hour: u8,
+    ) -> Result<WasmBalineseDate, JsValue> {
+        if hour > 23 {
+            return Err(JsValue::from_str("Fixed sunrise hour must be 0-23"));
+        }
+
+        let boundary = DayBoundary::FixedSunrise(hour);
+        // Convert Gregorian date to UTC datetime at midnight, then apply boundary
+        let naive_date = chrono::NaiveDate::from_ymd_opt(year, month, day)
+            .ok_or_else(|| JsValue::from_str("Invalid Gregorian date"))?;
+        let utc_datetime = naive_date
+            .and_hms_opt(0, 0, 0)
+            .ok_or_else(|| JsValue::from_str("Invalid time"))?
+            .and_utc();
+
+        BalineseDate::from_utc_datetime_with_boundary(utc_datetime, &boundary)
+            .map(|date| WasmBalineseDate { date })
+            .map_err(|e| JsValue::from_str(&format!("{e}")))
+    }
+
+    /// Create a Balinese date with astronomical sunrise boundary
+    /// Requires both wasm and astronomical features
+    /// lat: latitude in degrees (-90 to 90)
+    /// lon: longitude in degrees (-180 to 180)
+    #[cfg(all(feature = "astronomical", feature = "wasm"))]
+    #[wasm_bindgen]
+    pub fn with_astronomical_sunrise(
+        year: i32,
+        month: u32,
+        day: u32,
+        lat: f64,
+        lon: f64,
+    ) -> Result<WasmBalineseDate, JsValue> {
+        if lat < -90.0 || lat > 90.0 {
+            return Err(JsValue::from_str("Latitude must be between -90 and 90"));
+        }
+        if lon < -180.0 || lon > 180.0 {
+            return Err(JsValue::from_str("Longitude must be between -180 and 180"));
+        }
+
+        let boundary = DayBoundary::Astronomical { lat, lon };
+        // Convert Gregorian date to UTC datetime at midnight, then apply boundary
+        let naive_date = chrono::NaiveDate::from_ymd_opt(year, month, day)
+            .ok_or_else(|| JsValue::from_str("Invalid Gregorian date"))?;
+        let utc_datetime = naive_date
+            .and_hms_opt(0, 0, 0)
+            .ok_or_else(|| JsValue::from_str("Invalid time"))?
+            .and_utc();
+
+        BalineseDate::from_utc_datetime_with_boundary(utc_datetime, &boundary)
+            .map(|date| WasmBalineseDate { date })
+            .map_err(|e| JsValue::from_str(&format!("{e}")))
+    }
+
+    /// Get today's Balinese date with astronomical sunrise
+    /// Uses Bali centroid coordinates by default
+    #[cfg(all(feature = "astronomical", feature = "wasm"))]
+    #[wasm_bindgen]
+    pub fn today_astronomical() -> Result<WasmBalineseDate, JsValue> {
+        // Bali centroid: lat -8.3405, lon 115.0920
+        let boundary = DayBoundary::Astronomical { lat: -8.3405, lon: 115.0920 };
+        let utc_now = Utc::now();
+        BalineseDate::from_utc_datetime_with_boundary(utc_now, &boundary)
+            .map(|date| WasmBalineseDate { date })
+            .map_err(|e| JsValue::from_str(&format!("{e}")))
+    }
 }
 
 /// Get today's Balinese date
@@ -134,6 +213,77 @@ pub fn today() -> Result<WasmBalineseDate, JsValue> {
 #[wasm_bindgen]
 pub fn from_ymd(year: i32, month: u32, day: u32) -> Result<WasmBalineseDate, JsValue> {
     BalineseDate::from_ymd(year, month, day)
+        .map(|date| WasmBalineseDate { date })
+        .map_err(|e| JsValue::from_str(&format!("{e}")))
+}
+
+/// Create a Balinese date with custom fixed sunrise boundary
+#[wasm_bindgen]
+pub fn from_ymd_fixed_sunrise(
+    year: i32,
+    month: u32,
+    day: u32,
+    hour: u8,
+) -> Result<WasmBalineseDate, JsValue> {
+    if hour > 23 {
+        return Err(JsValue::from_str("Fixed sunrise hour must be 0-23"));
+    }
+
+    let boundary = DayBoundary::FixedSunrise(hour);
+    // Convert Gregorian date to UTC datetime at midnight, then apply boundary
+    let naive_date = NaiveDate::from_ymd_opt(year, month, day)
+        .ok_or_else(|| JsValue::from_str("Invalid Gregorian date"))?;
+    let utc_datetime = naive_date
+        .and_hms_opt(0, 0, 0)
+        .ok_or_else(|| JsValue::from_str("Invalid time"))?
+        .and_utc();
+
+    BalineseDate::from_utc_datetime_with_boundary(utc_datetime, &boundary)
+        .map(|date| WasmBalineseDate { date })
+        .map_err(|e| JsValue::from_str(&format!("{e}")))
+}
+
+/// Create a Balinese date with astronomical sunrise boundary
+/// Requires both wasm and astronomical features
+#[cfg(all(feature = "astronomical", feature = "wasm"))]
+#[wasm_bindgen]
+pub fn from_ymd_astronomical(
+    year: i32,
+    month: u32,
+    day: u32,
+    lat: f64,
+    lon: f64,
+) -> Result<WasmBalineseDate, JsValue> {
+    if lat < -90.0 || lat > 90.0 {
+        return Err(JsValue::from_str("Latitude must be between -90 and 90"));
+    }
+    if lon < -180.0 || lon > 180.0 {
+        return Err(JsValue::from_str("Longitude must be between -180 and 180"));
+    }
+
+    let boundary = DayBoundary::Astronomical { lat, lon };
+    // Convert Gregorian date to UTC datetime at midnight, then apply boundary
+    let naive_date = NaiveDate::from_ymd_opt(year, month, day)
+        .ok_or_else(|| JsValue::from_str("Invalid Gregorian date"))?;
+    let utc_datetime = naive_date
+        .and_hms_opt(0, 0, 0)
+        .ok_or_else(|| JsValue::from_str("Invalid time"))?
+        .and_utc();
+
+    BalineseDate::from_utc_datetime_with_boundary(utc_datetime, &boundary)
+        .map(|date| WasmBalineseDate { date })
+        .map_err(|e| JsValue::from_str(&format!("{e}")))
+}
+
+/// Get today's Balinese date with astronomical sunrise
+/// Uses Bali centroid coordinates by default
+#[cfg(all(feature = "astronomical", feature = "wasm"))]
+#[wasm_bindgen]
+pub fn today_astronomical() -> Result<WasmBalineseDate, JsValue> {
+    // Bali centroid: lat -8.3405, lon 115.0920
+    let boundary = DayBoundary::Astronomical { lat: -8.3405, lon: 115.0920 };
+    let utc_now = Utc::now();
+    BalineseDate::from_utc_datetime_with_boundary(utc_now, &boundary)
         .map(|date| WasmBalineseDate { date })
         .map_err(|e| JsValue::from_str(&format!("{e}")))
 }

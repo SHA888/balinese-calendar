@@ -145,4 +145,57 @@ impl Rahinan {
 
         result
     }
+
+    /// Get the display name of this rahinan
+    pub fn name(&self) -> &'static str {
+        match self {
+            Rahinan::Galungan => "Galungan",
+            Rahinan::Kuningan => "Kuningan",
+            Rahinan::Saraswati => "Saraswati",
+            Rahinan::Pagerwesi => "Pagerwesi",
+            Rahinan::Tumpek => "Tumpek",
+            Rahinan::TumpekLandep => "TumpekLandep",
+            Rahinan::TumpekUduh => "TumpekUduh",
+            Rahinan::TumpekKrulut => "TumpekKrulut",
+            Rahinan::TumpekKandang => "TumpekKandang",
+            Rahinan::TumpekWayang => "TumpekWayang",
+            Rahinan::KajengKeliwon => "KajengKeliwon",
+            Rahinan::HariBhataraSri => "HariBhataraSri",
+            Rahinan::Nyepi => "Nyepi",
+            Rahinan::SiwaRatri => "SiwaRatri",
+            Rahinan::Purnama(sasih) => match sasih {
+                Sasih::Kasa => "PurnamaKasa",
+                Sasih::Karo => "PurnamaKaro",
+                Sasih::Katiga => "PurnamaKatiga",
+                Sasih::Kapat => "PurnamaKapat",
+                Sasih::Kalima => "PurnamaKalima",
+                Sasih::Kanem => "PurnamaKanem",
+                Sasih::Kapitu => "PurnamaKapitu",
+                Sasih::Kawolu => "PurnamaKawolu",
+                Sasih::Kasanga => "PurnamaKasanga",
+                Sasih::Kadasa => "PurnamaKadasa",
+                Sasih::Desta => "PurnamaDesta",
+                Sasih::Sada => "PurnamaSada",
+                Sasih::NampihDesta => "PurnamaNampihDesta",
+                Sasih::NampihSada => "PurnamaNampihSada",
+            },
+            Rahinan::Tilem(sasih) => match sasih {
+                Sasih::Kasa => "TilemKasa",
+                Sasih::Karo => "TilemKaro",
+                Sasih::Katiga => "TilemKatiga",
+                Sasih::Kapat => "TilemKapat",
+                Sasih::Kalima => "TilemKalima",
+                Sasih::Kanem => "TilemKanem",
+                Sasih::Kapitu => "TilemKapitu",
+                Sasih::Kawolu => "TilemKawolu",
+                Sasih::Kasanga => "TilemKasanga",
+                Sasih::Kadasa => "TilemKadasa",
+                Sasih::Desta => "TilemDesta",
+                Sasih::Sada => "TilemSada",
+                Sasih::NampihDesta => "TilemNampihDesta",
+                Sasih::NampihSada => "TilemNampihSada",
+            },
+            Rahinan::AnggarKasih => "AnggarKasih",
+        }
+    }
 }
