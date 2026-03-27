@@ -39,6 +39,9 @@ pub mod sasih;
 pub mod utils;
 pub mod wewaran;
 
+#[cfg(feature = "wasm")]
+pub mod wasm;
+
 // ── Re-exports: primary API ───────────────────────────────────────────────────
 
 pub use balinese_date::{BalineseDate, FlatRecord};

@@ -78,13 +78,13 @@
 ### `serde` feature flag
 - [x] Derive `Serialize` / `Deserialize` on all public types behind `serde` feature
 - [x] Include `serde` and `serde_json` as optional dev-dependencies
-- [x] Enables JSON output for Dedauh API, GARUDA pipelines, frontend bridges
+- [x] Enables JSON output for any API, pipelines, frontend bridges
 
 ### WASM target
 - [ ] `wasm32-unknown-unknown` support via `wasm-bindgen`
 - [ ] JS interop layer: `from_ymd()`, `today()`, rahinan list, formatted string
 - [ ] Depends on: `serde` feature (for JSON bridge to JS)
-- [ ] Enables client-side Balinese calendar in Dedauh web frontend
+- [ ] Enables client-side Balinese calendar in any web frontend
 
 ### Astronomical sunrise
 - [ ] Implement `DayBoundary::Astronomical` using the `sunrise` crate
