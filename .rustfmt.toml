@@ -13,4 +13,4 @@ chain_width = 80
 
 # Code style
 edition = "2024"
-newline_style = "Unix"
+newline_style = "Auto"
