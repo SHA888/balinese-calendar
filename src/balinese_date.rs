@@ -129,6 +129,11 @@ impl BalineseDate {
         day: u32,
         boundary: &DayBoundary,
     ) -> Result<Self, BalineseDateError> {
+        // Validate year range early for better error messages
+        if !(1800..=2200).contains(&year) {
+            return Err(BalineseDateError::OutOfRange);
+        }
+
         // Convert Gregorian date to UTC datetime at midnight, then apply boundary
         let naive_date = chrono::NaiveDate::from_ymd_opt(year, month, day)
             .ok_or(BalineseDateError::InvalidDate { year, month, day })?;

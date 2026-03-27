@@ -197,7 +197,7 @@ impl WasmBalineseDate {
         let utc_now = Utc::now();
         BalineseDate::from_utc_datetime_with_boundary(utc_now, &boundary)
             .map(|date| WasmBalineseDate { date })
-            .map_err(|e| JsValue::from_str(&format!("{e}")))
+            .map_err(error_to_jsvalue)
     }
 }
 
@@ -206,7 +206,7 @@ impl WasmBalineseDate {
 pub fn today() -> Result<WasmBalineseDate, JsValue> {
     BalineseDate::today()
         .map(|date| WasmBalineseDate { date })
-        .map_err(|e| JsValue::from_str(&format!("{e}")))
+        .map_err(error_to_jsvalue)
 }
 
 /// Create a Balinese date from Gregorian year, month, day
@@ -214,7 +214,12 @@ pub fn today() -> Result<WasmBalineseDate, JsValue> {
 pub fn from_ymd(year: i32, month: u32, day: u32) -> Result<WasmBalineseDate, JsValue> {
     BalineseDate::from_ymd(year, month, day)
         .map(|date| WasmBalineseDate { date })
-        .map_err(|e| JsValue::from_str(&format!("{e}")))
+        .map_err(error_to_jsvalue)
+}
+
+/// Helper to convert BalineseDateError to JsValue consistently
+fn error_to_jsvalue(error: crate::BalineseDateError) -> JsValue {
+    JsValue::from_str(&format!("{error}"))
 }
 
 /// Helper to convert Gregorian date to UTC datetime at midnight
@@ -223,11 +228,14 @@ fn gregorian_to_utc_midnight(
     month: u32,
     day: u32,
 ) -> Result<chrono::DateTime<chrono::Utc>, JsValue> {
-    let naive_date = NaiveDate::from_ymd_opt(year, month, day)
-        .ok_or_else(|| JsValue::from_str("Invalid Gregorian date"))?;
+    let naive_date = NaiveDate::from_ymd_opt(year, month, day).ok_or_else(|| {
+        error_to_jsvalue(crate::BalineseDateError::InvalidDate { year, month, day })
+    })?;
     Ok(naive_date
         .and_hms_opt(0, 0, 0)
-        .ok_or_else(|| JsValue::from_str("Invalid time"))?
+        .ok_or_else(|| {
+            error_to_jsvalue(crate::BalineseDateError::InvalidDate { year, month, day })
+        })?
         .and_utc())
 }
 
@@ -240,7 +248,7 @@ pub fn from_ymd_fixed_sunrise(
     hour: u8,
 ) -> Result<WasmBalineseDate, JsValue> {
     if hour > 23 {
-        return Err(JsValue::from_str("Fixed sunrise hour must be 0-23"));
+        return Err(error_to_jsvalue(crate::BalineseDateError::InvalidBoundaryHour(hour)));
     }
 
     let boundary = DayBoundary::FixedSunrise(hour);
@@ -248,7 +256,7 @@ pub fn from_ymd_fixed_sunrise(
 
     BalineseDate::from_utc_datetime_with_boundary(utc_datetime, &boundary)
         .map(|date| WasmBalineseDate { date })
-        .map_err(|e| JsValue::from_str(&format!("{e}")))
+        .map_err(error_to_jsvalue)
 }
 
 /// Create a Balinese date with astronomical sunrise boundary
@@ -263,10 +271,10 @@ pub fn from_ymd_astronomical(
     lon: f64,
 ) -> Result<WasmBalineseDate, JsValue> {
     if lat < -90.0 || lat > 90.0 {
-        return Err(JsValue::from_str("Latitude must be between -90 and 90"));
+        return Err(error_to_jsvalue(crate::BalineseDateError::AstronomicalCalculationFailed));
     }
     if lon < -180.0 || lon > 180.0 {
-        return Err(JsValue::from_str("Longitude must be between -180 and 180"));
+        return Err(error_to_jsvalue(crate::BalineseDateError::AstronomicalCalculationFailed));
     }
 
     let boundary = DayBoundary::Astronomical { lat, lon };
@@ -274,7 +282,7 @@ pub fn from_ymd_astronomical(
 
     BalineseDate::from_utc_datetime_with_boundary(utc_datetime, &boundary)
         .map(|date| WasmBalineseDate { date })
-        .map_err(|e| JsValue::from_str(&format!("{e}")))
+        .map_err(error_to_jsvalue)
 }
 
 /// Get today's Balinese date with astronomical sunrise
