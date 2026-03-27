@@ -13,13 +13,13 @@ use crate::error::BalineseDateError;
 use crate::paringkelan::{
     Ingkel, Jejepan, Lintang, PancaSuda, Pararasan, Rakam, WatekAlit, WatekMadya,
 };
-use crate::pawukon::{Wuku, wuku_day_of_week};
+use crate::pawukon::{wuku_day_of_week, Wuku};
 use crate::rahinan::Rahinan;
 use crate::sasih::{Sasih, SasihDayInfo, SasihResult};
 use crate::utils::{gregorian_to_jdn, jdn_to_gregorian};
 use crate::wewaran::{
-    Astawara, Caturwara, Dasawara, Dwiwara, Ekawara, Pancawara, Sadwara, Sangawara, Saptawara,
-    Triwara, pawukon_day as pawukon_day_raw,
+    pawukon_day as pawukon_day_raw, Astawara, Caturwara, Dasawara, Dwiwara, Ekawara, Pancawara,
+    Sadwara, Sangawara, Saptawara, Triwara,
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -336,20 +336,16 @@ mod tests {
 
     #[test]
     fn fixed_sunrise_valid_range() {
-        assert!(
-            BalineseDate::from_utc_datetime_with_boundary(
-                chrono::Utc.with_ymd_and_hms(2026, 3, 7, 0, 0, 0).unwrap(),
-                &DayBoundary::FixedSunrise(0),
-            )
-            .is_ok()
-        );
-        assert!(
-            BalineseDate::from_utc_datetime_with_boundary(
-                chrono::Utc.with_ymd_and_hms(2026, 3, 7, 0, 0, 0).unwrap(),
-                &DayBoundary::FixedSunrise(23),
-            )
-            .is_ok()
-        );
+        assert!(BalineseDate::from_utc_datetime_with_boundary(
+            chrono::Utc.with_ymd_and_hms(2026, 3, 7, 0, 0, 0).unwrap(),
+            &DayBoundary::FixedSunrise(0),
+        )
+        .is_ok());
+        assert!(BalineseDate::from_utc_datetime_with_boundary(
+            chrono::Utc.with_ymd_and_hms(2026, 3, 7, 0, 0, 0).unwrap(),
+            &DayBoundary::FixedSunrise(23),
+        )
+        .is_ok());
         let err = BalineseDate::from_utc_datetime_with_boundary(
             chrono::Utc.with_ymd_and_hms(2026, 3, 7, 0, 0, 0).unwrap(),
             &DayBoundary::FixedSunrise(24),
