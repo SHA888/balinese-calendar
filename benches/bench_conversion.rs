@@ -4,7 +4,7 @@
 // Run with: cargo bench
 
 use balinese_calendar::BalineseDate;
-use criterion::{criterion_group, criterion_main, Criterion};
+use criterion::{Criterion, criterion_group, criterion_main};
 use std::hint::black_box;
 
 fn bench_single_date(c: &mut Criterion) {

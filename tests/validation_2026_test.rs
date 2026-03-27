@@ -404,16 +404,18 @@ fn rahinan_kajeng_keliwon_2026() {
     // Kajeng Keliwon = Kajeng (Triwara) + Kliwon (Pancawara), every 15 days
     // From kalenderbali.org January: Jan 13, Jan 28
     let d = BalineseDate::from_ymd(2026, 1, 13).unwrap();
-    assert!(d
-        .rahinan
-        .iter()
-        .any(|r| matches!(r, Rahinan::KajengKeliwon)));
+    assert!(
+        d.rahinan
+            .iter()
+            .any(|r| matches!(r, Rahinan::KajengKeliwon))
+    );
 
     let d = BalineseDate::from_ymd(2026, 1, 28).unwrap();
-    assert!(d
-        .rahinan
-        .iter()
-        .any(|r| matches!(r, Rahinan::KajengKeliwon)));
+    assert!(
+        d.rahinan
+            .iter()
+            .any(|r| matches!(r, Rahinan::KajengKeliwon))
+    );
 }
 
 #[test]
