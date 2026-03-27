@@ -217,6 +217,20 @@ pub fn from_ymd(year: i32, month: u32, day: u32) -> Result<WasmBalineseDate, JsV
         .map_err(|e| JsValue::from_str(&format!("{e}")))
 }
 
+/// Helper to convert Gregorian date to UTC datetime at midnight
+fn gregorian_to_utc_midnight(
+    year: i32,
+    month: u32,
+    day: u32,
+) -> Result<chrono::DateTime<chrono::Utc>, JsValue> {
+    let naive_date = NaiveDate::from_ymd_opt(year, month, day)
+        .ok_or_else(|| JsValue::from_str("Invalid Gregorian date"))?;
+    Ok(naive_date
+        .and_hms_opt(0, 0, 0)
+        .ok_or_else(|| JsValue::from_str("Invalid time"))?
+        .and_utc())
+}
+
 /// Create a Balinese date with custom fixed sunrise boundary
 #[wasm_bindgen]
 pub fn from_ymd_fixed_sunrise(
@@ -230,13 +244,7 @@ pub fn from_ymd_fixed_sunrise(
     }
 
     let boundary = DayBoundary::FixedSunrise(hour);
-    // Convert Gregorian date to UTC datetime at midnight, then apply boundary
-    let naive_date = NaiveDate::from_ymd_opt(year, month, day)
-        .ok_or_else(|| JsValue::from_str("Invalid Gregorian date"))?;
-    let utc_datetime = naive_date
-        .and_hms_opt(0, 0, 0)
-        .ok_or_else(|| JsValue::from_str("Invalid time"))?
-        .and_utc();
+    let utc_datetime = gregorian_to_utc_midnight(year, month, day)?;
 
     BalineseDate::from_utc_datetime_with_boundary(utc_datetime, &boundary)
         .map(|date| WasmBalineseDate { date })
@@ -262,13 +270,7 @@ pub fn from_ymd_astronomical(
     }
 
     let boundary = DayBoundary::Astronomical { lat, lon };
-    // Convert Gregorian date to UTC datetime at midnight, then apply boundary
-    let naive_date = NaiveDate::from_ymd_opt(year, month, day)
-        .ok_or_else(|| JsValue::from_str("Invalid Gregorian date"))?;
-    let utc_datetime = naive_date
-        .and_hms_opt(0, 0, 0)
-        .ok_or_else(|| JsValue::from_str("Invalid time"))?
-        .and_utc();
+    let utc_datetime = gregorian_to_utc_midnight(year, month, day)?;
 
     BalineseDate::from_utc_datetime_with_boundary(utc_datetime, &boundary)
         .map(|date| WasmBalineseDate { date })

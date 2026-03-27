@@ -100,7 +100,29 @@ impl BalineseDate {
     }
 
     /// Computes a Balinese date from Gregorian year, month, day using an explicit day boundary.
-    /// This allows customizing the sunrise calculation (fixed hour or astronomical).
+    ///
+    /// The Balinese calendar day begins at sunrise rather than midnight. This method allows
+    /// customizing how the sunrise is determined:
+    ///
+    /// - `DayBoundary::Midnight`: Uses Gregorian midnight (legacy behavior)
+    /// - `DayBoundary::FixedSunrise(hour)`: Uses a fixed hour offset (e.g., 6 for 06:00 UTC)
+    /// - `DayBoundary::Astronomical`: Calculates actual astronomical sunrise for given coordinates
+    ///
+    /// # Arguments
+    ///
+    /// * `year` - Gregorian year (1800-2200 CE)
+    /// * `month` - Gregorian month (1-12)
+    /// * `day` - Gregorian day (1-31, depending on month)
+    /// * `boundary` - The day boundary definition to apply
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use balinese_calendar::{BalineseDate, DayBoundary};
+    /// let boundary = DayBoundary::FixedSunrise(6);
+    /// let date = BalineseDate::from_ymd_with_boundary(2026, 3, 26, &boundary)?;
+    /// # Ok::<(), balinese_calendar::BalineseDateError>(())
+    /// ```
     pub fn from_ymd_with_boundary(
         year: i32,
         month: u32,
@@ -173,15 +195,15 @@ impl BalineseDate {
                     .event_time(SolarEvent::Sunrise)
                     .ok_or(BalineseDateError::AstronomicalCalculationFailed)?;
 
-                // The Balinese day starts at sunrise, so we need to adjust the date
-                // based on whether the current UTC time is before or after sunrise
+                // The Balinese day starts at astronomical sunrise.
+                // Determine which calendar day we're in based on whether utc_now
+                // is before or after today's sunrise.
                 if utc_now < sunrise_datetime {
-                    // Before sunrise, it's still the previous Balinese day
-                    (utc_now + chrono::Duration::hours(Self::BALI_UTC_OFFSET_HOURS - 1))
-                        .date_naive()
+                    // Before today's sunrise, we're still in yesterday's Balinese day
+                    (sunrise_datetime - chrono::Duration::days(1)).date_naive()
                 } else {
-                    // After sunrise, it's the current Balinese day
-                    (utc_now + chrono::Duration::hours(Self::BALI_UTC_OFFSET_HOURS)).date_naive()
+                    // After today's sunrise, we're in today's Balinese day
+                    sunrise_datetime.date_naive()
                 }
             }
         };
