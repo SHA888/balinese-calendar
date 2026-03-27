@@ -6,6 +6,7 @@
 use crate::wewaran::pawukon_day;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Wuku {
     Sinta = 0,
     Landep = 1,

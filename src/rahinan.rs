@@ -10,6 +10,7 @@ use crate::sasih::{Sasih, SasihDayInfo};
 use crate::wewaran::{Pancawara, Saptawara, Triwara};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Rahinan {
     // ── Major Pawukon-based rahinan ──────────────────────────────────────────
     Galungan,      // Buda Kliwon Dungulan

@@ -32,6 +32,7 @@ use crate::utils::{NGUNARATRI_PERIOD, SAKA_YEAR_OFFSET};
 // ── Sasih names ───────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Sasih {
     Kasa = 0,
     Karo = 1,
@@ -150,6 +151,7 @@ impl Sasih {
 // ── Tithi phase representations ───────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum TithiPhase {
     /// Waxing moon — day 1–14 (Penanggal 1–14)
     Penanggal(u8),
@@ -186,6 +188,7 @@ impl std::fmt::Display for TithiPhase {
 // ── SasihDayInfo — phase within the lunar month, including ngunaratri ────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum SasihDayInfo {
     /// Single tithi on this solar day
     Single(TithiPhase),

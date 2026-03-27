@@ -6,6 +6,7 @@
 /// Controls how the Balinese day boundary (sunrise) is resolved
 /// when converting a wall-clock instant to a Balinese calendar date.
 #[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum DayBoundary {
     /// Raw Gregorian midnight. Legacy behaviour; useful for tests and
     /// date-only inputs that are already sunrise-adjusted by the caller.

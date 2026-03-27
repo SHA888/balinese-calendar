@@ -25,6 +25,7 @@ use crate::wewaran::{
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct BalineseDate {
     // ── Gregorian ────────────────────────────────────────────────────────────
     pub gregorian_year: i32,
@@ -381,6 +382,7 @@ mod tests {
 /// Suitable for Arrow, Parquet, and other columnar formats.
 /// Add `#[derive(serde::Serialize)]` when enabling the `serde` feature.
 #[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FlatRecord {
     pub gregorian_year: i32,
     pub gregorian_month: u32,

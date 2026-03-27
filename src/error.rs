@@ -3,6 +3,7 @@ use thiserror::Error;
 
 #[non_exhaustive]
 #[derive(Debug, Error, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum BalineseDateError {
     #[error("Date out of supported range: year must be between 1800 and 2200 CE")]
     OutOfRange,

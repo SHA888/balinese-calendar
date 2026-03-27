@@ -13,6 +13,7 @@ use crate::wewaran::{Pancawara, Saptawara, pawukon_day};
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Jejepan {
     Mina = 0,
     Paksian = 1,
@@ -63,6 +64,7 @@ impl Jejepan {
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Ingkel {
     Wong = 0,
     Sato = 1,
@@ -113,6 +115,7 @@ impl Ingkel {
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum WatekMadya {
     Gajah = 0,
     Watu = 1,
@@ -122,6 +125,7 @@ pub enum WatekMadya {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum WatekAlit {
     Lintah = 0,
     Uler = 1,
@@ -195,6 +199,7 @@ impl WatekAlit {
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Lintang {
     Gajah = 0,
     Kiriman = 1,
@@ -331,6 +336,7 @@ impl Lintang {
 // PANCASUDA  (7-day cycle from Saptawara + adjustments)
 // ─────────────────────────────────────────────────────────────────────────────
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum PancaSuda {
     Lebu = 0,
     Wisesa = 1,
@@ -383,6 +389,7 @@ impl PancaSuda {
 // Source: I.B. Putra Manik Aryana, Dasar Wariga + Tenung Wariga; I.B. Supartha Ardana, Pokok-Pokok Wariga (2005)
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Pararasan {
     WisesaSegara = 0,
     TunggakSemi = 1,
@@ -451,6 +458,7 @@ impl Pararasan {
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Rakam {
     Payu = 0,
     Caka = 1,

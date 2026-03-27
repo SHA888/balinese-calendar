@@ -32,6 +32,7 @@ pub fn pawukon_day(jdn: i64) -> u16 {
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Ekawara {
     Luang,
 }
@@ -52,6 +53,7 @@ impl Ekawara {
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Dwiwara {
     Menga = 0,
     Pepet = 1,
@@ -83,6 +85,7 @@ impl Dwiwara {
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Triwara {
     Pasah = 0,
     Beteng = 1,
@@ -119,6 +122,7 @@ impl Triwara {
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Caturwara {
     Sri = 0,
     Laba = 1,
@@ -170,6 +174,7 @@ impl Caturwara {
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Pancawara {
     Umanis = 0,
     Paing = 1,
@@ -227,6 +232,7 @@ impl Pancawara {
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Sadwara {
     Tungleh = 0,
     Aryang = 1,
@@ -275,6 +281,7 @@ impl Sadwara {
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Saptawara {
     Redite = 0,    // Sunday
     Soma = 1,      // Monday
@@ -339,6 +346,7 @@ impl Saptawara {
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Astawara {
     Sri = 0,
     Indra = 1,
@@ -405,6 +413,7 @@ impl Astawara {
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Sangawara {
     Dangu = 0,
     Jangur = 1,
@@ -468,6 +477,7 @@ impl Sangawara {
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Dasawara {
     Pandita = 0,
     Pati = 1,

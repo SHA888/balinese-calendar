@@ -76,9 +76,9 @@
 ## v0.1.3 — Infrastructure
 
 ### `serde` feature flag
-- [ ] Derive `Serialize` / `Deserialize` on all public types behind `serde` feature
-- [ ] Include `serde` and `serde_json` as optional dev-dependencies
-- [ ] Enables JSON output for Dedauh API, GARUDA pipelines, frontend bridges
+- [x] Derive `Serialize` / `Deserialize` on all public types behind `serde` feature
+- [x] Include `serde` and `serde_json` as optional dev-dependencies
+- [x] Enables JSON output for Dedauh API, GARUDA pipelines, frontend bridges
 
 ### WASM target
 - [ ] `wasm32-unknown-unknown` support via `wasm-bindgen`
