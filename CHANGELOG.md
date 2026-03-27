@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.3] — 2026-03-27
+
+### 🎉 Major Features
+- **WASM (WebAssembly) support**:
+  - Complete `wasm32-unknown-unknown` target via `wasm-bindgen`
+  - JavaScript interop layer with `from_ymd()`, `today()`, rahinan list, formatted string
+  - Enables client-side Balinese calendar in any web frontend
+  - Depends on `serde` feature for JSON bridge to JavaScript
+
+- **Astronomical sunrise support**:
+  - `DayBoundary::Astronomical` using the `sunrise` crate
+  - Bali centroid default coordinates: lat -8.3405, lon 115.0920
+  - Accept custom coordinates for non-Bali Hindu communities
+  - Tested against known sunrise time patterns
+
+### 🔧 Infrastructure Improvements
+- **Serde feature flag**:
+  - Derive `Serialize` / `Deserialize` on all public types behind `serde` feature
+  - Include `serde` and `serde_json` as optional dependencies
+  - Enables JSON output for any API, pipelines, frontend bridges
+
+### 🐛 Bug Fixes
+- Fixed critical astronomical sunrise calculation logic
+- Added early year range validation for better error messages
+- Improved WASM error message consistency using structured errors
+- Enhanced code quality with comprehensive test coverage
+
+### 🧪 Testing
+- Added 6 astronomical sunrise tests with BMKG reference validation
+- All 95 tests passing with comprehensive coverage
+- Code quality verified with pre-commit checks (no warnings, proper formatting)
+
 ## [0.1.2] — 2026-03-25
 
 ### 🎉 Major Features

@@ -19,6 +19,23 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
 
 	<p class="mb-6">Creates a new BalineseDate from a Gregorian date (year, month, day).</p>
 
+	<h3 class="font-body text-xl font-semibold mt-6 mb-3">from_ymd_with_boundary</h3>
+
+	<div class="bg-gray-100 p-4 rounded-md mb-6">
+		<p class="font-mono text-sm mb-2">pub fn from_ymd_with_boundary(year: i32, month: u32, day: u32, boundary: &DayBoundary) -> Result&lt;Self, BalineseDateError&gt;</p>
+	</div>
+
+	<p class="mb-6">Creates a new BalineseDate from a Gregorian date using an explicit day boundary. This allows customizing how the sunrise is determined (fixed hour or astronomical).</p>
+
+	<div class="bg-blue-50 p-4 rounded-md mb-6">
+		<p class="text-sm font-semibold mb-2">Available DayBoundary options:</p>
+		<ul class="list-disc list-inside text-sm space-y-1">
+			<li><code>Midnight</code> - Uses Gregorian midnight (legacy behavior)</li>
+			<li><code>FixedSunrise(hour)</code> - Uses a fixed hour offset (e.g., 6 for 06:00 UTC)</li>
+			<li><code>Astronomical { lat, lon }</code> - Calculates actual astronomical sunrise for given coordinates</li>
+		</ul>
+	</div>
+
 	<h2 class="font-display text-2xl text-balinese-gold mt-12 mb-6">Calendar Components</h2>
 
 	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Saka Year</h3>

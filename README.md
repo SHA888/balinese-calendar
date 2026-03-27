@@ -56,6 +56,8 @@ for r in &today.rahinan {
 - **PancaSuda / Pararasan / Rakam**
 - **Ngunaratri** (intercalary tithi)
 - **DayBoundary** (sunrise-aware date)
+- **WebAssembly (WASM) support** for browser environments
+- **Astronomical sunrise** using real astronomical calculations
 
 ---
 
@@ -124,17 +126,21 @@ variants are available via `PancaSuda::name_sundari_bungkah()`.
 Add to `Cargo.toml`:
 ```toml
 [dependencies]
-balinese-calendar = "0.1"
+balinese-calendar = "0.1.3"
 ```
 
 **Optional Features:**
 ```toml
-balinese-calendar = { version = "0.1", features = ["serde"] }
+balinese-calendar = { version = "0.1.3", features = ["serde"] }
+balinese-calendar = { version = "0.1.3", features = ["astronomical"] }
+balinese-calendar = { version = "0.1.3", features = ["wasm"] }
+balinese-calendar = { version = "0.1.3", features = ["serde", "astronomical", "wasm"] }
 ```
 
 Available features:
 - `serde` - Enable serialization/deserialization support
 - `astronomical` - Enable astronomical sunrise calculations
+- `wasm` - Enable WebAssembly support for browser environments
 
 ## API Overview
 
@@ -164,6 +170,67 @@ let d2 = BalineseDate::from_jdn(d.jdn + 210);
 assert_eq!(d.wuku, d2.wuku);
 assert_eq!(d.pancawara, d2.pancawara);
 ```
+
+## WebAssembly (WASM) Support
+
+Enable client-side Balinese calendar in any web frontend:
+
+```javascript
+import init, { from_ymd, today } from 'balinese-calendar';
+
+// Initialize WASM module
+await init();
+
+// Create Balinese date
+const date = from_ymd(2026, 3, 26);
+console.log(date.toBalineseString());
+// "Redite Pon Dukut, Sasih Kadasa, Saka 1948"
+
+// Get today's Balinese date
+const today = today();
+console.log(today.rahinanList());
+// ["Galungan", "Kuningan", ...]
+```
+
+**Custom day boundaries:**
+```javascript
+import { from_ymd_fixed_sunrise, from_ymd_astronomical } from 'balinese-calendar';
+
+// Fixed sunrise at 6 AM UTC
+const fixed = from_ymd_fixed_sunrise(2026, 3, 26, 6);
+
+// Astronomical sunrise for Bali (default coordinates)
+const astro = from_ymd_astronomical(2026, 3, 26, -8.3405, 115.0920);
+```
+
+## Astronomical Sunrise
+
+Calculate actual astronomical sunrise times for any location:
+
+```rust
+use balinese_calendar::{BalineseDate, DayBoundary};
+
+// Bali centroid coordinates
+let boundary = DayBoundary::Astronomical {
+    lat: -8.3405,
+    lon: 115.0920
+};
+
+let date = BalineseDate::from_ymd_with_boundary(2026, 3, 26, &boundary)?;
+println!("Balinese date with astronomical sunrise: {}", date.to_balinese_string());
+
+// Custom coordinates for other Hindu communities
+let custom_boundary = DayBoundary::Astronomical {
+    lat: -6.2088,  // Jakarta
+    lon: 106.8456
+};
+```
+
+**Features:**
+- Real astronomical calculations using the `sunrise` crate
+- Custom coordinates for any location worldwide
+- Handles polar day/night conditions gracefully
+- Tested against BMKG (Indonesian meteorological agency) reference data
 
 ## Supported Date Range
 

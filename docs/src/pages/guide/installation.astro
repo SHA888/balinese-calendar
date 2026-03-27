@@ -17,21 +17,25 @@ import { Code } from 'astro:components';
 
 	<div class="code-block mb-6">
 		<Code code={`[dependencies]
-balinese-calendar = "0.1"`} lang="toml" />
+balinese-calendar = "0.1.3"`} lang="toml" />
 	</div>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">With Feature Flags</h2>
 
 	<div class="code-block mb-6">
 		<Code code={`[dependencies]
-balinese-calendar = { version = "0.1", features = ["serde"] }`} lang="toml" />
+balinese-calendar = { version = "0.1.3", features = ["serde"] }
+balinese-calendar = { version = "0.1.3", features = ["astronomical"] }
+balinese-calendar = { version = "0.1.3", features = ["wasm"] }
+balinese-calendar = { version = "0.1.3", features = ["serde", "astronomical", "wasm"] }`} lang="toml" />
 	</div>
 
 	<h3 class="font-body text-xl font-semibold mt-6 mb-3">Available Features</h3>
 
 	<ul class="list-disc list-inside space-y-2 mb-6">
 		<li><strong>serde</strong> - Enable serialization/deserialization support</li>
-		<li><strong>astronomical</strong> - Enable astronomical sunrise calculations (experimental)</li>
+		<li><strong>astronomical</strong> - Enable astronomical sunrise calculations</li>
+		<li><strong>wasm</strong> - Enable WebAssembly support for browser environments</li>
 	</ul>
 
 	<h2 class="font-display text-2xl text-balinese-gold mt-8 mb-4">Verifying Installation</h2>
