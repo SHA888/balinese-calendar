@@ -1,2 +1,2 @@
-createSrcSidebar('[["balinese_calendar",["",[["paringkelan",[],["mod.rs"]],["wewaran",[],["mod.rs"]]],["balinese_date.rs","boundary.rs","error.rs","lib.rs","pawukon.rs","rahinan.rs","sasih.rs","utils.rs","wasm.rs"]]]]');
-//{"start":19,"fragment_lengths":[197]}
+createSrcSidebar('[["balinese_calendar",["",[["paringkelan",[],["mod.rs"]],["wewaran",[],["mod.rs"]]],["balinese_date.rs","boundary.rs","error.rs","lib.rs","pawukon.rs","rahinan.rs","sasih.rs","utils.rs","wariga.rs","wasm.rs"]]]]');
+//{"start":19,"fragment_lengths":[209]}

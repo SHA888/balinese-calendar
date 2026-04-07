@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["DauhPeriod","DauhQuality","PawiwahanQuality","PramanaQuality","WarigaBelog"],"fn":["dauh_sukaranti","name_compatibility","next_otonan","next_otonan_from","otonan_dates","pawiwahan_compatibility","tri_pramana_for_day","wariga_belog"],"struct":["PatemuanResult","PawiwahanResult","TriPramana"]};
