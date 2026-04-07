@@ -106,39 +106,40 @@ and peradnya/balinese-date-java-lib.
 Fully extracted from JSI/STIKOM 2022. Pure modular arithmetic, no fuzzy logic.
 This is the simplest Dewasa Ayu feature: personalized to birth date, computable today.
 
-- [ ] New type: `WarigaBelog` enum — `Pati`, `Guru`, `Ratu`, `Lara`
-- [ ] Algorithm: `(birth_urip + daily_urip) % 4` where urip = sapta + panca
+- [x] New type: `WarigaBelog` enum — `Pati`, `Guru`, `Ratu`, `Lara`
+- [x] Algorithm: `(birth_urip + daily_urip) % 4` where urip = sapta + panca
       ```
       0 = Pati   — danger, avoid major activities
       1 = Guru   — wisdom, good for learning/spiritual practice
       2 = Ratu   — authority, good for leadership/official matters
       3 = Lara   — suffering, avoid important undertakings
       ```
-- [ ] API: `wariga_belog(birth: &BalineseDate, query: &BalineseDate) -> WarigaBelog`
-- [ ] Source: Wariga BELOG manuscript (Gianyar tradition), via T.I.P. Nyoman (2014)
+- [x] API: `wariga_belog(birth: &BalineseDate, query: &BalineseDate) -> WarigaBelog`
+- [x] Source: Wariga BELOG manuscript (Gianyar tradition), via T.I.P. Nyoman (2014)
       *Guide Book Buku Pedoman Wariga Belog*, Koleksi Griya Cebaang Giri Kesuma.
 
 ### Gebogan Urip Tri-Pramana (public API)
 The Tri-Pramana system assigns a composite urip value and fourfold quality
 classification to each of the 210 Wuku-day positions.
 
-- [ ] New type: `TriPramana { urip: u8, quality: PramanaQuality }`
-- [ ] `PramanaQuality` enum with 4 variants:
+- [x] New type: `TriPramana { urip: u8, quality: PramanaQuality }`
+- [x] `PramanaQuality` enum with 4 variants:
       - `LungguhSakti` — auspicious for crafting, practical work
       - `UtamaAsih` — excellent for all good works
       - `PugeranBakti` — favourable for worship, devotion
       - `MuktiPapa` — inauspicious, risk of danger
-- [ ] Embed 210-entry lookup from `tests/fixtures/gebogan_urip_tri_pramana.json`
-- [ ] API: `BalineseDate::tri_pramana() -> TriPramana`
-- [ ] Source: Wariga Sundari Bungkah via I Made Bidja (complete table extracted)
-- [ ] Document clearly: this differs from standard `sapta_wara.urip() + panca_wara.urip()`
+- [x] JSON loading from `tests/fixtures/gebogan_urip_tri_pramana.json`
+- [x] API: `BalineseDate::tri_pramana() -> Option<TriPramana>`
+- [x] Source: Wariga Sundari Bungkah via I Made Bidja (complete table extracted)
+- [x] Document clearly: this differs from standard `sapta_wara.urip() + panca_wara.urip()`
+- [x] Bounds checking: returns None for invalid pawukon_day (≥210)
 
 ### Pawiwahan (marriage compatibility)
 The single most-consulted Wariga table in Balinese culture.
 
-- [ ] `pawiwahan_compatibility(a: &BalineseDate, b: &BalineseDate) -> PawiwahanResult`
-- [ ] `PawiwahanResult { combined_urip: u8, remainder: u8, quality: PawiwahanQuality }`
-- [ ] 16-point quality scale from Wariga Sundari Bungkah:
+- [x] `pawiwahan_compatibility(a: &BalineseDate, b: &BalineseDate) -> PawiwahanResult`
+- [x] `PawiwahanResult { combined_urip: u8, remainder: u8, quality: PawiwahanQuality }`
+- [x] 16-point quality scale from Wariga Sundari Bungkah:
       ```
        1  Madya (Suka-Duka) — mixed fortune
        2  Kawon (Lara, Miskin) — hardship, poverty
@@ -157,31 +158,31 @@ The single most-consulted Wariga table in Balinese culture.
       15  Becik (Bokung) — good but childless
       16  Becik (Nyama Braya Asih) — beloved by family/community
       ```
-- [ ] Full 30×7 base lookup table already extracted from OCR
-- [ ] Cross-validate against einvite.id and kalenderbali.info
+- [x] Full 30×7 base lookup table already extracted from OCR
+- [x] Cross-validate against einvite.id and kalenderbali.info
 
 ### Dauh Sukaranti (time-slot quality)
 Traditional system for best time of day, based on combined urip.
 
-- [ ] `dauh_sukaranti(urip: u8) -> [DauhQuality; 5]`
-- [ ] 5 time periods: Dauh I (05:30–07:55), II (07:55–10:25), III (10:20–12:45),
+- [x] `dauh_sukaranti(urip: u8) -> [DauhQuality; 5]`
+- [x] 5 time periods: Dauh I (05:30–07:55), II (07:55–10:25), III (10:20–12:45),
       IV (12:45–15:10), V (15:10–17:30) WITA
-- [ ] Quality values: Kelara · Pali · Sume · Krta · Peta
-- [ ] Complete 12×5 lookup table extracted from OCR
-- [ ] Source: Wariga Sundari Bungkah via I Made Bidja
+- [x] Quality values: Kelara · Pali · Sume · Krta · Peta
+- [ ] Complete 12×5 lookup table extracted from OCR (currently using placeholder algorithm)
+- [x] Source: Wariga Sundari Bungkah via I Made Bidja
 
 ### Tenung Patemuan Adan (name compatibility)
-- [ ] `name_compatibility(a: &str, b: &str) -> PatemuanResult`
-- [ ] Letter → urip mapping via directional chart (18 consonant groups)
-- [ ] Source: Lontar Joyoboyo
+- [x] `name_compatibility(a: &str, b: &str) -> PatemuanResult`
+- [ ] Letter → urip mapping via directional chart (18 consonant groups) (currently using placeholder algorithm)
+- [x] Source: Lontar Joyoboyo
 
 ### Otonan calculator
 The otonan (Balinese birthday) falls every 210 days. Second most-requested
 feature after Dewasa Ayu.
 
-- [ ] `otonan_dates(birth: NaiveDate, count: usize) -> Vec<NaiveDate>`
-- [ ] `next_otonan(birth: NaiveDate) -> NaiveDate`
-- [ ] `next_otonan_from(birth: NaiveDate, after: NaiveDate) -> NaiveDate`
+- [x] `otonan_dates(birth: NaiveDate, count: usize) -> Vec<NaiveDate>`
+- [x] `next_otonan(birth: NaiveDate) -> NaiveDate`
+- [x] `next_otonan_from(birth: NaiveDate, after: NaiveDate) -> NaiveDate`
 
 ---
 

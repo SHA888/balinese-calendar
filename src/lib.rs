@@ -37,6 +37,7 @@ pub mod pawukon;
 pub mod rahinan;
 pub mod sasih;
 pub mod utils;
+pub mod wariga;
 pub mod wewaran;
 
 #[cfg(feature = "wasm")]
@@ -56,6 +57,11 @@ pub use paringkelan::{
 pub use pawukon::Wuku;
 pub use rahinan::Rahinan;
 pub use sasih::{Sasih, SasihDayInfo};
+pub use wariga::{
+    DauhPeriod, DauhQuality, PatemuanResult, PawiwahanQuality, PawiwahanResult, PramanaQuality,
+    TriPramana, WarigaBelog, dauh_sukaranti, name_compatibility, next_otonan, next_otonan_from,
+    otonan_dates, pawiwahan_compatibility, tri_pramana_for_day, wariga_belog,
+};
 pub use wewaran::{
     Astawara, Caturwara, Dasawara, Dwiwara, Ekawara, Pancawara, Sadwara, Sangawara, Saptawara,
     Triwara,

@@ -403,53 +403,46 @@ impl SasihResult {
         let cycle = ((saka % 19) + 19) % 19;
         match cycle {
             0 | 6 | 11 => {
-                if sasih_id == 10 && !in_sk && saka != 1925 {
-                    1 // Desta
-                } else {
-                    0
+                match (sasih_id, in_sk, saka != 1925) {
+                    (10, false, true) => 1, // Desta
+                    _ => 0,
                 }
             }
             3 | 8 | 14 | 16 => {
-                if sasih_id == 11 && !in_sk {
-                    1 // Sada
-                } else {
-                    0
+                match (sasih_id, in_sk) {
+                    (11, false) => 1, // Sada
+                    _ => 0,
                 }
             }
             // SK-period specific rules
             2 | 10 => {
-                if sasih_id == 10 && in_sk {
-                    1 // Desta during SK
-                } else {
-                    0
+                match (sasih_id, in_sk) {
+                    (10, true) => 1, // Desta during SK
+                    _ => 0,
                 }
             }
             4 => {
-                if sasih_id == 2 && in_sk {
-                    1 // Katiga during SK
-                } else {
-                    0
+                match (sasih_id, in_sk) {
+                    (2, true) => 1, // Katiga during SK
+                    _ => 0,
                 }
             }
             7 => {
-                if sasih_id == 0 && in_sk {
-                    1 // Kasa during SK
-                } else {
-                    0
+                match (sasih_id, in_sk) {
+                    (0, true) => 1, // Kasa during SK
+                    _ => 0,
                 }
             }
             13 => {
-                if sasih_id == 9 && in_sk {
-                    1 // Kadasa during SK
-                } else {
-                    0
+                match (sasih_id, in_sk) {
+                    (9, true) => 1, // Kadasa during SK
+                    _ => 0,
                 }
             }
             15 => {
-                if sasih_id == 1 && in_sk {
-                    1 // Karo during SK
-                } else {
-                    0
+                match (sasih_id, in_sk) {
+                    (1, true) => 1, // Karo during SK
+                    _ => 0,
                 }
             }
             _ => 0,

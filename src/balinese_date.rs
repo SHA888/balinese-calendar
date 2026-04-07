@@ -351,6 +351,19 @@ impl BalineseDate {
             dasawara_name: self.dasawara.name(),
         }
     }
+
+    /// Get Tri-Pramana composite urip value and quality classification.
+    ///
+    /// Returns the traditional Tri-Pramana data for this date's position
+    /// in the 210-day Pawukon cycle, including urip value and quality
+    /// classification from Wariga Sundari Bungkah tradition.
+    ///
+    /// # Returns
+    /// * `Option<TriPramana>` - Composite urip value and quality classification,
+    ///   or None if pawukon_day is out of bounds
+    pub fn tri_pramana(&self) -> Option<crate::wariga::TriPramana> {
+        crate::wariga::tri_pramana_for_day(self.pawukon_day)
+    }
 }
 
 #[cfg(test)]
