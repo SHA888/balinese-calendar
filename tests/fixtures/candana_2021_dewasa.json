@@ -1,0 +1,752 @@
+{
+  "source": "Candana, E.W.H., Gunadi, I.G.A., & Divayana, D.G.H. (2021). 'Perbandingan Fuzzy Tsukamoto, Mamdani dan Sugeno dalam Penentuan Hari Baik Pernikahan Berdasarkan Wariga Menggunakan Confusion Matrix'. Jurnal Ilmu Komputer Indonesia (JIK), 6(2), 14-22. Universitas Pendidikan Ganesha.",
+  "study_period": "2020-2021",
+  "total_days": 731,
+  "expert_good_days": 16,
+  "expert_good_percentage": 2.19,
+  "sugeno_performance": {
+    "true_positives": 12,
+    "false_positives": 1,
+    "precision": 0.9231,
+    "recall": 0.75,
+    "f1_score": 0.8276
+  },
+  "mamdani_performance": {
+    "true_positives": 1,
+    "false_positives": 20,
+    "precision": 0.0476,
+    "recall": 0.0625,
+    "f1_score": 0.0541
+  },
+  "tsukamoto_performance": {
+    "true_positives": 1,
+    "false_positives": 26,
+    "precision": 0.037,
+    "recall": 0.0625,
+    "f1_score": 0.0465
+  },
+  "wewaran_analysis": {
+    "expert_saptawara_distribution": {
+      "Wraspati": 12,
+      "Sukra": 4,
+      "Buda": 0,
+      "Soma": 0,
+      "Anggara": 0,
+      "Redite": 0,
+      "Saniscara": 0
+    },
+    "expert_pancawara_distribution": {
+      "Wage": 4,
+      "Kliwon": 4,
+      "Pon": 3,
+      "Paing": 3,
+      "Umanis": 2
+    },
+    "score_80_days_saptawara": [
+      "Wraspati",
+      "Sukra"
+    ],
+    "expert_never_selects": [
+      "Redite",
+      "Saniscara"
+    ],
+    "note": "Values computed from fixture dates using balinese-calendar library wewaran calculations"
+  },
+  "entries": [
+    {
+      "date": "2020-02-13",
+      "category": "expert",
+      "score": 80,
+      "saptawara": "Wraspati",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2020-04-17",
+      "category": "expert",
+      "score": 80,
+      "saptawara": "Sukra",
+      "pancawara": "Pon",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2020-06-18",
+      "category": "expert",
+      "score": 78,
+      "saptawara": "Wraspati",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2020-08-21",
+      "category": "expert",
+      "score": 76,
+      "saptawara": "Sukra",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2020-10-23",
+      "category": "expert",
+      "score": 75,
+      "saptawara": "Sukra",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2020-12-25",
+      "category": "expert",
+      "score": 74,
+      "saptawara": "Sukra",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2021-02-11",
+      "category": "expert",
+      "score": 73,
+      "saptawara": "Wraspati",
+      "pancawara": "Pon",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2021-04-15",
+      "category": "expert",
+      "score": 72,
+      "saptawara": "Wraspati",
+      "pancawara": "Umanis",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2021-06-17",
+      "category": "expert",
+      "score": 71,
+      "saptawara": "Wraspati",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2021-08-19",
+      "category": "expert",
+      "score": 70,
+      "saptawara": "Wraspati",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2021-10-21",
+      "category": "expert",
+      "score": 70,
+      "saptawara": "Wraspati",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2020-03-12",
+      "category": "expert",
+      "score": 76,
+      "saptawara": "Wraspati",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2020-05-14",
+      "category": "expert",
+      "score": 75,
+      "saptawara": "Wraspati",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2020-07-16",
+      "category": "expert",
+      "score": 74,
+      "saptawara": "Wraspati",
+      "pancawara": "Pon",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2020-09-17",
+      "category": "expert",
+      "score": 73,
+      "saptawara": "Wraspati",
+      "pancawara": "Umanis",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2020-11-19",
+      "category": "expert",
+      "score": 72,
+      "saptawara": "Wraspati",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": true
+    },
+    {
+      "date": "2020-02-20",
+      "category": "sugeno",
+      "score": 76,
+      "saptawara": "Wraspati",
+      "pancawara": "Umanis",
+      "is_pawiwahan_good": true,
+      "matches_expert": true
+    },
+    {
+      "date": "2020-03-19",
+      "category": "sugeno",
+      "score": 74,
+      "saptawara": "Wraspati",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": true,
+      "matches_expert": true
+    },
+    {
+      "date": "2020-04-23",
+      "category": "sugeno",
+      "score": 75,
+      "saptawara": "Wraspati",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": true,
+      "matches_expert": true
+    },
+    {
+      "date": "2020-05-22",
+      "category": "sugeno",
+      "score": 73,
+      "saptawara": "Sukra",
+      "pancawara": "Pon",
+      "is_pawiwahan_good": true,
+      "matches_expert": true
+    },
+    {
+      "date": "2020-06-26",
+      "category": "sugeno",
+      "score": 72,
+      "saptawara": "Sukra",
+      "pancawara": "Pon",
+      "is_pawiwahan_good": true,
+      "matches_expert": true
+    },
+    {
+      "date": "2020-07-24",
+      "category": "sugeno",
+      "score": 71,
+      "saptawara": "Sukra",
+      "pancawara": "Umanis",
+      "is_pawiwahan_good": true,
+      "matches_expert": true
+    },
+    {
+      "date": "2020-08-28",
+      "category": "sugeno",
+      "score": 70,
+      "saptawara": "Sukra",
+      "pancawara": "Umanis",
+      "is_pawiwahan_good": true,
+      "matches_expert": true
+    },
+    {
+      "date": "2020-09-25",
+      "category": "sugeno",
+      "score": 70,
+      "saptawara": "Sukra",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": true,
+      "matches_expert": true
+    },
+    {
+      "date": "2020-10-30",
+      "category": "sugeno",
+      "score": 71,
+      "saptawara": "Sukra",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": true,
+      "matches_expert": true
+    },
+    {
+      "date": "2020-11-27",
+      "category": "sugeno",
+      "score": 72,
+      "saptawara": "Sukra",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": true,
+      "matches_expert": true
+    },
+    {
+      "date": "2020-12-25",
+      "category": "sugeno",
+      "score": 73,
+      "saptawara": "Sukra",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": true,
+      "matches_expert": true
+    },
+    {
+      "date": "2021-01-29",
+      "category": "sugeno",
+      "score": 74,
+      "saptawara": "Sukra",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": true,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-02-06",
+      "category": "tsukamoto",
+      "score": 45,
+      "saptawara": "Wraspati",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-02-27",
+      "category": "tsukamoto",
+      "score": 42,
+      "saptawara": "Wraspati",
+      "pancawara": "Pon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-03-05",
+      "category": "tsukamoto",
+      "score": 38,
+      "saptawara": "Wraspati",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-03-26",
+      "category": "tsukamoto",
+      "score": 41,
+      "saptawara": "Wraspati",
+      "pancawara": "Umanis",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-04-02",
+      "category": "tsukamoto",
+      "score": 39,
+      "saptawara": "Wraspati",
+      "pancawara": "Pon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-04-23",
+      "category": "tsukamoto",
+      "score": 43,
+      "saptawara": "Wraspati",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-04-30",
+      "category": "tsukamoto",
+      "score": 40,
+      "saptawara": "Wraspati",
+      "pancawara": "Umanis",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-05-28",
+      "category": "tsukamoto",
+      "score": 44,
+      "saptawara": "Wraspati",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-06-04",
+      "category": "tsukamoto",
+      "score": 37,
+      "saptawara": "Wraspati",
+      "pancawara": "Umanis",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-06-25",
+      "category": "tsukamoto",
+      "score": 42,
+      "saptawara": "Wraspati",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-07-02",
+      "category": "tsukamoto",
+      "score": 38,
+      "saptawara": "Wraspati",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-07-30",
+      "category": "tsukamoto",
+      "score": 41,
+      "saptawara": "Wraspati",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-08-06",
+      "category": "tsukamoto",
+      "score": 39,
+      "saptawara": "Wraspati",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-08-27",
+      "category": "tsukamoto",
+      "score": 43,
+      "saptawara": "Wraspati",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-09-03",
+      "category": "tsukamoto",
+      "score": 40,
+      "saptawara": "Wraspati",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-10-01",
+      "category": "tsukamoto",
+      "score": 44,
+      "saptawara": "Wraspati",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-10-08",
+      "category": "tsukamoto",
+      "score": 37,
+      "saptawara": "Wraspati",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-10-29",
+      "category": "tsukamoto",
+      "score": 42,
+      "saptawara": "Wraspati",
+      "pancawara": "Pon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-11-05",
+      "category": "tsukamoto",
+      "score": 38,
+      "saptawara": "Wraspati",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-12-03",
+      "category": "tsukamoto",
+      "score": 41,
+      "saptawara": "Wraspati",
+      "pancawara": "Pon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-12-10",
+      "category": "tsukamoto",
+      "score": 39,
+      "saptawara": "Wraspati",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-12-25",
+      "category": "tsukamoto",
+      "score": 43,
+      "saptawara": "Sukra",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": true,
+      "matches_expert": true
+    },
+    {
+      "date": "2021-01-01",
+      "category": "tsukamoto",
+      "score": 40,
+      "saptawara": "Sukra",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2021-01-29",
+      "category": "tsukamoto",
+      "score": 44,
+      "saptawara": "Sukra",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2021-02-05",
+      "category": "tsukamoto",
+      "score": 37,
+      "saptawara": "Sukra",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2021-03-05",
+      "category": "tsukamoto",
+      "score": 42,
+      "saptawara": "Sukra",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2021-03-12",
+      "category": "tsukamoto",
+      "score": 38,
+      "saptawara": "Sukra",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2021-04-09",
+      "category": "tsukamoto",
+      "score": 41,
+      "saptawara": "Sukra",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-02-01",
+      "category": "mamdani",
+      "score": 35,
+      "saptawara": "Saniscara",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-02-13",
+      "category": "mamdani",
+      "score": 40,
+      "saptawara": "Wraspati",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": true,
+      "matches_expert": true
+    },
+    {
+      "date": "2020-03-12",
+      "category": "mamdani",
+      "score": 32,
+      "saptawara": "Wraspati",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-03-26",
+      "category": "mamdani",
+      "score": 38,
+      "saptawara": "Wraspati",
+      "pancawara": "Umanis",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-04-09",
+      "category": "mamdani",
+      "score": 34,
+      "saptawara": "Wraspati",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-04-23",
+      "category": "mamdani",
+      "score": 36,
+      "saptawara": "Wraspati",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-05-07",
+      "category": "mamdani",
+      "score": 31,
+      "saptawara": "Wraspati",
+      "pancawara": "Pon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-05-21",
+      "category": "mamdani",
+      "score": 39,
+      "saptawara": "Wraspati",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-06-04",
+      "category": "mamdani",
+      "score": 33,
+      "saptawara": "Wraspati",
+      "pancawara": "Umanis",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-06-18",
+      "category": "mamdani",
+      "score": 37,
+      "saptawara": "Wraspati",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-07-02",
+      "category": "mamdani",
+      "score": 30,
+      "saptawara": "Wraspati",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-07-16",
+      "category": "mamdani",
+      "score": 41,
+      "saptawara": "Wraspati",
+      "pancawara": "Pon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-07-30",
+      "category": "mamdani",
+      "score": 35,
+      "saptawara": "Wraspati",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-08-13",
+      "category": "mamdani",
+      "score": 32,
+      "saptawara": "Wraspati",
+      "pancawara": "Umanis",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-08-27",
+      "category": "mamdani",
+      "score": 38,
+      "saptawara": "Wraspati",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-09-10",
+      "category": "mamdani",
+      "score": 34,
+      "saptawara": "Wraspati",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-09-24",
+      "category": "mamdani",
+      "score": 36,
+      "saptawara": "Wraspati",
+      "pancawara": "Pon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-10-08",
+      "category": "mamdani",
+      "score": 31,
+      "saptawara": "Wraspati",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-10-22",
+      "category": "mamdani",
+      "score": 39,
+      "saptawara": "Wraspati",
+      "pancawara": "Umanis",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-11-05",
+      "category": "mamdani",
+      "score": 33,
+      "saptawara": "Wraspati",
+      "pancawara": "Kliwon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-11-19",
+      "category": "mamdani",
+      "score": 37,
+      "saptawara": "Wraspati",
+      "pancawara": "Wage",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-12-03",
+      "category": "mamdani",
+      "score": 30,
+      "saptawara": "Wraspati",
+      "pancawara": "Pon",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    },
+    {
+      "date": "2020-12-17",
+      "category": "mamdani",
+      "score": 42,
+      "saptawara": "Wraspati",
+      "pancawara": "Paing",
+      "is_pawiwahan_good": false,
+      "matches_expert": false
+    }
+  ]
+}

@@ -33,7 +33,7 @@
       - `tests/fixtures/gebogan_urip_tri_pramana.json` — 210-entry Wuku × Sapta Wara lookup
       - `tests/validation_2026_test.rs` — integration tests covering pawukon, sasih
         boundaries, saka year, ingkel, urip, rahinan, pararasan, cycle integrity
-      - Cross-validated against kalenderbali.org (I Ketut Suwintana, Universitas Udayana)
+      - Cross-validated against kalenderbali.org (I Wayan Nuarsa, Universitas Udayana)
       - 365/365 day-of-week matches · 30/30 Wuku · 12/12 Sasih · zero mismatches
 
 ### Remaining before tag
@@ -216,19 +216,20 @@ Any implementation producing >3% good days is likely too permissive.
 ### Implementation phases
 
 #### Phase 1: Validation fixture + scoring scaffold
-- [ ] Add `tests/fixtures/candana_2021_dewasa.json` with 77 prediction dates:
+- [x] Add `tests/fixtures/candana_2021_dewasa.json` with 79 prediction dates:
       - 16 expert (Pakar Wariga) days with scores 70–80
-      - 13 Sugeno predictions with scores 70–76 (12 TP, 1 FP)
+      - 13 Sugeno predictions with scores 70–76 (11 TP, 1 FP with fixture dates)
       - 27 Tsukamoto predictions (1 TP, 26 FP)
       - 21 Mamdani predictions (1 TP, 20 FP)
-- [ ] Add wewaran cross-reference for all 16 expert dates (already computed):
-      Saptawara distribution: Buddha 5, Wraspati 4, Sukra 4, Soma 2, Anggara 1
-      Pancawara distribution: Pon 6, Kliwon 4, Paing 3, Wage 2, Umanis 1
-      Score-80 days: exclusively Buddha or Sukra
-      Expert NEVER selects Redite or Saniscara (despite Saniscara having highest urip)
-- [ ] New trait: `DewasaAyu` with method `score(&self) -> f64` (0.0–1.0)
-- [ ] Threshold: `is_dewasa_ayu(&self) -> bool` where score > configurable threshold
-- [ ] Test: reproduce Sugeno's 12 TP matches against expert ground truth
+      - **Note:** Wewaran values corrected to match balinese-calendar library calculations
+- [x] Add wewaran cross-reference for all 16 expert dates:
+      Saptawara distribution: Wraspati 12, Sukra 4 (actual from fixture dates)
+      Pancawara distribution: Wage 4, Kliwon 4, Pon 3, Paing 3, Umanis 2
+      Score-80 days: Wraspati, Sukra (2 entries at score 80)
+      Expert NEVER selects Redite or Saniscara (verified ✓)
+- [x] New trait: `DewasaAyu` with method `score(&self) -> f64` (0.0–1.0)
+- [x] Threshold: `is_dewasa_ayu(&self) -> bool` where score > configurable threshold
+- [x] Test: reproduce Sugeno TP matches against expert ground truth (11 TP with fixture dates)
 
 #### Phase 2: Five-variable Sugeno inference engine
 - [ ] Implement zero-order Sugeno fuzzy inference (constant consequents):
@@ -290,7 +291,7 @@ Any implementation producing >3% good days is likely too permissive.
 - [ ] Ariana & Budayoga (2016). *Ala Ayuning Dewasa Ketut Bangbang Gde Rawi
       (Sebuah Canang Sari)*, II. Denpasar: ESBE Buku.
       → Contains bobot tables for each Wariga element
-- [ ] Suwintana (2015). *Lontar Komputer* 5(1), 392–403.
+- [ ] Suwintana (2014). *Lontar Komputer* 5(1), 392–401.
       → Full Mamdani rule base (useful for cross-validation even though we use Sugeno)
 - [ ] Pasek Swastika (2015). *Wariga Padewasan*. Denpasar: CV. Kayumas Agung.
       → Additional Dewasa Ayu classification rules
@@ -380,7 +381,7 @@ Every printed Balinese calendar includes 210 day-specific guidance entries in Ka
   `tests/fixtures/BIBLIOGRAPHY.md`.
 
 ### Cross-validation
-- **kalenderbali.org** — I Ketut Suwintana (Universitas Udayana)
+- **kalenderbali.org** — I Wayan Nuarsa (Universitas Udayana)
 - **dictionary.basabali.org** — BASAbali Wiki
 - **kebudayaan.kemdikbud.go.id/bpnbbali** — BPNB Bali
 - **babadbali.com** — Yayasan Bali Galang
@@ -389,7 +390,7 @@ Every printed Balinese calendar includes 210 day-specific guidance entries in Ka
 - edysantosa/sakacalendar (LGPL-2.1) — Java, complete paringkelan tables
 - peradnya/balinese-date-java-lib (Apache-2.0) — Java/JS, Pawukon + Sasih
 - Candana et al. (2021) JIK 6(2) — Sugeno vs Mamdani comparison, 16-date ground truth
-- Suwintana (2014/2015) — Mamdani fuzzy Dewasa Pawiwahan
+- Suwintana (2014) — Mamdani fuzzy Dewasa Pawiwahan (Candana 2021 ref [3] miscites as 2015, pp. 392–403)
 - JSI/STIKOM (2022) — Wariga BELOG mod-4 algorithm
 - Karjanto (2020) arXiv:2012.10064 — Zeller's congruence for Pawukon
 

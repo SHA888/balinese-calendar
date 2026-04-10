@@ -68,7 +68,7 @@ This crate's accuracy is grounded in physical Balinese calendar sources, not inf
 **Primary Source:** I Made Bidja Alm. / I Md Agus Putra Wijaya, *Kalender Bali 2026*, published by IBI Cabang Kab. Badung. Compiled from 50+ lontar Wariga manuscripts and 13 Kawi/Sanskrit/Balinese dictionaries.
 
 **Cross-validated against:**
-- [kalenderbali.org](https://www.kalenderbali.org) (I Ketut Suwintana, Universitas Udayana)
+- [kalenderbali.org](https://www.kalenderbali.org) (I Wayan Nuarsa, Universitas Udayana)
 - [basabali.org](https://dictionary.basabali.org) (BASAbali Wiki)
 - [BPNB Bali](https://kebudayaan.kemdikbud.go.id/bpnbbali) (Balai Pelestarian Nilai Budaya)
 - [edysantosa/sakacalendar](https://github.com/edysantosa/sakacalendar) (Java, LGPL-2.1)
@@ -251,10 +251,10 @@ The Dewasa Ayu engine (v0.3.0) is the only component requiring `f64` and will be
 ## Acknowledgements
 
 - **I Made Bidja Alm.** — compiler of the 2026 reference calendar
-- **I Ketut Suwintana** (Universitas Udayana) — kalenderbali.org/kalenderbali.info
+- **I Ketut Suwintana** (Politeknik Negeri Bali) — kalenderbali.info
 - **I Gusti Agung Mahendra Putra** (peradnya) — balinese-date-java-lib
 - **Edy Santosa Putra** — sakacalendar Java library
-- **E.W. Hary Candana, I.G.A. Gunadi, D.G.H. Divayana** (Undiksha) — Sugeno comparison study
+- **E.W. Hary Candana, I.G.A. Gunadi, D.G.H. Divayana** (Universitas Pendidikan Ganesha) — Sugeno comparison study
 - **N. Karjanto & F. Beauducel** — ethnoarithmetic Zeller's congruence
 
 ---

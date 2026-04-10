@@ -1,0 +1,104 @@
+{
+  "source": "Suwintana, I.K. (2014). 'Penentuan Hari Baik Perkawinan di Bali Berbasis Logika Fuzzy'. Lontar Komputer, 5(1), 392-401. ISSN: 2088-1541. Politeknik Negeri Bali.",
+  "method": "Mamdani",
+  "fuzzy_inference": {
+    "type": "Mamdani",
+    "implication": "Min",
+    "composition": "Max",
+    "defuzzification": "Centroid",
+    "total_rules": 500
+  },
+  "input_variables": [
+    "Saptawara",
+    "Sasih",
+    "Pananggal/Panglong",
+    "Ala Ayuning Dewasa"
+  ],
+  "threshold": {
+    "minimum_good_day": 60,
+    "percentage": 62.766,
+    "description": "Batas minimal yang dianggap sistem sebagai hari baik perkawinan"
+  },
+  "score_range": {
+    "minimum": 10.8333,
+    "maximum": 89.1667,
+    "formula": "Persentase = (Nilai - 10.8333) / (89.1667 - 10.8333) × 100%"
+  },
+  "pananggal_panglong": {
+    "description": "Padewasan yang muncul oleh Pananggal/Panglong untuk hari perkawinan",
+    "entries": [
+      {"day": 1, "description": "Senang dan selamat", "category": "Baik"},
+      {"day": 2, "description": "Kerabat kasih sayang", "category": "Baik"},
+      {"day": 3, "description": "Banyak anak", "category": "Sedang"},
+      {"day": 4, "description": "Menyebabkan janda atau duda", "category": "Buruk"},
+      {"day": 5, "description": "Semuanya senang dan selamat", "category": "Baik"},
+      {"day": 6, "description": "Banyak penderitaan", "category": "Buruk"},
+      {"day": 7, "description": "Utama bahagia", "category": "Baik"},
+      {"day": 8, "description": "Tidak baik", "category": "Buruk"},
+      {"day": 9, "description": "Menderita", "category": "Buruk"},
+      {"day": 10, "description": "Menderita terus", "category": "Buruk"},
+      {"day": 11, "description": "Menemui kekayaan", "category": "Baik"},
+      {"day": 12, "description": "Tidak berhasil", "category": "Buruk"},
+      {"day": 13, "description": "Menderita", "category": "Buruk"},
+      {"day": 14, "description": "Keselamatan diperoleh", "category": "Baik"},
+      {"day": 15, "description": "Cekcok dan cerai", "category": "Buruk"}
+    ]
+  },
+  "sasih": {
+    "description": "Sifat-sifat Padewasan dalam melangsungkan Upacara Perkawinan oleh petunjuk Sasih",
+    "entries": [
+      {"sasih": "Srawana", "saka_month": "Kasa", "category": "Buruk", "description": "Putranya kesakitan, kasengsaran"},
+      {"sasih": "Bhadrawada", "saka_month": "Karo", "category": "Buruk", "description": "Sangat sengsara"},
+      {"sasih": "Asuji", "saka_month": "Katiga", "category": "Sedang", "description": "Banyak keturunan"},
+      {"sasih": "Kartika", "saka_month": "Kapat", "category": "Baik", "description": "Kaya, dicintai orang"},
+      {"sasih": "Margasira", "saka_month": "Kalima", "category": "Baik", "description": "Tidak kurang makan dan minum"},
+      {"sasih": "Posya", "saka_month": "Kanem", "category": "Buruk", "description": "Janda atau Duda"},
+      {"sasih": "Magha", "saka_month": "Kapitu", "category": "Baik", "description": "Panjang umur"},
+      {"sasih": "Palguna", "saka_month": "Kawolu", "category": "Buruk", "description": "Miskin, kurang makanan minuman"},
+      {"sasih": "Caitra", "saka_month": "Kasanga", "category": "Buruk", "description": "Buruk sekali"},
+      {"sasih": "Waisaka", "saka_month": "Kadasa", "category": "Buruk", "description": "Sakit-sakitan"},
+      {"sasih": "Jyesta", "saka_month": "Desta", "category": "Baik Sekali", "description": "Selalu senang dan gembira"},
+      {"sasih": "Asadha", "saka_month": "Sada", "category": "Buruk", "description": "Malu bercampur marah"}
+    ]
+  },
+  "ingkel_prohibitions": {
+    "description": "Pantangan/larangan untuk hari perkawinan",
+    "entries": [
+      {"name": "Wong", "description": "Tidak boleh melaksanakan Upacara Manusa Yadnya (mepandes, pawiwahan)"},
+      {"name": "Sato", "description": "Tidak baik mulai menangkap/mengambil hewan kaki empat untuk dipelihara"},
+      {"name": "Mina", "description": "Tidak baik mulai memelihara ikan"},
+      {"name": "Manuk", "description": "Tidak baik menangkap/mengambil ayam atau unggas lainnya untuk dipelihara"},
+      {"name": "Taru", "description": "Tidak baik mulai menanam atau menebang kayu untuk bahan bangunan/rumah"},
+      {"name": "Buku", "description": "Tidak baik mulai memotong bambu atau tanaman beruas lainnya untuk bahan bangunan/rumah dan peralatan/perabot lainnya"}
+    ]
+  },
+  "ala_ayuning_prohibitions": {
+    "description": "Ala Ayuning Dewasa pantangan untuk upacara perkawinan (nilai = 1)",
+    "entries": [
+      "Ingkel Wong",
+      "Kala Tiga Pasah",
+      "Rangda Tiga",
+      "Uncal Balung",
+      "Hari Raya Nyepi"
+    ],
+    "note": "Jika terdapat pantangan, nilai pantangan yang digunakan, yang lain diabaikan. Jika tidak ada pantangan, nilai rata-rata digunakan."
+  },
+  "sample_fuzzy_rules": [
+    {
+      "rule_no": 2,
+      "rule": "IF Saptawara Sangat Baik AND Sasih Sangat Baik AND Panglong Sangat Baik AND Ala Ayuning Dewasa Baik THEN Dewasa Perkawinan Sangat Baik"
+    },
+    {
+      "rule_no": 22,
+      "rule": "IF Saptawara Sangat Baik AND Sasih Baik AND Panglong Sangat Baik AND Ala Ayuning Dewasa Baik THEN Dewasa Perkawinan Sangat Baik"
+    },
+    {
+      "rule_no": 351,
+      "rule": "IF Saptawara Buruk AND Sasih Sedang AND Penanggal Sedang AND Ala Ayuning Dewasa Tidak Baik THEN Dewasa Perkawinan Sangat Buruk"
+    }
+  ],
+  "validation": {
+    "method": "Verifikasi dengan membandingkan hari baik perkawinan dalam satu tahun dengan pakar Wariga",
+    "result": "Pengujian menunjukkan kesamaan hasil"
+  }
+}

@@ -1,7 +1,7 @@
 //! Validation corpus for the `balinese-calendar` crate.
 //!
 //! Ground truth: I Made Bidja, *Kalender Bali 2026* (IBI Cabang Kab. Badung),
-//! cross-validated against kalenderbali.org (I Ketut Suwintana / Universitas Udayana).
+//! cross-validated against kalenderbali.org (I Wayan Nuarsa, Universitas Udayana).
 //!
 //! Generated 2026-03-22 from OCR extraction of 12 monthly calendar pages.
 //! 365/365 day-of-week assertions verified. Sasih transitions extracted from headers.

@@ -31,6 +31,7 @@
 
 mod balinese_date;
 pub mod boundary;
+pub mod dewasa_ayu;
 pub mod error;
 pub mod paringkelan;
 pub mod pawukon;
@@ -47,6 +48,7 @@ pub mod wasm;
 
 pub use balinese_date::{BalineseDate, FlatRecord};
 pub use boundary::DayBoundary;
+pub use dewasa_ayu::{DewasaAyu, DewasaAyuConfig, SugenoEngine, SugenoRule};
 pub use error::BalineseDateError;
 
 // ── Re-exports: enums (for pattern matching in consumer crates) ───────────────

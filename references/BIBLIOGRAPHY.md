@@ -100,11 +100,14 @@
 ## 3. DEWASA AYU / WARIGA COMPUTATION
 
 ### 3.1 Fuzzy logic approaches
-- Suwintana, I K. & Prihatini, P.M. (2014). Perancangan Aplikasi Kalender Bali Pada Smartphone Berbasis Android. In: *Seminar Nasional Sains dan Teknologi*, pp. 837–843.
-  - Implementation: https://kalenderbali.info
-  - Methodology: Mamdani Fuzzy Inference, variables: Saptawara, Sasih, Penanggal, Panglong, Ala Ayuning Dewasa
+- Suwintana, I.K. (2014). Penentuan Hari Baik Perkawinan di Bali Berbasis Logika Fuzzy. *Lontar Komputer*, 5(1), 392–401. ISSN: 2088-1541. Politeknik Negeri Bali.
+  - Methodology: Mamdani Fuzzy Inference (Max-Min), variables: Saptawara, Sasih, Penanggal/Panglong, Ala Ayuning Dewasa
   - Threshold: >62.766% = good day for Pawiwahan
-- Candana, E., Widastra, H., Gunadi, I.G.A. & Divayana, D.G.H. (2021). Perbandingan Fuzzy Tsukamoto, Mamdani dan Sugeno dalam Penentuan Hari Baik Pernikahan Berdasarkan Wariga. *Jurnal Ilmu Komputer Indonesia (JIK)*, 6(2), 14–22.
+  - Note: Candana et al. (2021) reference [3] miscites this as 2015, pp. 392–403; authoritative source is the 2014 publication.
+- Suwintana, I.K. & Prihatini, P.M. (2014). Perancangan Aplikasi Kalender Bali Pada Smartphone Berbasis Android. In: *Seminar Nasional Sains dan Teknologi*, pp. 837–843.
+  - Implementation: https://kalenderbali.info
+  - Distinct from the journal article above (different co-author, different venue)
+- Candana, E.W.H., Gunadi, I.G.A., & Divayana, D.G.H. (2021). Perbandingan Fuzzy Tsukamoto, Mamdani dan Sugeno dalam Penentuan Hari Baik Pernikahan Berdasarkan Wariga. *Jurnal Ilmu Komputer Indonesia (JIK)*, 6(2), 14–22.
 
 ### 3.2 Wariga-based computation (non-fuzzy)
 - JSI/STIKOM Bali (2022). Implementasi Harmonisasi Prilaku Manusia Dengan Alam Pada Kalender Bali Berbasis Wariga BELOG. *Jurnal Sistem dan Informatika (JSI)*, 17(1), 55–61.
@@ -157,7 +160,7 @@
 
 ### 4.3 Online calendar platforms
 - kalenderbali.info — I Ketut Suwintana (2013–present). Fuzzy logic Mamdani Dewasa Pawiwahan.
-- kalenderbali.org — I Wayan Nuarsa / I Ketut Suwintana, Universitas Udayana. "Kalender Bali Digital."
+- kalenderbali.org — I Wayan Nuarsa, Universitas Udayana. "Kalender Bali Digital."
   - URL: https://www.kalenderbali.org
 - kalenderbali.com — "Kalender Bali Digital Klasik" (print-style layout).
   - URL: https://kalenderbali.com
@@ -279,7 +282,7 @@ Full bibliography extracted from supplement page (Dec_B):
 
 ## 8. CROSS-VALIDATION SOURCES USED IN THIS PROJECT
 
-- kalenderbali.org — I Ketut Suwintana / I Wayan Nuarsa, Universitas Udayana
+- kalenderbali.org — I Wayan Nuarsa, Universitas Udayana
   - URL: https://www.m.kalenderbali.org
   - Used for: day-by-day wuku, pancawara, rerahinan cross-validation (Jan 2026 confirmed 365/365)
 - dictionary.basabali.org — BASAbali Wiki

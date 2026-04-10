@@ -1,0 +1,810 @@
+LONTAR KOMPUTER VOL. 5, NO.1, APRIL 2014
+
+ISSN: 2088-1541
+
+PENENTUAN HARI BAIK PERKAWINAN DI BALI
+BERBASIS LOGIKA FUZZY
+I Ketut Suwintana1
+1Politeknik Negeri Bali
+
+E-mail: tutswint@pnb.ac.id1
+
+Abstrak
+Masyarakat Bali sangat percaya dengan baik buruknya hari sebagai penentu keberhasilan
+suatu kegiatan. Begitu pula dengan pemilihan hari baik perkawinan dianggap sebagai penentu
+keberhasilan dalam kehidupan berumah tangga. Penelitian ini menggunakan logika fuzzy
+dalam menentukan hari baik untuk upacara perkawinan di Bali. Proses akuisisi pengetahuan
+menghasilkan basis pengetahuan berupa himpunan fuzzy serta aturan-aturan dalam bentuk “IfThen”. Sistem inferensi fuzzy menggunakan metode Mamdani (Implikasi Min, Komposisi Max,
+dan Defuzifikasi Centroid). Hasil sistem inferensi fuzzy sebesar 60 atau 62,766% merupakan
+batas minimal yang dianggap sistem sebagai hari baik perkawinan. Sistem dikembangkan
+dalam bentuk aplikasi berbasis web, dimana data Wariga setiap tanggal dihasilkan pada Modul
+Kalender Bali yang ada di aplikasi. Sistem diuji melalui metode verifikasi yaitu membandingkan
+hari baik perkawinan dalam satu tahun yang dihasilkan oleh sistem dengan yang ditentukan
+oleh seorang pakar Wariga. Pengujian menunjukkan kesamaan hasil.
+Kata kunci : hari baik perkawinan, logika fuzzy, wariga, kalender bali
+Abstract
+Balinese people believe in the good and bad days as a determinant of the success of an
+activity. Similarly, the selection of a good day wedding is considered as a determinant of
+success in married life. This study uses fuzzy logic to determine a good day for the wedding
+ceremony in Bali. The acquisition of knowledge producing knowledge base and rules in the form
+of "If-Then". Fuzzy inference systems are developed using Mamdani method (implication Min,
+Max composition and Centroid Defuzzification). The results of fuzzy inference system for 60 or
+62.766% is the minimum that is considered a good day for wedding. The system is developed in
+a web-based application, where data wariga each date produced by Balinese Calendar Module.
+The system was tested using verification method by comparing good days for wedding that is
+produced by the system and by wariga expert. The test results show great similarity.
+Keywords: good day for wedding ceremony, fuzzy logic, wariga, balinese calender
+1. Pendahuluan
+Masyarakat Bali dalam memulai pelaksanaan suatu kegiatan mengenal istilah Dewasa
+(Padewasaan) atau Wariga Dewasa. Dewasa berarti saat, waktu, jam, hari. Padewasaan dapat
+diartikan sebagai ilmu yang menguraikan tentang cara memilih atau menetapkan baik buruknya
+hari yang disebut sebagai Ala Ayuning Dewasa berdasarkan sifat-sifat atau watak suatu hari
+seperti yang termuat dalam Wariga[1]. Ala Ayuning Dewasa merupakan aspek intuitif yang
+diyakini oleh Masyarakat Bali dapat memberi pengaruh keselamatan dalam jangka waktu cukup
+panjang. Wariga sebagai sarana untuk mencapai tujuan yang mulia yakni ilmu yang
+mempelajari baik buruknya hari hingga dapat dibedakan antara hari yang tidak baik (buruk),
+kurang baik, baik dan terbaik[2].
+Menentukan hari yang baik untuk pelaksanaan suatu kegiatan seperti Upacara Yadnya
+membutuhkan pertimbangan-pertimbangan tertentu dalam Wariga Dewasa yang kompleks.
+Saat ini, Masyarakat Bali telah terbiasa menggunakan Kalender Bali versi cetak yang
+didalamnya telah berisi baik buruknya hari untuk suatu kegiatan. Seiring perkembangan
+392
+
+LONTAR KOMPUTER VOL. 5, NO.1, APRIL 2014
+
+ISSN: 2088-1541
+
+teknologi, Sistem Kalender Bali yang terkomputerisasi telah banyak dibuat, baik yang dapat
+diakses secara online ataupun offline, namun belum ada aplikasi yang memiliki fasilitas untuk
+menentukan seberapa nilai baik atau buruk hari untuk melakukan suatu kegiatan seperti untuk
+upacara perkawinan dengan menggunakan logika fuzzy.
+Penelitian ini menggunakan logika fuzzy dalam menentukan hari baik untuk pelaksanaan
+upacara perkawinan. Sistem dirancang mampu mengurutkan dari hari yang paling baik, baik,
+sedang, buruk, sampai paling buruk dari rentang waktu/tanggal tertentu yang diminta oleh
+pengguna. Sistem menghasilkan persentase nilai baik pada setiap hari (tanggal) untuk
+digunakan sebagai hari baik perkawinan.
+
+2. Metodologi Penelitian
+Data yang digunakan dalam penelitian ini adalah data wariga yang dipakai acuan untuk
+penentuan hari baik perkawinan, seperti Saptawara, Sasih, Penanggal/Panglong, Ingkel, Wuku
+dan Ala Ayuning Dewasa. Setiap hari atau tanggal memiliki data wariga yang diperoleh dari
+Sistem Kalender Bali.
+Sistem dirancang berdasarkan akuisisi pengetahuan dari para pakar padewasan yang
+ada di Bali. Akuisisi pengetahuan dilakukan secara langsung dengan teknik wawancara dan
+melalui studi literatur dari buku-buku yang disusun oleh para pakar padewasan berdasarkan
+lontar-lontar yang digunakan sebagai pedoman penentuan hari baik.
+
+Sistem Kalender Bali
+
+Input range tanggal
+(tanggal awal dan
+tanggal akhir)
+
+User
+
+Hari baik perkawinan
+(Tanggal-tanggal
+terurut dari yang
+terbaik sampai
+terburuk)
+
+Basis
+Pengetahuan
+Wariga
+
+Tanggal awal dan
+tanggal akhir
+
+User
+Interface
+Hari baik
+perkawinan
+
+Saptawara, Sasih
+Penanggal/Panglong,
+Wuku, Ingkel, Ala Ayuning
+Dewasa setiap tanggal
+Fuzzification
+
+Fuzzy
+Inference
+Engine
+
+Aturan
+Fuzzy
+
+Fuzzy Rule
+Base
+
+Defuzzification
+
+Gambar 1. Gambaran Umum Sistem
+Gambaran umum sistem terlihat seperti Gambar 1, rentang tanggal yang dimasukkan oleh
+pengguna adalah tanggal Kalender Masehi. Tanggal-tanggal tersebut akan dikonversi ke dalam
+Sistem Kalender Bali. Dilanjutkan dengan penentuan hari baik perkawinan dengan logika fuzzy,
+melalui tahapan fuzzification, inference engine, dan defuzzification.
+
+393
+
+LONTAR KOMPUTER VOL. 5, NO.1, APRIL 2014
+
+ISSN: 2088-1541
+
+Fuzzification berfungsi untuk mengubah masukan-masukan berupa nilai bersifat pasti (crisp
+input) kedalam fungsi keanggotaan menjadi nilai fuzzy, yang digunakan sebagai fuzzy input.
+Variabel input yang digunakan adalah Saptawara, Sasih, Pananggal atau Panglong, Ala
+Ayuning Dewasa.
+Penalaran (Inference Machine) adalah proses implikasi dalam menalar nilai masukan untuk
+menentukan nilai keluaran sebagai bentuk pengambilan keputusan. Model penalaran yang
+dipakai adalah Penalaran Max-Min dengan aturan dasar (rule based) pada kontrol logika fuzzy
+merupakan suatu bentuk aturan relasi “If-Then”. Inferensi yang digunakan adalah inferensi
+dengan Metode Mamdani.
+Defuzzification merupakan proses pemetaan himpunan fuzzy ke himpunan tegas. Proses ini
+merupakan kebalikan dari proses fuzzification. Pada metode Mamdani, untuk menentukan
+output crisp, digunakan defuzzification dengan metode Centroid, dimana nilai crisp diperoleh
+dengan cara mengambil titik pusat (d*) daerah output fuzzy. Nilai d* secara umum dirumuskan:
+
+
+
+d*  x
+
+x ( x)dx
+D
+
+x
+d*
+μ(x)
+D
+
+: nilai output
+: titik pusat daerah fuzzy output
+: fungsi keanggotaan dari himpunan fuzzy output
+: luas daerah fuzzy output
+
+Pengembangan sistem digambarkan dengan diagram alir yang dapat dilihat seperti
+pada Gambar 2 yang meliputi:
+Mulai
+
+Akuisisi
+Pengetahuan
+
+Pembuatan
+modul
+Kalender Bali
+
+Representasi
+Pengetahuan
+
+Inferensi
+Fuzzy
+
+Pemrograman
+Sistem
+
+Pengujian
+Sistem
+
+Tida
+k
+
+Sukses?
+Ya
+
+Selesai
+
+Gambar 2. Alur Pengembangan Sistem
+394
+
+LONTAR KOMPUTER VOL. 5, NO.1, APRIL 2014
+
+ISSN: 2088-1541
+
+Sistem dikembangkan dalam bentuk aplikasi berbasis web dengan bahasa pemrograman PHP
+5.3.8 dengan Framework Code Igniter, Server Apache 2.2, dan Basis Data MySQL 5.5 yang
+dapat diakses melalui Web Browser (Mozzila Firefox atau Internet Explorer).
+3. Kajian Pustaka
+3.1 Kalender Bali
+Kalender yang berkembang di Masyarakat Hindu Bali yang sering disebut dengan Kalender Bali
+merupakan gabungan dari Kalender Gregorian (Kalender Masehi), Kalender Saka Bali dan
+Kalender Tika. Kalender Gregorian (Kalender Masehi) adalah kalender yang digunakan secara
+internasional yang menggunakan perhitungan Tahun (Tarikh) Masehi. Tarikh Masehi termasuk
+Tarikh Surya (Solar System). Kalender Saka Bali adalah Kalender Saka yang berkembang di
+Bali dengan menggunakan Tarikh Candra yang disesuaikan dengan Tarikh Surya. Sedangkan
+Kalender Tika merupakan kalender tradisional Bali yang termasuk non-astronomik, disusun
+berdasarkan Pawukon dan Wewaran.
+3.1.1 Wewaran
+Wewaran adalah bentuk jamak dari kata Wara yang berarti Hari (nama hari) yang berjumlah
+satu sampai dengan sepuluh, yaitu: Eka Wara, Dwi Wara, Tri Wara, Catur Wara, Panca Wara,
+Sad Wara, Sapta Wara, Asta Wara, Sanga Wara, dan Dasa Wara. Kata bilangan pada nama
+wewaran itu menunjukkan banyaknya hari-hari dengan namanya masing-masing, namun tidak
+seluruhnya bersiklus tetap, seperti Eka Wara, Dwi Wara, Catur Wara, Asta Wara, Sanga Wara
+dan Dasa Wara. Wewaran ini memiliki Urip atau Neptu dan nomor atau bilangan, yang
+disesuaikan arah mata angin, serta nama Dewata-nya[3].
+Siklus wewaran untuk Tri Wara, Panca Wara, Sad Wara dan Sapta Wara bersifat tetap. Karena
+siklusnya yang tetap, wewaran dapat dicari dengan cara sebagai berikut. Suatu tanggal
+patokan yang semua wewaran-nya diketahui ditentukan, kemudian semua wewaran tersebut
+ditambahkan satu setiap pergantian hari, sampai didapat tanggal yang dicari[4].
+Setiap tanggal Masehi selalu dikaitkan dengan satu Wewaran dan Pawukon yang unik. Tidak
+mungkin suatu tanggal Masehi memiliki lebih dari satu Wewaran dari kelompok yang sama, dan
+tidak mungkin memiliki jenis Wuku lebih dari satu, tapi tidak semua kelompok Wewaran dapat
+bergulir setiap hari seperti Saptawara. Ekawara, Dwiwara, Caturwara dan Astawara tidak
+mengikuti guliran seperti Saptawara. Untuk menghitung Wewaran yang lainnya pada hari
+tertentu, secara umum digunakan acuan Saptawara dan Pawukon pada hari bersangkutan. Ini
+berarti harus sudah diketahui Saptawara dan Pawukon pada hari yang diinginkan[5].
+3.1.2 Wuku atau Pawukuan
+Wuku berasal dari kata Buku atau kerat. Wuku berumur 7 hari yaitu Redite, Coma, Anggara,
+Buda, Wraspati, Sukra, dan Saniscara merupakan satu siklus Saptawara[6].
+3.1.3 Wariga dan Dewasa
+Wariga dan Dewasa adalah dua istilah yang paling umum diperhatikan oleh umat Hindu
+khususnya di Bali bila ingin mencapai keberhasilan dalam melakukan kegiatan. Kedua ilmu itu
+merupakan salah satu cabang ilmu agama yang dihubungkan dengan ilmu astronomi atau
+Jyotisa Sastra sebagai salah satu Wedangga [7].
+Wariga merupakan ilmu pengetahuan yang menguraikan tentang sifat-sifat atau watak dari
+Wewaran, Pananggal/Panglong, Wuku, Ingkel, Sasih dan lain-lain, yang bersumber pada ajaran
+Agama Hindu, yaitu Jyotisa Wedangga. Wedangga adalah cabang dari Weda, yang khusus
+menguraikan tentang astronomi/astrologi yaitu salah satu ilmu yang menjelaskan tentang letak
+dan peredaran tata surya seperti matahari, bintang, bulan dan lain-lainnya[1].
+
+395
+
+LONTAR KOMPUTER VOL. 5, NO.1, APRIL 2014
+
+ISSN: 2088-1541
+
+Wariga merupakan ajaran dan pengalaman leluhur Bangsa Indonesia yang telah beradaptasi
+dengan ajaran Agama Hindu. Wariga memberikan perhitungan-perhitungan dan pemilihanpemilihan saat, waktu atau hari yang baik, serta menghindari saat, waktu atau hari yang buruk
+guna mengupayakan suatu hasil karya/perbuatan yang lebih baik secara maksimal bagi
+kepentingan hidup di dunia maupun sesudahnya[6]
+Dewasa atau Diwasa berarti saat, waktu, jam, pananggal/panglong, hari. Padewasan berarti
+ilmu yang menguraikan tentang cara memilih atau menetapkan baik-buruknya hari (ala ayuning
+dewasa) berdasarkan sifat-sifat atau watak sesuatu hari seperti yang termuat di dalam Wariga
+[1].
+3.1.4 Pananggal dan Panglong
+Pananggal atau Tanggal (Suklapaksa) atau setengah bulan terang dihitung mulai terbitnya
+bulan, sehari setelah Bulan Mati atau Tilem yaitu Pananggal 1 (Pratipada Sukla) sampai
+Pananggal 15 (Bulan Purnama/Pancadasi Sukla). Demikian juga Panglong (Krsnapaksa) atau
+setengah Bulan Gelap dihitung mulai sehari setelah Purnama yaitu Panglong 1 (Pratipada
+Krsna) sampai Panglong 15 (Bulan Mati atau Tilem/Pancadasi Krsna). Dari Pananggal 1
+sampai dengan Pananggal 15 diteruskan dengan Panglong 1 sampai dengan Panglong 15 atau
+satu Purnama ditambah satu Tilem disebut satu Sasih[1].
+Berikut merupakan daftar Padewasan yang muncul oleh Pananggal/Panglong untuk hari
+perkawinan yang pada umumnya sedikit lebih buruk dari Padewasan pada Pananggal.
+Pananggal/
+Panglong
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+
+Tabel 1 Pananggal/Panglong untuk Hari Perkawinan
+Keterangan
+Senang dan selamat
+Kerabat kasih saying
+Banyak anak
+Menyebabkan janda atau duda
+Semuanya senang dan selamat
+Banyak penderitaan
+Utama bahagia
+Tidak baik
+Menderita terus
+Menemui kekayaan
+Tidak berhasil
+Menderita
+Keselamatan diperoleh
+Cekcok dan cerai
+Tak putus-putusnya menderita
+
+Kategori Hari
+Baik
+Baik
+Sedang
+Buruk
+Baik
+Buruk
+Baik
+Buruk
+Buruk
+Baik
+Buruk
+Buruk
+Baik
+Buruk
+Buruk
+
+3.1.5 Sasih
+Tarikh (Kalender) Saka yang berkembang di Bali sampai sekarang adalah tarikh Candra yang
+disesuaikan dengan tarikh Surya, terdiri dari duabelas jenis sasih[8]. Sasih adalah istilah bulan
+dalam Tarikh Saka. Satu tahun Saka terdiri dari duabelas sasih (bulan) dengan urutannya:
+Kasa, Karo, Katiga, Kapat, Kalima, Kanem, Kapitu, Kawolu, Kasanga, Kadasa, Destha, dan
+Sadha. Sistem Pangalantaka menyebabkan umur satu sasih bisa 30 hari atau bisa juga 29 hari,
+tergantung kapan terjadinya pangalantaka yang menyebabkan umur sasih yang bersangkutan
+hanya 29 hari.
+Berikut merupakan daftar sifat-sifat Padewasan dalam melangsungkan Upacara Perkawinan
+yang muncul oleh petunjuk Sasih.
+
+396
+
+LONTAR KOMPUTER VOL. 5, NO.1, APRIL 2014
+
+No
+Bulan
+Sasih
+Srawana
+Kasa
+1
+Karo
+2 Bhadrawada
+Asuji
+Katiga
+3
+Kartika
+Kapat
+4
+Margasira
+Kalima
+5
+Posya
+Kanem
+6
+Magha
+Kapitu
+7
+Palguna
+Kawolu
+8
+Caitra
+Kasanga
+9
+Waisaka
+Kadasa
+10
+Jyesta
+Desta
+11
+Asadha
+Sada
+12
+
+ISSN: 2088-1541
+
+Tabel 2 Sasih untuk Hari Perkawinan
+Kategori Hari
+Keterangan
+Buruk
+Putranya kesakitan, kasengsaran
+Buruk
+Sangat sengsara
+Sedang
+Banyak keturunan
+Baik
+Kaya, dicintai orang
+Baik
+Tidak kurang makan dan minum
+Buruk
+Janda atau Duda
+Baik
+Panjang umur
+Buruk
+Miskin, kurang makanan minuman
+Buruk sekali
+Sakit-sakitan
+Baik sekali
+Selalu senang dan gembira
+Buruk
+Malu bercampur marah
+Buruk
+Sakit-sakitan
+
+3.1.6 Nampih Sasih
+Kalender Saka merupakan penggabungan Sistem Tahun Surya (Solar System) dengan Sistem
+Tahun Candra (Lunar System), maka dalam periode 19 tahun Sistem Tahun Surya akan
+terdapat 7 kali Bulan Candra ke-13. Ini berarti dalam 19 tahun Sistem Tahun Surya akan
+terdapat 7 kali Sasih Malamasa [1]. Malamasa atau Pengerepeting Sasih adalah sasih atau
+bulan yang dirapatkan, apabila dalam satu tahunnya terdiri dari 13 Bulan.
+Kalender Bali menggunakan 2 Sistem Nampih Sasih pada 3 kisaran waktu yang berbeda.
+Sebelum tahun 1992 digunakan Sistem Nampih Sasih Saka Bali dengan rumus Tahun Saka
+dibagi 19 untuk mencari Malamasa dan Malamasa hanya terdapat pada Sasih Destha dan
+Sasih Sadha. Apabila hasil pembagian Tahun Saka bersisa 0, 6, dan 11 akan terjadi Mala
+Destha yaitu Sasih Destha yang dirapatkan, sedangkan bila bersisa 3, 8, 14, dan 16 akan
+terjadi Mala Sadha yaitu Sasih Sadha yang dirapatkan. Selanjutnya sesuai dengan Mahasaba
+VI Parisada Hindu Dharma Indonesia tanggal 4-9 September 1991 ditetapkan berlakunya
+Sistem Nampih Sasih berkesinambungan dengan rumus Tahun Saka dibagi 19. Sisa 2 dan 10
+dilakukan Nampih Destha, sedangkan sisa 4, 7, 13, 15 dan 18 masing-masing Nampih Ketiga,
+Kasa, Kadasa, Karo, dan Sadha.
+Keputusan Sabha Pandita Parisada Hindu Dharma Indonesia Provinsi Bali tentang Sistem
+Nampih Sasih tanggal 18 September 2001 ditetapkan berlakunya kembali Sistem Nampih Sasih
+Saka Bali, dengan melakukan Penampih Sasih pada Sasih Destha dan Sasih Sadha, yang
+mulai diberlakukan pada penerbitan Kalender Bali tahun Saka 1925 atau 2003 Masehi.
+3.1.7 Ingkel
+Ingkel artinya pantangan atau larangan, yang biasa disebut dengan patining yang berarti pula
+kematian atau hal-hal yang berhubungan dengan bahaya. Hal-hal yang membahayakan akan
+menjadi larangan untuk menjauhinya.
+Masing-masing Ingkel umurnya atau jangka waktinya 7 hari terhitung mulai Redite sampai
+Saniscara. Nama-nama Ingkel tersebut sebagai berikut[1]:
+1. Wong
+:
+Tidak Boleh melaksanakan Upacara Manusa Yadnya (mepandes, pawiwahan)
+2. Sato
+:
+Tidak baik mulai menangkap/mengambil hewan kaki empat untuk dipelihara
+3. Mina
+:
+Tidak baik mulai memelihara ikan
+4. Manuk :
+Tidak baik menangkap/mengambil ayam atau unggas lainnya untuk dipelihara
+5. Taru
+:
+Tidak baik mulai menanam atau menebang kayu untuk bahan bangunan/rumah
+6. Buku
+:
+Tidak baik mulai memotong bambu atau tanaman beruas lainnya untuk bahan
+bangunan/rumah dan peralatan/perabot lainnya.
+
+397
+
+LONTAR KOMPUTER VOL. 5, NO.1, APRIL 2014
+
+ISSN: 2088-1541
+
+3.2 Logika Fuzzy
+3.2.1 Konsep Dasar Logika Fuzzy
+Secara garis besar proses dalam logika fuzzy dibagi menjadi empat elemen dasar, sebagai
+berikut:
+1.Basis kaidah (rule base), yang berisi aturan-aturan secara linguistik yang bersumber dari
+pakar.
+2.Suatu mekanisme pengambilan keputusan (inference engine), yang memperagakan
+bagaimana para pakar mengambil suatu keputusan dengan menerapkan pengetahuan
+(knowledge).
+3.Proses fuzzifikasi (fuzzification), yang mengubah besaran tegas (crisp) ke besaran fuzzy.
+4.Proses defuzzifikasi (defuzzification), yang mengubah besaran fuzzy hasil dari inference
+engine menjadi besaran tegas (crisp).
+Ada beberapa hal yang perlu diketahui dalam memahami Sistem Fuzzy, yaitu:
+1.Variabel fuzzy
+Variabel fuzzy merupakan variabel yang hendak dibahas dalam suatu Sistem Fuzzy. Contoh:
+umur, temperatur, permintaan, dsb.
+2. Himpunan fuzzy
+Logika fuzzy dimulai dengan konsep himpunan fuzzy [12]. Himpunan fuzzy memilik 2 atribut,
+yaitu:
+a. Linguistik, yaitu penamaan suatu grup yang mewakili duatu keadaan atau kondisi
+tertentu dengan menggunakan bahasa alami, seperti: muda, parobaya, tua.
+b. Numeris, yaitu suatu nilai (angka) yang menunjukkan ukuran dari suatu variabel seperti:
+40, 25, 50, dan sebagainya.
+Himpunan fuzzy merupakan suatu grup yang mewakili suatu kondisi atau keadaan tertentu
+dalam suatu variabel fuzzy. [9]
+3.3 Metode Inferensi Fuzzy Mamdani
+Metode inferensi Mamdani diperkenalkan oleh Ebrahim Mamdani pada tahun 1975. Metode ini
+sering dikenal sebagai Metode Max-Min[10]. Setiap baris dari fungsi keanggotaan merupakan
+aturan IF-THEN yang ditentukan oleh pengguna, tergantung pada nilai-nilai yang digunakan.
+Kontribusi output dari setiap aturan mencerminkan tingkat aktivasi. Hasil akhir adalah Himpunan
+Fuzzy yang diciptakan oleh superposisi dari masing-masing aturan.
+Metode Mamdani merupakan sistem kontrol yang pertama dibangun dengan menggunakan
+teori Himpunan Fuzzy. Setelah proses agregasi, terdapat Himpunan Fuzzy untuk setiap variabel
+output yang perlu defuzifikasi [11].
+4. Hasil dan Pembahasan
+4.1 Perancangan Basis Pengetahuan
+Pengetahuan dalam Sistem Kalender Bali, Kalender Masehi dan Wariga Dewasa untuk
+Padewasan Pawiwahan (penentuan hari baik untuk upacara perkawinan) yang telah diperoleh
+dalam proses akuisisi pengetahuan melalui studi literatur dan wawancara dengan pakar
+padewasan, diimplementasikan dalam bentuk rancangan basis pengetahuan yang disimpan
+dalam basis data MySql.
+4.2 Penentuan Hari Baik Perkawinan
+Pemakai menentukan rentang waktu, dengan mengisi tanggal awal dan tanggal akhir pencarian
+hari baik perkawinan yang inginkan. Proses penentuan hari baik perkawinan dimulai dengan
+mencari Saptawara, Sasih, Pananggal/Panglong, dan Ala Ayuning Dewasa setiap tanggal
+dalam rentang waktu yang ditentukan pemakai. Setiap tanggal memiliki satu Saptawara, satu
+398
+
+LONTAR KOMPUTER VOL. 5, NO.1, APRIL 2014
+
+ISSN: 2088-1541
+
+Sasih dan satu Pananggal atau Panglong. Namun untuk Ala Ayuning Dewasa, untuk setiap
+tanggal bisa memiliki lebih dari satu Ala Ayuning Dewasa. Masing-masing Saptawara, Sasih,
+Pananggal/Panglong, dan Ala Ayuning Dewasa memiliki nilai hari baik perkawinan berdasarkan
+akuisisi pengetahuan.
+Khusus untuk Ala Ayuning Dewasa, jika terdapat Ala Ayuning Dewasa yang merupakan
+pantangan untuk melakukan upacara perkawinan maka nilai Ala Ayuning Dewasa pantangan ini
+yang digunakan, Ala Ayuning Dewasa yang lain diabaikan. Namun jika tidak ada pantangan
+maka nilai Ala Ayuning Dewasa yang digunakan adalah nilai rata-rata.
+Ada beberapa hari yang merupakan pantangan untuk melakukan upacara perkawinan di dalam
+Ala Ayuning Dewasa, antara lain: Ingkel Wong, Kala Tiga Pasah, Rangda Tiga, Uncal Balung,
+Hari Raya Nyepi. Ala Ayuning Dewasa yang merupakan pantangan melakukan upacara
+perkawinan, pada sistem ditandai dengan pemberian nilai 1 (satu).
+Selanjutnya dari nilai Sasih, Saptawara, Pananggal/Panglong dan Ala Ayuning Dewasa
+dilakukan proses inferensi fuzzy dengan menggunakan Fuzzy Inference System dengan
+metode Mamdani. Aturan fuzzy yang digunakan sebanyak 500 aturan, contoh aturan dapat
+dilihat pada Tabel 3.
+
+No Aturan
+2
+22
+351
+
+Tabel 3 Aturan Fuzzy
+Aturan
+IF Saptawara Sangat Baik AND Sasih Sangat Baik AND Panglong Sangat
+Baik AND Ala Ayuning Dewasa Baik THEN Dewasa Perkawinan Sangat Baik
+IF Saptawara Sangat Baik AND Sasih Baik AND Panglong Sangat Baik AND
+Ala Ayuning Dewasa Baik THEN Dewasa Perkawinan Sangat Baik
+IF Saptawara Buruk AND Sasih Sedang AND Penanggal Sedang AND Ala
+Ayuning Dewasa Tidak Baik THEN Dewasa Perkawinan Sangat Buruk
+
+Nilai hasil inferensi fuzzy terkecil yang dihasilkan dari kondisi dimana aturan-aturan fuzzy yang
+berlaku adalah aturan-aturan yang menghasilkan nilai sangat buruk adalah sebesar 10.8333.
+Sedangkan nilai terbesar yang dihasilkan dengan aturan-aturan fuzzy yang berlaku adalah
+aturan yang menghasilkan nilai sangat baik adalah 89,1667.
+Sistem akan menampilkan secara urut persentase nilai hari baik perkawinan dari yang besar ke
+kecil seperti terlihat pada Gambar 4.
+
+399
+
+LONTAR KOMPUTER VOL. 5, NO.1, APRIL 2014
+
+ISSN: 2088-1541
+
+Gambar 4. Antarmuka Penentuan Hari Baik Perkawinan
+Persentase nilai didapatkan dengan menghitung dengan rumus:
+Persentase =
+
+( Nilai  10,8333)
+x100%
+(89,1667  10,8333)
+
+Nilai 10,8333 adalah nilai terendah yang dihasilkan proses inferensi fuzzy. Nilai 89,1667 adalah
+nilai tertinggi yang bisa dicapai dari proses inferensi fuzzy.
+Sistem akan memberikan rekomendasi hari/tanggal yang baik untuk melakukan upacara
+perkawinan adalah hari yang memiliki nilai lebih besar dari 62,766%. Nilai 62,766% didapat dari
+suatu kondisi berada diantara Sedang dan Baik, dimana aturan-aturan yang berlaku adalah
+aturan yang menghasilkan nilai Sedang dan Baik. Serta hasil dari proses komposisi Max
+menghasilkan Himpunan Sedang dan Himpunan Baik dengan derajat keanggotaan bernilai 1.
+4.3 Perbaikan Pengetahuan
+Sistem menyediakan fasilitas perbaikan pengetahuan untuk menambah, mengubah atau
+menghapus pengetahuan yang telah tersimpan pada basis pengetahuan. Fasilitas ini
+digunakan sebagai lingkungan pengembangan bagi perekayasa pengetahuan sehingga untuk
+masuk ke bagian ini harus melakukan login terlebih dahulu. Perbaikan yang dapat dilakukan
+antara lain perbaikan Aturan Fuzzy, perbaikan Himpunan Fuzzy, perbaikan pengetahuan untuk
+Saptawara, Sasih, Penanggal/Panglong, dan Ala Ayuning Dewasa.
+4.4 Pengujian
+4.4.1 Pengujian Modul Kalender Bali
+Penentuan hari baik untuk upacara perkawinan didasarkan pada beberapa komponen antara
+lain: Sasih, Saptawara, Pananggal/Panglong dan Ala Ayuning Dewasa. Komponen-komponen
+tersebut pada setiap tanggal dihasilkan oleh Modul Kalender Bali. Sehingga keluaran yang
+dihasilkan Modul Kalender Bali haruslah benar.
+
+400
+
+LONTAR KOMPUTER VOL. 5, NO.1, APRIL 2014
+
+ISSN: 2088-1541
+
+Untuk itu dilakukan pengujian dengan cara membandingkan data Kalender Bali yang dihasilkan
+oleh sistem (Modul Kalender Bali) dengan Kalender Bali versi cetak yang disusun oleh I Kt.
+Bangbang Gde Rawi (Alm) dan Putra-Putranya. Pengujian dilakukan untuk beberapa hal, yaitu:
+1. Wewaran (Pancawara dan Saptawara), Sasih, Pananggal/Panglong, dan Ingkel
+2. Nampih Sasih
+3. Pengalantaka
+Data uji diambil dari data dua tahun yaitu data tanggal pada tahun 2012 dan 2013 Wewaran
+yang diuji adalah Pancawara dan Saptawara karena kedua wewaran ini merupakan kunci atau
+acuan untuk mencari wewaran yang lainnya. Pengujian Wewaran (Pancawara dan Saptawara),
+Sasih, Pananggal/Panglong, dan Ingkel dilakukan dengan mengambil sampel data sebanyak 24
+data tanggal dari 2 tahun, 12 data tanggal dari tahun 2012 dan 12 data tanggal dari tahun 2013.
+Data diambil secara acak dari setiap bulan pada kedua tahun tersebut. Dari hasil pengujian
+dapat bahwa Pancawara, Saptawra, Sasih, Wuku, Pananggal/Panglong dan Ingkel yang
+dihasilkan sistem dengan yang ada di Kalender Bali versi cetak memiliki kesamaan.
+Selanjutnya dilakukan pengujian terhadap penentuan Nampih Sasih. Nampih Sasih sesuai
+dengan Keputusan Sabha Pandita Parisada Hindu Dharma Indonesia Provinsi Bali tanggal 18
+September 2001 terjadi pada Sasih Destha dan Sasih Sadha. Pada tahun 2012 Masehi atau
+1934 Saka tidak terdapat Nampih Sasih dan pada tahun 2013 Masehi atau 1935 Saka terjadi
+Nampih Sasih yaitu Nampih Sadha. Nampih Sasih yang terdapat di sistem (Modul Kalender
+Bali) menunjukkan hal yang sama yaitu tahun 2012 Masehi atau 1934 Saka tidak terdapat
+Nampih Sasih dan tahun 2013 Masehi atau 1935 Saka terjadi Nampih Sadha yang terjadi pada
+bulan Juni 2013 Masehi.
+Kebenaran penentuan Purnama dan Tilem diketahui dengan cara pengujian Pengalantaka
+dengan membandingkan Pengalantaka yang dihasilkan sistem dengan yang ada di Kalender
+Bali versi cetak. Dari pengujian diketahui bahwa Pengalantaka yang ada di sistem (Modul
+Kalender Bali) telah sesuai.
+4.4.2 Pengujian Hari Baik Perkawinan
+Pengujian dilakukan dengan menggunakan metode verifikasi, yaitu membandingkan hasil
+penentuan hari baik perkawinan yang dikeluarkan oleh sistem dengan hari baik yang ditentukan
+oleh seorang pakar wariga. Data yang digunakan untuk pengujian adalah data hari baik
+perkawinan dalam rentang waktu 1 tahun yaitu dari tanggal 1 Januari 2012 sampai dengan 31
+Desember 2012.
+Hari baik untuk perkawinan dalam rentang waktu setahun di tahun 2012 (1 Januari 2012
+sampai dengan 31 Desember 2012) menurut seorang pakar wariga dapat dilihat seperti pada
+Tabel 3.Sedangkan menurut sistem dimana nilai baik untuk hari perkawinan dihasilkan dari
+inferensi fuzzy, setiap bulan terdapat tanggal yang mengandung nilai baik untuk hari
+perkawinan dengan persentase yang beragam.
+Tabel 3 Hari Baik Perkawinan Menurut Pakar Wariga
+Tanggal Hari Baik
+Bulan –Tahun
+Perkawinan
+Januari 2012
+Tidak ada
+Pebruari 2012
+Tidak ada
+Maret 2012
+Tidak ada
+April 2012
+4 April 2012
+Mei 2012
+Tidak ada
+Juni 2012
+Tidak ada
+Juli 2012
+Tidak ada
+Agustus 2012
+Tidak ada
+September 2012
+Tidak ada
+Oktober 2012
+17 Oktober 2012
+
+401
+
+LONTAR KOMPUTER VOL. 5, NO.1, APRIL 2014
+
+Nopember 2012
+Desember 2012
+
+ISSN: 2088-1541
+
+Tidak ada
+14 Desember 2012
+
+Nilai Akhir hari baik untuk upacara perkawinan dikelompokkan dalam 5 kelompok yaitu Sangat
+Buruk, Buruk, Sedang, Baik, dan Sangat Baik, seperti berikut ini.
+ Sangat Baik
+: 87,690% ≤ Nilai ≤ 100,000%
+ Baik
+: 62,766% ≤ Nilai < 87,690%
+ Sedang
+: 37,234% ≤ Nilai < 62,766%
+ Buruk
+: 12,310% ≤ Nilai < 37,234%
+ Sangat Buruk : 0,00% ≤ Nilai < 12,310%
+Sistem menyarankan hari yang baik untuk melakukan upacara perkawinan adalah hari memiliki
+persentase nilai diatas 62,766%. Data tanggal dengan persentase nilai 62,766% keatas dan
+persentase tertinggi setiap bulan pada tahun 2012 dapat dilihat pada Tabel 4.
+
+Bulan –Tahun
+Januari 2012
+Pebruari 2012
+Maret 2012
+April 2012
+Mei 2012
+Juni 2012
+Juli 2012
+Agustus 2012
+September 2012
+Oktober 2012
+Nopember 2012
+Desember 2012
+
+Tabel 4 Hari Baik Perkawinan Menurut Sistem
+Tanggal
+Persentase Nilai
+Hari Perkawinan
+15 Januari 2012
+57,391%
+Sedang
+16 Pebruari 2012
+2,341%
+Sangat Buruk
+23 Maret 2012
+50,000%
+Sedang
+4 April 2012
+67,426%
+Baik
+9 April 2012
+75,532%
+Baik
+23 Mei 2012
+33,274%
+Buruk
+6 Juni 2012
+34,329%
+Buruk
+16 Juli 2012
+36,715%
+Buruk
+12 Agustus 2012
+50,00%
+Sedang
+17 September 2012
+42,609%
+Sedang
+17 Oktober 2012
+72,640%
+Baik
+5 Nopember 2012
+61.092%
+Sedang
+14 Desember 2012
+72,262%
+Baik
+
+Perbandingan kedua tabel di atas memperlihatkan bahwa hari baik perkawinan yang
+direkomendasikan oleh sistem (aplikasi) telah sesuai atau memiliki kesamaan dengan hari baik
+yang ditentukan oleh seorang pakar Wariga. Sistem juga dapat lebih banyak memberikan
+alternatif pilihan hari baik perkawinan. Hal ini terlihat seperti pada bulan April 2012, dimana
+menurut sistem terdapat 2 hari baik perkawinan yang memiliki nilai 62,766% keatas, sedangkan
+pakar hanya menentukan 1 hari saja.
+Selain itu, keunggulan dari sistem adalah dapat memberikan nilai atau persentase seberapa
+baik tanggal tersebut untuk dipakai sebagai hari pelaksanaan upacara perkawinan. Karena
+setiap tanggal mengandung persentase hari baik perkawinan maka pemakai dapat memilih hari
+yang terbaik dalam rentang waktu tertentu, misalnya dalam sebulan dicari tanggal yang
+memiliki persentase nilai yang tertinggi. Selanjutnya, dapat dikonsultasikan ke Pinandita
+Pemuput, untuk memastikan hari baik tersebut sekaligus untuk banten pemayuh jika hari
+tersebut mengandung unsur yang buruk. Banten pemayuh adalah suatu sarana upacara yang
+dipercaya untuk menetralisir hal-hal yang buruk.
+5. Kesimpulan
+1. Penentuan hari baik untuk pelaksanaan upacara perkawinan (pawiwahan) di Bali
+menggunakan logika fuzzy dengan metode inferensi Mamdani diimplementasikan dalam
+aplikasi berbasis web. Pemrograman menggunakan bahasa pemrograman PHP dengan
+Framework CodeIgniter dan basis data MySQL.
+2. Pengetahuan mengenai wariga terutamanya tentang baik buruknya hari perkawinan
+diperoleh melalui proses akuisisi pengetahuan yang selanjutnya direpresentasikan ke
+dalam bentuk pemodelan himpunan fuzzy. Pengetahuan berupa aturan-aturan
+direpresentasikan dalam bentuk “If…Then”.
+402
+
+LONTAR KOMPUTER VOL. 5, NO.1, APRIL 2014
+
+ISSN: 2088-1541
+
+3. Pembuatan aplikasi diawali dengan pembuatan modul Kalender Bali yang akan
+menghasilkan data wariga dari setiap tanggal/hari. Sistem inferensi fuzzy menghasilkan
+nilai hari baik perkawinan untuk masing-masing tanggal dalam rentang waktu yang
+diinginkan pemakai. Hasil sistem akan ditampilkan secara terurut dari tanggal yang memiliki
+nilai hari perkawinan terbaik sampai terburuk.
+4. Hari/tanggal dianggap sebagai hari baik untuk pelaksanaan upacara perkawinan jika sistem
+inferensi fuzzy menghasilkan nilai sebesar 60 atau dalam persentase sebesar 62,766%.
+Nilai batas ini didapat dari suatu kondisi berada diantara nilai sedang dan baik
+5. Hasil dari aplikasi ini telah diuji melalui metode verifikasi yaitu membandingkan hari baik
+perkawinan menurut sistem dengan yang ditentukan oleh seorang pakar wariga. Data uji
+yang digunakan adalah data tanggal dalam satu tahun (tahun 2012). Dari hasil pengujian
+dapat disimpulkan bahwa hari baik perkawinan yang dihasilkan sistem (aplikasi) telah
+sesuai atau memiliki kesamaan dengan hari baik yang ditentukan oleh seorang pakar
+wariga.
+
+Daftar Pustaka
+[1] I B Suparta Ardhana. Pokok-Pokok Wariga. Surabaya: Penerbit Paramita, 2005
+[2] I B Putra M Aryana. Dasar Wariga Kearifan Alam dalam Sistem Tarikh Bali. Denpasar: Bali
+Aga, 2009
+[3] Yayasan Satya Hindu Dharma. Penelusuran Modern Wariga Warisan Budaya Adiluhung.
+Denpasar : Penerbit Panakom, 2005
+[4] I B Kade Surya Wijaya. Rancang Bangun Sistem Peramalan Sifat Manusia dan Jodoh
+Berbasis Web dengan Sistem Perhitungan Tradisional Bali. Tugas Akhir. Jimbaran-Bali:
+Universitas Udayana; 2007
+[5] Ni Made Dwi Indira. Rancang Bangun Sistem Informasi Wariga Bali Berbasis Web. Tugas
+Akhir. Jimbaran-Bali: Universitas Udayana; 2007
+[6] Yayasan Satya Hindu Dharma. Kunci Wariga Dewasa. Denpasar : Penerbit PT Upada
+Sastra, 1992.
+[7] http://umaseh.com/wariga-dan-dewasa-merupakan-ilmu-astronomi-ala-bali/,
+diakses
+tanggal 20 Desember 2011.
+[8] I Wayan Gina. Aneka Tarikh. Denpasar: Penerbit PT Upada Sastra, 1997
+[9] Sri Kusumadewi. Artificial Intelligence (Teknik dan Aplikasinya). Yogyakarta: Graha Ilmu,
+2004
+[10] Sri Kusumadewi, Hari Purnomo. Aplikasi Logika Fuzzy untuk Pendukung Keputusan Edisi
+2. Yogyakarta: Graha Ilmu, 2010.
+[11] Debraj Chatterjee. Prediction of Multi Responses in Radial Drilling Process Using Mamdani
+Fuzzy Inference System. Tesis. Rourkela: National Institute of Technology; 2010.
+[12] J S Ronger Jang, Ned Gulley. Fuzzy Logic Toolbox User’s Guide. The MathWorks Inc;
+1997.
+
+403
+
+

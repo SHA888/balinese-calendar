@@ -78,7 +78,7 @@ functions. This is a data-driven approach to extract what the paper describes.
 ## 2. CANDANA ET AL. 2021 — Fuzzy Method Comparison (FULL PAPER OBTAINED)
 
 **Source:** JIK 6(2), 14–22. Universitas Pendidikan Ganesha Singaraja.
-**Authors:** E.W. Hary Candana, I Gede Aris Gunadi, D.G.H. Divayana
+**Authors:** Candana, E.W.H., Gunadi, I.G.A., & Divayana, D.G.H.
 **Status:** FULLY READ — key findings extracted
 
 ### Winner: SUGENO (not Mamdani)
@@ -325,8 +325,8 @@ while Saniscara and Redite are effectively blocked.
 - [2] I.B. Putra Manik Ariana & I.B. Budayoga (2016). *Ala Ayuning Dewasa
   Ketut Bangbang Gde Rawi (Sebuah Canang Sari)*, II. Denpasar: ESBE Buku.
   → This book likely contains the actual weight tables for each Wariga element
-- [3] I Ketut Suwintana (2015). 'Penentuan Hari Baik Perkawinan Di Bali
-  Berbasis Logika Fuzzy', Lontar Komput., vol. 5, no. 1, h. 392–403.
+- [3] I Ketut Suwintana (2014). 'Penentuan Hari Baik Perkawinan Di Bali
+  Berbasis Logika Fuzzy', Lontar Komput., vol. 5, no. 1, h. 392–401.
   → Suwintana's actual journal paper (not the 2014 seminar paper)
 - [7] I Ketut Pasek Swastika (2015). *Wariga Padewasan*, I. Denpasar:
   CV. Kayumas Agung.
@@ -730,7 +730,7 @@ secondary sources or if the book becomes accessible.
 |---------|--------|---------------|
 | Exact fuzzy μ-function parameters | Candana 2021 figures (image-based) | The membership function curves from Fig. in PDF |
 | Wariga weight tables per element | Ariana & Budayoga (2016) *Ala Ayuning Dewasa* | The bobot values for each wewaran/wuku/sasih |
-| Suwintana's full rule base | Suwintana (2015) Lontar Komput. 5(1), 392–403 | Complete IF-THEN rule set |
+| Suwintana's full rule base | Suwintana (2014) Lontar Komput. 5(1), 392–401 | Complete IF-THEN rule set |
 
 ### KEY STRATEGIC DECISION: Sugeno over Mamdani
 Candana 2021 conclusively demonstrates that **Sugeno** is the correct fuzzy method
