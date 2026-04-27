@@ -26,6 +26,7 @@ default = []
 astronomical = ["dep:sunrise"]
 serde = ["dep:serde", "chrono/serde"]
 wasm = ["dep:wasm-bindgen", "dep:serde-wasm-bindgen", "serde"]
+dewasa-ayu = []  # Enables f64-based Sugeno fuzzy inference engine
 
 [dependencies]
 chrono    = { version = "0.4", default-features = false, features = ["std", "clock"] }

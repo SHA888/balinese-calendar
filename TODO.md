@@ -232,38 +232,28 @@ Any implementation producing >3% good days is likely too permissive.
 - [x] Test: reproduce Sugeno TP matches against expert ground truth (11 TP with fixture dates)
 
 #### Phase 2: Five-variable Sugeno inference engine
-- [ ] Implement zero-order Sugeno fuzzy inference (constant consequents):
+- [x] Implement zero-order Sugeno fuzzy inference (constant consequents):
       ```rust
-      struct SugenoEngine {
-          rules: Vec<SugenoRule>,
-      }
+      struct SugenoEngine { rules: Vec<SugenoRule> }
       struct SugenoRule {
-          // Antecedents: membership degrees for 5 variables
-          wewaran_set: FuzzySet,
-          wuku_set: FuzzySet,
-          penanggal_set: FuzzySet,
-          sasih_set: FuzzySet,
-          ala_ayu_set: FuzzySet,
-          // Consequent: constant output value
-          output: f64,
+          wewaran_set: FuzzySet, wuku_set: FuzzySet, penanggal_set: FuzzySet,
+          sasih_set: FuzzySet, ala_ayu_set: FuzzySet, output: f64,
       }
-      // Defuzzification: weighted average of fired rules
       fn infer(&self, input: &DewasaInput) -> f64 {
           let fired: Vec<(f64, f64)> = self.rules.iter()
               .map(|r| (r.firing_strength(input), r.output))
-              .filter(|(strength, _)| *strength > 0.0)
-              .collect();
+              .filter(|(strength, _)| *strength > 0.0).collect();
           fired.iter().map(|(w,z)| w*z).sum::<f64>()
               / fired.iter().map(|(w,_)| *w).sum::<f64>()
       }
       ```
-- [ ] Membership functions: triangular/trapezoidal for each variable
-      - 5 linguistic values: SBr (Sangat Buruk), Br (Buruk), S (Sedang),
-        B (Baik), SB (Sangat Baik)
-      - Breakpoints TBD: derive from Ariana & Budayoga (2016) *Ala Ayuning
-        Dewasa Ketut Bangbang Gde Rawi* bobot tables, or reverse-engineer
-        from kalenderbali.info output by querying all 210 Pawukon days
-- [ ] Feature-gate behind `#[cfg(feature = "dewasa-ayu")]` (pulls in `f64` ops)
+      Implemented in `src/dewasa_ayu.rs` with `SugenoEngine::infer()` method.
+- [x] Membership functions: triangular/trapezoidal for each variable
+      - 5 linguistic values: SBr (0.1), Br (0.3), S (0.5), B (0.75), SB (0.9)
+      - `FuzzySet::triangular(a, b, c)` and `FuzzySet::trapezoidal(a, b, c, d)`
+      - Standard preset sets: `standard_sets::triangular_five()`, `trapezoidal_five()`
+- [x] Feature-gate behind `#[cfg(feature = "dewasa-ayu")]` — enables f64 ops and Sugeno types
+      Exported: `DewasaInput`, `FuzzySet`, `LinguisticValue`, `MembershipShape`, `SugenoEngine`, `SugenoRule`
 
 #### Phase 3: Bobot (weight) tables
 - [ ] Wewaran bobot: from expert pattern analysis, Buddha and Sukra are highest-

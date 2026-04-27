@@ -191,52 +191,275 @@ fn is_expert_excluded(sapta: &Saptawara) -> bool {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Future: Sugeno Fuzzy Inference Engine (Phase 2)
+// Phase 2: Zero-order Sugeno Fuzzy Inference Engine
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// Zero-order Sugeno fuzzy rule (constant consequent).
-#[derive(Debug, Clone, Copy)]
-pub struct SugenoRule {
-    /// Input variable membership (simplified for Phase 2)
-    pub antecedent_score: f64,
-    /// Output constant value
-    pub consequent: f64,
-}
+#[cfg(feature = "dewasa-ayu")]
+mod sugeno {
+    #[allow(unused_imports)]
+    use super::*;
 
-/// Sugeno FIS engine (stub for Phase 2 implementation).
-pub struct SugenoEngine {
-    pub rules: Vec<SugenoRule>,
-}
-
-impl SugenoEngine {
-    /// Create empty engine (Phase 2 will load rules from fixture/config).
-    pub fn new() -> Self {
-        Self { rules: Vec::new() }
+    /// Five linguistic values for fuzzy classification.
+    ///
+    /// Based on Ariana & Budayoga (2016) Ala Ayuning Dewasa bobot tables.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+    pub enum LinguisticValue {
+        /// Sangat Buruk (Very Bad) - score range ~0.0-0.2
+        SBr,
+        /// Buruk (Bad) - score range ~0.2-0.4
+        Br,
+        /// Sedang (Moderate) - score range ~0.4-0.6
+        S,
+        /// Baik (Good) - score range ~0.6-0.8
+        B,
+        /// Sangat Baik (Very Good) - score range ~0.8-1.0
+        SB,
     }
 
-    /// Compute weighted average defuzzification.
-    ///
-    /// Formula: Σ(μi × zi) / Σ(μi)
-    /// where μi = firing strength, zi = consequent constant
-    pub fn compute(&self, _inputs: &[f64]) -> f64 {
-        // Phase 2: Implement full fuzzy inference
-        // For now, return neutral score
-        if self.rules.is_empty() {
-            return 0.5;
+    impl LinguisticValue {
+        /// Get the center point of this linguistic value (for rule consequents).
+        pub fn center(&self) -> f64 {
+            match self {
+                LinguisticValue::SBr => 0.1,
+                LinguisticValue::Br => 0.3,
+                LinguisticValue::S => 0.5,
+                LinguisticValue::B => 0.75,
+                LinguisticValue::SB => 0.9,
+            }
         }
 
-        let numerator: f64 = self.rules.iter().map(|r| r.antecedent_score * r.consequent).sum();
-        let denominator: f64 = self.rules.iter().map(|r| r.antecedent_score).sum();
+        /// Get the full list of values for iteration.
+        pub fn all() -> &'static [LinguisticValue] {
+            &[
+                LinguisticValue::SBr,
+                LinguisticValue::Br,
+                LinguisticValue::S,
+                LinguisticValue::B,
+                LinguisticValue::SB,
+            ]
+        }
+    }
 
-        if denominator == 0.0 { 0.0 } else { (numerator / denominator).clamp(0.0, 1.0) }
+    /// Membership function shape for fuzzy sets.
+    #[derive(Debug, Clone, Copy, PartialEq)]
+    pub enum MembershipShape {
+        /// Triangular: (a, b, c) where b is peak, a and c are base points
+        Triangular { a: f64, b: f64, c: f64 },
+        /// Trapezoidal: (a, b, c, d) where [b,c] is plateau, a and d are outer points
+        Trapezoidal { a: f64, b: f64, c: f64, d: f64 },
+    }
+
+    /// Fuzzy set with a membership function.
+    #[derive(Debug, Clone, Copy)]
+    pub struct FuzzySet {
+        pub shape: MembershipShape,
+        pub linguistic: LinguisticValue,
+    }
+
+    impl FuzzySet {
+        /// Create a triangular fuzzy set.
+        pub fn triangular(a: f64, b: f64, c: f64, linguistic: LinguisticValue) -> Self {
+            Self { shape: MembershipShape::Triangular { a, b, c }, linguistic }
+        }
+
+        /// Create a trapezoidal fuzzy set.
+        pub fn trapezoidal(a: f64, b: f64, c: f64, d: f64, linguistic: LinguisticValue) -> Self {
+            Self { shape: MembershipShape::Trapezoidal { a, b, c, d }, linguistic }
+        }
+
+        /// Compute membership degree (μ) for a crisp input value.
+        ///
+        /// Returns value in [0.0, 1.0] range.
+        pub fn membership(&self, x: f64) -> f64 {
+            let x = x.clamp(0.0, 1.0);
+            match self.shape {
+                MembershipShape::Triangular { a, b, c } => {
+                    if x <= a || x >= c {
+                        0.0
+                    } else if x == b {
+                        1.0
+                    } else if x < b {
+                        (x - a) / (b - a)
+                    } else {
+                        (c - x) / (c - b)
+                    }
+                }
+                MembershipShape::Trapezoidal { a, b, c, d } => {
+                    if x <= a || x >= d {
+                        0.0
+                    } else if x >= b && x <= c {
+                        1.0
+                    } else if x < b {
+                        (x - a) / (b - a)
+                    } else {
+                        (d - x) / (d - c)
+                    }
+                }
+            }
+        }
+    }
+
+    /// Input variables for the Sugeno inference engine.
+    ///
+    /// All values normalized to [0.0, 1.0] range.
+    #[derive(Debug, Clone, Copy, Default)]
+    pub struct DewasaInput {
+        /// Wewaran composite score (Saptawara + Pancawara normalized)
+        pub wewaran: f64,
+        /// Wuku position score (1-30 normalized)
+        pub wuku: f64,
+        /// Penanggal (lunar day) quality score (1-15 normalized)
+        pub penanggal: f64,
+        /// Sasih (month) quality score
+        pub sasih: f64,
+        /// Ala-Ayu base score (before inference)
+        pub ala_ayu: f64,
+    }
+
+    impl DewasaInput {
+        /// Create input from individual normalized scores.
+        pub fn new(wewaran: f64, wuku: f64, penanggal: f64, sasih: f64, ala_ayu: f64) -> Self {
+            Self {
+                wewaran: wewaran.clamp(0.0, 1.0),
+                wuku: wuku.clamp(0.0, 1.0),
+                penanggal: penanggal.clamp(0.0, 1.0),
+                sasih: sasih.clamp(0.0, 1.0),
+                ala_ayu: ala_ayu.clamp(0.0, 1.0),
+            }
+        }
+    }
+
+    /// Zero-order Sugeno fuzzy rule with 5 antecedents and constant consequent.
+    #[derive(Debug, Clone)]
+    pub struct SugenoRule {
+        /// Antecedent fuzzy sets for each input variable
+        pub wewaran_set: FuzzySet,
+        pub wuku_set: FuzzySet,
+        pub penanggal_set: FuzzySet,
+        pub sasih_set: FuzzySet,
+        pub ala_ayu_set: FuzzySet,
+        /// Consequent: constant output value (typically LinguisticValue center)
+        pub output: f64,
+    }
+
+    impl SugenoRule {
+        /// Create a new rule with specified fuzzy sets and output.
+        pub fn new(
+            wewaran_set: FuzzySet,
+            wuku_set: FuzzySet,
+            penanggal_set: FuzzySet,
+            sasih_set: FuzzySet,
+            ala_ayu_set: FuzzySet,
+            output: f64,
+        ) -> Self {
+            Self { wewaran_set, wuku_set, penanggal_set, sasih_set, ala_ayu_set, output }
+        }
+
+        /// Compute firing strength using product t-norm.
+        ///
+        /// Formula: μ_rule = μ_wewaran × μ_wuku × μ_penanggal × μ_sasih × μ_ala_ayu
+        pub fn firing_strength(&self, input: &DewasaInput) -> f64 {
+            let mu_w = self.wewaran_set.membership(input.wewaran);
+            let mu_u = self.wuku_set.membership(input.wuku);
+            let mu_p = self.penanggal_set.membership(input.penanggal);
+            let mu_s = self.sasih_set.membership(input.sasih);
+            let mu_a = self.ala_ayu_set.membership(input.ala_ayu);
+
+            // Product t-norm (AND operation)
+            mu_w * mu_u * mu_p * mu_s * mu_a
+        }
+    }
+
+    /// Zero-order Sugeno Fuzzy Inference Engine.
+    ///
+    /// Implements weighted average defuzzification for multiple rules.
+    #[derive(Debug, Clone, Default)]
+    pub struct SugenoEngine {
+        pub rules: Vec<SugenoRule>,
+    }
+
+    impl SugenoEngine {
+        /// Create empty engine.
+        pub fn new() -> Self {
+            Self { rules: Vec::new() }
+        }
+
+        /// Create engine with predefined rules.
+        pub fn with_rules(rules: Vec<SugenoRule>) -> Self {
+            Self { rules }
+        }
+
+        /// Add a rule to the engine.
+        pub fn add_rule(&mut self, rule: SugenoRule) {
+            self.rules.push(rule);
+        }
+
+        /// Run fuzzy inference with weighted average defuzzification.
+        ///
+        /// Formula: output = Σ(μi × zi) / Σ(μi)
+        /// where μi = firing strength of rule i, zi = consequent constant
+        ///
+        /// Returns value in [0.0, 1.0] range, or 0.5 if no rules fire.
+        pub fn infer(&self, input: &DewasaInput) -> f64 {
+            if self.rules.is_empty() {
+                return 0.5; // Neutral when no rules defined
+            }
+
+            let fired: Vec<(f64, f64)> = self
+                .rules
+                .iter()
+                .map(|r| (r.firing_strength(input), r.output))
+                .filter(|(strength, _)| *strength > 0.0)
+                .collect();
+
+            if fired.is_empty() {
+                return 0.0; // No rules fired
+            }
+
+            let numerator: f64 = fired.iter().map(|(w, z)| w * z).sum();
+            let denominator: f64 = fired.iter().map(|(w, _)| *w).sum();
+
+            if denominator == 0.0 { 0.0 } else { (numerator / denominator).clamp(0.0, 1.0) }
+        }
+
+        /// Check if inference result qualifies as Dewasa Ayu (auspicious).
+        pub fn is_auspicious(&self, input: &DewasaInput, threshold: f64) -> bool {
+            self.infer(input) >= threshold.clamp(0.0, 1.0)
+        }
+    }
+
+    /// Predefined fuzzy sets for standard 5-value classification.
+    pub mod standard_sets {
+        use super::*;
+
+        /// Get triangular fuzzy sets for 5 linguistic values spanning [0, 1].
+        ///
+        /// Breakpoints: SBr(0-0.25), Br(0.15-0.45), S(0.35-0.65), B(0.55-0.85), SB(0.75-1.0)
+        pub fn triangular_five() -> Vec<FuzzySet> {
+            vec![
+                FuzzySet::triangular(0.0, 0.0, 0.25, LinguisticValue::SBr),
+                FuzzySet::triangular(0.15, 0.3, 0.45, LinguisticValue::Br),
+                FuzzySet::triangular(0.35, 0.5, 0.65, LinguisticValue::S),
+                FuzzySet::triangular(0.55, 0.7, 0.85, LinguisticValue::B),
+                FuzzySet::triangular(0.75, 0.9, 1.0, LinguisticValue::SB),
+            ]
+        }
+
+        /// Get trapezoidal fuzzy sets for 5 linguistic values with plateaus.
+        pub fn trapezoidal_five() -> Vec<FuzzySet> {
+            vec![
+                FuzzySet::trapezoidal(0.0, 0.0, 0.1, 0.2, LinguisticValue::SBr),
+                FuzzySet::trapezoidal(0.15, 0.25, 0.35, 0.45, LinguisticValue::Br),
+                FuzzySet::trapezoidal(0.35, 0.45, 0.55, 0.65, LinguisticValue::S),
+                FuzzySet::trapezoidal(0.55, 0.65, 0.75, 0.85, LinguisticValue::B),
+                FuzzySet::trapezoidal(0.75, 0.85, 1.0, 1.0, LinguisticValue::SB),
+            ]
+        }
     }
 }
 
-impl Default for SugenoEngine {
-    fn default() -> Self {
-        Self::new()
-    }
-}
+#[cfg(feature = "dewasa-ayu")]
+pub use sugeno::*;
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -396,9 +619,153 @@ mod tests {
     }
 
     #[test]
+    #[cfg(feature = "dewasa-ayu")]
     fn test_sugeno_engine_default() {
         let engine = SugenoEngine::default();
-        let score = engine.compute(&[]);
-        assert_eq!(score, 0.5);
+        let input = DewasaInput::default();
+        let score = engine.infer(&input);
+        assert_eq!(score, 0.5); // Neutral when no rules
+    }
+
+    #[test]
+    #[cfg(feature = "dewasa-ayu")]
+    fn test_fuzzy_set_triangular() {
+        use sugeno::{FuzzySet, LinguisticValue};
+
+        let set = FuzzySet::triangular(0.0, 0.5, 1.0, LinguisticValue::B);
+        assert_eq!(set.membership(0.0), 0.0);
+        assert_eq!(set.membership(0.25), 0.5);
+        assert_eq!(set.membership(0.5), 1.0);
+        assert_eq!(set.membership(0.75), 0.5);
+        assert_eq!(set.membership(1.0), 0.0);
+    }
+
+    #[test]
+    #[cfg(feature = "dewasa-ayu")]
+    fn test_fuzzy_set_trapezoidal() {
+        use sugeno::{FuzzySet, LinguisticValue};
+
+        let set = FuzzySet::trapezoidal(0.0, 0.25, 0.75, 1.0, LinguisticValue::B);
+        assert_eq!(set.membership(0.0), 0.0);
+        assert_eq!(set.membership(0.125), 0.5);
+        assert_eq!(set.membership(0.5), 1.0); // Plateau
+        assert_eq!(set.membership(0.875), 0.5);
+        assert_eq!(set.membership(1.0), 0.0);
+    }
+
+    #[test]
+    #[cfg(feature = "dewasa-ayu")]
+    fn test_sugeno_rule_firing_strength() {
+        use sugeno::{DewasaInput, FuzzySet, LinguisticValue, SugenoRule};
+
+        // Create a rule where all antecedents peak at 0.6
+        let fuzzy_b = FuzzySet::triangular(0.4, 0.6, 0.8, LinguisticValue::B);
+        let rule = SugenoRule::new(
+            fuzzy_b, fuzzy_b, fuzzy_b, fuzzy_b, fuzzy_b, 0.75, // consequent for "B" (Good)
+        );
+
+        // Input at 0.6 (peak) should have membership 1.0 for all
+        let input = DewasaInput::new(0.6, 0.6, 0.6, 0.6, 0.6);
+        let strength = rule.firing_strength(&input);
+        assert!(
+            (strength - 1.0).abs() < 0.001,
+            "Expected firing strength ~1.0, got {}",
+            strength
+        );
+
+        // Input at 0.5 should have membership 0.5 for triangular(0.4,0.6,0.8)
+        let input2 = DewasaInput::new(0.5, 0.5, 0.5, 0.5, 0.5);
+        let strength2 = rule.firing_strength(&input2);
+        let expected = 0.5f64.powi(5); // 0.5^5 = 0.03125
+        assert!(
+            (strength2 - expected).abs() < 0.001,
+            "Expected ~{}, got {}",
+            expected,
+            strength2
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "dewasa-ayu")]
+    fn test_sugeno_engine_inference() {
+        use sugeno::{DewasaInput, LinguisticValue, SugenoEngine, SugenoRule, standard_sets};
+
+        // Create a simple engine with two rules
+        let sets = standard_sets::triangular_five();
+        let sb_set = sets[4]; // Sangat Baik
+        let s_set = sets[2]; // Sedang
+
+        let mut engine = SugenoEngine::new();
+
+        // Rule 1: If all are SB, output is 0.9 (SB center)
+        engine.add_rule(SugenoRule::new(
+            sb_set,
+            sb_set,
+            sb_set,
+            sb_set,
+            sb_set,
+            LinguisticValue::SB.center(),
+        ));
+
+        // Rule 2: If all are S, output is 0.5 (S center)
+        engine.add_rule(SugenoRule::new(
+            s_set,
+            s_set,
+            s_set,
+            s_set,
+            s_set,
+            LinguisticValue::S.center(),
+        ));
+
+        // Input that perfectly matches Rule 1
+        let input1 = DewasaInput::new(0.9, 0.9, 0.9, 0.9, 0.9);
+        let output1 = engine.infer(&input1);
+        assert!((output1 - 0.9).abs() < 0.05, "Expected ~0.9, got {}", output1);
+
+        // Input that perfectly matches Rule 2
+        let input2 = DewasaInput::new(0.5, 0.5, 0.5, 0.5, 0.5);
+        let output2 = engine.infer(&input2);
+        assert!((output2 - 0.5).abs() < 0.05, "Expected ~0.5, got {}", output2);
+    }
+
+    #[test]
+    #[cfg(feature = "dewasa-ayu")]
+    fn test_sugeno_is_auspicious() {
+        use sugeno::{DewasaInput, FuzzySet, LinguisticValue, SugenoEngine, SugenoRule};
+
+        // Create a rule that outputs high (0.9) when all inputs are high
+        let sb = FuzzySet::triangular(0.7, 0.9, 1.0, LinguisticValue::SB);
+        let mut engine = SugenoEngine::new();
+        engine.add_rule(SugenoRule::new(sb, sb, sb, sb, sb, 0.9));
+
+        let high_input = DewasaInput::new(0.9, 0.9, 0.9, 0.9, 0.9);
+        let low_input = DewasaInput::new(0.2, 0.2, 0.2, 0.2, 0.2);
+
+        assert!(engine.is_auspicious(&high_input, 0.8), "High input should be auspicious");
+        assert!(!engine.is_auspicious(&low_input, 0.8), "Low input should not be auspicious");
+    }
+
+    #[test]
+    #[cfg(feature = "dewasa-ayu")]
+    fn test_linguistic_value_centers() {
+        use sugeno::LinguisticValue;
+
+        assert_eq!(LinguisticValue::SBr.center(), 0.1);
+        assert_eq!(LinguisticValue::Br.center(), 0.3);
+        assert_eq!(LinguisticValue::S.center(), 0.5);
+        assert_eq!(LinguisticValue::B.center(), 0.75);
+        assert_eq!(LinguisticValue::SB.center(), 0.9);
+    }
+
+    #[test]
+    #[cfg(feature = "dewasa-ayu")]
+    fn test_standard_sets_count() {
+        use sugeno::standard_sets;
+
+        let triangular = standard_sets::triangular_five();
+        let trapezoidal = standard_sets::trapezoidal_five();
+
+        assert_eq!(triangular.len(), 5, "Should have 5 triangular sets");
+        assert_eq!(trapezoidal.len(), 5, "Should have 5 trapezoidal sets");
     }
 }
