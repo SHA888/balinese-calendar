@@ -255,6 +255,21 @@ Any implementation producing >3% good days is likely too permissive.
 - [x] Feature-gate behind `#[cfg(feature = "dewasa-ayu")]` — enables f64 ops and Sugeno types
       Exported: `DewasaInput`, `FuzzySet`, `LinguisticValue`, `MembershipShape`, `SugenoEngine`, `SugenoRule`
 
+#### Research Resources Acquisition (completed)
+Supporting materials for Phase 3–4 bobot derivation and rule extraction.
+
+- [x] Curated source checklist at `references/resources.md` — 60+ sources organized in 10 sections (Tier A/B/C)
+- [x] Local archive at `references/downloads/` with subdirectories `s1-primary-scans/` through `s10-government/`
+- [x] Large PDFs tracked via Git LFS (wariga-gemet.pdf 508MB, wariga-gede-gemet.pdf 75MB)
+- [x] Idempotent fetcher `tools/fetch_resources.py` + `tools/requirements.txt` with SSL fallback, Wayback Machine integration
+- [x] `MANIFEST.json` with per-resource URL, local path, SHA256 hash, status codes
+- [ ] Manual acquisition pending for Tier C items — see `references/downloads/README.md`:
+  - BasaBali Wiki (Cloudflare 403)
+  - ANRI archives (Cloudflare 403)
+  - JoMEaL articles (404, no Wayback snapshot)
+  - Proudfoot 2007 (paywall/403 on all mirrors)
+  - Scribd-gated lontar transcriptions (subscription required)
+
 #### Phase 3: Bobot (weight) tables
 - [ ] Wewaran bobot: from expert pattern analysis, Buddha and Sukra are highest-
       weighted saptawara for Pawiwahan; Redite and Saniscara are effectively zero.

@@ -107,6 +107,34 @@ Key finding: the expert exclusively selects Buddha (Wednesday) and Sukra (Friday
 
 See `references/EXTRACTED_ALGORITHMS.md` for the complete 77-date validation dataset and `references/BIBLIOGRAPHY.md` for 99 scientific references.
 
+## Research Resources
+
+This project maintains a curated, research-grade archive of primary sources to support the Wariga and Dewasa Ayu implementations. All resources are organized by acquisition tier (A=auto-fetched, B=HTML snapshot, C=manual) and tracked via status flags.
+
+**Key files:**
+
+- [`references/resources.md`](references/resources.md) — annotated checklist of 60+ upstream sources (lontar scans, transcriptions, academic papers, government/community sites). Status flags: `[ ]` not yet downloaded, `[~]` partially accessed, `[x]` archived locally, `⚠` access caveat.
+- [`references/downloads/`](references/downloads/) — locally archived copies organized into 10 sections:
+  - `s1-primary-scans/` — Lontar Wariga Gemet (Internet Archive, Wikimedia Commons)
+  - `s2-transcriptions/` — OCR transcriptions and secondary manuscripts
+  - `s3-manuscript-metadata/` — Descriptive catalog entries
+  - `s4-academic/` — Peer-reviewed papers (Candana 2021, Ginaya 2018, etc.)
+  - `s5-cultural-overviews/` — General Balinese calendar references
+  - `s6-indonesian-gov/` — Kemdikbud/BPNB publications
+  - `s7-community-wikis/` — BasaBali Wiki, etc.
+  - `s8-media-articles/` — News coverage
+  - `s9-software-references/` — Java reference implementations
+  - `s10-government/` — ANRI archives
+- [`references/downloads/MANIFEST.json`](references/downloads/MANIFEST.json) — machine-readable manifest with URL, local path, status, SHA256 hash per resource.
+- [`references/downloads/README.md`](references/downloads/README.md) — explains directory layout, status codes, and the manual acquisition checklist for Tier C items.
+
+**Tooling:**
+
+- `tools/fetch_resources.py` — idempotent, resumable fetcher with exponential backoff, SSL fallback, and Wayback Machine integration
+- `tools/requirements.txt` — Python dependencies (`requests`, `beautifulsoup4`, `lxml`)
+
+Large PDFs (>100MB) are tracked via Git LFS. Tier C items (BasaBali Wiki, ANRI, JoMEaL, Proudfoot 2007, Scribd-gated lontar) remain blocked by Cloudflare or paywalls and require manual acquisition—see `references/downloads/README.md` for instructions.
+
 ## Naming Conventions
 
 The Balinese calendar has multiple manuscript traditions. Where authoritative
