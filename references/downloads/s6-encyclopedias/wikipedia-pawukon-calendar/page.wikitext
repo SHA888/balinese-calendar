@@ -1,0 +1,2798 @@
+{{Short description|210-day calendar from Bali, Indonesia}}
+{{more references|date=May 2018}}
+The '''Pawukon''' is a 210-day [[calendar]] that has its origins in the [[Hindu]] religion in [[Bali]], [[Indonesia]].  The calendar consists of 10 different concurrent weeks of 1, 2, 3, 4, 5, 6, 7, 8, 9, and 10 days.  On the first day of the year it is the first day of all the ten weeks.  Because 210 is not divisible by 4, 8, or 9, extra days must be added to the 4, 8, and 9 day weeks.
+
+==The days==
+*The days of the Dasawara (ten-day week) are Sri, Pati, Raja, Manuh, Duka, Manusa, Raksasa, Suka, Dewa, and Pandita.
+*The days of the Sangawara (nine-day week) are Dangu, Jangur, Gigis, Nohan, Ogan, Erangan, Urungan, Tulus, Dadi.
+*The days of the Astawara (eight-day week) are Sri, Indra, Guru, Yama, Ludra, Brahma, Kala, Uma.
+*The days of the Saptawara (seven-day week) are Redite, Soma, Anggara, Buda, Wraspati, Sukra, Saniscara.
+*The days of the Sadwara (six-day week) are Tungleh, Aryang, Urukung, Paniron, Was, Maulu.
+*The days of the Pancawara (five-day week) are Paing, Pon, Wage, Keliwon, Umanis.
+*The days of the Caturwara (four-day week) are Sri, Laba, Jaya, Menala.
+*The days of the Triwara (three-day week) are Pasah, Beteng, and Kajeng.
+*The days of the Dwiwara (two-day week) are Menga, Pepet.
+*The day of the Ekawara (one-day week) is Luang.
+
+==Order of the days==
+The days of the 3, 5, 6, and 7 day weeks are arranged in simple recurring cycles - much like the seven days of the week in the [[Gregorian calendar]]. Because 210 is not divisible by 4, 8, or 9, extra days must be added to the 4-, 8-, and 9-day weeks. For both the 4- and 8-day weeks, the penultimate day of the week is repeated twice in the week that would have otherwise ended on the 72nd day. For the 9-day week, the first day of the week is repeated 3 times in the first week of the 210-day Pawukon.  The complexity of the calendar is increased by the calculations required to determine the arrangement of the days of the 1-, 2-, and 10-day weeks, which are not ordered in simple recurring 1, 2 and 10-day cycles.
+
+==Calculation==
+Each of the days of the five, seven, and ten day weeks has a ''urip,'' or ritual value. For the ten-day week, the urip of the days are - from the first day to the tenth day -  5, 2, 8, 6, 4, 7, 10, 3, 9, 1. For the seven-day week, the urip of the days are - from first day to seventh day - 5, 4, 3, 7, 8, 6, and 9. For the five-day week, the urip of the days are - from the first day to the fifth day - 9, 7, 4, 8, 5.
+
+For any particular day of the Pawukon, add the urip of the day of the 5-day week to the day of the seven-day week and then add one - if the sum is more than ten, then ten must be subtracted from it. This calculated value determines which day of the week it is in the 1-, 2-, and 10-day weeks.  If the calculated value is even, then the day is Pepet in the two-day week and Luang in the one-day week. But, if the calculated value is odd then the day is Menga in the two-day week and is not a day of the one-day week.  The day in the ten-day week is the one for which the calculated value matches its urip.
+
+For example the first day of the year has a value of 9 in the five-day-week, 5 in the seven-day-week: 9+5+1-10=5, which is equivalent to the urip value of the first day of the ten-day-week, so the day is a Sri in the ten-day week. The sixth day of the year has 9 urip in the five-day-week and 6 in the seven-day-week: 9+6+1-10=6, which is equivalent to the urip value of the fourth day of the ten-day-week, so the day is Manuh.
+
+==Calendar completion==
+Using the rules given above, the table of the days of Pawukon was constructed below. Since the days of the Pawukon, as given in the table below, do not change from one Pawukon to the next, a durable representation of the Pawukon can be used over and over again.  With a few more details, the Pawukon is complete.
+
+The saptawara (seven-day week) is special in that each of its thirty weeks is named. When certain days of the pancawara and saptawara coincide, it is a special day.  These days of conjunction are Buda-Keliwon, Saniscara-Keliwon, Buda-Wage, Anggara-Keliwon, and Redite-Keliwon.
+
+==Correspondence with the Gregorian Calendar==
+{{update|examples using old dates|date=November 2025}}
+Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of date on which to base a correspondence is arbitrary. Dershowitz and Reingold<ref>{{cite book |last1=Dershowitz |last2=Reingold |first1=N. |first2=E. |title=''[[Calendrical Calculations]], The Ultimate Edition'' |date=April 1, 2018 |page=187}}</ref> chose the first Pawukon that began on a positive [[Julian day|Julian Day]] Number, which was specifically JDN 146 (May 26, 4713 BCE in the proleptic [[Julian calendar]]; April 18 of that year in the proleptic [[Gregorian calendar|Gregorian]]). The most recent Pawukon as of this writing began on Gregorian date July 5, 2020, making the date of this edit (Tuesday, January 5, 2021) the 185th day of the current cycle. Consulting the table below, we find that it is Menga, Beteng, Jaya, Umanis, Was, Anggara, Kala, Jangur, Dewa. The Saptawara maps to the Gregorian weekday cycle one-to-one, with Redite as Sunday, which provides a simple double-check mechanism: since we have Anggara on Tuesday, we have not made an obvious error in the counting.
+
+{| style="width:100%" border="1" class="wikitable"
+|-
+! Day #
+! Ekawara
+! Dwiwara
+! Triwara
+! Caturwara
+! Pancawara
+! Sadwara
+! Saptawara
+! Asatawara
+! Sangawara
+! Dasawara
+! Saptawara<br />Week Name
+|-
+| 1
+| 
+| Menga
+| Pasah
+| Sri
+| Paing
+| Tungleh
+| Redite 
+| Sri
+| Dangu
+| Sri
+| Sinta
+|-
+| 2
+| Luang
+| Pepet
+| Beteng
+| Laba
+| Pon
+| Aryang
+| Soma 
+| Indra
+| Dangu
+| Pati
+| Sinta
+|-
+| 3
+| Luang
+| Pepet
+| Kajeng
+| Jaya
+| Wage
+| Urukung
+| Anggara 
+| Guru
+| Dangu
+| Raja
+| Sinta
+|-
+| 4
+| Luang
+| Pepet
+| Pasah
+| Menala
+| Keliwon
+| Paniron
+| Buda 
+| Yama
+| Dangu
+| Manuh
+| Sinta
+|-
+| 5
+| Luang
+| Pepet
+| Beteng
+| Sri
+| Umanis
+| Was
+| Wraspati 
+| Ludra
+| Jangur
+| Duka
+| Sinta
+|-
+| 6
+| Luang
+| Pepet
+| Kajeng
+| Laba
+| Paing
+| Maulu
+| Sukra 
+| Brahma
+| Gigis
+| Manuh
+| Sinta
+|-
+| 7
+| 
+| Menga
+| Pasah
+| Jaya
+| Pon
+| Tungleh
+| Saniscara 
+| Kala
+| Nohan
+| Manusa
+| Sinta
+|-
+| 8
+| Luang
+| Pepet
+| Beteng
+| Menala
+| Wage
+| Aryang
+| Redite 
+| Uma
+| Ogan
+| Raksasa
+| Landep
+|-
+| 9
+| 
+| Menga
+| Kajeng
+| Sri
+| Keliwon
+| Urukung
+| Soma 
+| Sri
+| Erangan
+| Suka
+| Landep
+|-
+| 10
+| 
+| Menga
+| Pasah
+| Laba
+| Umanis
+| Paniron
+| Anggara 
+| Indra
+| Urungan
+| Dewa
+| Landep
+|-
+| 11
+| 
+| Menga
+| Beteng
+| Jaya
+| Paing
+| Was
+| Buda 
+| Guru
+| Tulus
+| Manusa
+| Landep
+|-
+| 12
+| Luang
+| Pepet
+| Kajeng
+| Menala
+| Pon
+| Maulu
+| Wraspati 
+| Yama
+| Dadi
+| Manuh
+| Landep
+|-
+| 13
+| 
+| Menga
+| Pasah
+| Sri
+| Wage
+| Tungleh
+| Sukra 
+| Ludra
+| Dangu
+| Pandita
+| Landep
+|-
+| 14
+| Luang
+| Pepet
+| Beteng
+| Laba
+| Keliwon
+| Aryang
+| Saniscara 
+| Brahma
+| Jangur
+| Raja
+| Landep
+|-
+| 15
+| 
+| Menga
+| Kajeng
+| Jaya
+| Umanis
+| Urukung
+| Redite 
+| Kala
+| Gigis
+| Pandita
+| Ukir
+|-
+| 16
+| Luang
+| Pepet
+| Pasah
+| Menala
+| Paing
+| Paniron
+| Soma 
+| Uma
+| Nohan
+| Duka
+| Ukir
+|-
+| 17
+| 
+| Menga
+| Beteng
+| Sri
+| Pon
+| Was
+| Anggara 
+| Sri
+| Ogan
+| Pandita
+| Ukir
+|-
+| 18
+| Luang
+| Pepet
+| Kajeng
+| Laba
+| Wage
+| Maulu
+| Buda 
+| Indra
+| Erangan
+| Pati
+| Ukir
+|-
+| 19
+| 
+| Menga
+| Pasah
+| Jaya
+| Keliwon
+| Tungleh
+| Wraspati 
+| Guru
+| Urungan
+| Manusa
+| Ukir
+|-
+| 20
+| Luang
+| Pepet
+| Beteng
+| Menala
+| Umanis
+| Aryang
+| Sukra 
+| Yama
+| Tulus
+| Pati
+| Ukir
+|-
+| 21
+| 
+| Menga
+| Kajeng
+| Sri
+| Paing
+| Urukung
+| Saniscara 
+| Ludra
+| Dadi
+| Dewa
+| Ukir
+|-
+| 22
+| 
+| Menga
+| Pasah
+| Laba
+| Pon
+| Paniron
+| Redite 
+| Brahma
+| Dangu
+| Suka
+| Kulantir
+|-
+| 23
+| 
+| Menga
+| Beteng
+| Jaya
+| Wage
+| Was
+| Soma 
+| Kala
+| Jangur
+| Dewa
+| Kulantir
+|-
+| 24
+| Luang
+| Pepet
+| Kajeng
+| Menala
+| Keliwon
+| Maulu
+| Anggara 
+| Uma
+| Gigis
+| Pati
+| Kulantir
+|-
+| 25
+| 
+| Menga
+| Pasah
+| Sri
+| Umanis
+| Tungleh
+| Buda 
+| Sri
+| Nohan
+| Suka
+| Kulantir
+|-
+| 26
+| Luang
+| Pepet
+| Beteng
+| Laba
+| Paing
+| Aryang
+| Wraspati 
+| Indra
+| Ogan
+| Raja
+| Kulantir
+|-
+| 27
+| Luang
+| Pepet
+| Kajeng
+| Jaya
+| Pon
+| Urukung
+| Sukra 
+| Guru
+| Erangan
+| Duka
+| Kulantir
+|-
+| 28
+| Luang
+| Pepet
+| Pasah
+| Menala
+| Wage
+| Paniron
+| Saniscara 
+| Yama
+| Urungan
+| Duka
+| Kulantir
+|-
+| 29
+| Luang
+| Pepet
+| Beteng
+| Sri
+| Keliwon
+| Was
+| Redite 
+| Ludra
+| Tulus
+| Duka
+| Taulu
+|-
+| 30
+| Luang
+| Pepet
+| Kajeng
+| Laba
+| Umanis
+| Maulu
+| Soma 
+| Brahma
+| Dadi
+| Raksasa
+| Taulu
+|-
+| 31
+| 
+| Menga
+| Pasah
+| Jaya
+| Paing
+| Tungleh
+| Anggara 
+| Kala
+| Dangu
+| Suka
+| Taulu
+|-
+| 32
+| 
+| Menga
+| Beteng
+| Menala
+| Pon
+| Aryang
+| Buda 
+| Uma
+| Jangur
+| Sri
+| Taulu
+|-
+| 33
+| 
+| Menga
+| Kajeng
+| Sri
+| Wage
+| Urukung
+| Wraspati 
+| Sri
+| Gigis
+| Suka
+| Taulu
+|-
+| 34
+| 
+| Menga
+| Pasah
+| Laba
+| Keliwon
+| Paniron
+| Sukra 
+| Indra
+| Nohan
+| Sri
+| Taulu
+|-
+| 35
+| 
+| Menga
+| Beteng
+| Jaya
+| Umanis
+| Was
+| Saniscara 
+| Guru
+| Ogan
+| Sri
+| Taulu
+|-
+| 36
+| 
+| Menga
+| Kajeng
+| Menala
+| Paing
+| Maulu
+| Redite 
+| Yama
+| Erangan
+| Sri
+| Gumbreg
+|-
+| 37
+| Luang
+| Pepet
+| Pasah
+| Sri
+| Pon
+| Tungleh
+| Soma 
+| Ludra
+| Urungan
+| Pati
+| Gumbreg
+|-
+| 38
+| Luang
+| Pepet
+| Beteng
+| Laba
+| Wage
+| Aryang
+| Anggara 
+| Brahma
+| Tulus
+| Raja
+| Gumbreg
+|-
+| 39
+| Luang
+| Pepet
+| Kajeng
+| Jaya
+| Keliwon
+| Urukung
+| Buda 
+| Kala
+| Dadi
+| Manuh
+| Gumbreg
+|-
+| 40
+| Luang
+| Pepet
+| Pasah
+| Menala
+| Umanis
+| Paniron
+| Wraspati 
+| Uma
+| Dangu
+| Duka
+| Gumbreg
+|-
+| 41
+| Luang
+| Pepet
+| Beteng
+| Sri
+| Paing
+| Was
+| Sukra 
+| Sri
+| Jangur
+| Manuh
+| Gumbreg
+|-
+| 42
+| 
+| Menga
+| Kajeng
+| Laba
+| Pon
+| Maulu
+| Saniscara 
+| Indra
+| Gigis
+| Manusa
+| Gumbreg
+|-
+| 43
+| Luang
+| Pepet
+| Pasah
+| Jaya
+| Wage
+| Tungleh
+| Redite 
+| Guru
+| Nohan
+| Raksasa
+| Wariga
+|-
+| 44
+| 
+| Menga
+| Beteng
+| Menala
+| Keliwon
+| Aryang
+| Soma 
+| Yama
+| Ogan
+| Suka
+| Wariga
+|-
+| 45
+| 
+| Menga
+| Kajeng
+| Sri
+| Umanis
+| Urukung
+| Anggara 
+| Ludra
+| Erangan
+| Dewa
+| Wariga
+|-
+| 46
+| 
+| Menga
+| Pasah
+| Laba
+| Paing
+| Paniron
+| Buda 
+| Brahma
+| Urungan
+| Manusa
+| Wariga
+|-
+| 47
+| Luang
+| Pepet
+| Beteng
+| Jaya
+| Pon
+| Was
+| Wraspati 
+| Kala
+| Tulus
+| Manuh
+| Wariga
+|-
+| 48
+| 
+| Menga
+| Kajeng
+| Menala
+| Wage
+| Maulu
+| Sukra 
+| Uma
+| Dadi
+| Pandita
+| Wariga
+|-
+| 49
+| Luang
+| Pepet
+| Pasah
+| Sri
+| Keliwon
+| Tungleh
+| Saniscara 
+| Sri
+| Dangu
+| Raja
+| Wariga
+|-
+| 50
+| 
+| Menga
+| Beteng
+| Laba
+| Umanis
+| Aryang
+| Redite 
+| Indra
+| Jangur
+| Pandita
+| Warigadian
+|-
+| 51
+| Luang
+| Pepet
+| Kajeng
+| Jaya
+| Paing
+| Urukung
+| Soma 
+| Guru
+| Gigis
+| Duka
+| Warigadian
+|-
+| 52
+| 
+| Menga
+| Pasah
+| Menala
+| Pon
+| Paniron
+| Anggara 
+| Yama
+| Nohan
+| Pandita
+| Warigadian
+|-
+| 53
+| Luang
+| Pepet
+| Beteng
+| Sri
+| Wage
+| Was
+| Buda 
+| Ludra
+| Ogan
+| Pati
+| Warigadian
+|-
+| 54
+| 
+| Menga
+| Kajeng
+| Laba
+| Keliwon
+| Maulu
+| Wraspati 
+| Brahma
+| Erangan
+| Manusa
+| Warigadian
+|-
+| 55
+| Luang
+| Pepet
+| Pasah
+| Jaya
+| Umanis
+| Tungleh
+| Sukra 
+| Kala
+| Urungan
+| Pati
+| Warigadian
+|-
+| 56
+| 
+| Menga
+| Beteng
+| Menala
+| Paing
+| Aryang
+| Saniscara 
+| Uma
+| Tulus
+| Dewa
+| Warigadian
+|-
+| 57
+| 
+| Menga
+| Kajeng
+| Sri
+| Pon
+| Urukung
+| Redite 
+| Sri
+| Dadi
+| Suka
+| Julungwangi
+|-
+| 58
+| 
+| Menga
+| Pasah
+| Laba
+| Wage
+| Paniron
+| Soma 
+| Indra
+| Dangu
+| Dewa
+| Julungwangi
+|-
+| 59
+| Luang
+| Pepet
+| Beteng
+| Jaya
+| Keliwon
+| Was
+| Anggara 
+| Guru
+| Jangur
+| Pati
+| Julungwangi
+|-
+| 60
+| 
+| Menga
+| Kajeng
+| Menala
+| Umanis
+| Maulu
+| Buda 
+| Yama
+| Gigis
+| Suka
+| Julungwangi
+|-
+| 61
+| Luang
+| Pepet
+| Pasah
+| Sri
+| Paing
+| Tungleh
+| Wraspati 
+| Ludra
+| Nohan
+| Raja
+| Julungwangi
+|-
+| 62
+| Luang
+| Pepet
+| Beteng
+| Laba
+| Pon
+| Aryang
+| Sukra 
+| Brahma
+| Ogan
+| Duka
+| Julungwangi
+|-
+| 63
+| Luang
+| Pepet
+| Kajeng
+| Jaya
+| Wage
+| Urukung
+| Saniscara 
+| Kala
+| Erangan
+| Duka
+| Julungwangi
+|-
+| 64
+| Luang
+| Pepet
+| Pasah
+| Menala
+| Keliwon
+| Paniron
+| Redite 
+| Uma
+| Urungan
+| Duka
+| Sungsang
+|-
+| 65
+| Luang
+| Pepet
+| Beteng
+| Sri
+| Umanis
+| Was
+| Soma 
+| Sri
+| Tulus
+| Raksasa
+| Sungsang
+|-
+| 66
+| 
+| Menga
+| Kajeng
+| Laba
+| Paing
+| Maulu
+| Anggara 
+| Indra
+| Dadi
+| Suka
+| Sungsang
+|-
+| 67
+| 
+| Menga
+| Pasah
+| Jaya
+| Pon
+| Tungleh
+| Buda 
+| Guru
+| Dangu
+| Sri
+| Sungsang
+|-
+| 68
+| 
+| Menga
+| Beteng
+| Menala
+| Wage
+| Aryang
+| Wraspati 
+| Yama
+| Jangur
+| Suka
+| Sungsang
+|-
+| 69
+| 
+| Menga
+| Kajeng
+| Sri
+| Keliwon
+| Urukung
+| Sukra 
+| Ludra
+| Gigis
+| Sri
+| Sungsang
+|-
+| 70
+| 
+| Menga
+| Pasah
+| Laba
+| Umanis
+| Paniron
+| Saniscara 
+| Brahma
+| Nohan
+| Sri
+| Sungsang
+|-
+| 71
+| 
+| Menga
+| Beteng
+| Jaya
+| Paing
+| Was
+| Redite 
+| Kala
+| Ogan
+| Sri
+| Dunggulan
+|-
+| 72
+| Luang
+| Pepet
+| Kajeng
+| Jaya
+| Pon
+| Maulu
+| Soma 
+| Kala
+| Erangan
+| Pati
+| Dunggulan
+|-
+| 73
+| Luang
+| Pepet
+| Pasah
+| Jaya
+| Wage
+| Tungleh
+| Anggara 
+| Kala
+| Urungan
+| Raja
+| Dunggulan
+|-
+| 74
+| Luang
+| Pepet
+| Beteng
+| Menala
+| Keliwon
+| Aryang
+| Buda 
+| Uma
+| Tulus
+| Manuh
+| Dunggulan
+|-
+| 75
+| Luang
+| Pepet
+| Kajeng
+| Sri
+| Umanis
+| Urukung
+| Wraspati 
+| Sri
+| Dadi
+| Duka
+| Dunggulan
+|-
+| 76
+| Luang
+| Pepet
+| Pasah
+| Laba
+| Paing
+| Paniron
+| Sukra 
+| Indra
+| Dangu
+| Manuh
+| Dunggulan
+|-
+| 77
+| 
+| Menga
+| Beteng
+| Jaya
+| Pon
+| Was
+| Saniscara 
+| Guru
+| Jangur
+| Manusa
+| Dunggulan
+|-
+| 78
+| Luang
+| Pepet
+| Kajeng
+| Menala
+| Wage
+| Maulu
+| Redite 
+| Yama
+| Gigis
+| Raksasa
+| Kuningan
+|-
+| 79
+| 
+| Menga
+| Pasah
+| Sri
+| Keliwon
+| Tungleh
+| Soma 
+| Ludra
+| Nohan
+| Suka
+| Kuningan
+|-
+| 80
+| 
+| Menga
+| Beteng
+| Laba
+| Umanis
+| Aryang
+| Anggara 
+| Brahma
+| Ogan
+| Dewa
+| Kuningan
+|-
+| 81
+| 
+| Menga
+| Kajeng
+| Jaya
+| Paing
+| Urukung
+| Buda 
+| Kala
+| Erangan
+| Manusa
+| Kuningan
+|-
+| 82
+| Luang
+| Pepet
+| Pasah
+| Menala
+| Pon
+| Paniron
+| Wraspati 
+| Uma
+| Urungan
+| Manuh
+| Kuningan
+|-
+| 83
+| 
+| Menga
+| Beteng
+| Sri
+| Wage
+| Was
+| Sukra 
+| Sri
+| Tulus
+| Pandita
+| Kuningan
+|-
+| 84
+| Luang
+| Pepet
+| Kajeng
+| Laba
+| Keliwon
+| Maulu
+| Saniscara 
+| Indra
+| Dadi
+| Raja
+| Kuningan
+|-
+| 85
+| 
+| Menga
+| Pasah
+| Jaya
+| Umanis
+| Tungleh
+| Redite 
+| Guru
+| Dangu
+| Pandita
+| Langkir
+|-
+| 86
+| Luang
+| Pepet
+| Beteng
+| Menala
+| Paing
+| Aryang
+| Soma 
+| Yama
+| Jangur
+| Duka
+| Langkir
+|-
+| 87
+| 
+| Menga
+| Kajeng
+| Sri
+| Pon
+| Urukung
+| Anggara 
+| Ludra
+| Gigis
+| Pandita
+| Langkir
+|-
+| 88
+| Luang
+| Pepet
+| Pasah
+| Laba
+| Wage
+| Paniron
+| Buda 
+| Brahma
+| Nohan
+| Pati
+| Langkir
+|-
+| 89
+| 
+| Menga
+| Beteng
+| Jaya
+| Keliwon
+| Was
+| Wraspati 
+| Kala
+| Ogan
+| Manusa
+| Langkir
+|-
+| 90
+| Luang
+| Pepet
+| Kajeng
+| Menala
+| Umanis
+| Maulu
+| Sukra 
+| Uma
+| Erangan
+| Pati
+| Langkir
+|-
+| 91
+| 
+| Menga
+| Pasah
+| Sri
+| Paing
+| Tungleh
+| Saniscara 
+| Sri
+| Urungan
+| Dewa
+| Langkir
+|-
+| 92
+| 
+| Menga
+| Beteng
+| Laba
+| Pon
+| Aryang
+| Redite 
+| Indra
+| Tulus
+| Suka
+| Medangsia
+|-
+| 93
+| 
+| Menga
+| Kajeng
+| Jaya
+| Wage
+| Urukung
+| Soma 
+| Guru
+| Dadi
+| Dewa
+| Medangsia
+|-
+| 94
+| Luang
+| Pepet
+| Pasah
+| Menala
+| Keliwon
+| Paniron
+| Anggara 
+| Yama
+| Dangu
+| Pati
+| Medangsia
+|-
+| 95
+| 
+| Menga
+| Beteng
+| Sri
+| Umanis
+| Was
+| Buda 
+| Ludra
+| Jangur
+| Suka
+| Medangsia
+|-
+| 96
+| Luang
+| Pepet
+| Kajeng
+| Laba
+| Paing
+| Maulu
+| Wraspati 
+| Brahma
+| Gigis
+| Raja
+| Medangsia
+|-
+| 97
+| Luang
+| Pepet
+| Pasah
+| Jaya
+| Pon
+| Tungleh
+| Sukra 
+| Kala
+| Nohan
+| Duka
+| Medangsia
+|-
+| 98
+| Luang
+| Pepet
+| Beteng
+| Menala
+| Wage
+| Aryang
+| Saniscara 
+| Uma
+| Ogan
+| Duka
+| Medangsia
+|-
+| 99
+| Luang
+| Pepet
+| Kajeng
+| Sri
+| Keliwon
+| Urukung
+| Redite 
+| Sri
+| Erangan
+| Duka
+| Pujut
+|-
+| 100
+| Luang
+| Pepet
+| Pasah
+| Laba
+| Umanis
+| Paniron
+| Soma 
+| Indra
+| Urungan
+| Raksasa
+| Pujut
+|-
+| 101
+| 
+| Menga
+| Beteng
+| Jaya
+| Paing
+| Was
+| Anggara 
+| Guru
+| Tulus
+| Suka
+| Pujut
+|-
+| 102
+| 
+| Menga
+| Kajeng
+| Menala
+| Pon
+| Maulu
+| Buda 
+| Yama
+| Dadi
+| Sri
+| Pujut
+|-
+| 103
+| 
+| Menga
+| Pasah
+| Sri
+| Wage
+| Tungleh
+| Wraspati 
+| Ludra
+| Dangu
+| Suka
+| Pujut
+|-
+| 104
+| 
+| Menga
+| Beteng
+| Laba
+| Keliwon
+| Aryang
+| Sukra 
+| Brahma
+| Jangur
+| Sri
+| Pujut
+|-
+| 105
+| 
+| Menga
+| Kajeng
+| Jaya
+| Umanis
+| Urukung
+| Saniscara 
+| Kala
+| Gigis
+| Sri
+| Pujut
+|-
+| 106
+| 
+| Menga
+| Pasah
+| Menala
+| Paing
+| Paniron
+| Redite 
+| Uma
+| Nohan
+| Sri
+| Pahang
+|-
+| 107
+| Luang
+| Pepet
+| Beteng
+| Sri
+| Pon
+| Was
+| Soma 
+| Sri
+| Ogan
+| Pati
+| Pahang
+|-
+| 108
+| Luang
+| Pepet
+| Kajeng
+| Laba
+| Wage
+| Maulu
+| Anggara 
+| Indra
+| Erangan
+| Raja
+| Pahang
+|-
+| 109
+| Luang
+| Pepet
+| Pasah
+| Jaya
+| Keliwon
+| Tungleh
+| Buda 
+| Guru
+| Urungan
+| Manuh
+| Pahang
+|-
+| 110
+| Luang
+| Pepet
+| Beteng
+| Menala
+| Umanis
+| Aryang
+| Wraspati 
+| Yama
+| Tulus
+| Duka
+| Pahang
+|-
+| 111
+| Luang
+| Pepet
+| Kajeng
+| Sri
+| Paing
+| Urukung
+| Sukra 
+| Ludra
+| Dadi
+| Manuh
+| Pahang
+|-
+| 112
+| 
+| Menga
+| Pasah
+| Laba
+| Pon
+| Paniron
+| Saniscara 
+| Brahma
+| Dangu
+| Manusa
+| Pahang
+|-
+| 113
+| Luang
+| Pepet
+| Beteng
+| Jaya
+| Wage
+| Was
+| Redite 
+| Kala
+| Jangur
+| Raksasa
+| Krulut
+|-
+| 114
+| 
+| Menga
+| Kajeng
+| Menala
+| Keliwon
+| Maulu
+| Soma 
+| Uma
+| Gigis
+| Suka
+| Krulut
+|-
+| 115
+| 
+| Menga
+| Pasah
+| Sri
+| Umanis
+| Tungleh
+| Anggara 
+| Sri
+| Nohan
+| Dewa
+| Krulut
+|-
+| 116
+| 
+| Menga
+| Beteng
+| Laba
+| Paing
+| Aryang
+| Buda 
+| Indra
+| Ogan
+| Manusa
+| Krulut
+|-
+| 117
+| Luang
+| Pepet
+| Kajeng
+| Jaya
+| Pon
+| Urukung
+| Wraspati 
+| Guru
+| Erangan
+| Manuh
+| Krulut
+|-
+| 118
+| 
+| Menga
+| Pasah
+| Menala
+| Wage
+| Paniron
+| Sukra 
+| Yama
+| Urungan
+| Pandita
+| Krulut
+|-
+| 119
+| Luang
+| Pepet
+| Beteng
+| Sri
+| Keliwon
+| Was
+| Saniscara 
+| Ludra
+| Tulus
+| Raja
+| Krulut
+|-
+| 120
+| 
+| Menga
+| Kajeng
+| Laba
+| Umanis
+| Maulu
+| Redite 
+| Brahma
+| Dadi
+| Pandita
+| Merakih
+|-
+| 121
+| Luang
+| Pepet
+| Pasah
+| Jaya
+| Paing
+| Tungleh
+| Soma 
+| Kala
+| Dangu
+| Duka
+| Merakih
+|-
+| 122
+| 
+| Menga
+| Beteng
+| Menala
+| Pon
+| Aryang
+| Anggara 
+| Uma
+| Jangur
+| Pandita
+| Merakih
+|-
+| 123
+| Luang
+| Pepet
+| Kajeng
+| Sri
+| Wage
+| Urukung
+| Buda 
+| Sri
+| Gigis
+| Pati
+| Merakih
+|-
+| 124
+| 
+| Menga
+| Pasah
+| Laba
+| Keliwon
+| Paniron
+| Wraspati 
+| Indra
+| Nohan
+| Manusa
+| Merakih
+|-
+| 125
+| Luang
+| Pepet
+| Beteng
+| Jaya
+| Umanis
+| Was
+| Sukra 
+| Guru
+| Ogan
+| Pati
+| Merakih
+|-
+| 126
+| 
+| Menga
+| Kajeng
+| Menala
+| Paing
+| Maulu
+| Saniscara 
+| Yama
+| Erangan
+| Dewa
+| Merakih
+|-
+| 127
+| 
+| Menga
+| Pasah
+| Sri
+| Pon
+| Tungleh
+| Redite 
+| Ludra
+| Urungan
+| Suka
+| Tambir
+|-
+| 128
+| 
+| Menga
+| Beteng
+| Laba
+| Wage
+| Aryang
+| Soma 
+| Brahma
+| Tulus
+| Dewa
+| Tambir
+|-
+| 129
+| Luang
+| Pepet
+| Kajeng
+| Jaya
+| Keliwon
+| Urukung
+| Anggara 
+| Kala
+| Dadi
+| Pati
+| Tambir
+|-
+| 130
+| 
+| Menga
+| Pasah
+| Menala
+| Umanis
+| Paniron
+| Buda 
+| Uma
+| Dangu
+| Suka
+| Tambir
+|-
+| 131
+| Luang
+| Pepet
+| Beteng
+| Sri
+| Paing
+| Was
+| Wraspati 
+| Sri
+| Jangur
+| Raja
+| Tambir
+|-
+| 132
+| Luang
+| Pepet
+| Kajeng
+| Laba
+| Pon
+| Maulu
+| Sukra 
+| Indra
+| Gigis
+| Duka
+| Tambir
+|-
+| 133
+| Luang
+| Pepet
+| Pasah
+| Jaya
+| Wage
+| Tungleh
+| Saniscara 
+| Guru
+| Nohan
+| Duka
+| Tambir
+|-
+| 134
+| Luang
+| Pepet
+| Beteng
+| Menala
+| Keliwon
+| Aryang
+| Redite 
+| Yama
+| Ogan
+| Duka
+| Medangkungan
+|-
+| 135
+| Luang
+| Pepet
+| Kajeng
+| Sri
+| Umanis
+| Urukung
+| Soma 
+| Ludra
+| Erangan
+| Raksasa
+| Medangkungan
+|-
+| 136
+| 
+| Menga
+| Pasah
+| Laba
+| Paing
+| Paniron
+| Anggara 
+| Brahma
+| Urungan
+| Suka
+| Medangkungan
+|-
+| 137
+| 
+| Menga
+| Beteng
+| Jaya
+| Pon
+| Was
+| Buda 
+| Kala
+| Tulus
+| Sri
+| Medangkungan
+|-
+| 138
+| 
+| Menga
+| Kajeng
+| Menala
+| Wage
+| Maulu
+| Wraspati 
+| Uma
+| Dadi
+| Suka
+| Medangkungan
+|-
+| 139
+| 
+| Menga
+| Pasah
+| Sri
+| Keliwon
+| Tungleh
+| Sukra 
+| Sri
+| Dangu
+| Sri
+| Medangkungan
+|-
+| 140
+| 
+| Menga
+| Beteng
+| Laba
+| Umanis
+| Aryang
+| Saniscara 
+| Indra
+| Jangur
+| Sri
+| Medangkungan
+|-
+| 141
+| 
+| Menga
+| Kajeng
+| Jaya
+| Paing
+| Urukung
+| Redite 
+| Guru
+| Gigis
+| Sri
+| Matal
+|-
+| 142
+| Luang
+| Pepet
+| Pasah
+| Menala
+| Pon
+| Paniron
+| Soma 
+| Yama
+| Nohan
+| Pati
+| Matal
+|-
+| 143
+| Luang
+| Pepet
+| Beteng
+| Sri
+| Wage
+| Was
+| Anggara 
+| Ludra
+| Ogan
+| Raja
+| Matal
+|-
+| 144
+| Luang
+| Pepet
+| Kajeng
+| Laba
+| Keliwon
+| Maulu
+| Buda 
+| Brahma
+| Erangan
+| Manuh
+| Matal
+|-
+| 145
+| Luang
+| Pepet
+| Pasah
+| Jaya
+| Umanis
+| Tungleh
+| Wraspati 
+| Kala
+| Urungan
+| Duka
+| Matal
+|-
+| 146
+| Luang
+| Pepet
+| Beteng
+| Menala
+| Paing
+| Aryang
+| Sukra 
+| Uma
+| Tulus
+| Manuh
+| Matal
+|-
+| 147
+| 
+| Menga
+| Kajeng
+| Sri
+| Pon
+| Urukung
+| Saniscara 
+| Sri
+| Dadi
+| Manusa
+| Matal
+|-
+| 148
+| Luang
+| Pepet
+| Pasah
+| Laba
+| Wage
+| Paniron
+| Redite 
+| Indra
+| Dangu
+| Raksasa
+| Uye
+|-
+| 149
+| 
+| Menga
+| Beteng
+| Jaya
+| Keliwon
+| Was
+| Soma 
+| Guru
+| Jangur
+| Suka
+| Uye
+|-
+| 150
+| 
+| Menga
+| Kajeng
+| Menala
+| Umanis
+| Maulu
+| Anggara 
+| Yama
+| Gigis
+| Dewa
+| Uye
+|-
+| 151
+| 
+| Menga
+| Pasah
+| Sri
+| Paing
+| Tungleh
+| Buda 
+| Ludra
+| Nohan
+| Manusa
+| Uye
+|-
+| 152
+| Luang
+| Pepet
+| Beteng
+| Laba
+| Pon
+| Aryang
+| Wraspati 
+| Brahma
+| Ogan
+| Manuh
+| Uye
+|-
+| 153
+| 
+| Menga
+| Kajeng
+| Jaya
+| Wage
+| Urukung
+| Sukra 
+| Kala
+| Erangan
+| Pandita
+| Uye
+|-
+| 154
+| Luang
+| Pepet
+| Pasah
+| Menala
+| Keliwon
+| Paniron
+| Saniscara 
+| Uma
+| Urungan
+| Raja
+| Uye
+|-
+| 155
+| 
+| Menga
+| Beteng
+| Sri
+| Umanis
+| Was
+| Redite 
+| Sri
+| Tulus
+| Pandita
+| Menail
+|-
+| 156
+| Luang
+| Pepet
+| Kajeng
+| Laba
+| Paing
+| Maulu
+| Soma 
+| Indra
+| Dadi
+| Duka
+| Menail
+|-
+| 157
+| 
+| Menga
+| Pasah
+| Jaya
+| Pon
+| Tungleh
+| Anggara 
+| Guru
+| Dangu
+| Pandita
+| Menail
+|-
+| 158
+| Luang
+| Pepet
+| Beteng
+| Menala
+| Wage
+| Aryang
+| Buda 
+| Yama
+| Jangur
+| Pati
+| Menail
+|-
+| 159
+| 
+| Menga
+| Kajeng
+| Sri
+| Keliwon
+| Urukung
+| Wraspati 
+| Ludra
+| Gigis
+| Manusa
+| Menail
+|-
+| 160
+| Luang
+| Pepet
+| Pasah
+| Laba
+| Umanis
+| Paniron
+| Sukra 
+| Brahma
+| Nohan
+| Pati
+| Menail
+|-
+| 161
+| 
+| Menga
+| Beteng
+| Jaya
+| Paing
+| Was
+| Saniscara 
+| Kala
+| Ogan
+| Dewa
+| Menail
+|-
+| 162
+| 
+| Menga
+| Kajeng
+| Menala
+| Pon
+| Maulu
+| Redite 
+| Uma
+| Erangan
+| Suka
+| Parangbakat
+|-
+| 163
+| 
+| Menga
+| Pasah
+| Sri
+| Wage
+| Tungleh
+| Soma 
+| Sri
+| Urungan
+| Dewa
+| Parangbakat
+|-
+| 164
+| Luang
+| Pepet
+| Beteng
+| Laba
+| Keliwon
+| Aryang
+| Anggara 
+| Indra
+| Tulus
+| Pati
+| Parangbakat
+|-
+| 165
+| 
+| Menga
+| Kajeng
+| Jaya
+| Umanis
+| Urukung
+| Buda 
+| Guru
+| Dadi
+| Suka
+| Parangbakat
+|-
+| 166
+| Luang
+| Pepet
+| Pasah
+| Menala
+| Paing
+| Paniron
+| Wraspati 
+| Yama
+| Dangu
+| Raja
+| Parangbakat
+|-
+| 167
+| Luang
+| Pepet
+| Beteng
+| Sri
+| Pon
+| Was
+| Sukra 
+| Ludra
+| Jangur
+| Duka
+| Parangbakat
+|-
+| 168
+| Luang
+| Pepet
+| Kajeng
+| Laba
+| Wage
+| Maulu
+| Saniscara 
+| Brahma
+| Gigis
+| Duka
+| Parangbakat
+|-
+| 169
+| Luang
+| Pepet
+| Pasah
+| Jaya
+| Keliwon
+| Tungleh
+| Redite 
+| Kala
+| Nohan
+| Duka
+| Bala
+|-
+| 170
+| Luang
+| Pepet
+| Beteng
+| Menala
+| Umanis
+| Aryang
+| Soma 
+| Uma
+| Ogan
+| Raksasa
+| Bala
+|-
+| 171
+| 
+| Menga
+| Kajeng
+| Sri
+| Paing
+| Urukung
+| Anggara 
+| Sri
+| Erangan
+| Suka
+| Bala
+|-
+| 172
+| 
+| Menga
+| Pasah
+| Laba
+| Pon
+| Paniron
+| Buda 
+| Indra
+| Urungan
+| Sri
+| Bala
+|-
+| 173
+| 
+| Menga
+| Beteng
+| Jaya
+| Wage
+| Was
+| Wraspati 
+| Guru
+| Tulus
+| Suka
+| Bala
+|-
+| 174
+| 
+| Menga
+| Kajeng
+| Menala
+| Keliwon
+| Maulu
+| Sukra 
+| Yama
+| Dadi
+| Sri
+| Bala
+|-
+| 175
+| 
+| Menga
+| Pasah
+| Sri
+| Umanis
+| Tungleh
+| Saniscara 
+| Ludra
+| Dangu
+| Sri
+| Bala
+|-
+| 176
+| 
+| Menga
+| Beteng
+| Laba
+| Paing
+| Aryang
+| Redite 
+| Brahma
+| Jangur
+| Sri
+| Ugu
+|-
+| 177
+| Luang
+| Pepet
+| Kajeng
+| Jaya
+| Pon
+| Urukung
+| Soma 
+| Kala
+| Gigis
+| Pati
+| Ugu
+|-
+| 178
+| Luang
+| Pepet
+| Pasah
+| Menala
+| Wage
+| Paniron
+| Anggara 
+| Uma
+| Nohan
+| Raja
+| Ugu
+|-
+| 179
+| Luang
+| Pepet
+| Beteng
+| Sri
+| Keliwon
+| Was
+| Buda 
+| Sri
+| Ogan
+| Manuh
+| Ugu
+|-
+| 180
+| Luang
+| Pepet
+| Kajeng
+| Laba
+| Umanis
+| Maulu
+| Wraspati 
+| Indra
+| Erangan
+| Duka
+| Ugu
+|-
+| 181
+| Luang
+| Pepet
+| Pasah
+| Jaya
+| Paing
+| Tungleh
+| Sukra 
+| Guru
+| Urungan
+| Manuh
+| Ugu
+|-
+| 182
+| 
+| Menga
+| Beteng
+| Menala
+| Pon
+| Aryang
+| Saniscara 
+| Yama
+| Tulus
+| Manusa
+| Ugu
+|-
+| 183
+| Luang
+| Pepet
+| Kajeng
+| Sri
+| Wage
+| Urukung
+| Redite 
+| Ludra
+| Dadi
+| Raksasa
+| Wayang
+|-
+| 184
+| 
+| Menga
+| Pasah
+| Laba
+| Keliwon
+| Paniron
+| Soma 
+| Brahma
+| Dangu
+| Suka
+| Wayang
+|-
+| 185
+| 
+| Menga
+| Beteng
+| Jaya
+| Umanis
+| Was
+| Anggara 
+| Kala
+| Jangur
+| Dewa
+| Wayang
+|-
+| 186
+| 
+| Menga
+| Kajeng
+| Menala
+| Paing
+| Maulu
+| Buda 
+| Uma
+| Gigis
+| Manusa
+| Wayang
+|-
+| 187
+| Luang
+| Pepet
+| Pasah
+| Sri
+| Pon
+| Tungleh
+| Wraspati 
+| Sri
+| Nohan
+| Manuh
+| Wayang
+|-
+| 188
+| 
+| Menga
+| Beteng
+| Laba
+| Wage
+| Aryang
+| Sukra 
+| Indra
+| Ogan
+| Pandita
+| Wayang
+|-
+| 189
+| Luang
+| Pepet
+| Kajeng
+| Jaya
+| Keliwon
+| Urukung
+| Saniscara 
+| Guru
+| Erangan
+| Raja
+| Wayang
+|-
+| 190
+| 
+| Menga
+| Pasah
+| Menala
+| Umanis
+| Paniron
+| Redite 
+| Yama
+| Urungan
+| Pandita
+| Kelawu
+|-
+| 191
+| Luang
+| Pepet
+| Beteng
+| Sri
+| Paing
+| Was
+| Soma 
+| Ludra
+| Tulus
+| Duka
+| Kelawu
+|-
+| 192
+| 
+| Menga
+| Kajeng
+| Laba
+| Pon
+| Maulu
+| Anggara 
+| Brahma
+| Dadi
+| Pandita
+| Kelawu
+|-
+| 193
+| Luang
+| Pepet
+| Pasah
+| Jaya
+| Wage
+| Tungleh
+| Buda 
+| Kala
+| Dangu
+| Pati
+| Kelawu
+|-
+| 194
+| 
+| Menga
+| Beteng
+| Menala
+| Keliwon
+| Aryang
+| Wraspati 
+| Uma
+| Jangur
+| Manusa
+| Kelawu
+|-
+| 195
+| Luang
+| Pepet
+| Kajeng
+| Sri
+| Umanis
+| Urukung
+| Sukra 
+| Sri
+| Gigis
+| Pati
+| Kelawu
+|-
+| 196
+| 
+| Menga
+| Pasah
+| Laba
+| Paing
+| Paniron
+| Saniscara 
+| Indra
+| Nohan
+| Dewa
+| Kelawu
+|-
+| 197
+| 
+| Menga
+| Beteng
+| Jaya
+| Pon
+| Was
+| Redite 
+| Guru
+| Ogan
+| Suka
+| Dukut
+|-
+| 198
+| 
+| Menga
+| Kajeng
+| Menala
+| Wage
+| Maulu
+| Soma 
+| Yama
+| Erangan
+| Dewa
+| Dukut
+|-
+| 199
+| Luang
+| Pepet
+| Pasah
+| Sri
+| Keliwon
+| Tungleh
+| Anggara 
+| Ludra
+| Urungan
+| Pati
+| Dukut
+|-
+| 200
+| 
+| Menga
+| Beteng
+| Laba
+| Umanis
+| Aryang
+| Buda 
+| Brahma
+| Tulus
+| Suka
+| Dukut
+|-
+| 201
+| Luang
+| Pepet
+| Kajeng
+| Jaya
+| Paing
+| Urukung
+| Wraspati 
+| Kala
+| Dadi
+| Raja
+| Dukut
+|-
+| 202
+| Luang
+| Pepet
+| Pasah
+| Menala
+| Pon
+| Paniron
+| Sukra 
+| Uma
+| Dangu
+| Duka
+| Dukut
+|-
+| 203
+| Luang
+| Pepet
+| Beteng
+| Sri
+| Wage
+| Was
+| Saniscara 
+| Sri
+| Jangur
+| Duka
+| Dukut
+|-
+| 204
+| Luang
+| Pepet
+| Kajeng
+| Laba
+| Keliwon
+| Maulu
+| Redite 
+| Indra
+| Gigis
+| Duka
+| Watugunung
+|-
+| 205
+| Luang
+| Pepet
+| Pasah
+| Jaya
+| Umanis
+| Tungleh
+| Soma 
+| Guru
+| Nohan
+| Raksasa
+| Watugunung
+|-
+| 206
+| 
+| Menga
+| Beteng
+| Menala
+| Paing
+| Aryang
+| Anggara 
+| Yama
+| Ogan
+| Suka
+| Watugunung
+|-
+| 207
+| 
+| Menga
+| Kajeng
+| Sri
+| Pon
+| Urukung
+| Buda 
+| Ludra
+| Erangan
+| Sri
+| Watugunung
+|-
+| 208
+| 
+| Menga
+| Pasah
+| Laba
+| Wage
+| Paniron
+| Wraspati 
+| Brahma
+| Urungan
+| Suka
+| Watugunung
+|-
+| 209
+| 
+| Menga
+| Beteng
+| Jaya
+| Keliwon
+| Was
+| Sukra 
+| Kala
+| Tulus
+| Sri
+| Watugunung
+|-
+| 210
+| 
+| Menga
+| Kajeng
+| Menala
+| Umanis
+| Maulu
+| Saniscara 
+| Uma
+| Dadi
+| Sri
+| Watugunung
+|}
+
+== See also ==
+* [[Balinese saka calendar]]
+* [[Javanese calendar]]
+* [[Balinese Hinduism]]
+
+==References==
+<references />
+
+{{Calendars}}
+[[Category:Hindu calendar]]
+[[Category:Specific calendars]]
+[[Category:Balinese calendar]]
+
+[[id:Wuku]]
+[[jv:Wuku]]
+[[pl:Kalendarz balijski]]
+[[sh:Pawukon]]

@@ -1,0 +1,413 @@
+{{Short description|Calendar used in Java, Indonesia}}
+{{Contains special characters|Javanese}}
+
+The '''Javanese calendar''' ({{langx|jv|ꦥꦤꦁꦒꦭ꧀ꦭꦤ꧀ꦗꦮ|Pananggalan Jawa}}) is the [[calendar]] of the [[Javanese people]]. It is used concurrently with two other calendars, the [[Gregorian calendar]] and the [[Islamic calendar]]. The Gregorian calendar is the official calendar of the [[Republic of Indonesia]] and civil society, while the Islamic calendar is used by Muslims and the Indonesian government for religious worship and deciding relevant [[Islamic holidays]].
+
+The Javanese calendar is used by the main ethnicities of [[Java island]]—that is, the [[Javanese people|Javanese]], [[Madurese people|Madurese]], and [[Sundanese people]]—primarily as a [[cultural icon]] and identifier, and as a maintained tradition of antiquity. The Javanese calendar is used for cultural and spiritual purposes.<ref name="xentana" />
+
+The current system of the Javanese calendar was inaugurated by [[Sultan Agung of Mataram]] in the Gregorian year 1633 CE.<ref name =periplus /> Prior to this, the Javanese had used the [[Balinese saka calendar|Śaka calendar]], which has its epoch in 78 CE and uses the [[Lunisolar calendar|lunisolar cycle]] for calculating time.<ref>{{Cite book
+  | last =   Ricklefs
+  | first = M.C.  
+  | title = A History of Modern Indonesia Since c. 1300
+  | publisher = Stanford University Press
+  | year = 1993
+  | pages = 46 
+  | isbn = 0-8047-2195-5 }}</ref> Sultan Agung's calendar retained the Saka calendar year system of counting, but differs by using the same [[lunar year]] measurement system as the [[Islamic calendar]], rather than the [[solar year]]. Occasionally, the Javanese calendar is referred to by its [[Latin language|Latin]] name '''''Anno Javanico''''' or '''AJ''' (Javanese Year).<ref name=raffles />
+
+==Calendar cycles==
+
+The Javanese calendar contains multiple, overlapping (but separate) measurements of times, called "cycles". These include:
+*the native five-day week, called ''Pasaran''
+*the common Gregorian and Islamic seven-day [[week]]
+*the [[solar year|Solar month]], called ''Mangsa''
+*the [[lunar year|Lunar month]], called ''Wulan''
+*the lunar year, or ''Tahun''
+*the octennium (8 year) cycles, or ''Windu''
+*the 120-year cycle of 15 ''Windu'', called ''Kurup''
+
+{| class="wikitable" style="border:none;" cellspacing="0" cellpadding="0"
+|- style="vertical-align:top;"
+|style="padding-right:1.0em;"|
+{|class="wikitable" style="text-align:center;"
+! Year AD/CE || Year AJ
+!style="line-height:1.1em;"| Javanese<br/>month
+|-
+|  2011   ||  1944   || 6 </tr>
+|  2012   ||  1945   || 6 </tr>
+|  2013   ||  1946   || 6 </tr>
+|  2014   ||  1947   || 7 </tr>
+|  2015   ||  1948   || 7 </tr>
+|  2016   ||  1949   || 8 </tr>
+|  2017   ||  1950   || 8 </tr>
+|  2018   ||  1951   || 8 </tr>
+|  2019   ||  1952   || 9 </tr>
+|  2020   ||  1953   || 9 </tr>
+|}
+|
+{|class="wikitable" style="text-align:center;"
+! Year AD/CE || Year AJ
+!style="line-height:1.1em;"| Javanese<br/>month
+|-
+|  2021   ||  1954   || 9 </tr>
+|  2022   ||  1955   || 10 </tr>
+|  2023   ||  1956   || 10 </tr>
+|  2024   ||  1957   || 11 </tr>
+|  2025   ||  1958   || 11 </tr>
+|  2026   ||  1959   || 11 </tr>
+|  2027   ||  1960   || 12 </tr>
+|  2028   ||  1961   || 12 </tr>
+|  2029   ||  1962   || 12 </tr>
+|-
+|2030
+|1963
+|1
+|}
+|}
+
+=== Current correlations ===
+The Javanese calendar year of 1941 occurred entirely within the civil calendar year of 2008. Such years occur once every 33 or 34 Javanese years (32 or 33 civil years). More are listed here:
+
+{| class="wikitable" style="text-align:center;"
+!colspan="3"| {{pad|1.0em}}Javanese year within civil year{{pad|1.0em}} </tr>
+| ''Javanese'' ||  ''Civil'' || ''Difference''
+|-
+| 1575 || 1653 || 78 </tr>
+| 1608 || 1685 || 77 </tr>
+| 1649 || 1718 || 76 </tr>
+| 1673 || 1751 || 75 </tr>
+| 1706 || 1783 || 74 </tr>
+| 1740 || 1816 || 73 </tr>
+| 1773 || 1848 || 72 </tr>
+| 1807 || 1882 || 71 </tr>
+| 1841 || 1914 || 70 </tr>
+| 1877 || 1946 || 69 </tr>
+| 1908 || 1979 || 68 </tr>
+| 1944 || 2011 || 67 </tr>
+| 1977 || 2043 || 66 </tr>
+| 2011 || 2076 || 65 </tr>
+| 2043 || 2108 || 64 </tr>
+| 2076 || 2140 || 63 </tr>
+|}
+
+A Javanese year will be entirely within a Gregorian year of the same number in the year 4195,{{citation needed|date=April 2021}} after which year the number of the Javanese year will always be greater than the number of the concurrent civil year.
+
+== Division of time ==
+Days in the Javanese calendar, like the Islamic calendar, begin at [[sunset]].<ref name=periplus /> Traditionally, Javanese people do not divide the day and night into [[hour]]s, but rather into phases.<ref name=raffles>{{Cite book
+  | last =  Raffles
+  | first = Thomas Stamford  
+  | author-link = Thomas Stamford Raffles
+  | title = The History of Java
+  | publisher =  Black, Parbury, and Allen : and John Murray
+  | year = 1817
+  | url = https://archive.org/details/bub_gb_9OldAAAAcAAJ }}</ref> The division of a day and night are:
+{| class="wikitable"
+|+ Division of time
+! Start !! End !! Javanese name !! Meaning
+|-
+| 6 am || 8 am || ''ésuk'' <br/> {{Jav|ꦲꦺꦱꦸꦏ꧀}} || morning
+|-
+| 8 am || 12 pm || ''tengangi'' <br/> {{Jav|ꦠꦼꦁꦲꦔꦶ}} || midday 
+|-
+| 12 pm || 1 pm || ''bedug'' <br/> {{Jav|ꦧꦼꦢꦸꦒ꧀}} || time for [[Dhuhr|bedug prayer]] 
+|-
+| 1 pm || 3 pm || ''lingsir kulon'' <br/> {{Jav|ꦭꦶꦁꦱꦶꦂꦏꦸꦭꦺꦴꦤ꧀}} || (sun) moving west
+|-
+| 3 pm || 6 pm || ''asar'' <br/> {{Jav|ꦲꦱꦂ}} || time for [[Asr|asar prayer]] 
+|-
+| 6 pm || 8 pm || ''soré'' <br/> {{Jav|ꦱꦺꦴꦫꦺ}} || evening
+|-
+| 8 pm || 11 pm || ''sirap'' <br/> {{Jav|ꦱꦶꦫꦥ꧀}} || sleepy time
+|-
+| 11 pm || 1 am || ''tengah wengi'' <br/> {{Jav|ꦠꦼꦔꦃꦮꦼꦔꦶ}} || midnight
+|-
+| 1 am || 3 am || ''lingsir wengi'' <br/> {{Jav|ꦭꦶꦁꦱꦶꦂꦮꦼꦔꦶ}} || late night
+|-
+| 3 am || 6 am || ''bangun'' <br/> {{Jav|ꦧꦔꦸꦤ꧀}} || awakening
+|}
+
+==Cycles of days==
+
+===Five-day week (Pasaran)===
+
+The native Javanese system groups days into a five-day [[week]] called ''Pasaran'', unlike most calendars that uses a seven-day week. The name, ''pasaran'', is derived from the root word ''pasar'' ("[[Market (place)|market]]"). Historically, but also still today, Javanese villagers gather communally at local markets to socially meet, engage in commerce, and buy and sell farm produce, cooked foods, home industry crafted items and so on. [[John Crawfurd]] (1820) suggested that the length of the weekly cycle is related to the number of fingers on the hand,<ref name="Crawfurd">{{Cite book
+  | last =   Crawfurd
+  | first = John  
+  | author-link = John Crawfurd
+  | title = History of the Indian Archipelago vol. 1.
+  | publisher = Archibald Constable and Co
+  | year = 1820
+  | location = Edinburgh 
+  | url = https://archive.org/details/historyindianar06crawgoog }}</ref> and that itinerant merchants would rotate their visits to different villages according to a five-day "roster".
+
+The days of the cycle each have two names, as the [[Javanese language]] has distinct vocabulary associated with two different registers of [[Javanese language#Politeness|politeness]]: ''ngoko'' (informal) and ''krama'' (formal). The ''krama'' names for the days, second in the list, are much less common.
+
+[[File:Javanese week.jpg|right|thumb|Signs of the ''Pasaran'' cycle]]
+*{{Jav|ꦊꦒꦶ}} (Legi) – {{Jav|ꦩꦤꦶꦱ꧀}} (Manis)
+*{{Jav|ꦥꦲꦶꦁ}} (Pahing) – {{Jav|ꦥꦲꦶꦠ꧀}} (Pait)
+*{{Jav|ꦥꦺꦴꦤ꧀}} (Pon) – {{Jav|ꦥꦼꦛꦏ꧀}} (Pethak)
+*{{Jav|ꦮꦒꦺ}} (Wagé) – {{Jav|ꦕꦼꦩꦺꦁ}} (Cemèng)
+*{{Jav|ꦏ꧀ꦭꦶꦮꦺꦴꦤ꧀}} (Kliwon) – {{Jav|ꦲꦱꦶꦃ}} (Asih)
+
+The origin of the names is unclear, and their [[etymology]] remains obscure. Possibly, the names may be derived from indigenous gods, like the [[Week-day names|European and Asian names]] for days of the week.<ref name="Crawfurd"/> An ancient Javanese manuscript illustrates the week with five human figures (shown at right below the day names): a man seizing a suppliant by the hair, a woman holding a horn to receive an offering, a man pointing a drawn sword at another, a woman holding agricultural produce, and a man holding a spear leading a bull.<ref name="Crawfurd"/>
+
+Additionally, Javanese consider these days' names to have a mystical relation to [[color]]s and [[cardinal direction]]:
+*Legi : white and East
+*Pahing : red and South
+*Pon : yellow and West
+*Wagé : black and North
+*Kliwon : blurred colors/focus and 'center'.
+
+Most [[Market (place)|Markets]] no longer operate under this traditional ''Pasaran'' cycle, instead pragmatically remaining open every day of the [[Gregorian calendar|Gregorian]] week. However many markets in Java still retain traditional names that indicated that once the markets only operated on certain ''Pasaran'' days, such as Pasar Legi, or Pasar Kliwon.<ref name=periplus /> Some markets in small or medium size locations will be much busier on the ''Pasaran'' day than on the other days. On the market's name day itinerant sellers appear selling such things as livestock, plants and other products that are either less frequently purchased or are more expensive. This allows a smaller number of these merchants to service a much larger area much as in bygone days.
+
+Javanese astrological belief dictates that an individual's characteristics and destiny are attributable to the combination of the ''Pasaran'' day and the "common" weekday of the Islamic calendar on that person's birthday. Javanese people find great interest in the astrological interpretations of this combination, called the ''Wetonan'' cycle.
+
+===Seven-day week===
+The seven-day-long week cycle (''dina pitu'', "seven days") is derived from the [[Islamic calendar]], adopted following the spread of Islam throughout the Indonesian archipelago. The names of the days of the week in [[Javanese language|Javanese]] are derived from their [[Arabic language|Arabic]] counterparts, namely:
+
+{| class="wikitable"
+|+ Days of Seven-day Week
+! Javanese !! Arabic !! English
+|-
+| Senin ({{Jav|ꦱꦼꦤꦶꦤ꧀}}) || yaum al-ithnayn ( يوم الاثنين ) || Monday
+|-
+| Selasa ({{Jav|ꦱꦼꦭꦱ}}) || yaum ath-thalatha' ( يوم الثلاثاء ) || Tuesday
+|-
+| Rebo ({{Jav|ꦉꦧꦺꦴ}}) || yaum al-arba`a' ( يوم الأربعاء ) || Wednesday
+|-
+| Kemis ({{Jav|ꦏꦼꦩꦶꦱ꧀}}) || yaum al-khamis ( يوم الخميس ) || Thursday
+|-
+| Jemuwah ({{Jav|ꦗꦼꦩꦸꦮꦃ}}) || yaum al-jum`a ( يوم الجمعة ) || Friday
+|- 
+| Setu ({{Jav|ꦱꦼꦠꦸ}}) || yaum as-sabt ( يوم السبت ) || Saturday
+|-
+| Minggu/Ahad ({{Jav|ꦩꦶꦁꦒꦸ/ꦲꦲꦢ꧀}}) || yaum al-ahad ( يوم الأحد ) || Sunday
+|}
+
+These two week systems occur concurrently; thus, a certain Friday may fall on a Kliwon day, and is consequently called ''Jumat Kliwon''.<ref name=periplus >{{Cite book
+  | last =   Oey
+  | first = Eric  
+  | title = Java
+  | publisher = Tuttle Publishing
+  | year = 2001
+  | pages = 70
+  | url = https://books.google.com/books?id=YA3TNeNUfkAC&pg=PA70
+  | isbn = 978-962-593244-6 
+  }}</ref> This combination forms the ''Wetonan'' cycle.
+
+===Wetonan cycle===
+The ''Wetonan'' cycle superimposes the five-day ''Pasaran'' cycle with the seven-day week cycle. Each ''Wetonan'' cycle lasts for 35 (7x5) days. An example of ''Wetonan'' cycle:
+
+:{| class="wikitable" width="100%"
+|+ The "Wetonan" Cycle for 2nd week of May (''Mei'') 2008:
+| '''English''' || Monday 5 || Tuesday 6 || Wednesday 7 || Thursday 8 || Friday 9 || Saturday 10  || Sunday 11 
+|- 
+| '''Javanese seven-day week''' || Senin  5 || Selasa 6 || Rebo 7 || Kemis 8 || Jumat 9 || Setu 10 || Minggu/ Ahad 11 
+|- 
+| '''Javanese ''Pasaran'' week ''' || 28 Pon || 29 Wage  || 1 Kliwon  || 2 Legi || 3 Pahing  || 4 Pon || 5 Wage 
+|}
+
+From the example above, the ''Weton'' for Tuesday May 6, 2008 would be read as ''Selasa Wage''.
+
+The ''Wetonan'' cycle is especially important for divinatory systems, important celebrations, and rites of passage. Commemorations and events are held on days considered to be auspicious.
+
+An especially prominent example, still widely taught in primary schools, is that the ''Weton'' for the [[Proclamation of Indonesian Independence]] on 17 August 1945 took place on ''Jumat Legi''; this is also the ''Weton'' for the birth and death of [[Sultan Agung]], one of the greatest kings of Java and the inventor of the modern Javanese calendar.<ref name="joglosemar">{{Cite web
+  | last = Negoro
+  | first = Suryo S.
+  | title = Javanese Calendar and Its Significance to Mystical Life
+  | publisher = Joglosemar
+  | url = http://www.joglosemar.co.id/kejawen/calendar.html
+  | access-date = 2006-12-10
+  | archive-date = 2017-09-24
+  | archive-url = https://web.archive.org/web/20170924114610/http://www.joglosemar.co.id/kejawen/calendar.html
+  | url-status = dead
+  }}</ref> Therefore, ''Jumat Legi'' is considered an important night for pilgrimage.<ref>{{Cite journal
+ |last=Furmann 
+ |first=Klaus 
+ |title=Formen der javanischen Pilgerschaft zu Heiligenschreinen 
+ |journal=Dissertation for Albert-Ludwigs-Universität Freiburg 
+ |pages=231 
+ |publisher=[[University of Freiburg]] 
+ |year=2000 
+ |url=http://deposit.ddb.de/cgi-bin/dokserv?idn=963866273&dok_var=d1&dok_ext=pdf&filename=963866273.pdf 
+ |url-status=dead 
+ |archive-url=https://web.archive.org/web/20110814125916/http://deposit.ddb.de/cgi-bin/dokserv?idn=963866273&dok_var=d1&dok_ext=pdf&filename=963866273.pdf 
+ |archive-date=2011-08-14 
+}}</ref> There are also [[taboo]]s that relate to the cycle; for example, the ritual dance [[bedhaya]] can only be performed on ''Kemis Kliwon''.<ref>{{Cite book
+  | last = Kunst
+  | first = Jaap
+  | author-link = Jaap Kunst
+  | title = Music in Java
+  | publisher = Martinus Nijhoff
+  | year = 1949
+  | location = The Hague
+  | pages = 151–152 }}</ref>
+
+The coincidence of the ''Pasaran'' day with the common day on the day of birth is considered by Javanese to indicate the personal characteristics of that person, similar to the Western [[Zodiac]] and planetary positioning in [[Western astrology]].<ref name="xentana">{{Cite web
+ |last=Arciniega 
+ |first=Matthew 
+ |title=More about Javanese Wetonan 
+ |url=http://xentana.com/java/weton/basis.htm 
+ |url-status=dead 
+ |archive-url=https://web.archive.org/web/20060830215424/http://www.xentana.com/java/weton/basis.htm 
+ |archive-date=2006-08-30 
+}}</ref>
+
+===Pawukon cycle===
+{{Main|Pawukon}}
+[[Pawukon]] is a 210-day cycle in Javanese calendar,<ref name=periplus /> related to Hindu tradition. Though most associated with [[Bali]], it is still used in Java  for special purposes. The calendar consists of concurrent weeks, and has a set of ten weeks, which have a duration of 1, 2, 3, 4, 5, 6, 7, 8, 9, and 10 days.
+
+The first day of the year is considered the first day of all ten weeks. As 210 is not divisible by 4, 8, or 9, extra days must be added to the 4-, 8-, and 9-day weeks.
+
+===Dates numbering===
+For timekeeping, days are numbered within the lunar month (''wulan'') as is common in other calendar systems. The date indicates the change in the moon, and symbolizes the life of a human in the world. This process of revolving life is known as ''cakra manggilingan'' or ''heru cakra''.
+
+On the first day of the month, when the moon is small, it is compared to a newborn baby. The 14th day, called ''Purnama Sidhi'' (full moon), represents a married adult. The next day, called ''Purnama'', occurs as the moon begins to wane. The 20th day, ''Panglong'', symbolizes the point at which people begin to lose their memory. The 25th day, ''Sumurup'', represents the point at which the adult requires care like when they were young. The 26th day, ''Manjing'', represents the return of the human to his or her origin.<ref name="joglosemar" />
+
+==Cycles of months==
+Because a Javanese lunar year is between 11 and 12 days shorter than a civil year, it begins 11–12 days earlier in the civil year following the civil year in which the previous Javanese year began. Once every 33 or 34 Javanese years, or once every 32 or 33 civil years, the beginning of a Javanese year (1 Sura) coincides with one of the first ten days of January. Subsequent New Years move backwards through the civil year back to the beginning of January again, passing through each civil month from December to January.
+
+===Mangsa===
+[[File:Signs of Months in Javanese Calendar.gif|thumb|Signs of Solar months (''mangsa'') in Javanese Calendar (upper row) with sign of [[Hindu astrology|Hindu zodiacs]] (lower row).]]
+The [[solar year]] is divided into twelve periods (''mangsa'') of unequal length. Its origin lies in [[agriculture]] practice in Java. The names of the first ten months are simply the [[ordinal number]]s from 1 to 10 in Javanese language, although the names of the 11th and 12th months are unclear.<ref name=Crawfurd /><ref name="Eade">{{cite journal |last1=Gislén |first1=Lars |last2=Eade |first2=J.C. |title=The Calendars of Southeast Asia. 4: Malaysia and Indonesia |journal=Journal of Astronomical History and Heritage |date=1 December 2019 |volume=22 |issue=3 |pages=447–457 |doi=10.3724/SP.J.1440-2807.2019.03.06|url=https://lup.lub.lu.se/record/35e857f0-060a-4332-931b-d558d48d3d9a }}</ref> The cycle begins near the [[June solstice]], around the middle of the dry season in Java.
+
+In the 19th century, the solar month system or ''pranata mangsa'' was much better known among Javanese than the civil or religious year.<ref name=Crawfurd /> The cycle is clearly of Javanese origin, since the specific application to their climate does not match other territories in the [[Indonesian archipelago]], as well as the usage of Javanese names for the months.<ref name=Crawfurd /> Although the cycle matches the weather pattern well, it is still clearly somewhat arbitrary, as can be seen in the lengths of the months.<ref name=Crawfurd />
+
+In [[astrology]], the pranata mangsa is used to predict personality traits in a similar manner to [[sun sign]]s in Western astrology. It is not widely used anymore for [[divination]], but some practitioners use it as well as the other cycles in their divination.<ref name="xentana"/>
+
+The Solar months are :
+{| class="wikitable"
+|+ '''Pranata mangsa''' <ref name=Crawfurd /><ref>{{Cite book
+  | last =   Doyodipuro
+  | first = Ki Hudoyo 
+  | title = Misteri Pranata Mangsa
+  | publisher = Dahara Prize
+  | year = 1995
+  | location = Semarang }}</ref><ref name=Eade />
+! Starting day !! Name !! Length in days || Description
+|-
+| 23 June || Mangsa Kaso <br/> {{Jav|ꦩꦁꦱꦏꦱꦺꦴ}} || 41 || The dry season; leaves are falling from the trees; the ground is withered and arid, bereft of water "like a jewel that has come free of its setting."
+|-
+| 3 August || Mangsa Karo <br/> {{Jav|ꦩꦁꦱꦏꦫꦺꦴ}} || 23 || The dry season; parched earth lies in hard clumps; the mango and cotton trees begin to bloom.
+|-
+| 26 August || Mangsa Katelu <br/> {{Jav|ꦩꦁꦱꦏꦠꦼꦭꦸ}} || 24 || The dry season; spice roots are harvested; the gadung tree begins to bear fruit.
+|-
+| 19 September || Mangsa Kapat <br/> {{Jav|ꦩꦁꦱꦏꦥꦠ꧀}} || 25 || Rain begins to fall, as "tears well up in the soul", marking the end of the dry season; birds are singing and busily constructing nests. The Labuh Season is at hand.
+|-
+| 14 October || Mangsa Kalima <br/> {{Jav|ꦩꦁꦱꦏꦭꦶꦩ}} || 27 || The rainy season, sometimes with fierce winds and flooding; mangoes are ripe; snakes are driven from their nests; "a fountain of gold falls across the earth".
+|-
+| 11 November || Mangsa Kanem <br/> {{Jav|ꦩꦁꦱꦏꦤꦼꦩ꧀}} || 43 || The rainy season; lightning strikes and there are landslides; but it is also the season of many fruit.
+|-
+| 23 December || Mangsa Kapitu <br/> {{Jav|ꦩꦁꦱꦏꦥꦶꦠꦸ}} || 43 || The rainy season is at its peak; birds are hard pressed to find food, and in many areas there is severe flooding.
+|-
+| 4 February || Mangsa Kawolu <br/> {{Jav|ꦩꦁꦱꦏꦮꦺꦴꦭꦸ}} || 26/27 || The rainy season; rice fields are growing and the cat is looking for his mate; grubs and larvae abound.
+|-
+| 2 March || Mangsa Kasanga <br/> {{Jav|ꦩꦁꦱꦏꦱꦔ}} || 25 || The rainy season; rice fields are turning yellow; "happy news is spreading"; water is stored within the earth, the wind blows in one direction, and many fruits are ripe.
+|-
+| 27 March || Mangsa Kasadasa <br/> {{Jav|ꦩꦁꦱꦏꦱꦢꦱ}} || 24 || Rain yet falls, but is diminishing; the wind rustles and blows hard; the air is still chilly. The Mareng Season is at hand.
+|-
+| 20 April || Mangsa Dèsta <br/> {{Jav|ꦩꦁꦱꦢꦺꦱ꧀ꦠ}} || 23 || The dry season has begun; farmers are harvesting the rice fields; birds tend their young with affection, as if they were "jewels of the heart".
+|-
+| 13 May || Mangsa Saddha <br/> {{Jav|ꦩꦁꦱꦱꦢ꧀ꦝ}} || 41 || The dry season; water begins to recede, "vanishing from its many places".
+|}
+
+===Wulan===
+Each [[lunar year]] (''taun'') is divided into a series of twelve ''wulan/sasi'' or lunar months. Each consists of 29 or 30 days. This is adapted from the use of months in the Islamic calendar. The names of the month are given below in Javanese and Arabic which can be used interchangeably:
+
+{| class="wikitable"
+|+ Javanese lunar months
+! Ngoko (informal) !! Arabic names !! Length of days
+|-
+| Sura <br/> {{Jav|ꦱꦸꦫ}} || [[Muharram]] ( المحرّم ) || 30  
+|-
+| Sapar <br/> {{Jav|ꦱꦥꦂ}} || [[Safar]] ( صفر ) || 29
+|-
+| Mulud/Rabingulawal <br/> {{Jav|ꦩꦸꦭꦸꦢ꧀/ꦫꦧꦶꦔꦸꦭꦮꦭ꧀}} || [[Rabi al-awwal]] ( ربيع الأوّل ) || 30
+|-
+| Bakda Mulud/Rabingulakir <br/> {{Jav|ꦧꦏ꧀ꦢꦩꦸꦭꦸꦢ꧀/ꦫꦧꦶꦔꦸꦭꦏꦶꦂ}} || [[Rabi al-thani]] ( ربيع الثاني ) || 29 
+|-
+| Jumadilawal <br/> {{Jav|ꦗꦸꦩꦢꦶꦭꦮꦭ꧀}} || [[Jumada al-awwal]] ( جمادى الأولى ) || 30
+|-
+| Jumadilakir <br/> {{Jav|ꦗꦸꦩꦢꦶꦭꦏꦶꦂ}} || [[Jumada al-thani]] ( جمادى الآخرة ) || 29 
+|-
+| Rejeb <br/> {{Jav|ꦉꦗꦼꦧ꧀}} || [[Rajab]] ( رجب ) || 30
+|-
+| Ruwah/Arwah <br/> {{Jav|ꦫꦸꦮꦃ/ꦲꦂꦮꦃ}} || [[Sha'aban]] ( شعبان ) || 29
+|-
+| Pasa/Siyam <br/> {{Jav|ꦥꦱ/ꦱꦶꦪꦩ꧀}} || [[Ramadhan]] ( رمضان ) || 30
+|-
+| Sawal <br/> {{Jav|ꦱꦮꦭ꧀}} || [[Shawwal]] ( شوّال )|| 29 
+|-
+| Sela/Apit <br/> {{Jav|ꦱꦼꦭ/ꦲꦥꦶꦠ꧀}} || [[Dhu al-Qi'dah]] ( ذو القعدة ) || 30 
+|-
+| Besar/Kaji <br/> {{Jav|ꦧꦼꦱꦂ/ꦏꦗꦶ}} || [[Dhu al-Hijjah]] ( ذو الحجّة ) || 29 or 30 
+|}
+
+Length of the last month may be 29 or 30 days, depending on whether the year is normal or a leap year (''taun kabisat'').
+
+The cycle of months is sometimes considered metaphorically to represent the cycle of human life. The first nine months represent [[gestation]] before birth, while the tenth month represents the human in the world, the eleventh the end of his or her existence, and the twelfth the return to where he or she came from. The cycle thus goes from one spark or conception (''rijal'') to another, traversing through the void (''suwung'').<ref name="joglosemar"/>
+
+==Year designation==
+The [[Shalivahana era]], which started in 78 CE and continues to be used on Bali, was used in Hindu times on Java, and for well over a century after the appearance of Islam on Java.
+
+When Sultan Agung adopted the Islamic lunar calendar in 1633 CE, he did not adopt the [[Anno Hegirae]] to designate those years, but instead continued the count of the Shalivahana era, which was 1555 at the time.<ref name=Crawfurd /> As a result, the Anno Javanico does not in effect count from any time.
+
+===Cycles of years===
+Eight ''tahun'' makes up a ''windu''. A single ''windu'' lasts for 81 repetitions of the wetonan cycle, or 2,835 days (about 7 years 9 months in the Gregorian calendar). The ''tahun'' are lunar years, and of shorter length than Gregorian years. The names of the years in the cycle of windu are as follows (in krama/ngoko):
+# Purwana/Alip (354 days)
+# Karyana/Ehé (354 days)
+# Anama/Jemawal (355 days)
+# Lalana/Jé (354 days)
+# Ngawanga/Dal (355 days)
+# Pawaka/Bé (354 days)
+# Wasana/Wawu (354 days)
+# Swasana/Jimakir (355 days)
+
+The ''windu'' are then grouped into a cycle of four:
+# Windu Adi
+# Windu Kunthara
+# Windu Sengara
+# Windu Sancaya
+
+The cycles of ''wulan'', ''tahun'', and ''windu'' are derived from the [[Indian national calendar|Saka calendar]].
+
+''Windu''' are no longer used much in horoscopy, but there is evidence that it was previously used by [[Kraton (Indonesia)|court officials]] to predict trends. The passing of a ''windu'' is often seen as a milestone and deserving a [[slametan]] ritual feast.<ref name="xentana"/>
+
+===Kurup===
+
+The ''kurup'' is a period of 120 ''tahun'', or lunar years.  There are thus 1440 lunar months, or 15 ''windu'' in a ''kurup''.  One day is dropped from the last month of Besar having 30 days, resulting in the last ''windu'' of the ''kurup'' having one less day than usual.  Thus, the total number of days in a ''kurup'' is 42,524 (2,835 days in a ''windu'' x 15 ''windu'' - 1 day).  This is the same number of days as in 120 lunar years of the [[tabular Islamic calendar]].
+
+Each ''kurup'' is named for date of the wetonan cycle on which the ''kurup'' commences. As this always falls in the Alip (first) year of the ''windu'', it is prefixed with Alip.  The current ''kurup'' started on Tuesday, March 24 of 1936 CE, which corresponds to Muharram 1 of 1355 AH in the tabular Islamic calendar, and will end on Sunday, August 25 of 2052 CE.  As the wetonan date of that day was Selasa Pon, the ''kurup'' is named Alip Selasa Pon.
+
+The next ''kurup'' will commence on Monday, August 26 of 2052 CE, which corresponds to Muharram 1 of 1475 AH in the tabular Islamic calendar, and will end on Saturday, January 28 of 2169 CE, and will be named Alip Senin Pahing.<ref>Penanggalan Jawa 120 Tahun Kurup Asapon déning H. Danudji, Dahara Prize, Edisi Pertama 2006, {{ISBN|979-501-454-4}}
+</ref>
+
+==Dina Mulya==
+'''Dina Mulya''' (ꦢꦶꦤꦩꦸꦭꦾ, literally "noble days") are celebrated by worshipping [[Gusti (creator)|Gusti]], the creator of life and the universe. Practitioners of traditional Javanese spiritual teachings have preserved several noble days:<ref name="joglosemar"/>
+* [[Satu Sura]], the first of Sura, the New Year
+* Anggara Kasih : Tuesday Kliwon
+* Dina Purnama: Jemuah Legi/Sukra Manis (Friday Legi)
+
+==See also==
+*[[Old Javanese calendar]], the calendar used before the creation of the Javanese calendar.
+*[[Islamic calendar]]
+*[[Pawukon calendar]], a Balinese numeric calendar of 210 days per year
+*[[Balinese saka calendar]], a lunisolar calendar
+*[[Sundanese calendar]], a lunisolar calendar
+
+==References==
+{{Reflist|30em}}
+
+==Further reading==
+*Pigeaud, Th., ''Javaans-Nederlands Woordenboek''. [[Groningen (city)|Groningen]]&ndash;[[Jakarta|Batavia]]: J.B. Wolters, 1938
+*Quinn, George ''The Javanese science of 'burglary' '', RIMA. Review of Indonesian and Malaysian Affairs, IX:1 January–June 1975. pp.&nbsp;33–54.
+*Ricklefs, M.C., ''Modern Javanese historical tradition: a study of an original Kartasura chronicle and related materials.'' London: School of Oriental and African Studies, University of London, 1978
+*Soebardi. ''Calendrical traditions in Indonesia'' Madjalah IIlmu-ilmu Satsra Indonesia, 1965 no.3.
+
+{{calendars}}
+{{Authority control}}
+
+{{DEFAULTSORT:Javanese Calendar}}
+[[Category:Specific calendars]]
+[[Category:Culture of Indonesia]]
+[[Category:Javanese culture|Calendar]]
+[[Category:Sultan Agung]]

@@ -13,24 +13,24 @@
 
 ## 1. Primary Lontar — Digital Scans (Highest Evidentiary Value)
 
-- [ ] **Lontar Wariga Gemet (Internet Archive, v1)** — `https://archive.org/details/wariga-gemet`
+- [x] **Lontar Wariga Gemet (Internet Archive, v1)** — `https://archive.org/details/wariga-gemet` → `references/downloads/s1-primary-scans/wariga-gemet-ia-v1/wariga-gemet.pdf`
   - Image scan, public domain, downloadable as PDF/JP2
-- [ ] **Lontar Wariga Gede Gemet (Internet Archive, v2)** — `https://archive.org/details/wariga-gede-gemet`
+- [x] **Lontar Wariga Gede Gemet (Internet Archive, v2)** — `https://archive.org/details/wariga-gede-gemet` → `references/downloads/s1-primary-scans/wariga-gede-gemet-ia-v2/wariga-gede-gemet.pdf`
   - Likely a separate recension; worth diffing against v1
-- [ ] **Wariga Gemet 250ppi PDF (Wikimedia Commons)** — `https://commons.wikimedia.org/wiki/File:Bali-lontar-wariga-gemet-02-250ppi.pdf`
+- [x] **Wariga Gemet 250ppi PDF (Wikimedia Commons)** — `https://commons.wikimedia.org/wiki/File:Bali-lontar-wariga-gemet-02-250ppi.pdf` → `references/downloads/s1-primary-scans/wariga-gemet-wikimedia-pdf/Bali-lontar-wariga-gemet-02-250ppi.pdf`
   - Public Domain Indonesia; cleanest single-file PDF
-- [ ] **Serat Etang Wariga Gemet (UI Digital Lontar)** ⚠ — `https://lontar.ui.ac.id/detail?id=20435801`
+- [~] **Serat Etang Wariga Gemet (UI Digital Lontar)** ⚠ — `https://lontar.ui.ac.id/detail?id=20435801` → `references/downloads/s1-primary-scans/serat-etang-wariga-gemet-ui/page.html`
   - Universitas Indonesia catalog entry; access policy unclear
 
 ## 2. Primary Lontar — Transcriptions & Translations
 
-- [ ] **komangputra.com Wariga Gemet transcription** — `https://www.komangputra.com/lontar-bali-wariga-gemet.html`
+- [x] **komangputra.com Wariga Gemet transcription** — `https://www.komangputra.com/lontar-bali-wariga-gemet.html` → `references/downloads/s2-transcriptions/komangputra-wariga-gemet/transcription.md`
   - Folio-by-folio (1a, 2a, 4a, 5a, …) Old Javanese/Balinese + Indonesian translation
   - Multi-page; scrape all paginated parts
 - [ ] **BasaBali Wiki: Lontar Wariga Gemet** — `https://dictionary.basabali.org/Lontar_Wariga_Gemet`
   - Summary + partial trilingual (Balinese/Indonesian/English)
-- [ ] **Scribd mirror — Lontar_Wariga_Gemet (21 pages)** ⚠ — `https://www.scribd.com/document/780621393/Lontar-Wariga-Gemet`
-- [ ] **Scribd mirror — Lontar Bali Wariga Gemet (29 pages, Wayan Budiana)** ⚠ — `https://www.scribd.com/document/743335371/Lontar-Bali-Wariga-Gemet`
+- [~] **Scribd mirror — Lontar_Wariga_Gemet (21 pages)** ⚠ — `https://www.scribd.com/document/780621393/Lontar-Wariga-Gemet` → `references/downloads/s2-transcriptions/scribd-wariga-gemet-21p/page.html`
+- [~] **Scribd mirror — Lontar Bali Wariga Gemet (29 pages, Wayan Budiana)** ⚠ — `https://www.scribd.com/document/743335371/Lontar-Bali-Wariga-Gemet` → `references/downloads/s2-transcriptions/scribd-wariga-gemet-29p/page.html`
 
 ## 3. Related Lontar (Same Textual Family — Pursue for Cross-Validation)
 
@@ -43,7 +43,7 @@
 
 ## 4. Peer-Reviewed Academic Papers
 
-- [ ] **Ginaya, G. (2018). "The Balinese calendar system: From its epistemological perspective to axiological practices." IJLLC 4(3):24–37.** — `https://sloap.org/journals/index.php/ijllc/article/download/173/715/812`
+- [x] **Ginaya, G. (2018). "The Balinese calendar system: From its epistemological perspective to axiological practices." IJLLC 4(3):24–37.** — `https://sloap.org/journals/index.php/ijllc/article/download/173/715/812` → `references/downloads/s4-academic/ginaya-2018-balinese-calendar-system/ginaya-2018-balinese-calendar-system.pdf`
   - Open access; strong on epistemology + urip-based derivation rules
 - [ ] **Proudfoot, I. (2007). "In search of lost time: Javanese and Balinese understandings of the Indic calendar." BKI 163(1):86–122.** — `https://scispace.com/pdf/in-search-of-lost-time-javanese-and-balinese-understandings-4hivzafwai.pdf`
   - Brill/KITLV; authoritative on historical development
@@ -60,11 +60,11 @@
 
 ## 5. Historical & Economic Documentation
 
-- [ ] **Historia.id: "Jual-Beli Semasa Bali Kuno"** — `https://www.historia.id/article/jual-beli-semasa-bali-kuno-dp9ey`
+- [x] **Historia.id: "Jual-Beli Semasa Bali Kuno"** — `https://www.historia.id/article/jual-beli-semasa-bali-kuno-dp9ey` → `references/downloads/s5-historical/historia-id-jual-beli-bali-kuno/page.html`
   - Key source: documents `rgas pasar` Wijayakranta/Wijayamanggala/Wijayapura ↔ Pasah/Beteng/Kajeng mapping from Bali Kuno inscriptions
-- [ ] **Leiden University Digital Collections — Bali 1925 pasar photo** — `https://digitalcollections.universiteitleiden.nl/`
+- [~] **Leiden University Digital Collections — Bali 1925 pasar photo** — `https://digitalcollections.universiteitleiden.nl/` → `references/downloads/s10-archival/leiden-kitlv-digital-collections/page.html`
   - Colonial-era ethnographic photographs and archives; search "pasar Bali", "Bali markt", KITLV images
-- [ ] **British Library: Pawukon Javanese calendrical manuscripts (Ann Kumar)** — `https://blogs.bl.uk/asian-and-african/2018/11/pawukon-javanese-calendrical-manuscripts.html`
+- [x] **British Library: Pawukon Javanese calendrical manuscripts (Ann Kumar)** — `https://blogs.bl.uk/asian-and-african/2018/11/pawukon-javanese-calendrical-manuscripts.html` → `references/downloads/s5-historical/bl-blog-pawukon-manuscripts/page.html`
   - BL Asian & African collections blog; reference to illustrated pawukon manuscripts
 - [ ] **Prasasti Bebetin (epigraphy)** — track via Balai Arkeologi Denpasar or academic publications
   - Ancient Bali commercial regulations; cited in Historia.id article
@@ -73,36 +73,36 @@
 
 ## 6. Standard Reference Encyclopedias & Wikis
 
-- [ ] **Wikipedia: Pawukon calendar** — `https://en.wikipedia.org/wiki/Pawukon_calendar`
+- [x] **Wikipedia: Pawukon calendar** — `https://en.wikipedia.org/wiki/Pawukon_calendar` → `references/downloads/s6-encyclopedias/wikipedia-pawukon-calendar/page.html`
   - Contains full urip arithmetic formula
-- [ ] **Wikipedia: Javanese calendar** — `https://en.wikipedia.org/wiki/Javanese_calendar`
+- [x] **Wikipedia: Javanese calendar** — `https://en.wikipedia.org/wiki/Javanese_calendar` → `references/downloads/s6-encyclopedias/wikipedia-javanese-calendar/page.html`
   - Contextualizes pasaran ↔ pawukon relationship
-- [ ] **Wikipedia: Triwara (Indonesian)** — `https://id.wikipedia.org/wiki/Triwara`
-- [ ] **Calendopedia: Balinese Calendar** — `https://www.calendopedia.com/balinese.htm`
-- [ ] **Pawukon calendar talk page references** — `https://en.wikipedia.org/wiki/Talk:Balinese_pawukon_calendar`
+- [x] **Wikipedia: Triwara (Indonesian)** — `https://id.wikipedia.org/wiki/Triwara` → `references/downloads/s6-encyclopedias/wikipedia-triwara-id/page.html`
+- [x] **Calendopedia: Balinese Calendar** — `https://www.calendopedia.com/balinese.htm` → `references/downloads/s6-encyclopedias/calendopedia-balinese-calendar/page.html`
+- [x] **Pawukon calendar talk page references** — `https://en.wikipedia.org/wiki/Talk:Balinese_pawukon_calendar` → `references/downloads/s6-encyclopedias/wikipedia-balinese-pawukon-talk/page.html`
   - Useful for surfacing additional academic references
 
 ## 7. Computational / Algorithmic References
 
-- [ ] **kalenderbali.info (I Ketut Suwintana)** — `https://kalenderbali.info/referensi`
+- [x] **kalenderbali.info (I Ketut Suwintana)** — `https://kalenderbali.info/referensi` → `references/downloads/s7-computational/kalenderbali-info-referensi/page.html`
   - Public algorithm reference with formulas; includes Alahing Sasih axiom
-- [ ] **kalenderbali.org** — `https://kalenderbali.org/referensialaayu.php`
+- [x] **kalenderbali.org** — `https://kalenderbali.org/referensialaayu.php` → `references/downloads/s7-computational/kalenderbali-org-referensialaayu/page.html`
   - Dewasa ayu / wewaran lookup tables
-- [ ] **BabadBali: Pewarigaan** — `https://www.babadbali.com/pewarigaan/triwara.htm`
+- [x] **BabadBali: Pewarigaan** — `https://www.babadbali.com/pewarigaan/triwara.htm` → `references/downloads/s7-computational/babadbali-pewarigaan-triwara/page.html`
   - Traditional interpretive meanings per wara
 
 ## 8. Practitioner & Secondary Sources (Interpretation, Use with Care)
 
-- [ ] **Tribun Bali: Ida Pedanda Gede Buruan on Padewasan** — `https://bali.tribunnews.com/2021/02/16/padewasan-perkawinan-dalam-ajaran-hindu-bali-berikut-penjelasan-ida-pedanda-gede-buruan`
+- [x] **Tribun Bali: Ida Pedanda Gede Buruan on Padewasan** — `https://bali.tribunnews.com/2021/02/16/padewasan-perkawinan-dalam-ajaran-hindu-bali-berikut-penjelasan-ida-pedanda-gede-buruan` → `references/downloads/s8-practitioner/tribun-bali-padewasan-perkawinan/page.html`
   - Source of the "folio 11a" citation for Alahing Sasih formula
-- [ ] **Radio Publik Denpasar Kota: Ala Ayuning Dewasa** — `https://www.radio.denpasarkota.go.id/berita/relevansi-ala-ayuning-dewasa-sebagai-pedoman-melaksanakan-upacara-di-bali`
-- [ ] **tatkala.co: Sang Hyang Eta-Eto (Lanus framework)** — `https://tatkala.co/2020/06/07/sang-hyang-eta-eto-memahami-kalender-hindu-bali-baik-buruk-hari-dengan-rumusan-lanus/`
+- [x] **Radio Publik Denpasar Kota: Ala Ayuning Dewasa** — `https://www.radio.denpasarkota.go.id/berita/relevansi-ala-ayuning-dewasa-sebagai-pedoman-melaksanakan-upacara-di-bali` → `references/downloads/s8-practitioner/radio-denpasar-ala-ayuning-dewasa/page.html`
+- [x] **tatkala.co: Sang Hyang Eta-Eto (Lanus framework)** — `https://tatkala.co/2020/06/07/sang-hyang-eta-eto-memahami-kalender-hindu-bali-baik-buruk-hari-dengan-rumusan-lanus/` → `references/downloads/s8-practitioner/tatkala-co-sang-hyang-eta-eto/page.html`
   - Includes quotations from Lontar Lelanusan
-- [ ] **Sastra Bali: Wewaran** — `https://sastrabali.com/wewaran/`
+- [x] **Sastra Bali: Wewaran** — `https://sastrabali.com/wewaran/` → `references/downloads/s8-practitioner/sastra-bali-wewaran/page.html`
   - Tri Wara etymology and philosophical interpretation
-- [ ] **cakepane.blogspot: Wariga dan Dewasa** — `https://cakepane.blogspot.com/2010/04/wariga-dan-dewasa-merupakan-ilmu.html`
+- [x] **cakepane.blogspot: Wariga dan Dewasa** — `https://cakepane.blogspot.com/2010/04/wariga-dan-dewasa-merupakan-ilmu.html` → `references/downloads/s8-practitioner/cakepane-wariga-dan-dewasa/page.html`
   - "Alah dening" interpretive note
-- [ ] **komangputra.com: Wariga Gemet (again, read in full)** — `https://www.komangputra.com/lontar-bali-wariga-gemet.html/2`
+- [x] **komangputra.com: Wariga Gemet (again, read in full)** — `https://www.komangputra.com/lontar-bali-wariga-gemet.html/2` → `references/downloads/s8-practitioner/komangputra-wariga-gemet-page2/page.html`
   - Folio 5a contains explicit Tri Wara combination → hama/subur/menengah rules
 
 ## 9. Physical / Print Books (Reference — Not Directly Downloadable)
@@ -120,7 +120,7 @@
 
 ## 10. Archival Collections Worth Exploring
 
-- [ ] **Leiden KITLV Digital Collections** — `https://digitalcollections.universiteitleiden.nl/`
+- [~] **Leiden KITLV Digital Collections** — `https://digitalcollections.universiteitleiden.nl/` → `references/downloads/s10-archival/leiden-kitlv-digital-collections/page.html`
   - Colonial-era Balinese ethnography, economic observations
 - [ ] **Pusat Dokumentasi Kebudayaan Bali (PDK Bali) — lontar digitization program** ⚠
   - Primary Balinese institutional repository
