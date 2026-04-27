@@ -49,13 +49,13 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 ! Saptawara<br />Week Name
 |-
 | 1
-| 
+|
 | Menga
 | Pasah
 | Sri
 | Paing
 | Tungleh
-| Redite 
+| Redite
 | Sri
 | Dangu
 | Sri
@@ -68,7 +68,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Pon
 | Aryang
-| Soma 
+| Soma
 | Indra
 | Dangu
 | Pati
@@ -81,7 +81,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Wage
 | Urukung
-| Anggara 
+| Anggara
 | Guru
 | Dangu
 | Raja
@@ -94,7 +94,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Keliwon
 | Paniron
-| Buda 
+| Buda
 | Yama
 | Dangu
 | Manuh
@@ -107,7 +107,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Umanis
 | Was
-| Wraspati 
+| Wraspati
 | Ludra
 | Jangur
 | Duka
@@ -120,20 +120,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Paing
 | Maulu
-| Sukra 
+| Sukra
 | Brahma
 | Gigis
 | Manuh
 | Sinta
 |-
 | 7
-| 
+|
 | Menga
 | Pasah
 | Jaya
 | Pon
 | Tungleh
-| Saniscara 
+| Saniscara
 | Kala
 | Nohan
 | Manusa
@@ -146,46 +146,46 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Wage
 | Aryang
-| Redite 
+| Redite
 | Uma
 | Ogan
 | Raksasa
 | Landep
 |-
 | 9
-| 
+|
 | Menga
 | Kajeng
 | Sri
 | Keliwon
 | Urukung
-| Soma 
+| Soma
 | Sri
 | Erangan
 | Suka
 | Landep
 |-
 | 10
-| 
+|
 | Menga
 | Pasah
 | Laba
 | Umanis
 | Paniron
-| Anggara 
+| Anggara
 | Indra
 | Urungan
 | Dewa
 | Landep
 |-
 | 11
-| 
+|
 | Menga
 | Beteng
 | Jaya
 | Paing
 | Was
-| Buda 
+| Buda
 | Guru
 | Tulus
 | Manusa
@@ -198,20 +198,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Pon
 | Maulu
-| Wraspati 
+| Wraspati
 | Yama
 | Dadi
 | Manuh
 | Landep
 |-
 | 13
-| 
+|
 | Menga
 | Pasah
 | Sri
 | Wage
 | Tungleh
-| Sukra 
+| Sukra
 | Ludra
 | Dangu
 | Pandita
@@ -224,20 +224,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Keliwon
 | Aryang
-| Saniscara 
+| Saniscara
 | Brahma
 | Jangur
 | Raja
 | Landep
 |-
 | 15
-| 
+|
 | Menga
 | Kajeng
 | Jaya
 | Umanis
 | Urukung
-| Redite 
+| Redite
 | Kala
 | Gigis
 | Pandita
@@ -250,20 +250,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Paing
 | Paniron
-| Soma 
+| Soma
 | Uma
 | Nohan
 | Duka
 | Ukir
 |-
 | 17
-| 
+|
 | Menga
 | Beteng
 | Sri
 | Pon
 | Was
-| Anggara 
+| Anggara
 | Sri
 | Ogan
 | Pandita
@@ -276,20 +276,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Wage
 | Maulu
-| Buda 
+| Buda
 | Indra
 | Erangan
 | Pati
 | Ukir
 |-
 | 19
-| 
+|
 | Menga
 | Pasah
 | Jaya
 | Keliwon
 | Tungleh
-| Wraspati 
+| Wraspati
 | Guru
 | Urungan
 | Manusa
@@ -302,46 +302,46 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Umanis
 | Aryang
-| Sukra 
+| Sukra
 | Yama
 | Tulus
 | Pati
 | Ukir
 |-
 | 21
-| 
+|
 | Menga
 | Kajeng
 | Sri
 | Paing
 | Urukung
-| Saniscara 
+| Saniscara
 | Ludra
 | Dadi
 | Dewa
 | Ukir
 |-
 | 22
-| 
+|
 | Menga
 | Pasah
 | Laba
 | Pon
 | Paniron
-| Redite 
+| Redite
 | Brahma
 | Dangu
 | Suka
 | Kulantir
 |-
 | 23
-| 
+|
 | Menga
 | Beteng
 | Jaya
 | Wage
 | Was
-| Soma 
+| Soma
 | Kala
 | Jangur
 | Dewa
@@ -354,20 +354,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Keliwon
 | Maulu
-| Anggara 
+| Anggara
 | Uma
 | Gigis
 | Pati
 | Kulantir
 |-
 | 25
-| 
+|
 | Menga
 | Pasah
 | Sri
 | Umanis
 | Tungleh
-| Buda 
+| Buda
 | Sri
 | Nohan
 | Suka
@@ -380,7 +380,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Paing
 | Aryang
-| Wraspati 
+| Wraspati
 | Indra
 | Ogan
 | Raja
@@ -393,7 +393,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Pon
 | Urukung
-| Sukra 
+| Sukra
 | Guru
 | Erangan
 | Duka
@@ -406,7 +406,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Wage
 | Paniron
-| Saniscara 
+| Saniscara
 | Yama
 | Urungan
 | Duka
@@ -419,7 +419,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Keliwon
 | Was
-| Redite 
+| Redite
 | Ludra
 | Tulus
 | Duka
@@ -432,85 +432,85 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Umanis
 | Maulu
-| Soma 
+| Soma
 | Brahma
 | Dadi
 | Raksasa
 | Taulu
 |-
 | 31
-| 
+|
 | Menga
 | Pasah
 | Jaya
 | Paing
 | Tungleh
-| Anggara 
+| Anggara
 | Kala
 | Dangu
 | Suka
 | Taulu
 |-
 | 32
-| 
+|
 | Menga
 | Beteng
 | Menala
 | Pon
 | Aryang
-| Buda 
+| Buda
 | Uma
 | Jangur
 | Sri
 | Taulu
 |-
 | 33
-| 
+|
 | Menga
 | Kajeng
 | Sri
 | Wage
 | Urukung
-| Wraspati 
+| Wraspati
 | Sri
 | Gigis
 | Suka
 | Taulu
 |-
 | 34
-| 
+|
 | Menga
 | Pasah
 | Laba
 | Keliwon
 | Paniron
-| Sukra 
+| Sukra
 | Indra
 | Nohan
 | Sri
 | Taulu
 |-
 | 35
-| 
+|
 | Menga
 | Beteng
 | Jaya
 | Umanis
 | Was
-| Saniscara 
+| Saniscara
 | Guru
 | Ogan
 | Sri
 | Taulu
 |-
 | 36
-| 
+|
 | Menga
 | Kajeng
 | Menala
 | Paing
 | Maulu
-| Redite 
+| Redite
 | Yama
 | Erangan
 | Sri
@@ -523,7 +523,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Pon
 | Tungleh
-| Soma 
+| Soma
 | Ludra
 | Urungan
 | Pati
@@ -536,7 +536,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Wage
 | Aryang
-| Anggara 
+| Anggara
 | Brahma
 | Tulus
 | Raja
@@ -549,7 +549,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Keliwon
 | Urukung
-| Buda 
+| Buda
 | Kala
 | Dadi
 | Manuh
@@ -562,7 +562,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Umanis
 | Paniron
-| Wraspati 
+| Wraspati
 | Uma
 | Dangu
 | Duka
@@ -575,20 +575,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Paing
 | Was
-| Sukra 
+| Sukra
 | Sri
 | Jangur
 | Manuh
 | Gumbreg
 |-
 | 42
-| 
+|
 | Menga
 | Kajeng
 | Laba
 | Pon
 | Maulu
-| Saniscara 
+| Saniscara
 | Indra
 | Gigis
 | Manusa
@@ -601,46 +601,46 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Wage
 | Tungleh
-| Redite 
+| Redite
 | Guru
 | Nohan
 | Raksasa
 | Wariga
 |-
 | 44
-| 
+|
 | Menga
 | Beteng
 | Menala
 | Keliwon
 | Aryang
-| Soma 
+| Soma
 | Yama
 | Ogan
 | Suka
 | Wariga
 |-
 | 45
-| 
+|
 | Menga
 | Kajeng
 | Sri
 | Umanis
 | Urukung
-| Anggara 
+| Anggara
 | Ludra
 | Erangan
 | Dewa
 | Wariga
 |-
 | 46
-| 
+|
 | Menga
 | Pasah
 | Laba
 | Paing
 | Paniron
-| Buda 
+| Buda
 | Brahma
 | Urungan
 | Manusa
@@ -653,20 +653,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Pon
 | Was
-| Wraspati 
+| Wraspati
 | Kala
 | Tulus
 | Manuh
 | Wariga
 |-
 | 48
-| 
+|
 | Menga
 | Kajeng
 | Menala
 | Wage
 | Maulu
-| Sukra 
+| Sukra
 | Uma
 | Dadi
 | Pandita
@@ -679,20 +679,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Keliwon
 | Tungleh
-| Saniscara 
+| Saniscara
 | Sri
 | Dangu
 | Raja
 | Wariga
 |-
 | 50
-| 
+|
 | Menga
 | Beteng
 | Laba
 | Umanis
 | Aryang
-| Redite 
+| Redite
 | Indra
 | Jangur
 | Pandita
@@ -705,20 +705,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Paing
 | Urukung
-| Soma 
+| Soma
 | Guru
 | Gigis
 | Duka
 | Warigadian
 |-
 | 52
-| 
+|
 | Menga
 | Pasah
 | Menala
 | Pon
 | Paniron
-| Anggara 
+| Anggara
 | Yama
 | Nohan
 | Pandita
@@ -731,20 +731,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Wage
 | Was
-| Buda 
+| Buda
 | Ludra
 | Ogan
 | Pati
 | Warigadian
 |-
 | 54
-| 
+|
 | Menga
 | Kajeng
 | Laba
 | Keliwon
 | Maulu
-| Wraspati 
+| Wraspati
 | Brahma
 | Erangan
 | Manusa
@@ -757,46 +757,46 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Umanis
 | Tungleh
-| Sukra 
+| Sukra
 | Kala
 | Urungan
 | Pati
 | Warigadian
 |-
 | 56
-| 
+|
 | Menga
 | Beteng
 | Menala
 | Paing
 | Aryang
-| Saniscara 
+| Saniscara
 | Uma
 | Tulus
 | Dewa
 | Warigadian
 |-
 | 57
-| 
+|
 | Menga
 | Kajeng
 | Sri
 | Pon
 | Urukung
-| Redite 
+| Redite
 | Sri
 | Dadi
 | Suka
 | Julungwangi
 |-
 | 58
-| 
+|
 | Menga
 | Pasah
 | Laba
 | Wage
 | Paniron
-| Soma 
+| Soma
 | Indra
 | Dangu
 | Dewa
@@ -809,20 +809,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Keliwon
 | Was
-| Anggara 
+| Anggara
 | Guru
 | Jangur
 | Pati
 | Julungwangi
 |-
 | 60
-| 
+|
 | Menga
 | Kajeng
 | Menala
 | Umanis
 | Maulu
-| Buda 
+| Buda
 | Yama
 | Gigis
 | Suka
@@ -835,7 +835,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Paing
 | Tungleh
-| Wraspati 
+| Wraspati
 | Ludra
 | Nohan
 | Raja
@@ -848,7 +848,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Pon
 | Aryang
-| Sukra 
+| Sukra
 | Brahma
 | Ogan
 | Duka
@@ -861,7 +861,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Wage
 | Urukung
-| Saniscara 
+| Saniscara
 | Kala
 | Erangan
 | Duka
@@ -874,7 +874,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Keliwon
 | Paniron
-| Redite 
+| Redite
 | Uma
 | Urungan
 | Duka
@@ -887,85 +887,85 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Umanis
 | Was
-| Soma 
+| Soma
 | Sri
 | Tulus
 | Raksasa
 | Sungsang
 |-
 | 66
-| 
+|
 | Menga
 | Kajeng
 | Laba
 | Paing
 | Maulu
-| Anggara 
+| Anggara
 | Indra
 | Dadi
 | Suka
 | Sungsang
 |-
 | 67
-| 
+|
 | Menga
 | Pasah
 | Jaya
 | Pon
 | Tungleh
-| Buda 
+| Buda
 | Guru
 | Dangu
 | Sri
 | Sungsang
 |-
 | 68
-| 
+|
 | Menga
 | Beteng
 | Menala
 | Wage
 | Aryang
-| Wraspati 
+| Wraspati
 | Yama
 | Jangur
 | Suka
 | Sungsang
 |-
 | 69
-| 
+|
 | Menga
 | Kajeng
 | Sri
 | Keliwon
 | Urukung
-| Sukra 
+| Sukra
 | Ludra
 | Gigis
 | Sri
 | Sungsang
 |-
 | 70
-| 
+|
 | Menga
 | Pasah
 | Laba
 | Umanis
 | Paniron
-| Saniscara 
+| Saniscara
 | Brahma
 | Nohan
 | Sri
 | Sungsang
 |-
 | 71
-| 
+|
 | Menga
 | Beteng
 | Jaya
 | Paing
 | Was
-| Redite 
+| Redite
 | Kala
 | Ogan
 | Sri
@@ -978,7 +978,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Pon
 | Maulu
-| Soma 
+| Soma
 | Kala
 | Erangan
 | Pati
@@ -991,7 +991,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Wage
 | Tungleh
-| Anggara 
+| Anggara
 | Kala
 | Urungan
 | Raja
@@ -1004,7 +1004,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Keliwon
 | Aryang
-| Buda 
+| Buda
 | Uma
 | Tulus
 | Manuh
@@ -1017,7 +1017,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Umanis
 | Urukung
-| Wraspati 
+| Wraspati
 | Sri
 | Dadi
 | Duka
@@ -1030,20 +1030,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Paing
 | Paniron
-| Sukra 
+| Sukra
 | Indra
 | Dangu
 | Manuh
 | Dunggulan
 |-
 | 77
-| 
+|
 | Menga
 | Beteng
 | Jaya
 | Pon
 | Was
-| Saniscara 
+| Saniscara
 | Guru
 | Jangur
 | Manusa
@@ -1056,46 +1056,46 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Wage
 | Maulu
-| Redite 
+| Redite
 | Yama
 | Gigis
 | Raksasa
 | Kuningan
 |-
 | 79
-| 
+|
 | Menga
 | Pasah
 | Sri
 | Keliwon
 | Tungleh
-| Soma 
+| Soma
 | Ludra
 | Nohan
 | Suka
 | Kuningan
 |-
 | 80
-| 
+|
 | Menga
 | Beteng
 | Laba
 | Umanis
 | Aryang
-| Anggara 
+| Anggara
 | Brahma
 | Ogan
 | Dewa
 | Kuningan
 |-
 | 81
-| 
+|
 | Menga
 | Kajeng
 | Jaya
 | Paing
 | Urukung
-| Buda 
+| Buda
 | Kala
 | Erangan
 | Manusa
@@ -1108,20 +1108,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Pon
 | Paniron
-| Wraspati 
+| Wraspati
 | Uma
 | Urungan
 | Manuh
 | Kuningan
 |-
 | 83
-| 
+|
 | Menga
 | Beteng
 | Sri
 | Wage
 | Was
-| Sukra 
+| Sukra
 | Sri
 | Tulus
 | Pandita
@@ -1134,20 +1134,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Keliwon
 | Maulu
-| Saniscara 
+| Saniscara
 | Indra
 | Dadi
 | Raja
 | Kuningan
 |-
 | 85
-| 
+|
 | Menga
 | Pasah
 | Jaya
 | Umanis
 | Tungleh
-| Redite 
+| Redite
 | Guru
 | Dangu
 | Pandita
@@ -1160,20 +1160,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Paing
 | Aryang
-| Soma 
+| Soma
 | Yama
 | Jangur
 | Duka
 | Langkir
 |-
 | 87
-| 
+|
 | Menga
 | Kajeng
 | Sri
 | Pon
 | Urukung
-| Anggara 
+| Anggara
 | Ludra
 | Gigis
 | Pandita
@@ -1186,20 +1186,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Wage
 | Paniron
-| Buda 
+| Buda
 | Brahma
 | Nohan
 | Pati
 | Langkir
 |-
 | 89
-| 
+|
 | Menga
 | Beteng
 | Jaya
 | Keliwon
 | Was
-| Wraspati 
+| Wraspati
 | Kala
 | Ogan
 | Manusa
@@ -1212,46 +1212,46 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Umanis
 | Maulu
-| Sukra 
+| Sukra
 | Uma
 | Erangan
 | Pati
 | Langkir
 |-
 | 91
-| 
+|
 | Menga
 | Pasah
 | Sri
 | Paing
 | Tungleh
-| Saniscara 
+| Saniscara
 | Sri
 | Urungan
 | Dewa
 | Langkir
 |-
 | 92
-| 
+|
 | Menga
 | Beteng
 | Laba
 | Pon
 | Aryang
-| Redite 
+| Redite
 | Indra
 | Tulus
 | Suka
 | Medangsia
 |-
 | 93
-| 
+|
 | Menga
 | Kajeng
 | Jaya
 | Wage
 | Urukung
-| Soma 
+| Soma
 | Guru
 | Dadi
 | Dewa
@@ -1264,20 +1264,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Keliwon
 | Paniron
-| Anggara 
+| Anggara
 | Yama
 | Dangu
 | Pati
 | Medangsia
 |-
 | 95
-| 
+|
 | Menga
 | Beteng
 | Sri
 | Umanis
 | Was
-| Buda 
+| Buda
 | Ludra
 | Jangur
 | Suka
@@ -1290,7 +1290,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Paing
 | Maulu
-| Wraspati 
+| Wraspati
 | Brahma
 | Gigis
 | Raja
@@ -1303,7 +1303,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Pon
 | Tungleh
-| Sukra 
+| Sukra
 | Kala
 | Nohan
 | Duka
@@ -1316,7 +1316,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Wage
 | Aryang
-| Saniscara 
+| Saniscara
 | Uma
 | Ogan
 | Duka
@@ -1329,7 +1329,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Keliwon
 | Urukung
-| Redite 
+| Redite
 | Sri
 | Erangan
 | Duka
@@ -1342,85 +1342,85 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Umanis
 | Paniron
-| Soma 
+| Soma
 | Indra
 | Urungan
 | Raksasa
 | Pujut
 |-
 | 101
-| 
+|
 | Menga
 | Beteng
 | Jaya
 | Paing
 | Was
-| Anggara 
+| Anggara
 | Guru
 | Tulus
 | Suka
 | Pujut
 |-
 | 102
-| 
+|
 | Menga
 | Kajeng
 | Menala
 | Pon
 | Maulu
-| Buda 
+| Buda
 | Yama
 | Dadi
 | Sri
 | Pujut
 |-
 | 103
-| 
+|
 | Menga
 | Pasah
 | Sri
 | Wage
 | Tungleh
-| Wraspati 
+| Wraspati
 | Ludra
 | Dangu
 | Suka
 | Pujut
 |-
 | 104
-| 
+|
 | Menga
 | Beteng
 | Laba
 | Keliwon
 | Aryang
-| Sukra 
+| Sukra
 | Brahma
 | Jangur
 | Sri
 | Pujut
 |-
 | 105
-| 
+|
 | Menga
 | Kajeng
 | Jaya
 | Umanis
 | Urukung
-| Saniscara 
+| Saniscara
 | Kala
 | Gigis
 | Sri
 | Pujut
 |-
 | 106
-| 
+|
 | Menga
 | Pasah
 | Menala
 | Paing
 | Paniron
-| Redite 
+| Redite
 | Uma
 | Nohan
 | Sri
@@ -1433,7 +1433,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Pon
 | Was
-| Soma 
+| Soma
 | Sri
 | Ogan
 | Pati
@@ -1446,7 +1446,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Wage
 | Maulu
-| Anggara 
+| Anggara
 | Indra
 | Erangan
 | Raja
@@ -1459,7 +1459,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Keliwon
 | Tungleh
-| Buda 
+| Buda
 | Guru
 | Urungan
 | Manuh
@@ -1472,7 +1472,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Umanis
 | Aryang
-| Wraspati 
+| Wraspati
 | Yama
 | Tulus
 | Duka
@@ -1485,20 +1485,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Paing
 | Urukung
-| Sukra 
+| Sukra
 | Ludra
 | Dadi
 | Manuh
 | Pahang
 |-
 | 112
-| 
+|
 | Menga
 | Pasah
 | Laba
 | Pon
 | Paniron
-| Saniscara 
+| Saniscara
 | Brahma
 | Dangu
 | Manusa
@@ -1511,46 +1511,46 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Wage
 | Was
-| Redite 
+| Redite
 | Kala
 | Jangur
 | Raksasa
 | Krulut
 |-
 | 114
-| 
+|
 | Menga
 | Kajeng
 | Menala
 | Keliwon
 | Maulu
-| Soma 
+| Soma
 | Uma
 | Gigis
 | Suka
 | Krulut
 |-
 | 115
-| 
+|
 | Menga
 | Pasah
 | Sri
 | Umanis
 | Tungleh
-| Anggara 
+| Anggara
 | Sri
 | Nohan
 | Dewa
 | Krulut
 |-
 | 116
-| 
+|
 | Menga
 | Beteng
 | Laba
 | Paing
 | Aryang
-| Buda 
+| Buda
 | Indra
 | Ogan
 | Manusa
@@ -1563,20 +1563,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Pon
 | Urukung
-| Wraspati 
+| Wraspati
 | Guru
 | Erangan
 | Manuh
 | Krulut
 |-
 | 118
-| 
+|
 | Menga
 | Pasah
 | Menala
 | Wage
 | Paniron
-| Sukra 
+| Sukra
 | Yama
 | Urungan
 | Pandita
@@ -1589,20 +1589,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Keliwon
 | Was
-| Saniscara 
+| Saniscara
 | Ludra
 | Tulus
 | Raja
 | Krulut
 |-
 | 120
-| 
+|
 | Menga
 | Kajeng
 | Laba
 | Umanis
 | Maulu
-| Redite 
+| Redite
 | Brahma
 | Dadi
 | Pandita
@@ -1615,20 +1615,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Paing
 | Tungleh
-| Soma 
+| Soma
 | Kala
 | Dangu
 | Duka
 | Merakih
 |-
 | 122
-| 
+|
 | Menga
 | Beteng
 | Menala
 | Pon
 | Aryang
-| Anggara 
+| Anggara
 | Uma
 | Jangur
 | Pandita
@@ -1641,20 +1641,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Wage
 | Urukung
-| Buda 
+| Buda
 | Sri
 | Gigis
 | Pati
 | Merakih
 |-
 | 124
-| 
+|
 | Menga
 | Pasah
 | Laba
 | Keliwon
 | Paniron
-| Wraspati 
+| Wraspati
 | Indra
 | Nohan
 | Manusa
@@ -1667,46 +1667,46 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Umanis
 | Was
-| Sukra 
+| Sukra
 | Guru
 | Ogan
 | Pati
 | Merakih
 |-
 | 126
-| 
+|
 | Menga
 | Kajeng
 | Menala
 | Paing
 | Maulu
-| Saniscara 
+| Saniscara
 | Yama
 | Erangan
 | Dewa
 | Merakih
 |-
 | 127
-| 
+|
 | Menga
 | Pasah
 | Sri
 | Pon
 | Tungleh
-| Redite 
+| Redite
 | Ludra
 | Urungan
 | Suka
 | Tambir
 |-
 | 128
-| 
+|
 | Menga
 | Beteng
 | Laba
 | Wage
 | Aryang
-| Soma 
+| Soma
 | Brahma
 | Tulus
 | Dewa
@@ -1719,20 +1719,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Keliwon
 | Urukung
-| Anggara 
+| Anggara
 | Kala
 | Dadi
 | Pati
 | Tambir
 |-
 | 130
-| 
+|
 | Menga
 | Pasah
 | Menala
 | Umanis
 | Paniron
-| Buda 
+| Buda
 | Uma
 | Dangu
 | Suka
@@ -1745,7 +1745,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Paing
 | Was
-| Wraspati 
+| Wraspati
 | Sri
 | Jangur
 | Raja
@@ -1758,7 +1758,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Pon
 | Maulu
-| Sukra 
+| Sukra
 | Indra
 | Gigis
 | Duka
@@ -1771,7 +1771,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Wage
 | Tungleh
-| Saniscara 
+| Saniscara
 | Guru
 | Nohan
 | Duka
@@ -1784,7 +1784,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Keliwon
 | Aryang
-| Redite 
+| Redite
 | Yama
 | Ogan
 | Duka
@@ -1797,85 +1797,85 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Umanis
 | Urukung
-| Soma 
+| Soma
 | Ludra
 | Erangan
 | Raksasa
 | Medangkungan
 |-
 | 136
-| 
+|
 | Menga
 | Pasah
 | Laba
 | Paing
 | Paniron
-| Anggara 
+| Anggara
 | Brahma
 | Urungan
 | Suka
 | Medangkungan
 |-
 | 137
-| 
+|
 | Menga
 | Beteng
 | Jaya
 | Pon
 | Was
-| Buda 
+| Buda
 | Kala
 | Tulus
 | Sri
 | Medangkungan
 |-
 | 138
-| 
+|
 | Menga
 | Kajeng
 | Menala
 | Wage
 | Maulu
-| Wraspati 
+| Wraspati
 | Uma
 | Dadi
 | Suka
 | Medangkungan
 |-
 | 139
-| 
+|
 | Menga
 | Pasah
 | Sri
 | Keliwon
 | Tungleh
-| Sukra 
+| Sukra
 | Sri
 | Dangu
 | Sri
 | Medangkungan
 |-
 | 140
-| 
+|
 | Menga
 | Beteng
 | Laba
 | Umanis
 | Aryang
-| Saniscara 
+| Saniscara
 | Indra
 | Jangur
 | Sri
 | Medangkungan
 |-
 | 141
-| 
+|
 | Menga
 | Kajeng
 | Jaya
 | Paing
 | Urukung
-| Redite 
+| Redite
 | Guru
 | Gigis
 | Sri
@@ -1888,7 +1888,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Pon
 | Paniron
-| Soma 
+| Soma
 | Yama
 | Nohan
 | Pati
@@ -1901,7 +1901,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Wage
 | Was
-| Anggara 
+| Anggara
 | Ludra
 | Ogan
 | Raja
@@ -1914,7 +1914,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Keliwon
 | Maulu
-| Buda 
+| Buda
 | Brahma
 | Erangan
 | Manuh
@@ -1927,7 +1927,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Umanis
 | Tungleh
-| Wraspati 
+| Wraspati
 | Kala
 | Urungan
 | Duka
@@ -1940,20 +1940,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Paing
 | Aryang
-| Sukra 
+| Sukra
 | Uma
 | Tulus
 | Manuh
 | Matal
 |-
 | 147
-| 
+|
 | Menga
 | Kajeng
 | Sri
 | Pon
 | Urukung
-| Saniscara 
+| Saniscara
 | Sri
 | Dadi
 | Manusa
@@ -1966,46 +1966,46 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Wage
 | Paniron
-| Redite 
+| Redite
 | Indra
 | Dangu
 | Raksasa
 | Uye
 |-
 | 149
-| 
+|
 | Menga
 | Beteng
 | Jaya
 | Keliwon
 | Was
-| Soma 
+| Soma
 | Guru
 | Jangur
 | Suka
 | Uye
 |-
 | 150
-| 
+|
 | Menga
 | Kajeng
 | Menala
 | Umanis
 | Maulu
-| Anggara 
+| Anggara
 | Yama
 | Gigis
 | Dewa
 | Uye
 |-
 | 151
-| 
+|
 | Menga
 | Pasah
 | Sri
 | Paing
 | Tungleh
-| Buda 
+| Buda
 | Ludra
 | Nohan
 | Manusa
@@ -2018,20 +2018,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Pon
 | Aryang
-| Wraspati 
+| Wraspati
 | Brahma
 | Ogan
 | Manuh
 | Uye
 |-
 | 153
-| 
+|
 | Menga
 | Kajeng
 | Jaya
 | Wage
 | Urukung
-| Sukra 
+| Sukra
 | Kala
 | Erangan
 | Pandita
@@ -2044,20 +2044,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Keliwon
 | Paniron
-| Saniscara 
+| Saniscara
 | Uma
 | Urungan
 | Raja
 | Uye
 |-
 | 155
-| 
+|
 | Menga
 | Beteng
 | Sri
 | Umanis
 | Was
-| Redite 
+| Redite
 | Sri
 | Tulus
 | Pandita
@@ -2070,20 +2070,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Paing
 | Maulu
-| Soma 
+| Soma
 | Indra
 | Dadi
 | Duka
 | Menail
 |-
 | 157
-| 
+|
 | Menga
 | Pasah
 | Jaya
 | Pon
 | Tungleh
-| Anggara 
+| Anggara
 | Guru
 | Dangu
 | Pandita
@@ -2096,20 +2096,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Wage
 | Aryang
-| Buda 
+| Buda
 | Yama
 | Jangur
 | Pati
 | Menail
 |-
 | 159
-| 
+|
 | Menga
 | Kajeng
 | Sri
 | Keliwon
 | Urukung
-| Wraspati 
+| Wraspati
 | Ludra
 | Gigis
 | Manusa
@@ -2122,46 +2122,46 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Umanis
 | Paniron
-| Sukra 
+| Sukra
 | Brahma
 | Nohan
 | Pati
 | Menail
 |-
 | 161
-| 
+|
 | Menga
 | Beteng
 | Jaya
 | Paing
 | Was
-| Saniscara 
+| Saniscara
 | Kala
 | Ogan
 | Dewa
 | Menail
 |-
 | 162
-| 
+|
 | Menga
 | Kajeng
 | Menala
 | Pon
 | Maulu
-| Redite 
+| Redite
 | Uma
 | Erangan
 | Suka
 | Parangbakat
 |-
 | 163
-| 
+|
 | Menga
 | Pasah
 | Sri
 | Wage
 | Tungleh
-| Soma 
+| Soma
 | Sri
 | Urungan
 | Dewa
@@ -2174,20 +2174,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Keliwon
 | Aryang
-| Anggara 
+| Anggara
 | Indra
 | Tulus
 | Pati
 | Parangbakat
 |-
 | 165
-| 
+|
 | Menga
 | Kajeng
 | Jaya
 | Umanis
 | Urukung
-| Buda 
+| Buda
 | Guru
 | Dadi
 | Suka
@@ -2200,7 +2200,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Paing
 | Paniron
-| Wraspati 
+| Wraspati
 | Yama
 | Dangu
 | Raja
@@ -2213,7 +2213,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Pon
 | Was
-| Sukra 
+| Sukra
 | Ludra
 | Jangur
 | Duka
@@ -2226,7 +2226,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Wage
 | Maulu
-| Saniscara 
+| Saniscara
 | Brahma
 | Gigis
 | Duka
@@ -2239,7 +2239,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Keliwon
 | Tungleh
-| Redite 
+| Redite
 | Kala
 | Nohan
 | Duka
@@ -2252,85 +2252,85 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Umanis
 | Aryang
-| Soma 
+| Soma
 | Uma
 | Ogan
 | Raksasa
 | Bala
 |-
 | 171
-| 
+|
 | Menga
 | Kajeng
 | Sri
 | Paing
 | Urukung
-| Anggara 
+| Anggara
 | Sri
 | Erangan
 | Suka
 | Bala
 |-
 | 172
-| 
+|
 | Menga
 | Pasah
 | Laba
 | Pon
 | Paniron
-| Buda 
+| Buda
 | Indra
 | Urungan
 | Sri
 | Bala
 |-
 | 173
-| 
+|
 | Menga
 | Beteng
 | Jaya
 | Wage
 | Was
-| Wraspati 
+| Wraspati
 | Guru
 | Tulus
 | Suka
 | Bala
 |-
 | 174
-| 
+|
 | Menga
 | Kajeng
 | Menala
 | Keliwon
 | Maulu
-| Sukra 
+| Sukra
 | Yama
 | Dadi
 | Sri
 | Bala
 |-
 | 175
-| 
+|
 | Menga
 | Pasah
 | Sri
 | Umanis
 | Tungleh
-| Saniscara 
+| Saniscara
 | Ludra
 | Dangu
 | Sri
 | Bala
 |-
 | 176
-| 
+|
 | Menga
 | Beteng
 | Laba
 | Paing
 | Aryang
-| Redite 
+| Redite
 | Brahma
 | Jangur
 | Sri
@@ -2343,7 +2343,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Pon
 | Urukung
-| Soma 
+| Soma
 | Kala
 | Gigis
 | Pati
@@ -2356,7 +2356,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Wage
 | Paniron
-| Anggara 
+| Anggara
 | Uma
 | Nohan
 | Raja
@@ -2369,7 +2369,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Keliwon
 | Was
-| Buda 
+| Buda
 | Sri
 | Ogan
 | Manuh
@@ -2382,7 +2382,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Umanis
 | Maulu
-| Wraspati 
+| Wraspati
 | Indra
 | Erangan
 | Duka
@@ -2395,20 +2395,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Paing
 | Tungleh
-| Sukra 
+| Sukra
 | Guru
 | Urungan
 | Manuh
 | Ugu
 |-
 | 182
-| 
+|
 | Menga
 | Beteng
 | Menala
 | Pon
 | Aryang
-| Saniscara 
+| Saniscara
 | Yama
 | Tulus
 | Manusa
@@ -2421,46 +2421,46 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Wage
 | Urukung
-| Redite 
+| Redite
 | Ludra
 | Dadi
 | Raksasa
 | Wayang
 |-
 | 184
-| 
+|
 | Menga
 | Pasah
 | Laba
 | Keliwon
 | Paniron
-| Soma 
+| Soma
 | Brahma
 | Dangu
 | Suka
 | Wayang
 |-
 | 185
-| 
+|
 | Menga
 | Beteng
 | Jaya
 | Umanis
 | Was
-| Anggara 
+| Anggara
 | Kala
 | Jangur
 | Dewa
 | Wayang
 |-
 | 186
-| 
+|
 | Menga
 | Kajeng
 | Menala
 | Paing
 | Maulu
-| Buda 
+| Buda
 | Uma
 | Gigis
 | Manusa
@@ -2473,20 +2473,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Pon
 | Tungleh
-| Wraspati 
+| Wraspati
 | Sri
 | Nohan
 | Manuh
 | Wayang
 |-
 | 188
-| 
+|
 | Menga
 | Beteng
 | Laba
 | Wage
 | Aryang
-| Sukra 
+| Sukra
 | Indra
 | Ogan
 | Pandita
@@ -2499,20 +2499,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Keliwon
 | Urukung
-| Saniscara 
+| Saniscara
 | Guru
 | Erangan
 | Raja
 | Wayang
 |-
 | 190
-| 
+|
 | Menga
 | Pasah
 | Menala
 | Umanis
 | Paniron
-| Redite 
+| Redite
 | Yama
 | Urungan
 | Pandita
@@ -2525,20 +2525,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Paing
 | Was
-| Soma 
+| Soma
 | Ludra
 | Tulus
 | Duka
 | Kelawu
 |-
 | 192
-| 
+|
 | Menga
 | Kajeng
 | Laba
 | Pon
 | Maulu
-| Anggara 
+| Anggara
 | Brahma
 | Dadi
 | Pandita
@@ -2551,20 +2551,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Wage
 | Tungleh
-| Buda 
+| Buda
 | Kala
 | Dangu
 | Pati
 | Kelawu
 |-
 | 194
-| 
+|
 | Menga
 | Beteng
 | Menala
 | Keliwon
 | Aryang
-| Wraspati 
+| Wraspati
 | Uma
 | Jangur
 | Manusa
@@ -2577,46 +2577,46 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Umanis
 | Urukung
-| Sukra 
+| Sukra
 | Sri
 | Gigis
 | Pati
 | Kelawu
 |-
 | 196
-| 
+|
 | Menga
 | Pasah
 | Laba
 | Paing
 | Paniron
-| Saniscara 
+| Saniscara
 | Indra
 | Nohan
 | Dewa
 | Kelawu
 |-
 | 197
-| 
+|
 | Menga
 | Beteng
 | Jaya
 | Pon
 | Was
-| Redite 
+| Redite
 | Guru
 | Ogan
 | Suka
 | Dukut
 |-
 | 198
-| 
+|
 | Menga
 | Kajeng
 | Menala
 | Wage
 | Maulu
-| Soma 
+| Soma
 | Yama
 | Erangan
 | Dewa
@@ -2629,20 +2629,20 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Keliwon
 | Tungleh
-| Anggara 
+| Anggara
 | Ludra
 | Urungan
 | Pati
 | Dukut
 |-
 | 200
-| 
+|
 | Menga
 | Beteng
 | Laba
 | Umanis
 | Aryang
-| Buda 
+| Buda
 | Brahma
 | Tulus
 | Suka
@@ -2655,7 +2655,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Paing
 | Urukung
-| Wraspati 
+| Wraspati
 | Kala
 | Dadi
 | Raja
@@ -2668,7 +2668,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Menala
 | Pon
 | Paniron
-| Sukra 
+| Sukra
 | Uma
 | Dangu
 | Duka
@@ -2681,7 +2681,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Sri
 | Wage
 | Was
-| Saniscara 
+| Saniscara
 | Sri
 | Jangur
 | Duka
@@ -2694,7 +2694,7 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Laba
 | Keliwon
 | Maulu
-| Redite 
+| Redite
 | Indra
 | Gigis
 | Duka
@@ -2707,72 +2707,72 @@ Pawukon cycles are unnumbered, so the calendar has no epoch, and the choice of d
 | Jaya
 | Umanis
 | Tungleh
-| Soma 
+| Soma
 | Guru
 | Nohan
 | Raksasa
 | Watugunung
 |-
 | 206
-| 
+|
 | Menga
 | Beteng
 | Menala
 | Paing
 | Aryang
-| Anggara 
+| Anggara
 | Yama
 | Ogan
 | Suka
 | Watugunung
 |-
 | 207
-| 
+|
 | Menga
 | Kajeng
 | Sri
 | Pon
 | Urukung
-| Buda 
+| Buda
 | Ludra
 | Erangan
 | Sri
 | Watugunung
 |-
 | 208
-| 
+|
 | Menga
 | Pasah
 | Laba
 | Wage
 | Paniron
-| Wraspati 
+| Wraspati
 | Brahma
 | Urungan
 | Suka
 | Watugunung
 |-
 | 209
-| 
+|
 | Menga
 | Beteng
 | Jaya
 | Keliwon
 | Was
-| Sukra 
+| Sukra
 | Kala
 | Tulus
 | Sri
 | Watugunung
 |-
 | 210
-| 
+|
 | Menga
 | Kajeng
 | Menala
 | Umanis
 | Maulu
-| Saniscara 
+| Saniscara
 | Uma
 | Dadi
 | Sri

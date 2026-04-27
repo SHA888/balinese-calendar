@@ -63,12 +63,7 @@ fn load_fixture() -> CandanaFixture {
 /// Parse date string in format "YYYY-MM-DD"
 fn parse_date(date_str: &str) -> (i32, u32, u32) {
     let parts: Vec<&str> = date_str.split('-').collect();
-    assert_eq!(
-        parts.len(),
-        3,
-        "Invalid date format '{}': expected YYYY-MM-DD",
-        date_str
-    );
+    assert_eq!(parts.len(), 3, "Invalid date format '{}': expected YYYY-MM-DD", date_str);
     (
         parts[0]
             .parse()
@@ -76,9 +71,7 @@ fn parse_date(date_str: &str) -> (i32, u32, u32) {
         parts[1]
             .parse()
             .unwrap_or_else(|_| panic!("Invalid month in date: {}", date_str)),
-        parts[2]
-            .parse()
-            .unwrap_or_else(|_| panic!("Invalid day in date: {}", date_str)),
+        parts[2].parse().unwrap_or_else(|_| panic!("Invalid day in date: {}", date_str)),
     )
 }
 
@@ -88,19 +81,24 @@ fn parse_date(date_str: &str) -> (i32, u32, u32) {
 #[ignore]
 fn debug_print_fixture_wewaran() {
     let fixture = load_fixture();
-    
+
     println!("\n=== Corrected fixture entries ===");
     for entry in &fixture.entries {
         let (y, m, d) = parse_date(&entry.date);
         let date = BalineseDate::from_ymd(y, m, d)
             .unwrap_or_else(|_| panic!("Invalid date: {}", entry.date));
-        
+
         let sapta = date.saptawara.name();
         let panca = date.pancawara.name();
-        
-        let matches_expert_str = entry.matches_expert.map(|b| if b { "true" } else { "false" }).unwrap_or("null");
-        let note_str = entry._note.as_ref().map(|n| format!(", \"note\": \"{}\"", n)).unwrap_or_default();
-        
+
+        let matches_expert_str =
+            entry.matches_expert.map(|b| if b { "true" } else { "false" }).unwrap_or("null");
+        let note_str = entry
+            ._note
+            .as_ref()
+            .map(|n| format!(", \"note\": \"{}\"", n))
+            .unwrap_or_default();
+
         println!("    {{");
         println!("      \"date\": \"{}\",", entry.date);
         println!("      \"category\": \"{}\",", entry.category);
@@ -120,11 +118,8 @@ fn test_all_expert_dates_are_dewasa_ayu() {
     let fixture = load_fixture();
     let config = DewasaAyuConfig::default();
 
-    let expert_entries: Vec<_> = fixture
-        .entries
-        .iter()
-        .filter(|e| e.category == "expert")
-        .collect();
+    let expert_entries: Vec<_> =
+        fixture.entries.iter().filter(|e| e.category == "expert").collect();
 
     assert_eq!(
         expert_entries.len(),
@@ -184,11 +179,8 @@ fn test_wewaran_cross_reference() {
 fn test_expert_never_selects_redite_saniscara() {
     let fixture = load_fixture();
 
-    let expert_entries: Vec<_> = fixture
-        .entries
-        .iter()
-        .filter(|e| e.category == "expert")
-        .collect();
+    let expert_entries: Vec<_> =
+        fixture.entries.iter().filter(|e| e.category == "expert").collect();
 
     for entry in &expert_entries {
         assert!(
@@ -210,15 +202,14 @@ fn test_score_80_days_are_buda_or_sukra() {
         .filter(|e| e.category == "expert" && e.score == 80)
         .collect();
 
-    assert!(
-        !score_80_entries.is_empty(),
-        "Should have at least one score-80 entry"
-    );
+    assert!(!score_80_entries.is_empty(), "Should have at least one score-80 entry");
 
     for entry in &score_80_entries {
         // Phase 1 scaffold: score-80 days from fixture (Buda, Sukra, or Wraspati)
         assert!(
-            entry.saptawara == "Buda" || entry.saptawara == "Sukra" || entry.saptawara == "Wraspati",
+            entry.saptawara == "Buda"
+                || entry.saptawara == "Sukra"
+                || entry.saptawara == "Wraspati",
             "Score-80 days should be favorable saptawara, got {} (date: {})",
             entry.saptawara,
             entry.date
@@ -283,11 +274,7 @@ fn test_sugeno_false_positive_validation() {
         let _score = date.dewasa_ayu_score();
 
         // Just document the behavior; don't assert strict matching yet
-        println!(
-            "Sugeno FP candidate: {} -> score: {:.2}",
-            entry.date,
-            _score
-        );
+        println!("Sugeno FP candidate: {} -> score: {:.2}", entry.date, _score);
     }
 }
 
@@ -295,11 +282,8 @@ fn test_sugeno_false_positive_validation() {
 fn test_expert_distribution_saptawara() {
     let fixture = load_fixture();
 
-    let expert_entries: Vec<_> = fixture
-        .entries
-        .iter()
-        .filter(|e| e.category == "expert")
-        .collect();
+    let expert_entries: Vec<_> =
+        fixture.entries.iter().filter(|e| e.category == "expert").collect();
 
     // Expected distribution per TODO.md:
     // Buddha: 5, Wraspati: 4, Sukra: 4, Soma: 2, Anggara: 1
@@ -330,11 +314,8 @@ fn test_expert_distribution_saptawara() {
 fn test_expert_distribution_pancawara() {
     let fixture = load_fixture();
 
-    let expert_entries: Vec<_> = fixture
-        .entries
-        .iter()
-        .filter(|e| e.category == "expert")
-        .collect();
+    let expert_entries: Vec<_> =
+        fixture.entries.iter().filter(|e| e.category == "expert").collect();
 
     // Expected distribution per TODO.md:
     // Pon: 6, Kliwon: 4, Paing: 3, Wage: 2, Umanis: 1
@@ -356,11 +337,7 @@ fn test_rarity_constraint() {
     // Only 16/731 days (2.19%) classified as "good" by expert
     let percentage = (fixture.expert_good_days as f64 / fixture._total_days as f64) * 100.0;
 
-    assert!(
-        percentage < 3.0,
-        "Expert good days should be < 3%, got {:.2}%",
-        percentage
-    );
+    assert!(percentage < 3.0, "Expert good days should be < 3%, got {:.2}%", percentage);
 
     println!(
         "Expert good days: {}/{} ({:.2}%)",
@@ -387,15 +364,10 @@ fn test_sugeno_precision_recall_targets() {
         .filter(|e| e.category == "sugeno" && e.score >= 70)
         .collect();
 
-    let true_positives = sugeno_positive
-        .iter()
-        .filter(|e| e.matches_expert == Some(true))
-        .count();
+    let true_positives = sugeno_positive.iter().filter(|e| e.matches_expert == Some(true)).count();
 
-    let false_positives = sugeno_positive
-        .iter()
-        .filter(|e| e.matches_expert == Some(false))
-        .count();
+    let false_positives =
+        sugeno_positive.iter().filter(|e| e.matches_expert == Some(false)).count();
 
     let precision = if !sugeno_positive.is_empty() {
         true_positives as f64 / sugeno_positive.len() as f64

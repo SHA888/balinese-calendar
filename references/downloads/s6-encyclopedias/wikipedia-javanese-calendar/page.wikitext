@@ -7,11 +7,11 @@ The Javanese calendar is used by the main ethnicities of [[Java island]]—that 
 
 The current system of the Javanese calendar was inaugurated by [[Sultan Agung of Mataram]] in the Gregorian year 1633 CE.<ref name =periplus /> Prior to this, the Javanese had used the [[Balinese saka calendar|Śaka calendar]], which has its epoch in 78 CE and uses the [[Lunisolar calendar|lunisolar cycle]] for calculating time.<ref>{{Cite book
   | last =   Ricklefs
-  | first = M.C.  
+  | first = M.C.
   | title = A History of Modern Indonesia Since c. 1300
   | publisher = Stanford University Press
   | year = 1993
-  | pages = 46 
+  | pages = 46
   | isbn = 0-8047-2195-5 }}</ref> Sultan Agung's calendar retained the Saka calendar year system of counting, but differs by using the same [[lunar year]] measurement system as the [[Islamic calendar]], rather than the [[solar year]]. Occasionally, the Javanese calendar is referred to by its [[Latin language|Latin]] name '''''Anno Javanico''''' or '''AJ''' (Javanese Year).<ref name=raffles />
 
 ==Calendar cycles==
@@ -94,7 +94,7 @@ A Javanese year will be entirely within a Gregorian year of the same number in t
 == Division of time ==
 Days in the Javanese calendar, like the Islamic calendar, begin at [[sunset]].<ref name=periplus /> Traditionally, Javanese people do not divide the day and night into [[hour]]s, but rather into phases.<ref name=raffles>{{Cite book
   | last =  Raffles
-  | first = Thomas Stamford  
+  | first = Thomas Stamford
   | author-link = Thomas Stamford Raffles
   | title = The History of Java
   | publisher =  Black, Parbury, and Allen : and John Murray
@@ -106,13 +106,13 @@ Days in the Javanese calendar, like the Islamic calendar, begin at [[sunset]].<r
 |-
 | 6 am || 8 am || ''ésuk'' <br/> {{Jav|ꦲꦺꦱꦸꦏ꧀}} || morning
 |-
-| 8 am || 12 pm || ''tengangi'' <br/> {{Jav|ꦠꦼꦁꦲꦔꦶ}} || midday 
+| 8 am || 12 pm || ''tengangi'' <br/> {{Jav|ꦠꦼꦁꦲꦔꦶ}} || midday
 |-
-| 12 pm || 1 pm || ''bedug'' <br/> {{Jav|ꦧꦼꦢꦸꦒ꧀}} || time for [[Dhuhr|bedug prayer]] 
+| 12 pm || 1 pm || ''bedug'' <br/> {{Jav|ꦧꦼꦢꦸꦒ꧀}} || time for [[Dhuhr|bedug prayer]]
 |-
 | 1 pm || 3 pm || ''lingsir kulon'' <br/> {{Jav|ꦭꦶꦁꦱꦶꦂꦏꦸꦭꦺꦴꦤ꧀}} || (sun) moving west
 |-
-| 3 pm || 6 pm || ''asar'' <br/> {{Jav|ꦲꦱꦂ}} || time for [[Asr|asar prayer]] 
+| 3 pm || 6 pm || ''asar'' <br/> {{Jav|ꦲꦱꦂ}} || time for [[Asr|asar prayer]]
 |-
 | 6 pm || 8 pm || ''soré'' <br/> {{Jav|ꦱꦺꦴꦫꦺ}} || evening
 |-
@@ -131,12 +131,12 @@ Days in the Javanese calendar, like the Islamic calendar, begin at [[sunset]].<r
 
 The native Javanese system groups days into a five-day [[week]] called ''Pasaran'', unlike most calendars that uses a seven-day week. The name, ''pasaran'', is derived from the root word ''pasar'' ("[[Market (place)|market]]"). Historically, but also still today, Javanese villagers gather communally at local markets to socially meet, engage in commerce, and buy and sell farm produce, cooked foods, home industry crafted items and so on. [[John Crawfurd]] (1820) suggested that the length of the weekly cycle is related to the number of fingers on the hand,<ref name="Crawfurd">{{Cite book
   | last =   Crawfurd
-  | first = John  
+  | first = John
   | author-link = John Crawfurd
   | title = History of the Indian Archipelago vol. 1.
   | publisher = Archibald Constable and Co
   | year = 1820
-  | location = Edinburgh 
+  | location = Edinburgh
   | url = https://archive.org/details/historyindianar06crawgoog }}</ref> and that itinerant merchants would rotate their visits to different villages according to a five-day "roster".
 
 The days of the cycle each have two names, as the [[Javanese language]] has distinct vocabulary associated with two different registers of [[Javanese language#Politeness|politeness]]: ''ngoko'' (informal) and ''krama'' (formal). The ''krama'' names for the days, second in the list, are much less common.
@@ -177,7 +177,7 @@ The seven-day-long week cycle (''dina pitu'', "seven days") is derived from the 
 | Kemis ({{Jav|ꦏꦼꦩꦶꦱ꧀}}) || yaum al-khamis ( يوم الخميس ) || Thursday
 |-
 | Jemuwah ({{Jav|ꦗꦼꦩꦸꦮꦃ}}) || yaum al-jum`a ( يوم الجمعة ) || Friday
-|- 
+|-
 | Setu ({{Jav|ꦱꦼꦠꦸ}}) || yaum as-sabt ( يوم السبت ) || Saturday
 |-
 | Minggu/Ahad ({{Jav|ꦩꦶꦁꦒꦸ/ꦲꦲꦢ꧀}}) || yaum al-ahad ( يوم الأحد ) || Sunday
@@ -185,13 +185,13 @@ The seven-day-long week cycle (''dina pitu'', "seven days") is derived from the 
 
 These two week systems occur concurrently; thus, a certain Friday may fall on a Kliwon day, and is consequently called ''Jumat Kliwon''.<ref name=periplus >{{Cite book
   | last =   Oey
-  | first = Eric  
+  | first = Eric
   | title = Java
   | publisher = Tuttle Publishing
   | year = 2001
   | pages = 70
   | url = https://books.google.com/books?id=YA3TNeNUfkAC&pg=PA70
-  | isbn = 978-962-593244-6 
+  | isbn = 978-962-593244-6
   }}</ref> This combination forms the ''Wetonan'' cycle.
 
 ===Wetonan cycle===
@@ -199,11 +199,11 @@ The ''Wetonan'' cycle superimposes the five-day ''Pasaran'' cycle with the seven
 
 :{| class="wikitable" width="100%"
 |+ The "Wetonan" Cycle for 2nd week of May (''Mei'') 2008:
-| '''English''' || Monday 5 || Tuesday 6 || Wednesday 7 || Thursday 8 || Friday 9 || Saturday 10  || Sunday 11 
-|- 
-| '''Javanese seven-day week''' || Senin  5 || Selasa 6 || Rebo 7 || Kemis 8 || Jumat 9 || Setu 10 || Minggu/ Ahad 11 
-|- 
-| '''Javanese ''Pasaran'' week ''' || 28 Pon || 29 Wage  || 1 Kliwon  || 2 Legi || 3 Pahing  || 4 Pon || 5 Wage 
+| '''English''' || Monday 5 || Tuesday 6 || Wednesday 7 || Thursday 8 || Friday 9 || Saturday 10  || Sunday 11
+|-
+| '''Javanese seven-day week''' || Senin  5 || Selasa 6 || Rebo 7 || Kemis 8 || Jumat 9 || Setu 10 || Minggu/ Ahad 11
+|-
+| '''Javanese ''Pasaran'' week ''' || 28 Pon || 29 Wage  || 1 Kliwon  || 2 Legi || 3 Pahing  || 4 Pon || 5 Wage
 |}
 
 From the example above, the ''Weton'' for Tuesday May 6, 2008 would be read as ''Selasa Wage''.
@@ -221,17 +221,17 @@ An especially prominent example, still widely taught in primary schools, is that
   | archive-url = https://web.archive.org/web/20170924114610/http://www.joglosemar.co.id/kejawen/calendar.html
   | url-status = dead
   }}</ref> Therefore, ''Jumat Legi'' is considered an important night for pilgrimage.<ref>{{Cite journal
- |last=Furmann 
- |first=Klaus 
- |title=Formen der javanischen Pilgerschaft zu Heiligenschreinen 
- |journal=Dissertation for Albert-Ludwigs-Universität Freiburg 
- |pages=231 
- |publisher=[[University of Freiburg]] 
- |year=2000 
- |url=http://deposit.ddb.de/cgi-bin/dokserv?idn=963866273&dok_var=d1&dok_ext=pdf&filename=963866273.pdf 
- |url-status=dead 
- |archive-url=https://web.archive.org/web/20110814125916/http://deposit.ddb.de/cgi-bin/dokserv?idn=963866273&dok_var=d1&dok_ext=pdf&filename=963866273.pdf 
- |archive-date=2011-08-14 
+ |last=Furmann
+ |first=Klaus
+ |title=Formen der javanischen Pilgerschaft zu Heiligenschreinen
+ |journal=Dissertation for Albert-Ludwigs-Universität Freiburg
+ |pages=231
+ |publisher=[[University of Freiburg]]
+ |year=2000
+ |url=http://deposit.ddb.de/cgi-bin/dokserv?idn=963866273&dok_var=d1&dok_ext=pdf&filename=963866273.pdf
+ |url-status=dead
+ |archive-url=https://web.archive.org/web/20110814125916/http://deposit.ddb.de/cgi-bin/dokserv?idn=963866273&dok_var=d1&dok_ext=pdf&filename=963866273.pdf
+ |archive-date=2011-08-14
 }}</ref> There are also [[taboo]]s that relate to the cycle; for example, the ritual dance [[bedhaya]] can only be performed on ''Kemis Kliwon''.<ref>{{Cite book
   | last = Kunst
   | first = Jaap
@@ -243,13 +243,13 @@ An especially prominent example, still widely taught in primary schools, is that
   | pages = 151–152 }}</ref>
 
 The coincidence of the ''Pasaran'' day with the common day on the day of birth is considered by Javanese to indicate the personal characteristics of that person, similar to the Western [[Zodiac]] and planetary positioning in [[Western astrology]].<ref name="xentana">{{Cite web
- |last=Arciniega 
- |first=Matthew 
- |title=More about Javanese Wetonan 
- |url=http://xentana.com/java/weton/basis.htm 
- |url-status=dead 
- |archive-url=https://web.archive.org/web/20060830215424/http://www.xentana.com/java/weton/basis.htm 
- |archive-date=2006-08-30 
+ |last=Arciniega
+ |first=Matthew
+ |title=More about Javanese Wetonan
+ |url=http://xentana.com/java/weton/basis.htm
+ |url-status=dead
+ |archive-url=https://web.archive.org/web/20060830215424/http://www.xentana.com/java/weton/basis.htm
+ |archive-date=2006-08-30
 }}</ref>
 
 ===Pawukon cycle===
@@ -278,7 +278,7 @@ The Solar months are :
 {| class="wikitable"
 |+ '''Pranata mangsa''' <ref name=Crawfurd /><ref>{{Cite book
   | last =   Doyodipuro
-  | first = Ki Hudoyo 
+  | first = Ki Hudoyo
   | title = Misteri Pranata Mangsa
   | publisher = Dahara Prize
   | year = 1995
@@ -317,17 +317,17 @@ Each [[lunar year]] (''taun'') is divided into a series of twelve ''wulan/sasi''
 |+ Javanese lunar months
 ! Ngoko (informal) !! Arabic names !! Length of days
 |-
-| Sura <br/> {{Jav|ꦱꦸꦫ}} || [[Muharram]] ( المحرّم ) || 30  
+| Sura <br/> {{Jav|ꦱꦸꦫ}} || [[Muharram]] ( المحرّم ) || 30
 |-
 | Sapar <br/> {{Jav|ꦱꦥꦂ}} || [[Safar]] ( صفر ) || 29
 |-
 | Mulud/Rabingulawal <br/> {{Jav|ꦩꦸꦭꦸꦢ꧀/ꦫꦧꦶꦔꦸꦭꦮꦭ꧀}} || [[Rabi al-awwal]] ( ربيع الأوّل ) || 30
 |-
-| Bakda Mulud/Rabingulakir <br/> {{Jav|ꦧꦏ꧀ꦢꦩꦸꦭꦸꦢ꧀/ꦫꦧꦶꦔꦸꦭꦏꦶꦂ}} || [[Rabi al-thani]] ( ربيع الثاني ) || 29 
+| Bakda Mulud/Rabingulakir <br/> {{Jav|ꦧꦏ꧀ꦢꦩꦸꦭꦸꦢ꧀/ꦫꦧꦶꦔꦸꦭꦏꦶꦂ}} || [[Rabi al-thani]] ( ربيع الثاني ) || 29
 |-
 | Jumadilawal <br/> {{Jav|ꦗꦸꦩꦢꦶꦭꦮꦭ꧀}} || [[Jumada al-awwal]] ( جمادى الأولى ) || 30
 |-
-| Jumadilakir <br/> {{Jav|ꦗꦸꦩꦢꦶꦭꦏꦶꦂ}} || [[Jumada al-thani]] ( جمادى الآخرة ) || 29 
+| Jumadilakir <br/> {{Jav|ꦗꦸꦩꦢꦶꦭꦏꦶꦂ}} || [[Jumada al-thani]] ( جمادى الآخرة ) || 29
 |-
 | Rejeb <br/> {{Jav|ꦉꦗꦼꦧ꧀}} || [[Rajab]] ( رجب ) || 30
 |-
@@ -335,11 +335,11 @@ Each [[lunar year]] (''taun'') is divided into a series of twelve ''wulan/sasi''
 |-
 | Pasa/Siyam <br/> {{Jav|ꦥꦱ/ꦱꦶꦪꦩ꧀}} || [[Ramadhan]] ( رمضان ) || 30
 |-
-| Sawal <br/> {{Jav|ꦱꦮꦭ꧀}} || [[Shawwal]] ( شوّال )|| 29 
+| Sawal <br/> {{Jav|ꦱꦮꦭ꧀}} || [[Shawwal]] ( شوّال )|| 29
 |-
-| Sela/Apit <br/> {{Jav|ꦱꦼꦭ/ꦲꦥꦶꦠ꧀}} || [[Dhu al-Qi'dah]] ( ذو القعدة ) || 30 
+| Sela/Apit <br/> {{Jav|ꦱꦼꦭ/ꦲꦥꦶꦠ꧀}} || [[Dhu al-Qi'dah]] ( ذو القعدة ) || 30
 |-
-| Besar/Kaji <br/> {{Jav|ꦧꦼꦱꦂ/ꦏꦗꦶ}} || [[Dhu al-Hijjah]] ( ذو الحجّة ) || 29 or 30 
+| Besar/Kaji <br/> {{Jav|ꦧꦼꦱꦂ/ꦏꦗꦶ}} || [[Dhu al-Hijjah]] ( ذو الحجّة ) || 29 or 30
 |}
 
 Length of the last month may be 29 or 30 days, depending on whether the year is normal or a leap year (''taun kabisat'').
