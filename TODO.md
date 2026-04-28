@@ -187,7 +187,7 @@ feature after Dewasa Ayu.
 ### Ingkel ecological domain accessors
 Pulled forward from v0.4.0 — belongs thematically in the Wariga computation layer.
 
-- [ ] `Ingkel::ecological_domain() -> &'static str` — English snake_case label (stable for data-pipeline columns)
+- [x] `Ingkel::ecological_domain() -> &'static str` — English snake_case label (stable for data-pipeline columns)
       | Variant | Return value |
       |---|---|
       | Wong  | `human_affairs`  |
@@ -196,9 +196,9 @@ Pulled forward from v0.4.0 — belongs thematically in the Wariga computation la
       | Manuk | `birds`          |
       | Taru  | `trees_forestry` |
       | Buku  | `bamboo_reeds`   |
-- [ ] `Ingkel::ecological_domain_id() -> &'static str` — Balinese manuscript term (`wong`, `sato`, `mina`, `manuk`, `taru`, `buku`)
-- [ ] Tests: exhaustive coverage for all 6 variants on both methods
-- [ ] Doc comment citing: I.B.S. Ardhana, *Pokok-Pokok Wariga* (2005); I Made Bidja bibliography
+- [x] `Ingkel::ecological_domain_id() -> &'static str` — Balinese manuscript term (`wong`, `sato`, `mina`, `manuk`, `taru`, `buku`)
+- [x] Tests: exhaustive coverage for all 6 variants on both methods
+- [x] Doc comment citing: I.B.S. Ardhana, *Pokok-Pokok Wariga* (2005); I Made Bidja bibliography
 
 ---
 
@@ -321,7 +321,7 @@ Supporting materials for Phase 3–4 bobot derivation and rule extraction.
 
 ## v0.4.0 — Export & Completeness
 
-This release ships the TraditionalMarker export API and batch generators that GARUDA
+This release ships the TraditionalMarker export API and batch generators that
 and other downstream consumers need to populate Saka-aware data pipeline tables.
 Does **not** depend on v0.3.0 — nullable fields handle absence of Dewasa Ayu cleanly.
 

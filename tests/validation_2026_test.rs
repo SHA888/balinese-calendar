@@ -318,6 +318,51 @@ fn ingkel_cycle_2026() {
     assert_eq!(d.ingkel.name(), "Manuk");
 }
 
+#[test]
+fn ingkel_ecological_domain_accessors() {
+    // Exhaustive coverage for all 6 variants on both ecological_domain() and ecological_domain_id()
+    // Source: Wariga Sundari Bungkah ecological taxonomy
+
+    use balinese_calendar::Ingkel;
+
+    // Wong — human affairs / wong
+    assert_eq!(Ingkel::Wong.ecological_domain(), "human_affairs");
+    assert_eq!(Ingkel::Wong.ecological_domain_id(), "wong");
+
+    // Sato — animals / sato
+    assert_eq!(Ingkel::Sato.ecological_domain(), "animals");
+    assert_eq!(Ingkel::Sato.ecological_domain_id(), "sato");
+
+    // Mina — fish/maritime / mina
+    assert_eq!(Ingkel::Mina.ecological_domain(), "fish_maritime");
+    assert_eq!(Ingkel::Mina.ecological_domain_id(), "mina");
+
+    // Manuk — birds / manuk
+    assert_eq!(Ingkel::Manuk.ecological_domain(), "birds");
+    assert_eq!(Ingkel::Manuk.ecological_domain_id(), "manuk");
+
+    // Taru — trees/forestry / taru
+    assert_eq!(Ingkel::Taru.ecological_domain(), "trees_forestry");
+    assert_eq!(Ingkel::Taru.ecological_domain_id(), "taru");
+
+    // Buku — bamboo/reeds / buku
+    assert_eq!(Ingkel::Buku.ecological_domain(), "bamboo_reeds");
+    assert_eq!(Ingkel::Buku.ecological_domain_id(), "buku");
+
+    // Verify consistency with computed dates from corpus
+    let d = BalineseDate::from_ymd(2026, 1, 1).unwrap(); // Krulut = Taru
+    assert_eq!(d.ingkel.ecological_domain(), "trees_forestry");
+    assert_eq!(d.ingkel.ecological_domain_id(), "taru");
+
+    let d = BalineseDate::from_ymd(2026, 1, 4).unwrap(); // Merakih = Buku
+    assert_eq!(d.ingkel.ecological_domain(), "bamboo_reeds");
+    assert_eq!(d.ingkel.ecological_domain_id(), "buku");
+
+    let d = BalineseDate::from_ymd(2026, 1, 11).unwrap(); // Tambir = Wong
+    assert_eq!(d.ingkel.ecological_domain(), "human_affairs");
+    assert_eq!(d.ingkel.ecological_domain_id(), "wong");
+}
+
 // ============================================================
 // SECTION 5: URIP — Sapta + Panca wara urip sum
 // ============================================================

@@ -108,6 +108,69 @@ impl Ingkel {
             Ingkel::Buku => "Buku",
         }
     }
+
+    /// Returns the ecological domain as an English snake_case label.
+    ///
+    /// This provides stable, machine-readable identifiers for data pipeline
+    /// who need string labels without depending on
+    /// the `Ingkel` enum directly.
+    ///
+    /// # Mapping
+    ///
+    /// | Variant | Return value      |
+    /// |---------|-------------------|
+    /// | `Wong`  | `human_affairs`   |
+    /// | `Sato`  | `animals`         |
+    /// | `Mina`  | `fish_maritime`   |
+    /// | `Manuk` | `birds`           |
+    /// | `Taru`  | `trees_forestry`  |
+    /// | `Buku`  | `bamboo_reeds`    |
+    ///
+    /// # Source
+    ///
+    /// Wariga Sundari Bungkah ecological taxonomy, via I.B.S. Ardhana,
+    /// *Pokok-Pokok Wariga* (2005), and I Made Bidja bibliography.
+    pub fn ecological_domain(&self) -> &'static str {
+        match self {
+            Ingkel::Wong => "human_affairs",
+            Ingkel::Sato => "animals",
+            Ingkel::Mina => "fish_maritime",
+            Ingkel::Manuk => "birds",
+            Ingkel::Taru => "trees_forestry",
+            Ingkel::Buku => "bamboo_reeds",
+        }
+    }
+
+    /// Returns the ecological domain as a Balinese manuscript term.
+    ///
+    /// These are the traditional terms used in printed Wariga manuscripts
+    /// (Lontar Sundari Bungkah, Gemet) for the six ecological domains.
+    ///
+    /// # Mapping
+    ///
+    /// | Variant | Return value |
+    /// |---------|--------------|
+    /// | `Wong`  | `wong`       |
+    /// | `Sato`  | `sato`       |
+    /// | `Mina`  | `mina`       |
+    /// | `Manuk` | `manuk`      |
+    /// | `Taru`  | `taru`       |
+    /// | `Buku`  | `buku`       |
+    ///
+    /// # Source
+    ///
+    /// Wariga Sundari Bungkah and Wariga Gemet manuscript tradition;
+    /// I Made Bidja, *Kalender Bali 2026* bibliography.
+    pub fn ecological_domain_id(&self) -> &'static str {
+        match self {
+            Ingkel::Wong => "wong",
+            Ingkel::Sato => "sato",
+            Ingkel::Mina => "mina",
+            Ingkel::Manuk => "manuk",
+            Ingkel::Taru => "taru",
+            Ingkel::Buku => "buku",
+        }
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
