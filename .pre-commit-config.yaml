@@ -69,9 +69,9 @@ repos:
 
       - id: cargo-doc
         name: cargo-doc
-        entry: cargo doc --no-deps --document-private-items --workspace
+        entry: env RUSTDOCFLAGS="-D warnings" cargo doc --all-features --no-deps --document-private-items
         language: system
-        description: Build documentation to check for broken links
+        description: Build documentation with all features, fail on broken intra-doc links
         files: '^src/.*\.rs$|^Cargo\.toml$'
         pass_filenames: false
 
