@@ -46,6 +46,7 @@ for r in &today.rahinan {
 
 ## Features
 
+**Core calendar (v0.1.x — stable)**
 - **Pawukon (30 Wuku × 210-day cycle)**
 - **10 Wewaran cycles** (Eka through Dasa)
 - **Sasih (lunar month)** with Nampih detection
@@ -58,6 +59,26 @@ for r in &today.rahinan {
 - **DayBoundary** (sunrise-aware date)
 - **WebAssembly (WASM) support** for browser environments
 - **Astronomical sunrise** using real astronomical calculations
+
+**Wariga computation layer (v0.2.0)**
+- **WarigaBelog** — personalized day quality `(birth_urip + daily_urip) % 4`
+- **Gebogan Urip Tri-Pramana** — 210-entry lookup, 4 quality classes
+- **Pawiwahan** — marriage compatibility, 16-point scale
+- **Dauh Sukaranti** — time-slot quality, 5 periods
+- **Tenung Patemuan Adan** — name compatibility (Lontar Joyoboyo)
+- **Otonan calculator** — next birthday in the 210-day cycle
+- **Ingkel ecological domain** — `ecological_domain()` and `ecological_domain_id()` accessors
+
+**Data export (v0.4.0)**
+- **`SakaSeason`** — O(1) seasonal classification from Sasih position
+- **`TraditionalMarker`** — structured Saka knowledge export for data pipelines
+- **`BalineseDate::to_traditional_marker()`** — projection method
+- **Batch generators** — `generate_markers()`, `generate_markers_for_saka_year()`, `pawukon_positions()`
+
+**Climate-aware extension (v0.5.0, feature-gated)**
+- **`SeasonalState`** — combines calendar position with observed climate
+- **Point divergence scoring** — z-score of observation vs Sasih reference envelope
+- **`PancarobaSubPhase`** vocabulary — shared types for downstream classification
 
 ---
 
@@ -154,21 +175,24 @@ variants are available via `PancaSuda::name_sundari_bungkah()`.
 Add to `Cargo.toml`:
 ```toml
 [dependencies]
-balinese-calendar = "0.1.3"
+balinese-calendar = "0.2.0"
 ```
 
 **Optional Features:**
 ```toml
-balinese-calendar = { version = "0.1.3", features = ["serde"] }
-balinese-calendar = { version = "0.1.3", features = ["astronomical"] }
-balinese-calendar = { version = "0.1.3", features = ["wasm"] }
-balinese-calendar = { version = "0.1.3", features = ["serde", "astronomical", "wasm"] }
+balinese-calendar = { version = "0.2.0", features = ["serde"] }
+balinese-calendar = { version = "0.2.0", features = ["astronomical"] }
+balinese-calendar = { version = "0.2.0", features = ["wasm"] }
+balinese-calendar = { version = "0.2.0", features = ["dewasa-ayu"] }
+balinese-calendar = { version = "0.2.0", features = ["climate"] }  # v0.5.0
 ```
 
 Available features:
-- `serde` - Enable serialization/deserialization support
-- `astronomical` - Enable astronomical sunrise calculations
-- `wasm` - Enable WebAssembly support for browser environments
+- `serde` — serialization/deserialization for all public types
+- `astronomical` — astronomical sunrise calculations via the `sunrise` crate
+- `wasm` — WebAssembly support for browser environments
+- `dewasa-ayu` — Sugeno fuzzy inference engine (enables `f64` operations)
+- `climate` — climate-aware seasonal state and divergence scoring *(v0.5.0)*
 
 ## API Overview
 
@@ -264,13 +288,28 @@ let custom_boundary = DayBoundary::Astronomical {
 
 1900–2100 (validated 1969–2027, extrapolated outside this range). Historical dates before 1900 are planned for v1.0.0.
 
+## Roadmap
+
+| Version | Focus | Status |
+|---|---|---|
+| v0.1.x | Core calendar, validation corpus | ✅ Published |
+| **v0.2.0** | **Wariga computation layer** | **In progress** |
+| v0.3.0 | Dewasa Ayu — Sugeno fuzzy inference | Blocked (bobot tables) |
+| v0.4.0 | `TraditionalMarker` export, `SakaSeason`, batch generators | Planned |
+| v0.5.0 | Climate-aware `SeasonalState`, divergence scoring | Planned |
+| v1.0.0 | Stable API, `no_std`, C FFI, language bindings | Future |
+
+v0.4.0 ships independently of v0.3.0 — nullable fields handle the absence of Dewasa Ayu data cleanly.
+
 ## Architecture
 
 All computation is deterministic and `O(1)` per date — no database lookups, no network calls, no floating-point for core calendar operations.
 
 The Sasih walk-forward algorithm starts from peradnya-calibrated pivot points and walks to the target JDN, handling Nampih Sasih (intercalary months) and Ngunaratri (intercalary tithis) along the way.
 
-The Dewasa Ayu engine (v0.3.0) is the only component requiring `f64` and will be feature-gated behind `dewasa-ayu`.
+Feature-gated modules that enable non-core capabilities:
+- `dewasa-ayu` — Sugeno fuzzy inference engine, the only component requiring `f64`
+- `climate` — `SeasonalState` combining calendar position with external observations; pure `f32` math, no new deps, WASM-compatible
 
 ## License
 

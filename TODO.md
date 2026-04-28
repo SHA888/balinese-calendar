@@ -184,6 +184,22 @@ feature after Dewasa Ayu.
 - [x] `next_otonan(birth: NaiveDate) -> NaiveDate`
 - [x] `next_otonan_from(birth: NaiveDate, after: NaiveDate) -> NaiveDate`
 
+### Ingkel ecological domain accessors
+Pulled forward from v0.4.0 — belongs thematically in the Wariga computation layer.
+
+- [ ] `Ingkel::ecological_domain() -> &'static str` — English snake_case label (stable for data-pipeline columns)
+      | Variant | Return value |
+      |---|---|
+      | Wong  | `human_affairs`  |
+      | Sato  | `animals`        |
+      | Mina  | `fish_maritime`  |
+      | Manuk | `birds`          |
+      | Taru  | `trees_forestry` |
+      | Buku  | `bamboo_reeds`   |
+- [ ] `Ingkel::ecological_domain_id() -> &'static str` — Balinese manuscript term (`wong`, `sato`, `mina`, `manuk`, `taru`, `buku`)
+- [ ] Tests: exhaustive coverage for all 6 variants on both methods
+- [ ] Doc comment citing: I.B.S. Ardhana, *Pokok-Pokok Wariga* (2005); I Made Bidja bibliography
+
 ---
 
 ## v0.3.0 — Dewasa Ayu (Auspicious Day Classification)
@@ -303,7 +319,93 @@ Supporting materials for Phase 3–4 bobot derivation and rule extraction.
 
 ---
 
-## v0.4.0 — Completeness & Depth
+## v0.4.0 — Export & Completeness
+
+This release ships the TraditionalMarker export API and batch generators that GARUDA
+and other downstream consumers need to populate Saka-aware data pipeline tables.
+Does **not** depend on v0.3.0 — nullable fields handle absence of Dewasa Ayu cleanly.
+
+### `SakaSeason` enum (new module: `src/marker.rs`)
+
+Deterministic, O(1) classification derived from `Sasih` position.
+
+- [ ] `SakaSeason` enum with three variants:
+      ```rust
+      pub enum SakaSeason { MusimHujan, MusimKemarau, Pancaroba }
+      ```
+- [ ] `const fn SakaSeason::from_sasih(s: Sasih) -> SakaSeason`
+      Mapping (consistent with existing `Sasih::season_tag()`):
+      - `Pancaroba`: Kalima, Kanem
+      - `MusimHujan`: Kapitu, Kawolu, Kasanga, Kadasa
+      - `MusimKemarau`: Jyesta, Sadha, Kasa, Karo, Katiga, Kapat
+- [ ] `const fn SakaSeason::name() -> &'static str` — snake_case: `pancaroba`, `musim_hujan`, `musim_kemarau`
+- [ ] `#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]`
+- [ ] Module doc note: single-direction pancaroba (dry→wet) per validated v0.1.2 work;
+      if wet→dry pancaroba is later validated, add `Sasih::pancaroba_direction()` (additive, non-breaking)
+- [ ] Module doc note: Nampih Sasih does not change classification — it duplicates the
+      underlying Sasih which already carries its season tag
+
+### `TraditionalMarker` struct
+
+Structured representation of traditional Saka seasonal knowledge for a date,
+suitable for ingestion into data pipelines. All fields deterministically computed.
+
+- [ ] New public struct in `src/marker.rs`:
+      ```rust
+      pub struct TraditionalMarker {
+          pub gregorian_date: NaiveDate,
+          pub jdn: i64,                              // matches BalineseDate::jdn
+          pub saka_year: i32,                        // matches BalineseDate::saka_year
+          pub saka_sasih: Sasih,
+          pub sasih_day: SasihDayInfo,
+          pub is_nampih: bool,
+          pub pawukon_day: u16,                      // 0–209, matches BalineseDate::pawukon_day
+          pub wuku: Wuku,
+          pub traditional_season: SakaSeason,
+          pub is_pancaroba: bool,
+          pub ingkel: Ingkel,
+          pub ingkel_domain: &'static str,           // = ingkel.ecological_domain()
+          pub ingkel_domain_id: &'static str,        // = ingkel.ecological_domain_id()
+          pub tri_pramana: Option<TriPramana>,
+          pub dewasa_pertanian: Option<f64>,         // None until v0.3.0 Phase 4
+          pub agricultural_guidance: Option<&'static str>, // None until Pedoman / Phase 4
+          pub saptawara: Saptawara,
+          pub pancawara: Pancawara,
+          pub combined_urip: u8,                     // saptawara.urip() + pancawara.urip()
+          pub rahinan: Vec<&'static str>,            // Rahinan::name() values — serde-clean
+      }
+      ```
+- [ ] `#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]`
+- [ ] Serde caveat documented: `&'static str` fields serialize but cannot round-trip
+      deserialize (same constraint as existing `FlatRecord`)
+
+### `BalineseDate::to_traditional_marker()`
+
+- [ ] Method on `BalineseDate` returning `TraditionalMarker`
+- [ ] Populates all fields from `self`; `dewasa_pertanian` and `agricultural_guidance` return `None`
+
+### Batch generators
+
+- [ ] `pub fn generate_markers(start: NaiveDate, end_inclusive: NaiveDate) -> Vec<TraditionalMarker>`
+      Iterates by JDN to avoid repeated Gregorian→JDN cost.
+      Performance target: full Saka year (~355 days) under 1 ms on commodity hardware.
+- [ ] `pub fn generate_markers_for_saka_year(saka_year: i32) -> Vec<TraditionalMarker>`
+      Walks Gregorian days from Nyepi of `saka_year` to the day before Nyepi of `saka_year + 1`.
+      Thin wrapper over `generate_markers` using existing sasih walk-forward.
+- [ ] `pub fn pawukon_positions(start: NaiveDate, end_inclusive: NaiveDate) -> Vec<(NaiveDate, u16, Wuku)>`
+      Strict subset projection for callers needing only Pawukon position
+      (e.g. Pawukon-MJO correlation analysis) without full marker allocation cost.
+- [ ] Re-export all four items from `lib.rs`
+
+### Tests (`tests/marker_export_test.rs`)
+
+- [ ] Round-trip serde: `serde_json::to_string(&marker)` → validate field count and key spelling
+- [ ] Known-date verification: 5 anchor days from 2026 corpus (Nyepi, Galungan, Kuningan,
+      Saraswati, Tilem Kasanga) — assert every field by hand
+- [ ] `SakaSeason::from_sasih` exhaustiveness against all 12 Sasih
+- [ ] `generate_markers` for full Gregorian 2026 returns 365 markers, contiguous dates, monotonic JDN
+- [ ] `generate_markers_for_saka_year(1948)` ends the day before Nyepi 2027
+- [ ] `pawukon_positions` for a 210-day window covers all 30 Wuku exactly once at wuku-day-0 positions
 
 ### Pedoman Ala Ayuning Dewasa
 Every printed Balinese calendar includes 210 day-specific guidance entries in Kawi.
@@ -326,9 +428,8 @@ Every printed Balinese calendar includes 210 day-specific guidance entries in Ka
 - [ ] Data: supplement_5 from OCR (all Bali regencies + Lombok + East Java)
 
 ### Ingkel ecology metadata
-- [ ] `Ingkel::ecological_domain() -> &'static str`
-- [ ] Wong (human affairs), Sato (animals), Mina (fish/maritime), Manuk (birds),
-      Taru (trees/forestry), Buku (bamboo/reeds)
+- [x] `Ingkel::ecological_domain() -> &'static str` — pulled forward to v0.2.0
+- [x] `Ingkel::ecological_domain_id() -> &'static str` — Balinese term — pulled forward to v0.2.0
 
 ### Candra Praleka (observational Sasih verification)
 - [ ] `candra_praleka(sasih: Sasih) -> CandraPosition`
@@ -338,6 +439,81 @@ Every printed Balinese calendar includes 210 day-specific guidance entries in Ka
 ### Multi-year Sasih transition table
 - [ ] Pre-compute Sasih transitions 2020–2035 for O(1) lookup
 - [ ] Must account for Nampih Sasih (PHDI overrides need annual verification)
+
+---
+
+## v0.5.0 — Climate-Aware Extension
+
+Feature-gated behind `#[cfg(feature = "climate")]`. Zero new dependencies.
+WASM-compatible (`f32` ops only, no `std::time`, no allocation in compute path).
+All types serde-aware via existing flag.
+
+### Cargo.toml
+- [ ] Add `climate = []` feature (zero deps)
+- [ ] Add wasm32-unknown-unknown build job to CI matrix for `--features climate`
+
+### New module: `src/climate.rs`
+
+#### Input type
+```rust
+#[cfg(feature = "climate")]
+pub struct ClimateObservation {
+    pub rainfall_mm: f32,
+    pub temperature_c: f32,
+    pub wind_speed_kmh: f32,
+    pub humidity_pct: Option<f32>,
+    pub solar_radiation_wm2: Option<f32>,
+}
+```
+
+#### Enums
+- [ ] `ObservedSeason` — `Wet`, `Dry`, `Transitioning`
+- [ ] `SeasonAlignment` — `Aligned`, `EarlyOnset`, `LateOnset`, `ExtendedTransition`, `Inverted`
+- [ ] `PancarobaSubPhase` — `PersistentMoisture`, `ThermalConvection`, `FalseDry`, `WavePulse`, `CyclonicFeed`
+      **Classification of this enum lives downstream** (requires multi-day window).
+      The crate exports the vocabulary; consumers apply the classification logic.
+      Motivated by: Feb–Apr 2026 Denpasar observations — 3-month chaotic pancaroba
+      with five distinct observable sub-phases.
+
+#### Sasih reference envelopes
+- [ ] `pub struct SeasonalEnvelope { rainfall_mm_mean: f32, rainfall_mm_std: f32, temperature_c_mean: f32, temperature_c_std: f32 }`
+- [ ] `impl SakaSeason { pub const fn envelope(sasih: Sasih) -> SeasonalEnvelope }`
+      Initial calibration from BMKG long-term Bali means partitioned by Sasih.
+      Doc note: these are canonical starting-point values; consumers with multi-year
+      baselines should compute their own divergence against richer historical context.
+
+#### `SeasonalState` and `compute()`
+- [ ] `pub struct SeasonalState { saka_season, observed_season, alignment, divergence_score: f32, pancaroba_subphase: Option<PancarobaSubPhase> }`
+- [ ] `SeasonalState::compute(date: &BalineseDate, obs: &ClimateObservation) -> SeasonalState`
+      Computation (deterministic, stateless):
+      1. `saka_season = SakaSeason::from_sasih(date.sasih)`
+      2. `observed_season` from rainfall threshold bands (documented constants)
+      3. `alignment` from decision matrix of `saka_season` × `observed_season`
+      4. `divergence_score = sqrt(z_rain² + z_temp²)` against Sasih envelope; NaN-safe
+      5. `pancaroba_subphase = None` (documented as downstream concern)
+- [ ] `pancaroba_subphase` field always `None` at this layer — doc explains multi-day
+      window requirement and directs consumers to implement classification themselves
+
+### Tests (`tests/climate_test.rs`, gated)
+- [ ] `SakaSeason` × `ObservedSeason` matrix → expected `SeasonAlignment` for all combinations
+- [ ] Aligned-baseline observation → `divergence_score` ≈ 0.0
+- [ ] Anomalous observation (heavy rain in Sasih Karo) → `Inverted` alignment + high score
+- [ ] Determinism: identical inputs → identical outputs
+- [ ] `divergence_score >= 0.0 && is_finite()` for all float inputs
+
+### Research context (recorded in module doc)
+- **Pawukon-MJO hypothesis:** 210-day cycle ≈ 3.5–7 MJO cycles (MJO: 30–60 day period).
+  Wuku subdivisions may encode empirically observed MJO-modulated seasonal patterns.
+  Testable with correlation analysis against BoM MJO phase data via `pawukon_positions()`.
+- **Climate drift measurement:** Divergence between Saka seasonal markers and observed
+  climate measures how far Indonesia's climate has moved from the stable regime the
+  calendar was calibrated against over ~1,000 years.
+  Working title: *"Bidirectional Encoding of Traditional Balinese Seasonal Knowledge
+  and Modern Climate Data: A Computational Framework for Measuring Climate Drift
+  Through Cultural Knowledge Systems."*
+- **Alahaning Dewasa in climate context:** `Sasih` is the dominant seasonal signal
+  in the traditional hierarchy — maps naturally to `saka_sasih` as the primary
+  partition key for climate baseline computation.
 
 ---
 
