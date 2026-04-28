@@ -175,16 +175,16 @@ variants are available via `PancaSuda::name_sundari_bungkah()`.
 Add to `Cargo.toml`:
 ```toml
 [dependencies]
-balinese-calendar = "0.2.0"
+balinese-calendar = "0.2.1"
 ```
 
 **Optional Features:**
 ```toml
-balinese-calendar = { version = "0.2.0", features = ["serde"] }
-balinese-calendar = { version = "0.2.0", features = ["astronomical"] }
-balinese-calendar = { version = "0.2.0", features = ["wasm"] }
-balinese-calendar = { version = "0.2.0", features = ["dewasa-ayu"] }
-balinese-calendar = { version = "0.2.0", features = ["climate"] }  # v0.5.0
+balinese-calendar = { version = "0.2.1", features = ["serde"] }
+balinese-calendar = { version = "0.2.1", features = ["astronomical"] }
+balinese-calendar = { version = "0.2.1", features = ["wasm"] }
+balinese-calendar = { version = "0.2.1", features = ["dewasa-ayu"] }
+balinese-calendar = { version = "0.2.1", features = ["climate"] }  # v0.5.0
 ```
 
 Available features:
@@ -293,7 +293,8 @@ let custom_boundary = DayBoundary::Astronomical {
 | Version | Focus | Status |
 |---|---|---|
 | v0.1.x | Core calendar, validation corpus | ✅ Published |
-| **v0.2.0** | **Wariga computation layer** | **In progress** |
+| v0.2.0 | Wariga computation layer | ✅ Published |
+| **v0.2.1** | **Ingkel ecological domain accessors** | **In progress** |
 | v0.3.0 | Dewasa Ayu — Sugeno fuzzy inference | Blocked (bobot tables) |
 | v0.4.0 | `TraditionalMarker` export, `SakaSeason`, batch generators | Planned |
 | v0.5.0 | Climate-aware `SeasonalState`, divergence scoring | Planned |

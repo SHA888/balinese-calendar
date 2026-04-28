@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.1] — 2026-04-28
+
+### ✨ Added
+
+- **Ingkel ecological domain accessors** (`src/paringkelan/mod.rs`):
+  - `Ingkel::ecological_domain() -> &'static str` — English snake_case label
+    (`human_affairs`, `animals`, `fish_maritime`, `birds`, `trees_forestry`, `bamboo_reeds`)
+  - `Ingkel::ecological_domain_id() -> &'static str` — Balinese manuscript term
+    (`wong`, `sato`, `mina`, `manuk`, `taru`, `buku`)
+  - Stable machine-readable identifiers intended for data pipeline consumers
+  - Source: Wariga Sundari Bungkah via I.B.S. Ardhana, *Pokok-Pokok Wariga* (2005),
+    and I Made Bidja bibliography
+
+### 🧪 Testing
+
+- Exhaustive tests for all 6 Ingkel variants on both new methods
+- Integration tests against 2026 corpus (Krulut=Taru, Merakih=Buku, Tambir=Wong)
+
+## [0.2.0] — 2026-04-07
+
+### 🎉 Wariga Computation Layer
+
+Complete implementation of the Wariga personal and compatibility systems:
+
+- **WarigaBelog** — personalized day quality via `(birth_urip + daily_urip) % 4`
+- **Gebogan Urip Tri-Pramana** — 210-entry Wuku × Saptawara lookup with 4 quality classes
+- **Pawiwahan** — marriage compatibility scoring on 16-point scale
+- **Dauh Sukaranti** — time-of-day quality (5 periods: 05:30–17:30 WITA)
+- **Tenung Patemuan Adan** — name compatibility via Lontar Joyoboyo letter→urip mapping
+- **Otonan calculator** — 210-day birthday cycle utilities (`otonan_dates`, `next_otonan`)
+
+### 🔧 Infrastructure
+
+- Added `dewasa-ayu` feature flag (preparation for v0.3.0 Sugeno inference)
+- New `TODO.md` with detailed roadmap through v1.0.0
+
 ## [0.1.3] — 2026-03-27
 
 ### 🎉 Major Features
