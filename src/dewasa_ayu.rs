@@ -245,7 +245,7 @@ mod sugeno {
     pub enum MembershipShape {
         /// Triangular: (a, b, c) where b is peak, a and c are base points
         Triangular { a: f64, b: f64, c: f64 },
-        /// Trapezoidal: (a, b, c, d) where [b,c] is plateau, a and d are outer points
+        /// Trapezoidal: (a, b, c, d) where \[b,c\] is plateau, a and d are outer points
         Trapezoidal { a: f64, b: f64, c: f64, d: f64 },
     }
 
