@@ -112,7 +112,7 @@ impl Ingkel {
     /// Returns the ecological domain as an English snake_case label.
     ///
     /// This provides stable, machine-readable identifiers for data pipeline
-    /// who need string labels without depending on
+    /// consumers (e.g., GARUDA) who need string labels without depending on
     /// the `Ingkel` enum directly.
     ///
     /// # Mapping
