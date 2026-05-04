@@ -280,7 +280,7 @@ Supporting materials for Phase 3–4 bobot derivation and rule extraction.
 - [x] Idempotent fetcher `tools/fetch_resources.py` + `tools/requirements.txt` with SSL fallback, Wayback Machine integration
 - [x] `MANIFEST.json` with per-resource URL, local path, SHA256 hash, status codes
 - [ ] Manual acquisition pending for Tier C items — see `references/downloads/README.md`:
-  - BasaBali Wiki (Cloudflare 403)
+  - [x] BasaBali Wiki (resource acquired locally)
   - ANRI archives (Cloudflare 403)
   - JoMEaL articles (404, no Wayback snapshot)
   - Proudfoot 2007 (paywall/403 on all mirrors)

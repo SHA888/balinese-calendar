@@ -63,8 +63,8 @@ uv run --with requests --with beautifulsoup4 --with lxml python tools/fetch_reso
   Domain does not resolve; no archived copy found. Search Google Scholar: *"ethnomathematics balinese calendar" LCM 210 site:unej.ac.id*
 
 ### Cloudflare-protected (require JS challenge)
-- [ ] **BasaBali Wiki: Lontar Wariga Gemet** — `https://dictionary.basabali.org/Lontar_Wariga_Gemet`
-  → save to `s2-transcriptions/basabali-lontar-wariga-gemet/page.html`
+- [x] **BasaBali Wiki: Lontar Wariga Gemet** — `https://dictionary.basabali.org/Lontar_Wariga_Gemet`
+  → saved locally at `s2-transcriptions/basabali-lontar-wariga-gemet/page.html`
 - [ ] **ANRI** — `https://anri.go.id/`
   → save to `s10-archival/anri-arsip-nasional/page.html`
 
