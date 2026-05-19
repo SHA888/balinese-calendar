@@ -95,7 +95,7 @@
 
 ---
 
-## v0.2.0 — Wariga Computation Layer
+## v0.2.1 — Wariga Computation Layer (released 2026-04-28)
 
 This release adds the traditional Wariga computation systems extracted from
 I Made Bidja's 2026 calendar (Wariga Sundari Bungkah manuscript tradition)
@@ -168,12 +168,10 @@ Traditional system for best time of day, based on combined urip.
 - [x] 5 time periods: Dauh I (05:30–07:55), II (07:55–10:25), III (10:20–12:45),
       IV (12:45–15:10), V (15:10–17:30) WITA
 - [x] Quality values: Kelara · Pali · Sume · Krta · Peta
-- [ ] Complete 12×5 lookup table extracted from OCR (currently using placeholder algorithm)
 - [x] Source: Wariga Sundari Bungkah via I Made Bidja
 
 ### Tenung Patemuan Adan (name compatibility)
 - [x] `name_compatibility(a: &str, b: &str) -> PatemuanResult`
-- [ ] Letter → urip mapping via directional chart (18 consonant groups) (currently using placeholder algorithm)
 - [x] Source: Lontar Joyoboyo
 
 ### Otonan calculator
@@ -199,6 +197,41 @@ Pulled forward from v0.4.0 — belongs thematically in the Wariga computation la
 - [x] `Ingkel::ecological_domain_id() -> &'static str` — Balinese manuscript term (`wong`, `sato`, `mina`, `manuk`, `taru`, `buku`)
 - [x] Tests: exhaustive coverage for all 6 variants on both methods
 - [x] Doc comment citing: I.B.S. Ardhana, *Pokok-Pokok Wariga* (2005); I Made Bidja bibliography
+
+### Shipped ahead of v0.3.0 plan — Dewasa Ayu Phase 1 + Phase 2
+
+Both phases were originally scheduled for v0.3.0 but were completed and released
+in v0.2.1. The task-level breakdown remains under "v0.3.0 — Dewasa Ayu" below as
+the historical record; the items below are the release-level summary.
+
+- [x] **Phase 1** — validation fixture (`tests/fixtures/candana_2021_dewasa.json`)
+      + scoring scaffold
+- [x] **Phase 2** — zero-order Sugeno fuzzy inference engine (`src/dewasa_ayu.rs`,
+      feature-gated behind `dewasa-ayu`)
+- [x] **Research resources** — fetcher tooling, Tier A/B archive, Git LFS for
+      large PDFs, `references/downloads/MANIFEST.json`
+
+v0.3.0 retains **Phase 3** (bobot tables) and **Phase 4** (multi-category Dewasa
+Ayu) — both blocked on the Ariana & Budayoga (2016) source.
+
+---
+
+## v0.2.2 — Wariga Lookup Completeness (patch)
+
+Two placeholder-algorithm items deferred from v0.2.1. Both are pure
+data-extraction tasks against existing OCR sources; no algorithm change, no
+public API change. Releases as a patch under SemVer.
+
+- [ ] **Dauh Sukaranti** — complete the 12×5 lookup table from OCR; replace
+      placeholder algorithm in the Dauh Sukaranti implementation.
+      Source: Wariga Sundari Bungkah via I Made Bidja.
+- [ ] **Tenung Patemuan Adan** — complete the letter → urip directional chart
+      (18 consonant groups); replace placeholder algorithm in the Tenung
+      Patemuan Adan implementation.
+      Source: Lontar Joyoboyo.
+
+Release trigger: both items complete, fixture tests added, `cargo
+semver-checks` clean. No minor bump expected.
 
 ---
 
