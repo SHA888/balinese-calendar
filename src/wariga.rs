@@ -579,9 +579,10 @@ pub struct PatemuanResult {
 
 /// Load Tenung Patemuan Adan letter → urip mapping from JSON fixture.
 ///
-/// Returns the complete 18-group consonant mapping where each consonant
-/// group maps to an urip value (1-9).
-fn load_tenung_patemuan_lookup() -> Result<std::collections::HashMap<char, u8>, Box<dyn std::error::Error>> {
+/// Returns a list of (consonant_string, urip) tuples for multi-character aware matching.
+/// Ordered by length (longest first) to correctly match multi-character clusters like "ng" and "ny"
+/// before falling back to single character matches.
+fn load_tenung_patemuan_lookup() -> Result<Vec<(String, u8)>, Box<dyn std::error::Error>> {
     let json_path = concat!(env!("CARGO_MANIFEST_DIR"), "/tests/fixtures/tenung_patemuan_adan.json");
 
     let json_content = fs::read_to_string(json_path)?;
@@ -591,7 +592,7 @@ fn load_tenung_patemuan_lookup() -> Result<std::collections::HashMap<char, u8>, 
         return Err(format!("Expected 18 consonant groups, found {}", data.len()).into());
     }
 
-    let mut mapping = std::collections::HashMap::new();
+    let mut mappings = Vec::new();
 
     for entry in data.iter() {
         let urip = entry["urip"].as_u64().ok_or("Missing urip value")? as u8;
@@ -605,13 +606,14 @@ fn load_tenung_patemuan_lookup() -> Result<std::collections::HashMap<char, u8>, 
 
         for consonant_val in consonants.iter() {
             let consonant_str = consonant_val.as_str().ok_or("Invalid consonant")?;
-            for c in consonant_str.chars() {
-                mapping.insert(c, urip);
-            }
+            mappings.push((consonant_str.to_lowercase(), urip));
         }
     }
 
-    Ok(mapping)
+    // Sort by length descending to match longest consonants first (e.g., "ng" before "n")
+    mappings.sort_by(|a, b| b.0.len().cmp(&a.0.len()));
+
+    Ok(mappings)
 }
 
 /// Calculate Tenung Patemuan Adan name compatibility.
@@ -629,7 +631,7 @@ fn load_tenung_patemuan_lookup() -> Result<std::collections::HashMap<char, u8>, 
 ///   remainder, and boolean compatibility flag
 pub fn name_compatibility(a: &str, b: &str) -> PatemuanResult {
     static LOOKUP: std::sync::OnceLock<
-        Result<std::collections::HashMap<char, u8>, Box<dyn std::error::Error + Send + Sync>>,
+        Result<Vec<(String, u8)>, Box<dyn std::error::Error + Send + Sync>>,
     > = std::sync::OnceLock::new();
 
     let lookup_result = LOOKUP.get_or_init(|| {
@@ -646,25 +648,45 @@ pub fn name_compatibility(a: &str, b: &str) -> PatemuanResult {
         }
     });
 
+    /// Helper function to accumulate urip from a name string using multi-character consonant matching.
+    /// Processes from longest to shortest consonants to correctly match clusters like "ng" and "ny".
+    fn accumulate_urip(name: &str, mappings: &[(String, u8)]) -> u8 {
+        let name_lower = name.to_lowercase();
+        let mut urip = 0u8;
+        let mut pos = 0;
+
+        while pos < name_lower.len() {
+            let mut matched = false;
+
+            // Try to match from longest to shortest consonants
+            for (consonant, urip_val) in mappings.iter() {
+                if name_lower[pos..].starts_with(consonant) {
+                    urip = (urip + urip_val - 1) % 9 + 1; // Accumulate with cycling
+                    pos += consonant.len();
+                    matched = true;
+                    break;
+                }
+            }
+
+            if !matched {
+                // No consonant matched; skip this character (vowel or non-matched)
+                pos += 1;
+            }
+        }
+
+        urip
+    }
+
     // Try JSON-based mapping first
-    let mut a_urip = 0u8;
-    let mut b_urip = 0u8;
+    let mut a_urip;
+    let mut b_urip;
 
-    if let Ok(mapping) = lookup_result.as_ref() {
-        for c in a.to_lowercase().chars() {
-            if let Some(&urip) = mapping.get(&c) {
-                a_urip = (a_urip + urip - 1) % 9 + 1; // Accumulate with cycling
-            }
-        }
-
-        for c in b.to_lowercase().chars() {
-            if let Some(&urip) = mapping.get(&c) {
-                b_urip = (b_urip + urip - 1) % 9 + 1;
-            }
-        }
+    if let Ok(mappings) = lookup_result.as_ref() {
+        a_urip = accumulate_urip(a, mappings);
+        b_urip = accumulate_urip(b, mappings);
 
         if a_urip == 0 {
-            a_urip = (a.len() % 9 + 1) as u8; // Fallback to name length if no consonants
+            a_urip = (a.len() % 9 + 1) as u8; // Fallback to name length if no consonants matched
         }
         if b_urip == 0 {
             b_urip = (b.len() % 9 + 1) as u8;
