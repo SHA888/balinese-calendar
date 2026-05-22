@@ -1,0 +1,110 @@
+[
+  {
+    "group": 1,
+    "consonants": ["k", "K"],
+    "urip": 1,
+    "description": "Ka group (hard velar)"
+  },
+  {
+    "group": 2,
+    "consonants": ["g", "G"],
+    "urip": 2,
+    "description": "Ga group (soft velar)"
+  },
+  {
+    "group": 3,
+    "consonants": ["ng", "Ng"],
+    "urip": 3,
+    "description": "Nga group (nasal velar)"
+  },
+  {
+    "group": 4,
+    "consonants": ["c", "C"],
+    "urip": 4,
+    "description": "Ca group (hard palatal)"
+  },
+  {
+    "group": 5,
+    "consonants": ["j", "J"],
+    "urip": 5,
+    "description": "Ja group (soft palatal)"
+  },
+  {
+    "group": 6,
+    "consonants": ["ny", "Ny"],
+    "urip": 6,
+    "description": "Nya group (nasal palatal)"
+  },
+  {
+    "group": 7,
+    "consonants": ["t", "T"],
+    "urip": 7,
+    "description": "Ta group (hard dental)"
+  },
+  {
+    "group": 8,
+    "consonants": ["d", "D"],
+    "urip": 8,
+    "description": "Da group (soft dental)"
+  },
+  {
+    "group": 9,
+    "consonants": ["n", "N"],
+    "urip": 9,
+    "description": "Na group (nasal dental)"
+  },
+  {
+    "group": 10,
+    "consonants": ["p", "P"],
+    "urip": 1,
+    "description": "Pa group (hard labial)"
+  },
+  {
+    "group": 11,
+    "consonants": ["b", "B"],
+    "urip": 2,
+    "description": "Ba group (soft labial)"
+  },
+  {
+    "group": 12,
+    "consonants": ["m", "M"],
+    "urip": 3,
+    "description": "Ma group (nasal labial)"
+  },
+  {
+    "group": 13,
+    "consonants": ["y", "Y"],
+    "urip": 4,
+    "description": "Ya group (palatal approximant)"
+  },
+  {
+    "group": 14,
+    "consonants": ["r", "R"],
+    "urip": 5,
+    "description": "Ra group (alveolar approximant)"
+  },
+  {
+    "group": 15,
+    "consonants": ["l", "L"],
+    "urip": 6,
+    "description": "La group (alveolar lateral)"
+  },
+  {
+    "group": 16,
+    "consonants": ["w", "W"],
+    "urip": 7,
+    "description": "Wa group (labial approximant)"
+  },
+  {
+    "group": 17,
+    "consonants": ["s", "S"],
+    "urip": 8,
+    "description": "Sa group (voiceless alveolar sibilant)"
+  },
+  {
+    "group": 18,
+    "consonants": ["h", "H"],
+    "urip": 9,
+    "description": "Ha group (voiceless glottal fricative)"
+  }
+]

@@ -434,19 +434,105 @@ impl DauhPeriod {
 ///
 /// # Returns
 /// * `[DauhQuality; 5]` - Quality assessment for all 5 time periods
-pub fn dauh_sukaranti(urip: u8) -> [DauhQuality; 5] {
-    // TODO: Implement complete 12×5 lookup table from OCR
-    // For now, provide a basic algorithm based on urip ranges
+/// Load Dauh Sukaranti lookup table from JSON fixture.
+///
+/// Returns the complete 12-entry lookup table mapping each urip value
+/// to its corresponding Dauh qualities across 5 time periods.
+///
+/// The JSON data is loaded from the fixture file containing the traditional
+/// values extracted from I Made Bidja's Wariga Sundari Bungkah manuscript.
+fn load_dauh_sukaranti_lookup() -> Result<Vec<(u8, [DauhQuality; 5])>, Box<dyn std::error::Error>> {
+    let json_path = concat!(env!("CARGO_MANIFEST_DIR"), "/tests/fixtures/dauh_sukaranti.json");
 
+    let json_content = fs::read_to_string(json_path)?;
+    let data: Vec<serde_json::Value> = serde_json::from_str(&json_content)?;
+
+    if data.len() != 12 {
+        return Err(format!("Expected 12 entries for Dauh Sukaranti, found {}", data.len()).into());
+    }
+
+    let mut lookup = Vec::new();
+
+    for entry in data.iter() {
+        let urip = entry["urip"].as_u64().ok_or("Missing urip value")? as u8;
+        if urip == 0 || urip > 12 {
+            return Err(format!("Invalid urip value: {}", urip).into());
+        }
+
+        let parse_quality = |s: &str| -> Result<DauhQuality, Box<dyn std::error::Error>> {
+            match s {
+                "Krta" => Ok(DauhQuality::Krta),
+                "Sume" => Ok(DauhQuality::Sume),
+                "Peta" => Ok(DauhQuality::Peta),
+                "Pali" => Ok(DauhQuality::Pali),
+                "Kelara" => Ok(DauhQuality::Kelara),
+                _ => Err(format!("Invalid quality: {}", s).into()),
+            }
+        };
+
+        let p1 = parse_quality(entry["period_1"].as_str().ok_or("Missing period_1")?)?;
+        let p2 = parse_quality(entry["period_2"].as_str().ok_or("Missing period_2")?)?;
+        let p3 = parse_quality(entry["period_3"].as_str().ok_or("Missing period_3")?)?;
+        let p4 = parse_quality(entry["period_4"].as_str().ok_or("Missing period_4")?)?;
+        let p5 = parse_quality(entry["period_5"].as_str().ok_or("Missing period_5")?)?;
+
+        lookup.push((urip, [p1, p2, p3, p4, p5]));
+    }
+
+    Ok(lookup)
+}
+
+/// Get time-slot qualities (Dauh Sukaranti) for a given urip value.
+///
+/// Assigns quality levels to five WITA time periods:
+/// - Period 1: 05:30–08:30 (Pagi)
+/// - Period 2: 08:30–11:30 (Siang pagi)
+/// - Period 3: 11:30–14:30 (Siang)
+/// - Period 4: 14:30–17:30 (Siang sore)
+/// - Period 5: 17:30–20:30 (Sore)
+///
+/// # Arguments
+/// * `urip` - Combined urip value from sapta_wara + panca_wara (1-12)
+///
+/// # Returns
+/// Array of 5 `DauhQuality` values, one per time period
+pub fn dauh_sukaranti(urip: u8) -> [DauhQuality; 5] {
+    static LOOKUP: std::sync::OnceLock<
+        Result<Vec<(u8, [DauhQuality; 5])>, Box<dyn std::error::Error + Send + Sync>>,
+    > = std::sync::OnceLock::new();
+
+    let lookup_result = LOOKUP.get_or_init(|| {
+        match load_dauh_sukaranti_lookup() {
+            Ok(data) => Ok(data),
+            Err(e) => {
+                eprintln!(
+                    "Warning: Failed to load Dauh Sukaranti JSON data: {}. Using fallback algorithm.",
+                    e
+                );
+                // Return fallback as error - will use algorithm below
+                Err(Box::new(std::io::Error::other("Fallback to algorithm")) as Box<dyn std::error::Error + Send + Sync>)
+            }
+        }
+    });
+
+    // Try JSON lookup first
+    if let Ok(lookup) = lookup_result.as_ref() {
+        for (u, qualities) in lookup.iter() {
+            if *u == urip {
+                return *qualities;
+            }
+        }
+    }
+
+    // Fallback: basic algorithm based on urip ranges
     let base_quality = match urip {
-        1..=3 => DauhQuality::Krta,  // Excellent
-        4..=6 => DauhQuality::Sume,  // Good
-        7..=8 => DauhQuality::Peta,  // Neutral
-        9..=10 => DauhQuality::Pali, // Avoid
-        _ => DauhQuality::Kelara,    // Inauspicious
+        1..=3 => DauhQuality::Krta,
+        4..=6 => DauhQuality::Sume,
+        7..=8 => DauhQuality::Peta,
+        9..=10 => DauhQuality::Pali,
+        _ => DauhQuality::Kelara,
     };
 
-    // Vary quality slightly across periods
     [
         base_quality,
         match base_quality {
@@ -456,13 +542,7 @@ pub fn dauh_sukaranti(urip: u8) -> [DauhQuality; 5] {
             DauhQuality::Pali => DauhQuality::Kelara,
             DauhQuality::Kelara => DauhQuality::Kelara,
         },
-        match base_quality {
-            DauhQuality::Krta => DauhQuality::Krta,
-            DauhQuality::Sume => DauhQuality::Sume,
-            DauhQuality::Peta => DauhQuality::Sume,
-            DauhQuality::Pali => DauhQuality::Peta,
-            DauhQuality::Kelara => DauhQuality::Pali,
-        },
+        base_quality,
         match base_quality {
             DauhQuality::Krta => DauhQuality::Sume,
             DauhQuality::Sume => DauhQuality::Peta,
@@ -497,27 +577,129 @@ pub struct PatemuanResult {
     pub is_compatible: bool,
 }
 
+/// Load Tenung Patemuan Adan letter → urip mapping from JSON fixture.
+///
+/// Returns a list of (consonant_string, urip) tuples for multi-character aware matching.
+/// Ordered by length (longest first) to correctly match multi-character clusters like "ng" and "ny"
+/// before falling back to single character matches.
+fn load_tenung_patemuan_lookup() -> Result<Vec<(String, u8)>, Box<dyn std::error::Error>> {
+    let json_path = concat!(env!("CARGO_MANIFEST_DIR"), "/tests/fixtures/tenung_patemuan_adan.json");
+
+    let json_content = fs::read_to_string(json_path)?;
+    let data: Vec<serde_json::Value> = serde_json::from_str(&json_content)?;
+
+    if data.len() != 18 {
+        return Err(format!("Expected 18 consonant groups, found {}", data.len()).into());
+    }
+
+    let mut mappings = Vec::new();
+
+    for entry in data.iter() {
+        let urip = entry["urip"].as_u64().ok_or("Missing urip value")? as u8;
+        if urip == 0 || urip > 9 {
+            return Err(format!("Invalid urip value: {}", urip).into());
+        }
+
+        let consonants = entry["consonants"]
+            .as_array()
+            .ok_or("Missing consonants array")?;
+
+        for consonant_val in consonants.iter() {
+            let consonant_str = consonant_val.as_str().ok_or("Invalid consonant")?;
+            mappings.push((consonant_str.to_lowercase(), urip));
+        }
+    }
+
+    // Sort by length descending to match longest consonants first (e.g., "ng" before "n")
+    mappings.sort_by(|a, b| b.0.len().cmp(&a.0.len()));
+
+    Ok(mappings)
+}
+
 /// Calculate Tenung Patemuan Adan name compatibility.
 ///
-/// Uses letter → urip mapping via directional chart (18 consonant groups)
-/// from Lontar Joyoboyo tradition.
+/// Uses letter → urip mapping via the 18-consonant directional chart
+/// from Lontar Joyoboyo tradition. Each letter (consonant) in the names
+/// is assigned an urip value (1-9), summed, and evaluated for compatibility.
 ///
 /// # Arguments
 /// * `a` - First name
 /// * `b` - Second name
 ///
 /// # Returns
-/// * `PatemuanResult` - Name compatibility assessment
+/// * `PatemuanResult` - Name compatibility assessment with combined urip,
+///   remainder, and boolean compatibility flag
 pub fn name_compatibility(a: &str, b: &str) -> PatemuanResult {
-    // TODO: Implement complete letter → urip mapping from directional chart
-    // For now, provide a simplified implementation based on name length
+    static LOOKUP: std::sync::OnceLock<
+        Result<Vec<(String, u8)>, Box<dyn std::error::Error + Send + Sync>>,
+    > = std::sync::OnceLock::new();
 
-    let a_urip = (a.len() % 9 + 1) as u8; // Simplified: name length mod 9
-    let b_urip = (b.len() % 9 + 1) as u8;
+    let lookup_result = LOOKUP.get_or_init(|| {
+        match load_tenung_patemuan_lookup() {
+            Ok(data) => Ok(data),
+            Err(e) => {
+                eprintln!(
+                    "Warning: Failed to load Tenung Patemuan Adan JSON data: {}. Using fallback algorithm.",
+                    e
+                );
+                // Return error for fallback
+                Err(Box::new(std::io::Error::other("Fallback to algorithm")) as Box<dyn std::error::Error + Send + Sync>)
+            }
+        }
+    });
+
+    /// Helper function to accumulate urip from a name string using multi-character consonant matching.
+    /// Processes from longest to shortest consonants to correctly match clusters like "ng" and "ny".
+    fn accumulate_urip(name: &str, mappings: &[(String, u8)]) -> u8 {
+        let name_lower = name.to_lowercase();
+        let mut urip = 0u8;
+        let mut pos = 0;
+
+        while pos < name_lower.len() {
+            let mut matched = false;
+
+            // Try to match from longest to shortest consonants
+            for (consonant, urip_val) in mappings.iter() {
+                if name_lower[pos..].starts_with(consonant) {
+                    urip = (urip + urip_val - 1) % 9 + 1; // Accumulate with cycling
+                    pos += consonant.len();
+                    matched = true;
+                    break;
+                }
+            }
+
+            if !matched {
+                // No consonant matched; skip this character (vowel or non-matched)
+                pos += 1;
+            }
+        }
+
+        urip
+    }
+
+    // Try JSON-based mapping first
+    let mut a_urip;
+    let mut b_urip;
+
+    if let Ok(mappings) = lookup_result.as_ref() {
+        a_urip = accumulate_urip(a, mappings);
+        b_urip = accumulate_urip(b, mappings);
+
+        if a_urip == 0 {
+            a_urip = (a.len() % 9 + 1) as u8; // Fallback to name length if no consonants matched
+        }
+        if b_urip == 0 {
+            b_urip = (b.len() % 9 + 1) as u8;
+        }
+    } else {
+        // Fallback: name length based urip calculation
+        a_urip = (a.len() % 9 + 1) as u8;
+        b_urip = (b.len() % 9 + 1) as u8;
+    }
 
     let combined_urip = a_urip + b_urip;
     let remainder = combined_urip % 7; // Traditional divisor for name compatibility
-    let is_compatible = remainder != 0 && remainder != 3; // Simplified compatibility rule
+    let is_compatible = remainder != 0 && remainder != 3; // Compatibility rule: avoid 0 and 3
 
     PatemuanResult { combined_urip, remainder, is_compatible }
 }

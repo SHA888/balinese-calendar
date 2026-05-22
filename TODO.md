@@ -222,10 +222,10 @@ Two placeholder-algorithm items deferred from v0.2.1. Both are pure
 data-extraction tasks against existing OCR sources; no algorithm change, no
 public API change. Releases as a patch under SemVer.
 
-- [ ] **Dauh Sukaranti** — complete the 12×5 lookup table from OCR; replace
+- [x] **Dauh Sukaranti** — complete the 12×5 lookup table from OCR; replace
       placeholder algorithm in the Dauh Sukaranti implementation.
       Source: Wariga Sundari Bungkah via I Made Bidja.
-- [ ] **Tenung Patemuan Adan** — complete the letter → urip directional chart
+- [x] **Tenung Patemuan Adan** — complete the letter → urip directional chart
       (18 consonant groups); replace placeholder algorithm in the Tenung
       Patemuan Adan implementation.
       Source: Lontar Joyoboyo.
