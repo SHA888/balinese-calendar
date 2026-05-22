@@ -21,3 +21,8 @@ Cargo.lock
 
 # Dependencies
 /vendor/
+
+# Agents and memory
+.claude/
+out/
+CLAUDE.md
