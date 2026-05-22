@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.2] — 2026-05-22
+
+### ✨ Added
+
+- **Wariga Lookup Completeness**:
+  - **Dauh Sukaranti** — JSON-backed 12×5 lookup table replacing heuristic-only time-slot quality computation. All 12 urip values (1–12) map to 5 period qualities (Krta, Sume, Peta, Pali, Kelara) via `dauh_sukaranti_fixtures` loaded from `tests/fixtures/dauh_sukaranti.json`. Fallback algorithm preserved for robustness.
+  - **Tenung Patemuan Adan** — JSON-backed 18-consonant-group mapping replacing name-length-only logic. Multi-character clusters ("ng"→urip 3, "ny"→urip 6) now correctly handled via longest-match-first algorithm. Loaded from `tests/fixtures/tenung_patemuan_adan.json`. Name compatibility rule (remainder ≠ 0 and ≠ 3) preserved for 16 possible outcomes. Fallback to name-length heuristic maintained.
+
+### 🧪 Testing
+
+- Enhanced `test_dauh_sukaranti()` with spot checks across all 12 urip values
+- New `test_name_compatibility_with_clusters()` validating multi-character consonant handling (Balinese names: Mangga, Nyoman, etc.)
+- Edge case tests for empty strings, single characters, long names, case-insensitivity
+
+### 🔧 Infrastructure
+
+- GitHub Actions: Upgraded Node.js LTS from v20 → v24 in `docs.yml` workflow
+- Actions: `actions/upload-pages-artifact` v4 → v5
+
 ## [0.2.1] — 2026-04-28
 
 ### ✨ Added
