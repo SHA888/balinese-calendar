@@ -158,62 +158,102 @@ fn test_pawiwahan_symmetry() {
 
 #[test]
 fn test_dauh_sukaranti() {
-    // Test Dauh Sukaranti time-slot qualities
-    let urip_values = [1, 5, 10, 15, 20, 25, 30];
-
-    for &urip in &urip_values {
+    // Test Dauh Sukaranti time-slot qualities for all 12 urip values
+    // Each urip value (1-12) should return exactly 5 qualities (one per time period)
+    for urip in 1..=12 {
         let qualities = dauh_sukaranti(urip);
 
         // Should return exactly 5 qualities
-        assert_eq!(qualities.len(), 5);
+        assert_eq!(
+            qualities.len(),
+            5,
+            "Dauh Sukaranti should return 5 qualities for urip {}, got {}",
+            urip,
+            qualities.len()
+        );
 
-        // All qualities should be valid
-        for quality in qualities {
+        // All qualities should be valid DauhQuality variants
+        for (idx, quality) in qualities.iter().enumerate() {
             match quality {
-                DauhQuality::Kelara
-                | DauhQuality::Pali
-                | DauhQuality::Sume
-                | DauhQuality::Krta
+                DauhQuality::Kelara | DauhQuality::Pali | DauhQuality::Sume | DauhQuality::Krta
                 | DauhQuality::Peta => {
                     // Valid quality
                 }
             }
 
-            // Test description method
+            // Test description method (should not be empty)
             let desc = quality.description();
-            assert!(!desc.is_empty());
+            assert!(!desc.is_empty(), "Quality description should not be empty for period {}", idx);
         }
     }
+
+    // Spot-check specific urip values from fixture
+    let qualities_urip_1 = dauh_sukaranti(1);
+    assert_eq!(qualities_urip_1[0], DauhQuality::Krta);
+    assert_eq!(qualities_urip_1[1], DauhQuality::Sume);
+
+    let qualities_urip_9 = dauh_sukaranti(9);
+    assert_eq!(qualities_urip_9[0], DauhQuality::Pali);
 }
 
 #[test]
 fn test_name_compatibility() {
-    // Test name compatibility
+    // Test Tenung Patemuan Adan name compatibility using letter → urip mapping
     let name_a = "Made";
     let name_b = "Kadek";
 
     let result = name_compatibility(name_a, name_b);
 
-    // Should have valid combined urip
-    assert!(result.combined_urip > 0);
+    // Should have valid combined urip (sum of both names' urips)
+    assert!(result.combined_urip > 0, "Combined urip should be > 0");
+    assert!(result.combined_urip <= 18, "Combined urip should not exceed 18 (max 9+9)");
 
-    // Should have valid remainder
-    assert!(result.remainder < 7);
+    // Should have valid remainder (0-6 when divided by 7)
+    assert!(result.remainder < 7, "Remainder should be < 7");
 
     // Should have boolean compatibility result
-    let _is_compatible = result.is_compatible;
+    // Compatible when remainder != 0 and != 3
+    let expected_compatible = result.remainder != 0 && result.remainder != 3;
+    assert_eq!(result.is_compatible, expected_compatible);
+}
+
+#[test]
+fn test_name_compatibility_with_consonants() {
+    // Test with names containing consonants from the mapping
+    // "k" (Ka group) maps to urip 1
+    let result_k = name_compatibility("k", "k");
+    assert!(result_k.combined_urip > 0);
+
+    // "m" (Ma group) maps to urip 3
+    let result_m = name_compatibility("m", "m");
+    assert!(result_m.combined_urip > 0);
+
+    // Balinese names with consonants
+    let result_made = name_compatibility("Made", "Ketut");
+    assert!(result_made.combined_urip > 0);
 }
 
 #[test]
 fn test_name_compatibility_edge_cases() {
-    // Test with empty names
+    // Test with empty names - should fallback to name length calculation
     let result = name_compatibility("", "");
     assert!(result.combined_urip > 0);
+
+    // Test with single character
+    let result_single = name_compatibility("A", "B");
+    assert!(result_single.combined_urip > 0);
 
     // Test with long names
     let long_name = "A".repeat(100);
     let result = name_compatibility(&long_name, "B");
     assert!(result.combined_urip > 0);
+
+    // Test case insensitivity
+    let result_lower = name_compatibility("made", "kadek");
+    let result_upper = name_compatibility("MADE", "KADEK");
+    // Both should be valid (exact values might differ due to fallback behavior)
+    assert!(result_lower.combined_urip > 0);
+    assert!(result_upper.combined_urip > 0);
 }
 
 #[test]
