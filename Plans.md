@@ -35,9 +35,23 @@ Foundational implementation: extract expert-ground-truth dataset from Candana et
 - **Expert ground truth:** 16 dates scored 70–80 by Wariga expert; task 3.3 verifies we can load these and run inference (even with placeholder scoring, we establish the test infrastructure).
 - **No algorithm change:** Phase 1 is pure fixture extraction + trait scaffolding. The Sugeno engine itself is Phase 2.
 
-### Release checklist (trigger for v0.3.0-alpha)
-- [ ] Task 3.1 complete: candana_2021_dewasa.json created and validated
-- [ ] Task 3.2 complete: DewasaAyu trait compiles and feature-gates correctly
-- [ ] Task 3.3 complete: integration tests pass and demonstrate fixture infrastructure
-- [ ] CHANGELOG.md updated with v0.3.0-alpha notes
-- [ ] `cargo test --all-features` passes (including new dewasa_ayu tests)
+### Phase 1 status (complete — NOT released)
+
+Phase 1 is done on `main` but intentionally **unreleased**. The scaffold scorer is
+non-functional (classifies ~72% of days as good vs the 2.19% ground truth), so no
+alpha is cut. Phase 1 + Phase 2 ship together as a single `0.3.0` once the Sugeno
+engine makes the scorer meaningful. The feature is gated off by default, so leaving
+it unreleased on `main` has no cost.
+
+- [x] Task 3.1: candana_2021_dewasa.json created and validated
+- [x] Task 3.2: DewasaAyu trait compiles and feature-gates correctly (gated in cb17271d)
+- [x] Task 3.3: integration tests pass and demonstrate fixture infrastructure
+- [x] `cargo test --all-features` passes (including new dewasa_ayu tests)
+
+### Release gate for v0.3.0 (do NOT tag until ALL pass)
+- [ ] Phase 2 Sugeno engine complete; `test_scaffold_rarity_over_full_year` passes **un-ignored** (<3% positive rate)
+- [ ] Sugeno performance meets Candana targets (≈82% F-1, ≈92% precision, 75% recall) on the fixture
+- [ ] CHANGELOG.md updated with v0.3.0 notes (a working classifier, not a scaffold caveat)
+- [ ] `cargo semver-checks` passes
+- [ ] Bump `Cargo.toml` version to `0.3.0`
+- [ ] Git tag `v0.3.0` created
