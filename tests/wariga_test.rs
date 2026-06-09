@@ -175,7 +175,10 @@ fn test_dauh_sukaranti() {
         // All qualities should be valid DauhQuality variants
         for (idx, quality) in qualities.iter().enumerate() {
             match quality {
-                DauhQuality::Kelara | DauhQuality::Pali | DauhQuality::Sume | DauhQuality::Krta
+                DauhQuality::Kelara
+                | DauhQuality::Pali
+                | DauhQuality::Sume
+                | DauhQuality::Krta
                 | DauhQuality::Peta => {
                     // Valid quality
                 }
@@ -248,8 +251,8 @@ fn test_name_compatibility_with_clusters() {
     assert!(result_nyoman.combined_urip > 0, "Nyoman should produce valid urip");
 
     // Verify that cluster names produce different results than non-cluster variants
-    let result_nana = name_compatibility("Nana", "Sari");  // Just 'n', no cluster
-    let result_nyata = name_compatibility("Nyata", "Sari");  // Has 'ny' cluster
+    let result_nana = name_compatibility("Nana", "Sari"); // Just 'n', no cluster
+    let result_nyata = name_compatibility("Nyata", "Sari"); // Has 'ny' cluster
     // These should NOT be identical (cluster affects urip calculation)
     // Note: due to modulo arithmetic they might be equal by chance, but the logic is different
     assert!(result_nana.combined_urip > 0);

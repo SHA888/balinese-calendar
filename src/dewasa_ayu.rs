@@ -2,8 +2,10 @@
 //
 // Dewasa Ayu — Auspicious Day Classification for Pawiwahan (marriage ceremonies)
 //
-// Implementation based on Candana et al. (2021) "Fuzzy Inference System for
-// Pawiwahan Good Day Classification", Jurnal Ilmiah KIM 6(2), 14-22.
+// Implementation based on Candana, E.W.H., Gunadi, I.G.A., & Divayana, D.G.H.
+// (2021). "Perbandingan Fuzzy Tsukamoto, Mamdani dan Sugeno dalam Penentuan Hari
+// Baik Pernikahan Berdasarkan Wariga Menggunakan Confusion Matrix". Jurnal Ilmu
+// Komputer Indonesia (JIK), 6(2), 14-22. Universitas Pendidikan Ganesha.
 //
 // Key findings from Candana 2021:
 // - Sugeno FIS: F-1 = 82.76%, Precision = 92.31%, Recall = 75%
@@ -20,6 +22,12 @@
 //
 // Phase 1: Scoring scaffold (current)
 // Phase 2: Zero-order Sugeno fuzzy inference engine (upcoming)
+//
+// LIMITATION (Phase 1): the wewaran-only scaffold is intentionally permissive —
+// it classifies well over half of all days as Dewasa Ayu, far above the expert's
+// 2.19% (16/731) rarity. It exists only to exercise the trait + fixture plumbing.
+// The full Sugeno engine (Phase 2) must satisfy the <3% rarity constraint; see the
+// `test_scaffold_rarity_over_full_year` guard in tests/dewasa_ayu_test.rs.
 
 use crate::balinese_date::BalineseDate;
 use crate::wewaran::{Pancawara, Saptawara};
@@ -38,18 +46,11 @@ pub struct DewasaAyuConfig {
     pub saptawara_weight: f64,
     /// Weight for Pancawara (5-day week) component
     pub pancawara_weight: f64,
-    /// Penalty for days expert never selects (Redite, Saniscara)
-    pub exclusion_penalty: f64,
 }
 
 impl Default for DewasaAyuConfig {
     fn default() -> Self {
-        Self {
-            threshold: 0.70,
-            saptawara_weight: 0.5,
-            pancawara_weight: 0.5,
-            exclusion_penalty: 1.0, // 1.0 = no penalty, 0.0 = complete zeroing
-        }
+        Self { threshold: 0.70, saptawara_weight: 0.5, pancawara_weight: 0.5 }
     }
 }
 
@@ -118,14 +119,11 @@ impl DewasaAyu for BalineseDate {
         let sapta_score = score_saptawara(&self.saptawara);
         let panca_score = score_pancawara(&self.pancawara);
 
-        // Weighted combination
-        let mut score =
-            config.saptawara_weight * sapta_score + config.pancawara_weight * panca_score;
-
-        // Apply exclusion penalty for days expert never selects
-        if is_expert_excluded(&self.saptawara) {
-            score *= config.exclusion_penalty;
-        }
+        // Weighted combination. The expert's avoidance of Redite/Saniscara is
+        // encoded directly in their low base scores (see `score_saptawara`), so no
+        // separate exclusion penalty is needed: any Redite/Saniscara day caps below
+        // the default 0.70 threshold regardless of pancawara.
+        let score = config.saptawara_weight * sapta_score + config.pancawara_weight * panca_score;
 
         score.clamp(0.0, 1.0)
     }
@@ -181,13 +179,6 @@ fn score_pancawara(panca: &Pancawara) -> f64 {
         Pancawara::Paing => 0.85,  // 3 selections (18.75%)
         Pancawara::Umanis => 0.75, // 2 selections (12.5%)
     }
-}
-
-/// Check if Saptawara is excluded by expert ground truth.
-///
-/// Expert NEVER selects Redite or Saniscara for Pawiwahan.
-fn is_expert_excluded(sapta: &Saptawara) -> bool {
-    matches!(sapta, Saptawara::Redite | Saptawara::Saniscara)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -581,25 +572,22 @@ mod tests {
     }
 
     #[test]
-    fn test_excluded_dates_low_score() {
-        // Verify that Redite and Saniscara have low scores when exclusion_penalty is applied
-        let config = DewasaAyuConfig {
-            exclusion_penalty: 0.0, // Apply full exclusion
-            ..Default::default()
-        };
-
+    fn test_excluded_dates_never_dewasa_ayu() {
+        // The expert NEVER selects Redite or Saniscara. Their low base scores
+        // (0.30 / 0.35) cap the weighted total below the default 0.70 threshold for
+        // ANY pancawara, so excluded days are never classified Dewasa Ayu.
         let redite = BalineseDate::from_ymd(2020, 1, 5).unwrap(); // Redite
         let saniscara = BalineseDate::from_ymd(2020, 1, 11).unwrap(); // Saniscara
 
         assert!(
-            redite.dewasa_ayu_score_with_config(&config) < 0.5,
-            "Redite should have low score with exclusion: {:.2}",
-            redite.dewasa_ayu_score_with_config(&config)
+            !redite.is_dewasa_ayu(),
+            "Redite should never be Dewasa Ayu (score {:.2})",
+            redite.dewasa_ayu_score()
         );
         assert!(
-            saniscara.dewasa_ayu_score_with_config(&config) < 0.5,
-            "Saniscara should have low score with exclusion: {:.2}",
-            saniscara.dewasa_ayu_score_with_config(&config)
+            !saniscara.is_dewasa_ayu(),
+            "Saniscara should never be Dewasa Ayu (score {:.2})",
+            saniscara.dewasa_ayu_score()
         );
     }
 

@@ -7,8 +7,14 @@
 // - Sugeno FIS performance (12 TP, 1 FP baseline)
 // - Wewaran cross-reference accuracy
 //
-// Source: Candana, I.G.A.M., et al. (2021). "Fuzzy Inference System for
-// Pawiwahan Good Day Classification". Jurnal Ilmiah KIM 6(2), 14-22.
+// Source: Candana, E.W.H., Gunadi, I.G.A., & Divayana, D.G.H. (2021).
+// "Perbandingan Fuzzy Tsukamoto, Mamdani dan Sugeno dalam Penentuan Hari Baik
+// Pernikahan Berdasarkan Wariga Menggunakan Confusion Matrix".
+// Jurnal Ilmu Komputer Indonesia (JIK), 6(2), 14-22. Universitas Pendidikan Ganesha.
+
+// The entire Dewasa Ayu surface is gated behind the `dewasa-ayu` feature
+// (it is the crate's only f64 component). Skip this file when the feature is off.
+#![cfg(feature = "dewasa-ayu")]
 
 use balinese_calendar::{BalineseDate, DewasaAyu, DewasaAyuConfig};
 use serde::Deserialize;
@@ -395,5 +401,45 @@ fn test_sugeno_precision_recall_targets() {
         true_positives >= 10,
         "Should find at least 10 true positives, found {}",
         true_positives
+    );
+}
+
+/// Rarity constraint over a full year — the single most important accuracy guard.
+///
+/// The expert classified only 16/731 days (2.19%) as good for Pawiwahan; any
+/// faithful engine must keep the positive rate under 3% across a full year.
+///
+/// This is `#[ignore]`d in Phase 1 because the wewaran-only scaffold is
+/// intentionally permissive (it classifies >50% of days as good). Phase 2 must
+/// make the Sugeno engine pass this test and then remove the `#[ignore]`.
+///
+/// Run explicitly with: `cargo test --all-features -- --ignored rarity`
+#[test]
+#[ignore = "Phase 2: scaffold over-classifies by design; un-ignore when the Sugeno engine lands"]
+fn test_scaffold_rarity_over_full_year() {
+    let config = DewasaAyuConfig::default();
+    let mut good = 0usize;
+    let mut total = 0usize;
+
+    // Walk all of Gregorian 2020 (the Candana study's first year). Invalid
+    // (month, day) combinations are skipped via from_ymd's date validation.
+    for month in 1..=12u32 {
+        for day in 1..=31u32 {
+            if let Ok(date) = BalineseDate::from_ymd(2020, month, day) {
+                total += 1;
+                if date.is_dewasa_ayu_with_config(&config) {
+                    good += 1;
+                }
+            }
+        }
+    }
+
+    let percentage = good as f64 / total as f64 * 100.0;
+    assert!(
+        percentage < 3.0,
+        "Dewasa Ayu positive rate {:.1}% ({}/{}) exceeds the 3% rarity constraint",
+        percentage,
+        good,
+        total
     );
 }

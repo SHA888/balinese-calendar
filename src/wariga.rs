@@ -427,13 +427,14 @@ impl DauhPeriod {
     }
 }
 
-/// Calculate Dauh Sukaranti time-slot qualities.
-///
-/// # Arguments
-/// * `urip` - Combined urip value (typically sapta + panca)
-///
-/// # Returns
-/// * `[DauhQuality; 5]` - Quality assessment for all 5 time periods
+/// Result of loading the Dauh Sukaranti lookup table from its JSON fixture.
+type DauhLookupResult = Result<Vec<(u8, [DauhQuality; 5])>, Box<dyn std::error::Error>>;
+/// Cached Dauh Sukaranti lookup, `Send + Sync` for storage in a `OnceLock`.
+type DauhLookupCache =
+    Result<Vec<(u8, [DauhQuality; 5])>, Box<dyn std::error::Error + Send + Sync>>;
+/// Cached Tenung Patemuan Adan letter→urip lookup, `Send + Sync` for a `OnceLock`.
+type TenungLookupCache = Result<Vec<(String, u8)>, Box<dyn std::error::Error + Send + Sync>>;
+
 /// Load Dauh Sukaranti lookup table from JSON fixture.
 ///
 /// Returns the complete 12-entry lookup table mapping each urip value
@@ -441,7 +442,7 @@ impl DauhPeriod {
 ///
 /// The JSON data is loaded from the fixture file containing the traditional
 /// values extracted from I Made Bidja's Wariga Sundari Bungkah manuscript.
-fn load_dauh_sukaranti_lookup() -> Result<Vec<(u8, [DauhQuality; 5])>, Box<dyn std::error::Error>> {
+fn load_dauh_sukaranti_lookup() -> DauhLookupResult {
     let json_path = concat!(env!("CARGO_MANIFEST_DIR"), "/tests/fixtures/dauh_sukaranti.json");
 
     let json_content = fs::read_to_string(json_path)?;
@@ -497,9 +498,7 @@ fn load_dauh_sukaranti_lookup() -> Result<Vec<(u8, [DauhQuality; 5])>, Box<dyn s
 /// # Returns
 /// Array of 5 `DauhQuality` values, one per time period
 pub fn dauh_sukaranti(urip: u8) -> [DauhQuality; 5] {
-    static LOOKUP: std::sync::OnceLock<
-        Result<Vec<(u8, [DauhQuality; 5])>, Box<dyn std::error::Error + Send + Sync>>,
-    > = std::sync::OnceLock::new();
+    static LOOKUP: std::sync::OnceLock<DauhLookupCache> = std::sync::OnceLock::new();
 
     let lookup_result = LOOKUP.get_or_init(|| {
         match load_dauh_sukaranti_lookup() {
@@ -583,7 +582,8 @@ pub struct PatemuanResult {
 /// Ordered by length (longest first) to correctly match multi-character clusters like "ng" and "ny"
 /// before falling back to single character matches.
 fn load_tenung_patemuan_lookup() -> Result<Vec<(String, u8)>, Box<dyn std::error::Error>> {
-    let json_path = concat!(env!("CARGO_MANIFEST_DIR"), "/tests/fixtures/tenung_patemuan_adan.json");
+    let json_path =
+        concat!(env!("CARGO_MANIFEST_DIR"), "/tests/fixtures/tenung_patemuan_adan.json");
 
     let json_content = fs::read_to_string(json_path)?;
     let data: Vec<serde_json::Value> = serde_json::from_str(&json_content)?;
@@ -600,9 +600,7 @@ fn load_tenung_patemuan_lookup() -> Result<Vec<(String, u8)>, Box<dyn std::error
             return Err(format!("Invalid urip value: {}", urip).into());
         }
 
-        let consonants = entry["consonants"]
-            .as_array()
-            .ok_or("Missing consonants array")?;
+        let consonants = entry["consonants"].as_array().ok_or("Missing consonants array")?;
 
         for consonant_val in consonants.iter() {
             let consonant_str = consonant_val.as_str().ok_or("Invalid consonant")?;
@@ -611,7 +609,7 @@ fn load_tenung_patemuan_lookup() -> Result<Vec<(String, u8)>, Box<dyn std::error
     }
 
     // Sort by length descending to match longest consonants first (e.g., "ng" before "n")
-    mappings.sort_by(|a, b| b.0.len().cmp(&a.0.len()));
+    mappings.sort_by_key(|m| std::cmp::Reverse(m.0.len()));
 
     Ok(mappings)
 }
@@ -630,9 +628,7 @@ fn load_tenung_patemuan_lookup() -> Result<Vec<(String, u8)>, Box<dyn std::error
 /// * `PatemuanResult` - Name compatibility assessment with combined urip,
 ///   remainder, and boolean compatibility flag
 pub fn name_compatibility(a: &str, b: &str) -> PatemuanResult {
-    static LOOKUP: std::sync::OnceLock<
-        Result<Vec<(String, u8)>, Box<dyn std::error::Error + Send + Sync>>,
-    > = std::sync::OnceLock::new();
+    static LOOKUP: std::sync::OnceLock<TenungLookupCache> = std::sync::OnceLock::new();
 
     let lookup_result = LOOKUP.get_or_init(|| {
         match load_tenung_patemuan_lookup() {

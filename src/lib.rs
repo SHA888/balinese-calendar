@@ -31,6 +31,7 @@
 
 mod balinese_date;
 pub mod boundary;
+#[cfg(feature = "dewasa-ayu")]
 pub mod dewasa_ayu;
 pub mod error;
 pub mod paringkelan;
@@ -48,11 +49,10 @@ pub mod wasm;
 
 pub use balinese_date::{BalineseDate, FlatRecord};
 pub use boundary::DayBoundary;
-pub use dewasa_ayu::{DewasaAyu, DewasaAyuConfig};
-
 #[cfg(feature = "dewasa-ayu")]
 pub use dewasa_ayu::{
-    DewasaInput, FuzzySet, LinguisticValue, MembershipShape, SugenoEngine, SugenoRule,
+    DewasaAyu, DewasaAyuConfig, DewasaInput, FuzzySet, LinguisticValue, MembershipShape,
+    SugenoEngine, SugenoRule,
 };
 pub use error::BalineseDateError;
 
