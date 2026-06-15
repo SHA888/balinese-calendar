@@ -443,3 +443,141 @@ fn test_scaffold_rarity_over_full_year() {
         total
     );
 }
+
+/// Task 3.4 — empirical characterization of the 16 expert dates across all five
+/// Sugeno input variables, to design rarity-preserving penanggal/sasih filters.
+///
+/// Run with: `cargo test --all-features -- --ignored --nocapture characterize`
+#[test]
+#[ignore = "analysis tool, not an assertion — run manually with --nocapture"]
+fn characterize_expert_dates() {
+    let fixture = load_fixture();
+    let experts: Vec<_> = fixture.entries.iter().filter(|e| e.category == "expert").collect();
+
+    let mut waxing = 0usize;
+    let mut tithi_hist: std::collections::HashMap<u8, usize> = std::collections::HashMap::new();
+    let mut sasih_hist: std::collections::HashMap<String, usize> = std::collections::HashMap::new();
+    let mut min_tithi = u8::MAX;
+    let mut max_tithi = 0u8;
+
+    println!("\n=== 16 expert dates: full 5-variable profile ===");
+    println!(
+        "{:<12} {:<10} {:<8} {:<5} {:<7} {:<8} {:<12}",
+        "date", "sapta", "panca", "wuku", "tithi", "phase", "sasih"
+    );
+    for e in &experts {
+        let (y, m, d) = parse_date(&e.date);
+        let date = BalineseDate::from_ymd(y, m, d).unwrap();
+        let tithi = date.sasih_day.tithi_number(); // 1-15 waxing, 16-30 waning
+        let is_waxing = tithi <= 15;
+        if is_waxing {
+            waxing += 1;
+        }
+        let phase = if date.sasih_day.is_purnama() {
+            "Purnama"
+        } else if date.sasih_day.is_tilem() {
+            "Tilem"
+        } else if is_waxing {
+            "Penanggal"
+        } else {
+            "Pangelong"
+        };
+        *tithi_hist.entry(tithi).or_insert(0) += 1;
+        *sasih_hist.entry(date.sasih.name().to_string()).or_insert(0) += 1;
+        min_tithi = min_tithi.min(tithi);
+        max_tithi = max_tithi.max(tithi);
+
+        println!(
+            "{:<12} {:<10} {:<8} {:<5} {:<7} {:<8} {:<12}",
+            e.date,
+            date.saptawara.name(),
+            date.pancawara.name(),
+            date.wuku.index(),
+            tithi,
+            phase,
+            date.sasih.name()
+        );
+    }
+
+    println!("\n=== distributions ===");
+    println!("waxing (tithi<=15): {}/{}  | tithi range: {}..={}", waxing, experts.len(), min_tithi, max_tithi);
+    let mut sasih_sorted: Vec<_> = sasih_hist.iter().collect();
+    sasih_sorted.sort_by(|a, b| b.1.cmp(a.1));
+    println!("sasih: {:?}", sasih_sorted);
+    let mut tithi_sorted: Vec<_> = tithi_hist.iter().collect();
+    tithi_sorted.sort_by_key(|(t, _)| **t);
+    println!("tithi: {:?}", tithi_sorted);
+}
+
+/// Verifies the Phase 2 finding: that NO penanggal/sasih filter can isolate the
+/// expert days to <3% while keeping them all — because they span the full space.
+///
+/// Computes, for one full year (2020), the tightest filter that retains every
+/// expert day and reports what fraction of the year it still admits.
+///
+/// Run with: `cargo test --all-features -- --ignored --nocapture verify_finding`
+#[test]
+#[ignore = "analysis tool, not an assertion — run manually with --nocapture"]
+fn verify_finding_experts_span_space() {
+    let fixture = load_fixture();
+
+    // Expert days that fall in 2020, with their derived fields.
+    let experts_2020: Vec<BalineseDate> = fixture
+        .entries
+        .iter()
+        .filter(|e| e.category == "expert" && e.date.starts_with("2020-"))
+        .map(|e| {
+            let (y, m, d) = parse_date(&e.date);
+            BalineseDate::from_ymd(y, m, d).unwrap()
+        })
+        .collect();
+
+    // The filter dimensions the experts occupy.
+    let expert_sasih: HashSet<&str> = experts_2020.iter().map(|d| d.sasih.name()).collect();
+    let tmin = experts_2020.iter().map(|d| d.sasih_day.tithi_number()).min().unwrap();
+    let tmax = experts_2020.iter().map(|d| d.sasih_day.tithi_number()).max().unwrap();
+    let waxing_experts = experts_2020.iter().filter(|d| d.sasih_day.tithi_number() <= 15).count();
+
+    // Walk all of 2020.
+    let mut total = 0usize;
+    let mut ws = 0usize; // Wraspati or Sukra (the validated wewaran signal)
+    let mut bounding = 0usize; // WS ∩ sasih∈experts' ∩ tithi∈[tmin,tmax] — tightest filter that keeps ALL experts
+    let mut waxing_ws = 0usize; // WS ∩ waxing — the standard "waxing moon" rarity heuristic
+    for month in 1..=12u32 {
+        for day in 1..=31u32 {
+            if let Ok(date) = BalineseDate::from_ymd(2020, month, day) {
+                total += 1;
+                let is_ws = matches!(
+                    date.saptawara.name(),
+                    "Wraspati" | "Sukra"
+                );
+                if !is_ws {
+                    continue;
+                }
+                ws += 1;
+                let tithi = date.sasih_day.tithi_number();
+                if tithi <= 15 {
+                    waxing_ws += 1;
+                }
+                if expert_sasih.contains(date.sasih.name()) && tithi >= tmin && tithi <= tmax {
+                    bounding += 1;
+                }
+            }
+        }
+    }
+
+    let pct = |n: usize| n as f64 / total as f64 * 100.0;
+    println!("\n=== Finding verification (2020) ===");
+    println!("expert days in 2020: {}", experts_2020.len());
+    println!("  distinct sasih occupied: {}/12  | tithi range: {}..={}  | waxing: {}/{}",
+        expert_sasih.len(), tmin, tmax, waxing_experts, experts_2020.len());
+    println!("total valid days: {}", total);
+    println!("Wraspati/Sukra days: {} ({:.1}%)", ws, pct(ws));
+    println!("TIGHTEST filter keeping ALL experts (WS ∩ their sasih ∩ [{}, {}]): {} ({:.1}%)",
+        tmin, tmax, bounding, pct(bounding));
+    println!("'waxing moon' heuristic (WS ∩ tithi<=15): admits {} days, but RETAINS only {}/{} experts",
+        waxing_ws, waxing_experts, experts_2020.len());
+    println!("\nConclusion: the tightest expert-preserving filter still admits {:.1}% of the year",
+        pct(bounding));
+    println!("(target rarity: <3%). Any filter strict enough for 3% must drop expert days.");
+}

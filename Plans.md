@@ -55,3 +55,18 @@ it unreleased on `main` has no cost.
 - [ ] `cargo semver-checks` passes
 - [ ] Bump `Cargo.toml` version to `0.3.0`
 - [ ] Git tag `v0.3.0` created
+
+## v0.3.0 — Dewasa Ayu Phase 2 (Functional Sugeno Classifier)
+
+Wire the existing Sugeno machinery (FuzzySet / SugenoEngine, already in the gated
+`sugeno` module) into a real date classifier. Rarity (<3%) is the hard gate; exact
+Candana metric replication is best-effort (the bobot weight tables — Ariana &
+Budayoga 2016 — are research-blocked, so penanggal/sasih/ala-ayu calibration is
+principled-but-approximate until that source lands in Phase 3).
+
+| Task | Description | DoD | Depends | Status |
+|------|-------------|-----|---------|--------|
+| 3.4 | **Input derivation + empirical characterization** — `DewasaInput` from a `BalineseDate` (5 normalized vars: wewaran, wuku, penanggal, sasih, ala_ayu); characterize the 16 expert dates across all 5 vars to find the rarity-preserving filter pattern | derivation fn returns clamped [0,1] inputs for any date; analysis test dumps the 16 experts' full profile + distributions | 3.3 | cc:TODO |
+| 3.5 | **Sugeno rule base** — conjunctive (product t-norm) rules ordered by the Alahaning Dewasa hierarchy (Wewaran→Wuku→Penanggal→Sasih→Dauh); "good" output requires high wewaran AND non-prohibited penanggal/sasih | rule base builder returns a populated `SugenoEngine`; unit tests on firing strength for representative inputs | 3.4 | cc:TODO |
+| 3.6 | **Wire trait to engine + rarity gate** — `DewasaAyu` scoring delegates to the Sugeno engine; un-ignore `test_scaffold_rarity_over_full_year` and make it pass (<3% positives over 2020) | trait uses engine; rarity test passes un-ignored; all expert dates whose wewaran qualifies are still classified correctly | 3.5 | cc:TODO |
+| 3.7 | **Fixture validation + accuracy report** — measure TP/FP/precision/recall vs the 16 expert dates; document achieved metrics against Candana targets and the bobot-source limitation | accuracy test prints metrics; gap vs 82% F-1 documented in code + Plans.md; no overfitting beyond the 16-date fixture without corpus note | 3.6 | cc:TODO |
