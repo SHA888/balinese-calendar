@@ -318,6 +318,38 @@ mod sugeno {
                 ala_ayu: ala_ayu.clamp(0.0, 1.0),
             }
         }
+
+        /// Derive Sugeno input variables from a BalineseDate.
+        ///
+        /// Normalizes all five input variables to [0.0, 1.0] for fuzzy inference:
+        /// - **wewaran**: Composite of Saptawara + Pancawara scores (already normalized [0.3, 1.0])
+        /// - **wuku**: Wuku position (1–30) normalized by dividing by 30
+        /// - **penanggal**: Tithi (lunar day, 1–30) normalized by dividing by 30
+        /// - **sasih**: Sasih month (1–12) normalized by dividing by 12
+        /// - **ala_ayu**: Base auspiciousness (estimated from Wewaran for Phase 2; pending Ariana & Budayoga bobot tables)
+        pub fn from_balinese_date(date: &BalineseDate) -> Self {
+            // Wewaran: weighted combination of Saptawara and Pancawara scores
+            let sapta_score = score_saptawara(&date.saptawara);
+            let panca_score = score_pancawara(&date.pancawara);
+            let wewaran = 0.5 * sapta_score + 0.5 * panca_score;
+
+            // Wuku: position within 30-wuku cycle, normalized to [0, 1]
+            let wuku_norm = (date.wuku.index() as f64) / 30.0;
+
+            // Penanggal: tithi (1–30), normalized to [0, 1]
+            let tithi = date.sasih_day.tithi_number() as f64;
+            let penanggal_norm = tithi / 30.0;
+
+            // Sasih: month (0–11 enum value), normalized to [0, 1]
+            // Note: Sasih enum uses 0–11 for regular months, 12–13 for intercalary months
+            let sasih_idx = date.sasih as u32 as f64;
+            let sasih_norm = (sasih_idx + 1.0) / 13.0; // +1 to shift from 0-indexed, /13 for max intercalary
+
+            // Ala-Ayu: placeholder, use wewaran as estimate (Phase 2: will derive from Ariana & Budayoga bobot)
+            let ala_ayu_est = wewaran;
+
+            Self::new(wewaran, wuku_norm, penanggal_norm, sasih_norm, ala_ayu_est)
+        }
     }
 
     /// Zero-order Sugeno fuzzy rule with 5 antecedents and constant consequent.

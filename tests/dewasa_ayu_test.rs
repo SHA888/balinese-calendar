@@ -16,7 +16,7 @@
 // (it is the crate's only f64 component). Skip this file when the feature is off.
 #![cfg(feature = "dewasa-ayu")]
 
-use balinese_calendar::{BalineseDate, DewasaAyu, DewasaAyuConfig};
+use balinese_calendar::{BalineseDate, DewasaAyu, DewasaAyuConfig, DewasaInput};
 use serde::Deserialize;
 use std::collections::HashSet;
 
@@ -507,6 +507,19 @@ fn characterize_expert_dates() {
     let mut tithi_sorted: Vec<_> = tithi_hist.iter().collect();
     tithi_sorted.sort_by_key(|(t, _)| **t);
     println!("tithi: {:?}", tithi_sorted);
+
+    println!("\n=== Phase 2 Sugeno input derivation (sample) ===");
+    if let Some(first) = experts.first() {
+        let (y, m, d) = parse_date(&first.date);
+        let date = BalineseDate::from_ymd(y, m, d).unwrap();
+        let input = DewasaInput::from_balinese_date(&date);
+        eprintln!("date: {} ({})", first.date, first.score);
+        eprintln!("  wewaran:  {:.3}  (Sapta + Panca weighted avg)", input.wewaran);
+        eprintln!("  wuku:     {:.3}  (position 1–30 normalized)", input.wuku);
+        eprintln!("  penanggal:{:.3}  (tithi 1–30 normalized)", input.penanggal);
+        eprintln!("  sasih:    {:.3}  (month 1–13 normalized)", input.sasih);
+        eprintln!("  ala_ayu:  {:.3}  (Phase 2: pending Ariana & Budayoga)", input.ala_ayu);
+    }
 }
 
 /// Verifies the Phase 2 finding: that NO penanggal/sasih filter can isolate the
