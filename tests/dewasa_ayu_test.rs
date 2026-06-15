@@ -594,3 +594,66 @@ fn verify_finding_experts_span_space() {
         pct(bounding));
     println!("(target rarity: <3%). Any filter strict enough for 3% must drop expert days.");
 }
+
+#[test]
+fn test_candidate_1_sasih_overflow_computation() {
+    // Verify that sasih normalization produces values that would overflow without clamping
+    // When sasih = NampihSada (13): (13 + 1.0) / 13.0 = 14.0/13.0 ≈ 1.077
+    
+    let test_sasih_values = [
+        (0, 1.0 / 13.0),    // Kasa: (0+1)/13 ≈ 0.077
+        (11, 12.0 / 13.0),  // Sada: (11+1)/13 ≈ 0.923
+        (12, 13.0 / 13.0),  // NampihDesta: (12+1)/13 = 1.0
+        (13, 14.0 / 13.0),  // NampihSada: (13+1)/13 ≈ 1.077 (EXCEEDS 1.0!)
+    ];
+    
+    for (sasih_val, expected_unclamped) in test_sasih_values {
+        let unclamped = (sasih_val as f64 + 1.0) / 13.0;
+        assert!((unclamped - expected_unclamped).abs() < 0.001, 
+                "Sasih {}: expected {:.4}, got {:.4}", 
+                sasih_val, expected_unclamped, unclamped);
+        
+        // After clamping in Self::new()
+        let clamped = unclamped.clamp(0.0, 1.0);
+        println!("Sasih {}: unclamped={:.4}, clamped={:.4}", sasih_val, unclamped, clamped);
+    }
+}
+
+#[test]
+fn test_candidate_2_wuku_normalization_never_reaches_1() {
+    // Wuku.index() ranges 0-29, so max norm is 29/30 ≈ 0.967
+    let max_wuku_index = 29;
+    let max_norm = (max_wuku_index as f64) / 30.0;
+    
+    println!("Wuku max index: {}, max normalization: {:.4}", max_wuku_index, max_norm);
+    assert!(max_norm < 1.0, "Wuku normalization should never reach 1.0");
+    assert!(max_norm > 0.96 && max_norm < 0.97, "Max should be ~29/30");
+    
+    // But docstring (line 326) claims "position (1–30)" which is misleading
+    // The actual implementation uses 0-based indexing
+}
+
+#[test]
+fn test_candidate_3_hardcoded_weights_in_from_balinese_date() {
+    use balinese_calendar::{BalineseDate, DewasaInput};
+    
+    let date = BalineseDate::from_ymd(2020, 2, 15).unwrap();
+    let input = DewasaInput::from_balinese_date(&date);
+    
+    // DewasaInput::from_balinese_date has NO config parameter
+    // It always uses hardcoded 0.5/0.5 weights (line 334)
+    // But DewasaAyuConfig struct has configurable fields for weights
+    // And the trait method dewasa_ayu_score_with_config() uses them
+    // This is a divergence: the Sugeno input builder can't be configured
+    
+    println!("DewasaInput::from_balinese_date() signature:");
+    println!("  pub fn from_balinese_date(date: &BalineseDate) -> Self");
+    println!("  (no config parameter!)");
+    println!("");
+    println!("But DewasaAyuConfig has:");
+    println!("  pub saptawara_weight: f64,");
+    println!("  pub pancawara_weight: f64,");
+    println!("");
+    println!("And trait uses these: config.saptawara_weight * sapta + config.pancawara_weight * panca");
+    println!("But from_balinese_date hardcodes: 0.5 * sapta + 0.5 * panca (line 334)");
+}
