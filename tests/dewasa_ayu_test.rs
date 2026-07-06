@@ -650,45 +650,43 @@ fn verify_finding_experts_span_space() {
 }
 
 #[test]
-fn test_candidate_1_sasih_overflow_computation() {
-    // Verify that sasih normalization produces values that would overflow without clamping
-    // When sasih = NampihSada (13): (13 + 1.0) / 13.0 = 14.0/13.0 ≈ 1.077
+fn test_candidate_1_sasih_normalization_reaches_but_never_exceeds_1() {
+    // Regression guard: `sasih_norm` previously computed as (idx + 1.0) / 13.0,
+    // which overflowed [0, 1] for NampihSada (idx=13): 14.0/13.0 ≈ 1.077. Fixed
+    // to idx / 13.0. 2019-05-05 is a real date whose sasih is NampihSada (idx
+    // 13, the maximum enum value) — exercise the actual derivation on it
+    // rather than recomputing the formula inline.
+    use balinese_calendar::sasih::Sasih;
 
-    let test_sasih_values = [
-        (0, 1.0 / 13.0),   // Kasa: (0+1)/13 ≈ 0.077
-        (11, 12.0 / 13.0), // Sada: (11+1)/13 ≈ 0.923
-        (12, 13.0 / 13.0), // NampihDesta: (12+1)/13 = 1.0
-        (13, 14.0 / 13.0), // NampihSada: (13+1)/13 ≈ 1.077 (EXCEEDS 1.0!)
-    ];
+    let date = BalineseDate::from_ymd(2019, 5, 5).unwrap();
+    assert_eq!(date.sasih, Sasih::NampihSada, "fixture date should be NampihSada");
 
-    for (sasih_val, expected_unclamped) in test_sasih_values {
-        let unclamped = (sasih_val as f64 + 1.0) / 13.0;
-        assert!(
-            (unclamped - expected_unclamped).abs() < 0.001,
-            "Sasih {}: expected {:.4}, got {:.4}",
-            sasih_val,
-            expected_unclamped,
-            unclamped
-        );
-
-        // After clamping in Self::new()
-        let clamped = unclamped.clamp(0.0, 1.0);
-        println!("Sasih {}: unclamped={:.4}, clamped={:.4}", sasih_val, unclamped, clamped);
-    }
+    let input = DewasaInput::from_balinese_date(&date);
+    assert!(
+        (input.sasih - 1.0).abs() < 0.001,
+        "NampihSada should normalize to exactly 1.0, got {:.4}",
+        input.sasih
+    );
+    assert!((0.0..=1.0).contains(&input.sasih), "sasih must stay within [0, 1]");
 }
 
 #[test]
-fn test_candidate_2_wuku_normalization_never_reaches_1() {
-    // Wuku.index() ranges 0-29, so max norm is 29/30 ≈ 0.967
-    let max_wuku_index = 29;
-    let max_norm = (max_wuku_index as f64) / 30.0;
+fn test_candidate_2_wuku_normalization_reaches_1_at_max_index() {
+    // Regression guard: `wuku_norm` previously divided by 30.0, so the max
+    // index (29) only reached 29/30 ≈ 0.967, never 1.0. Fixed to divide by
+    // 29.0. 2020-06-28 is a real date whose wuku index is 29 (the maximum,
+    // Watugunung) — exercise the actual derivation on it rather than
+    // recomputing the formula inline.
+    let date = BalineseDate::from_ymd(2020, 6, 28).unwrap();
+    assert_eq!(date.wuku.index(), 29, "fixture date should be the last wuku (index 29)");
 
-    println!("Wuku max index: {}, max normalization: {:.4}", max_wuku_index, max_norm);
-    assert!(max_norm < 1.0, "Wuku normalization should never reach 1.0");
-    assert!(max_norm > 0.96 && max_norm < 0.97, "Max should be ~29/30");
-
-    // But docstring (line 326) claims "position (1–30)" which is misleading
-    // The actual implementation uses 0-based indexing
+    let input = DewasaInput::from_balinese_date(&date);
+    assert!(
+        (input.wuku - 1.0).abs() < 0.001,
+        "Wuku index 29 should normalize to exactly 1.0, got {:.4}",
+        input.wuku
+    );
+    assert!((0.0..=1.0).contains(&input.wuku), "wuku must stay within [0, 1]");
 }
 
 #[test]
