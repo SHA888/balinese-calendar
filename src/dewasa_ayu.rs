@@ -327,7 +327,10 @@ mod sugeno {
         /// - **penanggal**: Tithi (lunar day, 1–30) normalized by dividing by 30
         /// - **sasih**: Sasih month (0–13 enum value) normalized by dividing by 13
         /// - **ala_ayu**: Base auspiciousness (estimated from Wewaran for Phase 2; pending Ariana & Budayoga bobot tables)
-        pub fn from_balinese_date_with_config(date: &BalineseDate, config: &DewasaAyuConfig) -> Self {
+        pub fn from_balinese_date_with_config(
+            date: &BalineseDate,
+            config: &DewasaAyuConfig,
+        ) -> Self {
             // Wewaran: weighted combination using config weights
             let sapta_score = score_saptawara(&date.saptawara);
             let panca_score = score_pancawara(&date.pancawara);
@@ -486,6 +489,97 @@ mod sugeno {
                 FuzzySet::trapezoidal(0.55, 0.65, 0.75, 0.85, LinguisticValue::B),
                 FuzzySet::trapezoidal(0.75, 0.85, 1.0, 1.0, LinguisticValue::SB),
             ]
+        }
+    }
+
+    /// The Alahaning Dewasa rule base.
+    ///
+    /// Hand-authored conjunctive (product t-norm) Sugeno rules ordered by the
+    /// traditional override hierarchy (low → high): Wewaran → Wuku → Penanggal
+    /// → Sasih → Dauh. `DewasaInput::ala_ayu` stands in for Dauh until the
+    /// Ariana & Budayoga bobot tables are available (see module docs).
+    ///
+    /// The hierarchy is encoded as *veto strength*: a variable higher in the
+    /// chain can override an otherwise-excellent Wewaran, and the higher its
+    /// rank, the harder it drags the output down when its value is bad. This
+    /// gives the literal DoD requirement — a "good" output needs high Wewaran
+    /// **and** non-prohibited Penanggal/Sasih — without special-cased branching:
+    /// the "auspicious" rules simply have zero membership (and so don't fire)
+    /// once Penanggal or Sasih falls into prohibited territory, leaving only
+    /// the override rules to determine the (low) blended output.
+    ///
+    /// Wuku, Penanggal, and Sasih have no validated prohibition data yet (the
+    /// Ariana & Budayoga bobot tables are pending — see module docs), and
+    /// `verify_finding_experts_span_space` (tests/dewasa_ayu_test.rs) shows the
+    /// 16 Candana 2021 expert dates occupy nearly the *entire* Wuku/Penanggal/
+    /// Sasih range while Wewaran stays tightly clustered at 0.875–1.0. A
+    /// narrow "must be high" band on those three would therefore reject real
+    /// auspicious days, so the primary auspicious rules only exclude the deep
+    /// low tail (`non_prohibited`), leaving genuinely bad values to the
+    /// explicit override rules. Precise prohibition calibration remains
+    /// best-effort until then (tracked by task 3.6/3.7 in Plans.md).
+    pub mod rule_base {
+        use super::*;
+
+        /// Build the populated `SugenoEngine` for Dewasa Ayu (Pawiwahan) classification.
+        pub fn alahaning_dewasa_rules() -> SugenoEngine {
+            let sets = standard_sets::triangular_five();
+            let sbr = sets[0];
+            let br = sets[1];
+            let s = sets[2];
+            let b = sets[3];
+            // `standard_sets::triangular_five()`'s SB is a symmetric triangle
+            // that returns membership 0 exactly at x=1.0 — the wrong shape
+            // for an extremal "highest" category. Real Wewaran/ala_ayu
+            // values commonly land exactly at 1.0 (e.g. Wraspati paired with
+            // Wage or Kliwon), so use a proper right-shoulder trapezoid
+            // (plateau from 0.9 through 1.0) scoped to this rule base.
+            let sb = FuzzySet::trapezoidal(0.75, 0.9, 1.0, 1.05, LinguisticValue::SB);
+
+            // Near-universal band excluding only the deep low tail (below
+            // ~0.09) — see the module-level doc comment above for why Wuku/
+            // Penanggal/Sasih can't yet use a narrow "must be high" band.
+            let non_prohibited = FuzzySet::trapezoidal(-0.05, 0.09, 1.0, 1.05, LinguisticValue::S);
+
+            let mut engine = SugenoEngine::new();
+
+            // A. Auspicious branch — requires high Wewaran AND non-prohibited
+            // Wuku/Penanggal/Sasih.
+            engine.add_rule(SugenoRule::new(sb, sb, sb, sb, sb, 0.95)); // excellent: everything aligned
+            engine.add_rule(SugenoRule::new(
+                sb,
+                non_prohibited,
+                non_prohibited,
+                non_prohibited,
+                sb,
+                0.80,
+            )); // good (SB tier): Wewaran/ala_ayu excellent, rest merely non-prohibited
+            engine.add_rule(SugenoRule::new(
+                b,
+                non_prohibited,
+                non_prohibited,
+                non_prohibited,
+                b,
+                0.75,
+            )); // good (B tier)
+
+            // B. Moderate branch — all signals agree but none are extreme.
+            engine.add_rule(SugenoRule::new(s, s, s, s, s, 0.50));
+            engine.add_rule(SugenoRule::new(b, s, s, s, s, 0.55));
+
+            // C. Override branch — a bad value on a higher-priority variable
+            // vetoes an otherwise-excellent Wewaran. Damage increases up the
+            // hierarchy: Penanggal < Sasih < Dauh (ala_ayu).
+            engine.add_rule(SugenoRule::new(sb, sb, sbr, s, s, 0.15));
+            engine.add_rule(SugenoRule::new(sb, sb, s, sbr, s, 0.10));
+            engine.add_rule(SugenoRule::new(sb, sb, s, s, sbr, 0.05));
+
+            // D. Weak-Wewaran branch — the base signal alone cannot carry a
+            // good day, regardless of the higher-priority variables.
+            engine.add_rule(SugenoRule::new(sbr, s, s, s, s, 0.20));
+            engine.add_rule(SugenoRule::new(br, s, s, s, s, 0.30));
+
+            engine
         }
     }
 }
@@ -796,5 +890,124 @@ mod tests {
 
         assert_eq!(triangular.len(), 5, "Should have 5 triangular sets");
         assert_eq!(trapezoidal.len(), 5, "Should have 5 trapezoidal sets");
+    }
+
+    #[test]
+    #[cfg(feature = "dewasa-ayu")]
+    fn test_rule_base_is_populated() {
+        use sugeno::rule_base::alahaning_dewasa_rules;
+
+        let engine = alahaning_dewasa_rules();
+        assert!(!engine.rules.is_empty(), "Rule base should not be empty");
+        assert_eq!(engine.rules.len(), 10, "Expected 10 hand-authored rules");
+    }
+
+    #[test]
+    #[cfg(feature = "dewasa-ayu")]
+    fn test_rule_base_excellent_day_scores_high() {
+        use sugeno::{DewasaInput, rule_base::alahaning_dewasa_rules};
+
+        let engine = alahaning_dewasa_rules();
+        let excellent = DewasaInput::new(0.9, 0.9, 0.9, 0.9, 0.9);
+        let score = engine.infer(&excellent);
+        assert!(score > 0.8, "All-excellent input should score high, got {}", score);
+    }
+
+    #[test]
+    #[cfg(feature = "dewasa-ayu")]
+    fn test_rule_base_requires_non_prohibited_penanggal_and_sasih() {
+        use sugeno::{DewasaInput, rule_base::alahaning_dewasa_rules};
+
+        let engine = alahaning_dewasa_rules();
+
+        // Wewaran and Wuku are excellent, but Penanggal is deep in prohibited
+        // (SBr) territory — the DoD requires this to veto the good wewaran.
+        let bad_penanggal = DewasaInput::new(0.9, 0.9, 0.05, 0.5, 0.5);
+        let score = engine.infer(&bad_penanggal);
+        assert!(
+            score < 0.3,
+            "Excellent wewaran with prohibited penanggal should score low, got {}",
+            score
+        );
+
+        // Same shape, but Sasih (higher in the hierarchy than Penanggal) is
+        // the one that's prohibited instead.
+        let bad_sasih = DewasaInput::new(0.9, 0.9, 0.5, 0.05, 0.5);
+        let score2 = engine.infer(&bad_sasih);
+        assert!(
+            score2 < 0.3,
+            "Excellent wewaran with prohibited sasih should score low, got {}",
+            score2
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "dewasa-ayu")]
+    fn test_rule_base_hierarchy_veto_ordering() {
+        use sugeno::{DewasaInput, rule_base::alahaning_dewasa_rules};
+
+        let engine = alahaning_dewasa_rules();
+
+        // Same excellent wewaran/wuku baseline; vary which single higher-priority
+        // variable is bad. Override priority (low -> high) is
+        // Wewaran -> Wuku -> Penanggal -> Sasih -> Dauh (ala_ayu), so a bad
+        // Sasih should veto harder than a bad Penanggal, and a bad ala_ayu
+        // (Dauh proxy) should veto hardest of all.
+        let bad_penanggal = engine.infer(&DewasaInput::new(0.9, 0.9, 0.05, 0.5, 0.5));
+        let bad_sasih = engine.infer(&DewasaInput::new(0.9, 0.9, 0.5, 0.05, 0.5));
+        let bad_ala_ayu = engine.infer(&DewasaInput::new(0.9, 0.9, 0.5, 0.5, 0.05));
+
+        assert!(
+            bad_penanggal > bad_sasih,
+            "bad penanggal ({}) should veto less severely than bad sasih ({})",
+            bad_penanggal,
+            bad_sasih
+        );
+        assert!(
+            bad_sasih > bad_ala_ayu,
+            "bad sasih ({}) should veto less severely than bad ala_ayu/Dauh ({})",
+            bad_sasih,
+            bad_ala_ayu
+        );
+    }
+
+    #[test]
+    #[cfg(feature = "dewasa-ayu")]
+    fn test_rule_base_weak_wewaran_cannot_carry_a_good_day() {
+        use sugeno::{DewasaInput, rule_base::alahaning_dewasa_rules};
+
+        let engine = alahaning_dewasa_rules();
+        // Every other variable is merely moderate, but wewaran itself is poor.
+        let weak_wewaran = DewasaInput::new(0.1, 0.5, 0.5, 0.5, 0.5);
+        let score = engine.infer(&weak_wewaran);
+        assert!(score < 0.3, "Weak wewaran should not produce a good day, got {}", score);
+    }
+
+    #[test]
+    #[cfg(feature = "dewasa-ayu")]
+    fn test_rule_base_specific_rule_firing_strength() {
+        use sugeno::{DewasaInput, rule_base::alahaning_dewasa_rules};
+
+        let engine = alahaning_dewasa_rules();
+        // Rule 0 is the all-SB "excellent" rule (wewaran, wuku, penanggal,
+        // sasih, ala_ayu all Sangat Baik, output 0.95).
+        let rule = &engine.rules[0];
+
+        // Peak input: every antecedent centers at 0.9 (SB peak), so firing
+        // strength should be ~1.0.
+        let peak = DewasaInput::new(0.9, 0.9, 0.9, 0.9, 0.9);
+        let strength = rule.firing_strength(&peak);
+        assert!((strength - 1.0).abs() < 0.001, "Expected ~1.0, got {}", strength);
+        assert_eq!(rule.output, 0.95);
+
+        // Off-peak input should reduce firing strength below 1.0 without
+        // reaching zero (all variables still inside the SB set's support).
+        let off_peak = DewasaInput::new(0.8, 0.8, 0.8, 0.8, 0.8);
+        let strength2 = rule.firing_strength(&off_peak);
+        assert!(
+            strength2 > 0.0 && strength2 < 1.0,
+            "Expected partial firing strength, got {}",
+            strength2
+        );
     }
 }
