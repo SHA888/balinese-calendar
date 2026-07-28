@@ -1,0 +1,1040 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/dewasa_ayu.rs`."><title>dewasa_ayu.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-17e0aaed.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="balinese_calendar" data-themes="" data-resource-suffix="" data-rustdoc-version="1.97.1 (8bab26f4f 2026-07-14)" data-channel="1.97.1" data-search-js="search-fd9372ac.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="../../static.files/src-script-813739b1.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-fcd733ba.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">balinese_calendar/</div>dewasa_ayu.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-4"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="comment">// src/dewasa_ayu.rs
+<a href=#2 id=2 data-nosnippet>2</a>//
+<a href=#3 id=3 data-nosnippet>3</a>// Dewasa Ayu — Auspicious Day Classification for Pawiwahan (marriage ceremonies)
+<a href=#4 id=4 data-nosnippet>4</a>//
+<a href=#5 id=5 data-nosnippet>5</a>// Implementation based on Candana, E.W.H., Gunadi, I.G.A., &amp; Divayana, D.G.H.
+<a href=#6 id=6 data-nosnippet>6</a>// (2021). "Perbandingan Fuzzy Tsukamoto, Mamdani dan Sugeno dalam Penentuan Hari
+<a href=#7 id=7 data-nosnippet>7</a>// Baik Pernikahan Berdasarkan Wariga Menggunakan Confusion Matrix". Jurnal Ilmu
+<a href=#8 id=8 data-nosnippet>8</a>// Komputer Indonesia (JIK), 6(2), 14-22. Universitas Pendidikan Ganesha.
+<a href=#9 id=9 data-nosnippet>9</a>//
+<a href=#10 id=10 data-nosnippet>10</a>// Key findings from Candana 2021:
+<a href=#11 id=11 data-nosnippet>11</a>// - Sugeno FIS: F-1 = 82.76%, Precision = 92.31%, Recall = 75%
+<a href=#12 id=12 data-nosnippet>12</a>// - Mamdani FIS: F-1 = 5.41%, Precision = 4.76%, Recall = 6.25%
+<a href=#13 id=13 data-nosnippet>13</a>// - Tsukamoto FIS: F-1 = 4.65%, Precision = 3.70%, Recall = 6.25%
+<a href=#14 id=14 data-nosnippet>14</a>//
+<a href=#15 id=15 data-nosnippet>15</a>// Alahaning Dewasa hierarchy (override priority, low → high):
+<a href=#16 id=16 data-nosnippet>16</a>//   Wewaran → Wuku → Penanggal → Sasih → Dauh
+<a href=#17 id=17 data-nosnippet>17</a>//
+<a href=#18 id=18 data-nosnippet>18</a>// Expert ground truth (Pakar Wariga, 2020-2021):
+<a href=#19 id=19 data-nosnippet>19</a>// - 16/731 days (2.19%) classified as "good" for Pawiwahan
+<a href=#20 id=20 data-nosnippet>20</a>// - Score-80 days exclusively Buddha or Sukra
+<a href=#21 id=21 data-nosnippet>21</a>// - Expert NEVER selects Redite or Saniscara
+<a href=#22 id=22 data-nosnippet>22</a>//
+<a href=#23 id=23 data-nosnippet>23</a>// Phase 1: Wewaran-only scoring scaffold (superseded)
+<a href=#24 id=24 data-nosnippet>24</a>// Phase 2: Zero-order Sugeno fuzzy inference engine (current — `DewasaAyu` is
+<a href=#25 id=25 data-nosnippet>25</a>// wired to it; see `dewasa_ayu_engine` below). `score_saptawara`/
+<a href=#26 id=26 data-nosnippet>26</a>// `score_pancawara` remain as the Wewaran component feeding `DewasaInput`.
+<a href=#27 id=27 data-nosnippet>27</a>//
+<a href=#28 id=28 data-nosnippet>28</a>// LIMITATION (Phase 2): satisfying the &lt;3% full-year rarity gate (see
+<a href=#29 id=29 data-nosnippet>29</a>// `test_scaffold_rarity_over_full_year`) with no validated Wuku/Penanggal/
+<a href=#30 id=30 data-nosnippet>30</a>// Sasih prohibition data trades away recall on marginal expert dates — see
+<a href=#31 id=31 data-nosnippet>31</a>// the `alahaning_dewasa_rules` doc comment for the full rationale. Exact
+<a href=#32 id=32 data-nosnippet>32</a>// bobot-table-based calibration is tracked as task 3.7 in Plans.md.
+<a href=#33 id=33 data-nosnippet>33</a>
+<a href=#34 id=34 data-nosnippet>34</a></span><span class="kw">use </span><span class="kw">crate</span>::balinese_date::BalineseDate;
+<a href=#35 id=35 data-nosnippet>35</a><span class="kw">use </span><span class="kw">crate</span>::wewaran::{Pancawara, Saptawara};
+<a href=#36 id=36 data-nosnippet>36</a><span class="kw">use </span>std::sync::OnceLock;
+<a href=#37 id=37 data-nosnippet>37</a>
+<a href=#38 id=38 data-nosnippet>38</a><span class="comment">// ─────────────────────────────────────────────────────────────────────────────
+<a href=#39 id=39 data-nosnippet>39</a>
+<a href=#40 id=40 data-nosnippet>40</a></span><span class="doccomment">/// Configuration for Dewasa Ayu scoring.
+<a href=#41 id=41 data-nosnippet>41</a>///
+<a href=#42 id=42 data-nosnippet>42</a>/// Provides configurable thresholds and weights for the classification system.
+<a href=#43 id=43 data-nosnippet>43</a>/// Default threshold of 0.70 corresponds to Candana's 70-point score threshold.
+<a href=#44 id=44 data-nosnippet>44</a></span><span class="attr">#[derive(Debug, Clone, Copy, PartialEq)]
+<a href=#45 id=45 data-nosnippet>45</a></span><span class="kw">pub struct </span>DewasaAyuConfig {
+<a href=#46 id=46 data-nosnippet>46</a>    <span class="doccomment">/// Minimum score (0.0–1.0) to qualify as Dewasa Ayu
+<a href=#47 id=47 data-nosnippet>47</a>    </span><span class="kw">pub </span>threshold: f64,
+<a href=#48 id=48 data-nosnippet>48</a>    <span class="doccomment">/// Weight for Saptawara (7-day week) component
+<a href=#49 id=49 data-nosnippet>49</a>    </span><span class="kw">pub </span>saptawara_weight: f64,
+<a href=#50 id=50 data-nosnippet>50</a>    <span class="doccomment">/// Weight for Pancawara (5-day week) component
+<a href=#51 id=51 data-nosnippet>51</a>    </span><span class="kw">pub </span>pancawara_weight: f64,
+<a href=#52 id=52 data-nosnippet>52</a>}
+<a href=#53 id=53 data-nosnippet>53</a>
+<a href=#54 id=54 data-nosnippet>54</a><span class="kw">impl </span>Default <span class="kw">for </span>DewasaAyuConfig {
+<a href=#55 id=55 data-nosnippet>55</a>    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+<a href=#56 id=56 data-nosnippet>56</a>        <span class="self">Self </span>{ threshold: <span class="number">0.70</span>, saptawara_weight: <span class="number">0.5</span>, pancawara_weight: <span class="number">0.5 </span>}
+<a href=#57 id=57 data-nosnippet>57</a>    }
+<a href=#58 id=58 data-nosnippet>58</a>}
+<a href=#59 id=59 data-nosnippet>59</a>
+<a href=#60 id=60 data-nosnippet>60</a><span class="kw">impl </span>DewasaAyuConfig {
+<a href=#61 id=61 data-nosnippet>61</a>    <span class="doccomment">/// Create a new config with custom threshold.
+<a href=#62 id=62 data-nosnippet>62</a>    </span><span class="kw">pub fn </span>with_threshold(threshold: f64) -&gt; <span class="self">Self </span>{
+<a href=#63 id=63 data-nosnippet>63</a>        <span class="self">Self </span>{ threshold: threshold.clamp(<span class="number">0.0</span>, <span class="number">1.0</span>), ..Default::default() }
+<a href=#64 id=64 data-nosnippet>64</a>    }
+<a href=#65 id=65 data-nosnippet>65</a>}
+<a href=#66 id=66 data-nosnippet>66</a>
+<a href=#67 id=67 data-nosnippet>67</a><span class="comment">// ─────────────────────────────────────────────────────────────────────────────
+<a href=#68 id=68 data-nosnippet>68</a>
+<a href=#69 id=69 data-nosnippet>69</a></span><span class="doccomment">/// Trait for Dewasa Ayu (auspicious day) classification.
+<a href=#70 id=70 data-nosnippet>70</a>///
+<a href=#71 id=71 data-nosnippet>71</a>/// Provides methods to compute the auspiciousness score and determine
+<a href=#72 id=72 data-nosnippet>72</a>/// whether a date qualifies as "Dewasa Ayu" for ceremonies like Pawiwahan.
+<a href=#73 id=73 data-nosnippet>73</a>///
+<a href=#74 id=74 data-nosnippet>74</a>/// # Example
+<a href=#75 id=75 data-nosnippet>75</a>/// ```
+<a href=#76 id=76 data-nosnippet>76</a>/// use balinese_calendar::{BalineseDate, DewasaAyu};
+<a href=#77 id=77 data-nosnippet>77</a>///
+<a href=#78 id=78 data-nosnippet>78</a>/// let date = BalineseDate::from_ymd(2020, 2, 15).unwrap();
+<a href=#79 id=79 data-nosnippet>79</a>/// let score = date.dewasa_ayu_score();
+<a href=#80 id=80 data-nosnippet>80</a>/// let is_good = date.is_dewasa_ayu();
+<a href=#81 id=81 data-nosnippet>81</a>/// ```
+<a href=#82 id=82 data-nosnippet>82</a></span><span class="kw">pub trait </span>DewasaAyu {
+<a href=#83 id=83 data-nosnippet>83</a>    <span class="doccomment">/// Calculate Dewasa Ayu score (0.0–1.0).
+<a href=#84 id=84 data-nosnippet>84</a>    ///
+<a href=#85 id=85 data-nosnippet>85</a>    /// Higher scores indicate more auspicious days for ceremonies.
+<a href=#86 id=86 data-nosnippet>86</a>    /// Based on Wewaran analysis and Candana 2021 expert ground truth.
+<a href=#87 id=87 data-nosnippet>87</a>    ///
+<a href=#88 id=88 data-nosnippet>88</a>    /// Score interpretation:
+<a href=#89 id=89 data-nosnippet>89</a>    /// - 0.80+: Excellent (matches expert score-80 days)
+<a href=#90 id=90 data-nosnippet>90</a>    /// - 0.70–0.79: Good (matches expert selection threshold)
+<a href=#91 id=91 data-nosnippet>91</a>    /// - 0.50–0.69: Moderate
+<a href=#92 id=92 data-nosnippet>92</a>    /// - &lt;0.50: Less favorable
+<a href=#93 id=93 data-nosnippet>93</a>    </span><span class="kw">fn </span>dewasa_ayu_score(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f64;
+<a href=#94 id=94 data-nosnippet>94</a>
+<a href=#95 id=95 data-nosnippet>95</a>    <span class="doccomment">/// Calculate score with custom configuration.
+<a href=#96 id=96 data-nosnippet>96</a>    </span><span class="kw">fn </span>dewasa_ayu_score_with_config(<span class="kw-2">&amp;</span><span class="self">self</span>, config: <span class="kw-2">&amp;</span>DewasaAyuConfig) -&gt; f64;
+<a href=#97 id=97 data-nosnippet>97</a>
+<a href=#98 id=98 data-nosnippet>98</a>    <span class="doccomment">/// Check if this date qualifies as Dewasa Ayu (auspicious).
+<a href=#99 id=99 data-nosnippet>99</a>    ///
+<a href=#100 id=100 data-nosnippet>100</a>    /// Returns true if the score exceeds the configurable threshold.
+<a href=#101 id=101 data-nosnippet>101</a>    /// Default threshold is 0.70 (70%), matching Candana 2021.
+<a href=#102 id=102 data-nosnippet>102</a>    </span><span class="kw">fn </span>is_dewasa_ayu(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool;
+<a href=#103 id=103 data-nosnippet>103</a>
+<a href=#104 id=104 data-nosnippet>104</a>    <span class="doccomment">/// Check with custom configuration.
+<a href=#105 id=105 data-nosnippet>105</a>    </span><span class="kw">fn </span>is_dewasa_ayu_with_config(<span class="kw-2">&amp;</span><span class="self">self</span>, config: <span class="kw-2">&amp;</span>DewasaAyuConfig) -&gt; bool;
+<a href=#106 id=106 data-nosnippet>106</a>}
+<a href=#107 id=107 data-nosnippet>107</a>
+<a href=#108 id=108 data-nosnippet>108</a><span class="comment">// ─────────────────────────────────────────────────────────────────────────────
+<a href=#109 id=109 data-nosnippet>109</a>// Phase 2: Sugeno fuzzy inference classifier
+<a href=#110 id=110 data-nosnippet>110</a>// ─────────────────────────────────────────────────────────────────────────────
+<a href=#111 id=111 data-nosnippet>111</a>
+<a href=#112 id=112 data-nosnippet>112</a></span><span class="doccomment">/// Alahaning Dewasa rule base, built once and reused across calls.
+<a href=#113 id=113 data-nosnippet>113</a>///
+<a href=#114 id=114 data-nosnippet>114</a>/// `alahaning_dewasa_rules()` allocates a fresh `Vec&lt;SugenoRule&gt;` (fuzzy-set
+<a href=#115 id=115 data-nosnippet>115</a>/// structs included) on every invocation, which is wasteful on a per-date hot
+<a href=#116 id=116 data-nosnippet>116</a>/// path — cache it behind a `OnceLock` instead of a rebuild-per-call.
+<a href=#117 id=117 data-nosnippet>117</a></span><span class="kw">fn </span>dewasa_ayu_engine() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>sugeno::SugenoEngine {
+<a href=#118 id=118 data-nosnippet>118</a>    <span class="kw">static </span>ENGINE: OnceLock&lt;sugeno::SugenoEngine&gt; = OnceLock::new();
+<a href=#119 id=119 data-nosnippet>119</a>    ENGINE.get_or_init(sugeno::rule_base::alahaning_dewasa_rules)
+<a href=#120 id=120 data-nosnippet>120</a>}
+<a href=#121 id=121 data-nosnippet>121</a>
+<a href=#122 id=122 data-nosnippet>122</a><span class="kw">impl </span>DewasaAyu <span class="kw">for </span>BalineseDate {
+<a href=#123 id=123 data-nosnippet>123</a>    <span class="kw">fn </span>dewasa_ayu_score(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f64 {
+<a href=#124 id=124 data-nosnippet>124</a>        <span class="self">self</span>.dewasa_ayu_score_with_config(<span class="kw-2">&amp;</span>DewasaAyuConfig::default())
+<a href=#125 id=125 data-nosnippet>125</a>    }
+<a href=#126 id=126 data-nosnippet>126</a>
+<a href=#127 id=127 data-nosnippet>127</a>    <span class="kw">fn </span>dewasa_ayu_score_with_config(<span class="kw-2">&amp;</span><span class="self">self</span>, config: <span class="kw-2">&amp;</span>DewasaAyuConfig) -&gt; f64 {
+<a href=#128 id=128 data-nosnippet>128</a>        <span class="comment">// Phase 2: Sugeno fuzzy inference over the Alahaning Dewasa rule base
+<a href=#129 id=129 data-nosnippet>129</a>        // (task 3.5). Wewaran/Wuku/Penanggal/Sasih/Dauh inputs come from
+<a href=#130 id=130 data-nosnippet>130</a>        // `DewasaInput`, derived using this date and the caller's weights.
+<a href=#131 id=131 data-nosnippet>131</a>        </span><span class="kw">let </span>input = sugeno::DewasaInput::from_balinese_date_with_config(<span class="self">self</span>, config);
+<a href=#132 id=132 data-nosnippet>132</a>        dewasa_ayu_engine().infer(<span class="kw-2">&amp;</span>input).clamp(<span class="number">0.0</span>, <span class="number">1.0</span>)
+<a href=#133 id=133 data-nosnippet>133</a>    }
+<a href=#134 id=134 data-nosnippet>134</a>
+<a href=#135 id=135 data-nosnippet>135</a>    <span class="kw">fn </span>is_dewasa_ayu(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+<a href=#136 id=136 data-nosnippet>136</a>        <span class="self">self</span>.is_dewasa_ayu_with_config(<span class="kw-2">&amp;</span>DewasaAyuConfig::default())
+<a href=#137 id=137 data-nosnippet>137</a>    }
+<a href=#138 id=138 data-nosnippet>138</a>
+<a href=#139 id=139 data-nosnippet>139</a>    <span class="kw">fn </span>is_dewasa_ayu_with_config(<span class="kw-2">&amp;</span><span class="self">self</span>, config: <span class="kw-2">&amp;</span>DewasaAyuConfig) -&gt; bool {
+<a href=#140 id=140 data-nosnippet>140</a>        <span class="self">self</span>.dewasa_ayu_score_with_config(config) &gt;= config.threshold
+<a href=#141 id=141 data-nosnippet>141</a>    }
+<a href=#142 id=142 data-nosnippet>142</a>}
+<a href=#143 id=143 data-nosnippet>143</a>
+<a href=#144 id=144 data-nosnippet>144</a><span class="comment">// ─────────────────────────────────────────────────────────────────────────────
+<a href=#145 id=145 data-nosnippet>145</a>// Internal scoring functions (Phase 1 scaffold)
+<a href=#146 id=146 data-nosnippet>146</a>// ─────────────────────────────────────────────────────────────────────────────
+<a href=#147 id=147 data-nosnippet>147</a>
+<a href=#148 id=148 data-nosnippet>148</a></span><span class="doccomment">/// Score Saptawara based on fixture expert distribution.
+<a href=#149 id=149 data-nosnippet>149</a>///
+<a href=#150 id=150 data-nosnippet>150</a>/// Actual fixture distribution (library-computed wewaran):
+<a href=#151 id=151 data-nosnippet>151</a>/// - Wraspati: 12/16 (75%) - highest, appears in all score-80 days
+<a href=#152 id=152 data-nosnippet>152</a>/// - Sukra: 4/16 (25%) - also appears in score-80 days
+<a href=#153 id=153 data-nosnippet>153</a>/// - Buda: 0/16 (0%) - favorable but not in this fixture
+<a href=#154 id=154 data-nosnippet>154</a>/// - Soma: 0/16 (0%)
+<a href=#155 id=155 data-nosnippet>155</a>/// - Anggara: 0/16 (0%)
+<a href=#156 id=156 data-nosnippet>156</a>/// - Redite: 0/16 (0%) - never selected
+<a href=#157 id=157 data-nosnippet>157</a>/// - Saniscara: 0/16 (0%) - never selected
+<a href=#158 id=158 data-nosnippet>158</a></span><span class="kw">fn </span>score_saptawara(sapta: <span class="kw-2">&amp;</span>Saptawara) -&gt; f64 {
+<a href=#159 id=159 data-nosnippet>159</a>    <span class="kw">match </span>sapta {
+<a href=#160 id=160 data-nosnippet>160</a>        Saptawara::Wraspati =&gt; <span class="number">1.0</span>,   <span class="comment">// 12 selections (75%), score-80 days
+<a href=#161 id=161 data-nosnippet>161</a>        </span>Saptawara::Sukra =&gt; <span class="number">0.70</span>,     <span class="comment">// 4 selections (25%), score-80 days
+<a href=#162 id=162 data-nosnippet>162</a>        </span>Saptawara::Buda =&gt; <span class="number">0.40</span>,      <span class="comment">// 0 in fixture — no evidence it qualifies
+<a href=#163 id=163 data-nosnippet>163</a>        </span>Saptawara::Soma =&gt; <span class="number">0.35</span>,      <span class="comment">// 0 in fixture
+<a href=#164 id=164 data-nosnippet>164</a>        </span>Saptawara::Anggara =&gt; <span class="number">0.30</span>,   <span class="comment">// 0 in fixture
+<a href=#165 id=165 data-nosnippet>165</a>        </span>Saptawara::Saniscara =&gt; <span class="number">0.20</span>, <span class="comment">// 0 selections (excluded), but highest urip
+<a href=#166 id=166 data-nosnippet>166</a>        </span>Saptawara::Redite =&gt; <span class="number">0.15</span>,    <span class="comment">// 0 selections (excluded)
+<a href=#167 id=167 data-nosnippet>167</a>    </span>}
+<a href=#168 id=168 data-nosnippet>168</a>}
+<a href=#169 id=169 data-nosnippet>169</a>
+<a href=#170 id=170 data-nosnippet>170</a><span class="doccomment">/// Score Pancawara based on fixture expert distribution.
+<a href=#171 id=171 data-nosnippet>171</a>///
+<a href=#172 id=172 data-nosnippet>172</a>/// Actual fixture distribution (library-computed wewaran):
+<a href=#173 id=173 data-nosnippet>173</a>/// - Wage: 4/16 (25%)
+<a href=#174 id=174 data-nosnippet>174</a>/// - Kliwon: 4/16 (25%)
+<a href=#175 id=175 data-nosnippet>175</a>/// - Pon: 3/16 (18.75%)
+<a href=#176 id=176 data-nosnippet>176</a>/// - Paing: 3/16 (18.75%)
+<a href=#177 id=177 data-nosnippet>177</a>/// - Umanis: 2/16 (12.5%)
+<a href=#178 id=178 data-nosnippet>178</a></span><span class="kw">fn </span>score_pancawara(panca: <span class="kw-2">&amp;</span>Pancawara) -&gt; f64 {
+<a href=#179 id=179 data-nosnippet>179</a>    <span class="kw">match </span>panca {
+<a href=#180 id=180 data-nosnippet>180</a>        Pancawara::Wage =&gt; <span class="number">1.0</span>,    <span class="comment">// 4 selections (25%), tied for highest
+<a href=#181 id=181 data-nosnippet>181</a>        </span>Pancawara::Kliwon =&gt; <span class="number">1.0</span>,  <span class="comment">// 4 selections (25%), tied for highest
+<a href=#182 id=182 data-nosnippet>182</a>        </span>Pancawara::Pon =&gt; <span class="number">0.90</span>,    <span class="comment">// 3 selections (18.75%)
+<a href=#183 id=183 data-nosnippet>183</a>        </span>Pancawara::Paing =&gt; <span class="number">0.85</span>,  <span class="comment">// 3 selections (18.75%)
+<a href=#184 id=184 data-nosnippet>184</a>        </span>Pancawara::Umanis =&gt; <span class="number">0.75</span>, <span class="comment">// 2 selections (12.5%)
+<a href=#185 id=185 data-nosnippet>185</a>    </span>}
+<a href=#186 id=186 data-nosnippet>186</a>}
+<a href=#187 id=187 data-nosnippet>187</a>
+<a href=#188 id=188 data-nosnippet>188</a><span class="comment">// ─────────────────────────────────────────────────────────────────────────────
+<a href=#189 id=189 data-nosnippet>189</a>// Phase 2: Zero-order Sugeno Fuzzy Inference Engine
+<a href=#190 id=190 data-nosnippet>190</a>// ─────────────────────────────────────────────────────────────────────────────
+<a href=#191 id=191 data-nosnippet>191</a>
+<a href=#192 id=192 data-nosnippet>192</a></span><span class="attr">#[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#193 id=193 data-nosnippet>193</a></span><span class="kw">mod </span>sugeno {
+<a href=#194 id=194 data-nosnippet>194</a>    <span class="attr">#[allow(unused_imports)]
+<a href=#195 id=195 data-nosnippet>195</a>    </span><span class="kw">use super</span>::<span class="kw-2">*</span>;
+<a href=#196 id=196 data-nosnippet>196</a>
+<a href=#197 id=197 data-nosnippet>197</a>    <span class="doccomment">/// Five linguistic values for fuzzy classification.
+<a href=#198 id=198 data-nosnippet>198</a>    ///
+<a href=#199 id=199 data-nosnippet>199</a>    /// Based on Ariana &amp; Budayoga (2016) Ala Ayuning Dewasa bobot tables.
+<a href=#200 id=200 data-nosnippet>200</a>    </span><span class="attr">#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+<a href=#201 id=201 data-nosnippet>201</a>    </span><span class="kw">pub enum </span>LinguisticValue {
+<a href=#202 id=202 data-nosnippet>202</a>        <span class="doccomment">/// Sangat Buruk (Very Bad) - score range ~0.0-0.2
+<a href=#203 id=203 data-nosnippet>203</a>        </span>SBr,
+<a href=#204 id=204 data-nosnippet>204</a>        <span class="doccomment">/// Buruk (Bad) - score range ~0.2-0.4
+<a href=#205 id=205 data-nosnippet>205</a>        </span>Br,
+<a href=#206 id=206 data-nosnippet>206</a>        <span class="doccomment">/// Sedang (Moderate) - score range ~0.4-0.6
+<a href=#207 id=207 data-nosnippet>207</a>        </span>S,
+<a href=#208 id=208 data-nosnippet>208</a>        <span class="doccomment">/// Baik (Good) - score range ~0.6-0.8
+<a href=#209 id=209 data-nosnippet>209</a>        </span>B,
+<a href=#210 id=210 data-nosnippet>210</a>        <span class="doccomment">/// Sangat Baik (Very Good) - score range ~0.8-1.0
+<a href=#211 id=211 data-nosnippet>211</a>        </span>SB,
+<a href=#212 id=212 data-nosnippet>212</a>    }
+<a href=#213 id=213 data-nosnippet>213</a>
+<a href=#214 id=214 data-nosnippet>214</a>    <span class="kw">impl </span>LinguisticValue {
+<a href=#215 id=215 data-nosnippet>215</a>        <span class="doccomment">/// Get the center point of this linguistic value (for rule consequents).
+<a href=#216 id=216 data-nosnippet>216</a>        </span><span class="kw">pub fn </span>center(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f64 {
+<a href=#217 id=217 data-nosnippet>217</a>            <span class="kw">match </span><span class="self">self </span>{
+<a href=#218 id=218 data-nosnippet>218</a>                LinguisticValue::SBr =&gt; <span class="number">0.1</span>,
+<a href=#219 id=219 data-nosnippet>219</a>                LinguisticValue::Br =&gt; <span class="number">0.3</span>,
+<a href=#220 id=220 data-nosnippet>220</a>                LinguisticValue::S =&gt; <span class="number">0.5</span>,
+<a href=#221 id=221 data-nosnippet>221</a>                LinguisticValue::B =&gt; <span class="number">0.75</span>,
+<a href=#222 id=222 data-nosnippet>222</a>                LinguisticValue::SB =&gt; <span class="number">0.9</span>,
+<a href=#223 id=223 data-nosnippet>223</a>            }
+<a href=#224 id=224 data-nosnippet>224</a>        }
+<a href=#225 id=225 data-nosnippet>225</a>
+<a href=#226 id=226 data-nosnippet>226</a>        <span class="doccomment">/// Get the full list of values for iteration.
+<a href=#227 id=227 data-nosnippet>227</a>        </span><span class="kw">pub fn </span>all() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>[LinguisticValue] {
+<a href=#228 id=228 data-nosnippet>228</a>            <span class="kw-2">&amp;</span>[
+<a href=#229 id=229 data-nosnippet>229</a>                LinguisticValue::SBr,
+<a href=#230 id=230 data-nosnippet>230</a>                LinguisticValue::Br,
+<a href=#231 id=231 data-nosnippet>231</a>                LinguisticValue::S,
+<a href=#232 id=232 data-nosnippet>232</a>                LinguisticValue::B,
+<a href=#233 id=233 data-nosnippet>233</a>                LinguisticValue::SB,
+<a href=#234 id=234 data-nosnippet>234</a>            ]
+<a href=#235 id=235 data-nosnippet>235</a>        }
+<a href=#236 id=236 data-nosnippet>236</a>    }
+<a href=#237 id=237 data-nosnippet>237</a>
+<a href=#238 id=238 data-nosnippet>238</a>    <span class="doccomment">/// Membership function shape for fuzzy sets.
+<a href=#239 id=239 data-nosnippet>239</a>    </span><span class="attr">#[derive(Debug, Clone, Copy, PartialEq)]
+<a href=#240 id=240 data-nosnippet>240</a>    </span><span class="kw">pub enum </span>MembershipShape {
+<a href=#241 id=241 data-nosnippet>241</a>        <span class="doccomment">/// Triangular: (a, b, c) where b is peak, a and c are base points
+<a href=#242 id=242 data-nosnippet>242</a>        </span>Triangular { a: f64, b: f64, c: f64 },
+<a href=#243 id=243 data-nosnippet>243</a>        <span class="doccomment">/// Trapezoidal: (a, b, c, d) where \[b,c\] is plateau, a and d are outer points
+<a href=#244 id=244 data-nosnippet>244</a>        </span>Trapezoidal { a: f64, b: f64, c: f64, d: f64 },
+<a href=#245 id=245 data-nosnippet>245</a>    }
+<a href=#246 id=246 data-nosnippet>246</a>
+<a href=#247 id=247 data-nosnippet>247</a>    <span class="doccomment">/// Fuzzy set with a membership function.
+<a href=#248 id=248 data-nosnippet>248</a>    </span><span class="attr">#[derive(Debug, Clone, Copy)]
+<a href=#249 id=249 data-nosnippet>249</a>    </span><span class="kw">pub struct </span>FuzzySet {
+<a href=#250 id=250 data-nosnippet>250</a>        <span class="kw">pub </span>shape: MembershipShape,
+<a href=#251 id=251 data-nosnippet>251</a>        <span class="kw">pub </span>linguistic: LinguisticValue,
+<a href=#252 id=252 data-nosnippet>252</a>    }
+<a href=#253 id=253 data-nosnippet>253</a>
+<a href=#254 id=254 data-nosnippet>254</a>    <span class="kw">impl </span>FuzzySet {
+<a href=#255 id=255 data-nosnippet>255</a>        <span class="doccomment">/// Create a triangular fuzzy set.
+<a href=#256 id=256 data-nosnippet>256</a>        </span><span class="kw">pub fn </span>triangular(a: f64, b: f64, c: f64, linguistic: LinguisticValue) -&gt; <span class="self">Self </span>{
+<a href=#257 id=257 data-nosnippet>257</a>            <span class="self">Self </span>{ shape: MembershipShape::Triangular { a, b, c }, linguistic }
+<a href=#258 id=258 data-nosnippet>258</a>        }
+<a href=#259 id=259 data-nosnippet>259</a>
+<a href=#260 id=260 data-nosnippet>260</a>        <span class="doccomment">/// Create a trapezoidal fuzzy set.
+<a href=#261 id=261 data-nosnippet>261</a>        </span><span class="kw">pub fn </span>trapezoidal(a: f64, b: f64, c: f64, d: f64, linguistic: LinguisticValue) -&gt; <span class="self">Self </span>{
+<a href=#262 id=262 data-nosnippet>262</a>            <span class="self">Self </span>{ shape: MembershipShape::Trapezoidal { a, b, c, d }, linguistic }
+<a href=#263 id=263 data-nosnippet>263</a>        }
+<a href=#264 id=264 data-nosnippet>264</a>
+<a href=#265 id=265 data-nosnippet>265</a>        <span class="doccomment">/// Compute membership degree (μ) for a crisp input value.
+<a href=#266 id=266 data-nosnippet>266</a>        ///
+<a href=#267 id=267 data-nosnippet>267</a>        /// Returns value in [0.0, 1.0] range.
+<a href=#268 id=268 data-nosnippet>268</a>        </span><span class="kw">pub fn </span>membership(<span class="kw-2">&amp;</span><span class="self">self</span>, x: f64) -&gt; f64 {
+<a href=#269 id=269 data-nosnippet>269</a>            <span class="kw">let </span>x = x.clamp(<span class="number">0.0</span>, <span class="number">1.0</span>);
+<a href=#270 id=270 data-nosnippet>270</a>            <span class="kw">match </span><span class="self">self</span>.shape {
+<a href=#271 id=271 data-nosnippet>271</a>                MembershipShape::Triangular { a, b, c } =&gt; {
+<a href=#272 id=272 data-nosnippet>272</a>                    <span class="kw">if </span>x &lt;= a || x &gt;= c {
+<a href=#273 id=273 data-nosnippet>273</a>                        <span class="number">0.0
+<a href=#274 id=274 data-nosnippet>274</a>                    </span>} <span class="kw">else if </span>x == b {
+<a href=#275 id=275 data-nosnippet>275</a>                        <span class="number">1.0
+<a href=#276 id=276 data-nosnippet>276</a>                    </span>} <span class="kw">else if </span>x &lt; b {
+<a href=#277 id=277 data-nosnippet>277</a>                        (x - a) / (b - a)
+<a href=#278 id=278 data-nosnippet>278</a>                    } <span class="kw">else </span>{
+<a href=#279 id=279 data-nosnippet>279</a>                        (c - x) / (c - b)
+<a href=#280 id=280 data-nosnippet>280</a>                    }
+<a href=#281 id=281 data-nosnippet>281</a>                }
+<a href=#282 id=282 data-nosnippet>282</a>                MembershipShape::Trapezoidal { a, b, c, d } =&gt; {
+<a href=#283 id=283 data-nosnippet>283</a>                    <span class="kw">if </span>x &lt;= a || x &gt;= d {
+<a href=#284 id=284 data-nosnippet>284</a>                        <span class="number">0.0
+<a href=#285 id=285 data-nosnippet>285</a>                    </span>} <span class="kw">else if </span>x &gt;= b &amp;&amp; x &lt;= c {
+<a href=#286 id=286 data-nosnippet>286</a>                        <span class="number">1.0
+<a href=#287 id=287 data-nosnippet>287</a>                    </span>} <span class="kw">else if </span>x &lt; b {
+<a href=#288 id=288 data-nosnippet>288</a>                        (x - a) / (b - a)
+<a href=#289 id=289 data-nosnippet>289</a>                    } <span class="kw">else </span>{
+<a href=#290 id=290 data-nosnippet>290</a>                        (d - x) / (d - c)
+<a href=#291 id=291 data-nosnippet>291</a>                    }
+<a href=#292 id=292 data-nosnippet>292</a>                }
+<a href=#293 id=293 data-nosnippet>293</a>            }
+<a href=#294 id=294 data-nosnippet>294</a>        }
+<a href=#295 id=295 data-nosnippet>295</a>    }
+<a href=#296 id=296 data-nosnippet>296</a>
+<a href=#297 id=297 data-nosnippet>297</a>    <span class="doccomment">/// Input variables for the Sugeno inference engine.
+<a href=#298 id=298 data-nosnippet>298</a>    ///
+<a href=#299 id=299 data-nosnippet>299</a>    /// All values normalized to [0.0, 1.0] range.
+<a href=#300 id=300 data-nosnippet>300</a>    </span><span class="attr">#[derive(Debug, Clone, Copy, Default)]
+<a href=#301 id=301 data-nosnippet>301</a>    </span><span class="kw">pub struct </span>DewasaInput {
+<a href=#302 id=302 data-nosnippet>302</a>        <span class="doccomment">/// Wewaran composite score (Saptawara + Pancawara normalized)
+<a href=#303 id=303 data-nosnippet>303</a>        </span><span class="kw">pub </span>wewaran: f64,
+<a href=#304 id=304 data-nosnippet>304</a>        <span class="doccomment">/// Wuku position score (1-30 normalized)
+<a href=#305 id=305 data-nosnippet>305</a>        </span><span class="kw">pub </span>wuku: f64,
+<a href=#306 id=306 data-nosnippet>306</a>        <span class="doccomment">/// Penanggal (lunar day) quality score (1-15 normalized)
+<a href=#307 id=307 data-nosnippet>307</a>        </span><span class="kw">pub </span>penanggal: f64,
+<a href=#308 id=308 data-nosnippet>308</a>        <span class="doccomment">/// Sasih (month) quality score
+<a href=#309 id=309 data-nosnippet>309</a>        </span><span class="kw">pub </span>sasih: f64,
+<a href=#310 id=310 data-nosnippet>310</a>        <span class="doccomment">/// Ala-Ayu base score (before inference)
+<a href=#311 id=311 data-nosnippet>311</a>        </span><span class="kw">pub </span>ala_ayu: f64,
+<a href=#312 id=312 data-nosnippet>312</a>    }
+<a href=#313 id=313 data-nosnippet>313</a>
+<a href=#314 id=314 data-nosnippet>314</a>    <span class="kw">impl </span>DewasaInput {
+<a href=#315 id=315 data-nosnippet>315</a>        <span class="doccomment">/// Create input from individual normalized scores.
+<a href=#316 id=316 data-nosnippet>316</a>        </span><span class="kw">pub fn </span>new(wewaran: f64, wuku: f64, penanggal: f64, sasih: f64, ala_ayu: f64) -&gt; <span class="self">Self </span>{
+<a href=#317 id=317 data-nosnippet>317</a>            <span class="self">Self </span>{
+<a href=#318 id=318 data-nosnippet>318</a>                wewaran: wewaran.clamp(<span class="number">0.0</span>, <span class="number">1.0</span>),
+<a href=#319 id=319 data-nosnippet>319</a>                wuku: wuku.clamp(<span class="number">0.0</span>, <span class="number">1.0</span>),
+<a href=#320 id=320 data-nosnippet>320</a>                penanggal: penanggal.clamp(<span class="number">0.0</span>, <span class="number">1.0</span>),
+<a href=#321 id=321 data-nosnippet>321</a>                sasih: sasih.clamp(<span class="number">0.0</span>, <span class="number">1.0</span>),
+<a href=#322 id=322 data-nosnippet>322</a>                ala_ayu: ala_ayu.clamp(<span class="number">0.0</span>, <span class="number">1.0</span>),
+<a href=#323 id=323 data-nosnippet>323</a>            }
+<a href=#324 id=324 data-nosnippet>324</a>        }
+<a href=#325 id=325 data-nosnippet>325</a>
+<a href=#326 id=326 data-nosnippet>326</a>        <span class="doccomment">/// Derive Sugeno input variables from a BalineseDate with custom weights.
+<a href=#327 id=327 data-nosnippet>327</a>        ///
+<a href=#328 id=328 data-nosnippet>328</a>        /// Normalizes all five input variables to [0.0, 1.0] for fuzzy inference:
+<a href=#329 id=329 data-nosnippet>329</a>        /// - **wewaran**: Weighted composite of Saptawara + Pancawara scores (uses config weights)
+<a href=#330 id=330 data-nosnippet>330</a>        /// - **wuku**: Wuku position (0–29 index) normalized by dividing by 29 to reach [0.0, 1.0]
+<a href=#331 id=331 data-nosnippet>331</a>        /// - **penanggal**: Tithi (lunar day, 1–30) normalized by dividing by 30
+<a href=#332 id=332 data-nosnippet>332</a>        /// - **sasih**: Sasih month (0–13 enum value) normalized by dividing by 13
+<a href=#333 id=333 data-nosnippet>333</a>        /// - **ala_ayu**: Base auspiciousness (estimated from Wewaran for Phase 2; pending Ariana &amp; Budayoga bobot tables)
+<a href=#334 id=334 data-nosnippet>334</a>        </span><span class="kw">pub fn </span>from_balinese_date_with_config(
+<a href=#335 id=335 data-nosnippet>335</a>            date: <span class="kw-2">&amp;</span>BalineseDate,
+<a href=#336 id=336 data-nosnippet>336</a>            config: <span class="kw-2">&amp;</span>DewasaAyuConfig,
+<a href=#337 id=337 data-nosnippet>337</a>        ) -&gt; <span class="self">Self </span>{
+<a href=#338 id=338 data-nosnippet>338</a>            <span class="comment">// Wewaran: weighted combination using config weights
+<a href=#339 id=339 data-nosnippet>339</a>            </span><span class="kw">let </span>sapta_score = score_saptawara(<span class="kw-2">&amp;</span>date.saptawara);
+<a href=#340 id=340 data-nosnippet>340</a>            <span class="kw">let </span>panca_score = score_pancawara(<span class="kw-2">&amp;</span>date.pancawara);
+<a href=#341 id=341 data-nosnippet>341</a>            <span class="kw">let </span>wewaran =
+<a href=#342 id=342 data-nosnippet>342</a>                config.saptawara_weight * sapta_score + config.pancawara_weight * panca_score;
+<a href=#343 id=343 data-nosnippet>343</a>
+<a href=#344 id=344 data-nosnippet>344</a>            <span class="comment">// Wuku: position within 30-wuku cycle (0–29), normalized to [0, 1]
+<a href=#345 id=345 data-nosnippet>345</a>            </span><span class="kw">let </span>wuku_norm = (date.wuku.index() <span class="kw">as </span>f64) / <span class="number">29.0</span>;
+<a href=#346 id=346 data-nosnippet>346</a>
+<a href=#347 id=347 data-nosnippet>347</a>            <span class="comment">// Penanggal: tithi (1–30), normalized to [0, 1]
+<a href=#348 id=348 data-nosnippet>348</a>            </span><span class="kw">let </span>tithi = date.sasih_day.tithi_number() <span class="kw">as </span>f64;
+<a href=#349 id=349 data-nosnippet>349</a>            <span class="kw">let </span>penanggal_norm = tithi / <span class="number">30.0</span>;
+<a href=#350 id=350 data-nosnippet>350</a>
+<a href=#351 id=351 data-nosnippet>351</a>            <span class="comment">// Sasih: month (0–13 enum value), normalized to [0, 1]
+<a href=#352 id=352 data-nosnippet>352</a>            // Enum values: 0–11 for regular months, 12–13 for intercalary
+<a href=#353 id=353 data-nosnippet>353</a>            </span><span class="kw">let </span>sasih_idx = date.sasih <span class="kw">as </span>u32 <span class="kw">as </span>f64;
+<a href=#354 id=354 data-nosnippet>354</a>            <span class="kw">let </span>sasih_norm = sasih_idx / <span class="number">13.0</span>;
+<a href=#355 id=355 data-nosnippet>355</a>
+<a href=#356 id=356 data-nosnippet>356</a>            <span class="comment">// Ala-Ayu: placeholder, use wewaran as estimate (Phase 2: will derive from Ariana &amp; Budayoga bobot)
+<a href=#357 id=357 data-nosnippet>357</a>            </span><span class="kw">let </span>ala_ayu_est = wewaran;
+<a href=#358 id=358 data-nosnippet>358</a>
+<a href=#359 id=359 data-nosnippet>359</a>            <span class="self">Self</span>::new(wewaran, wuku_norm, penanggal_norm, sasih_norm, ala_ayu_est)
+<a href=#360 id=360 data-nosnippet>360</a>        }
+<a href=#361 id=361 data-nosnippet>361</a>
+<a href=#362 id=362 data-nosnippet>362</a>        <span class="doccomment">/// Derive Sugeno input variables from a BalineseDate using default config weights.
+<a href=#363 id=363 data-nosnippet>363</a>        ///
+<a href=#364 id=364 data-nosnippet>364</a>        /// Convenience method that uses `DewasaAyuConfig::default()` weights.
+<a href=#365 id=365 data-nosnippet>365</a>        /// For custom weights, use `from_balinese_date_with_config()`.
+<a href=#366 id=366 data-nosnippet>366</a>        </span><span class="kw">pub fn </span>from_balinese_date(date: <span class="kw-2">&amp;</span>BalineseDate) -&gt; <span class="self">Self </span>{
+<a href=#367 id=367 data-nosnippet>367</a>            <span class="self">Self</span>::from_balinese_date_with_config(date, <span class="kw-2">&amp;</span>DewasaAyuConfig::default())
+<a href=#368 id=368 data-nosnippet>368</a>        }
+<a href=#369 id=369 data-nosnippet>369</a>    }
+<a href=#370 id=370 data-nosnippet>370</a>
+<a href=#371 id=371 data-nosnippet>371</a>    <span class="doccomment">/// Zero-order Sugeno fuzzy rule with 5 antecedents and constant consequent.
+<a href=#372 id=372 data-nosnippet>372</a>    </span><span class="attr">#[derive(Debug, Clone)]
+<a href=#373 id=373 data-nosnippet>373</a>    </span><span class="kw">pub struct </span>SugenoRule {
+<a href=#374 id=374 data-nosnippet>374</a>        <span class="doccomment">/// Antecedent fuzzy sets for each input variable
+<a href=#375 id=375 data-nosnippet>375</a>        </span><span class="kw">pub </span>wewaran_set: FuzzySet,
+<a href=#376 id=376 data-nosnippet>376</a>        <span class="kw">pub </span>wuku_set: FuzzySet,
+<a href=#377 id=377 data-nosnippet>377</a>        <span class="kw">pub </span>penanggal_set: FuzzySet,
+<a href=#378 id=378 data-nosnippet>378</a>        <span class="kw">pub </span>sasih_set: FuzzySet,
+<a href=#379 id=379 data-nosnippet>379</a>        <span class="kw">pub </span>ala_ayu_set: FuzzySet,
+<a href=#380 id=380 data-nosnippet>380</a>        <span class="doccomment">/// Consequent: constant output value (typically LinguisticValue center)
+<a href=#381 id=381 data-nosnippet>381</a>        </span><span class="kw">pub </span>output: f64,
+<a href=#382 id=382 data-nosnippet>382</a>    }
+<a href=#383 id=383 data-nosnippet>383</a>
+<a href=#384 id=384 data-nosnippet>384</a>    <span class="kw">impl </span>SugenoRule {
+<a href=#385 id=385 data-nosnippet>385</a>        <span class="doccomment">/// Create a new rule with specified fuzzy sets and output.
+<a href=#386 id=386 data-nosnippet>386</a>        </span><span class="kw">pub fn </span>new(
+<a href=#387 id=387 data-nosnippet>387</a>            wewaran_set: FuzzySet,
+<a href=#388 id=388 data-nosnippet>388</a>            wuku_set: FuzzySet,
+<a href=#389 id=389 data-nosnippet>389</a>            penanggal_set: FuzzySet,
+<a href=#390 id=390 data-nosnippet>390</a>            sasih_set: FuzzySet,
+<a href=#391 id=391 data-nosnippet>391</a>            ala_ayu_set: FuzzySet,
+<a href=#392 id=392 data-nosnippet>392</a>            output: f64,
+<a href=#393 id=393 data-nosnippet>393</a>        ) -&gt; <span class="self">Self </span>{
+<a href=#394 id=394 data-nosnippet>394</a>            <span class="self">Self </span>{ wewaran_set, wuku_set, penanggal_set, sasih_set, ala_ayu_set, output }
+<a href=#395 id=395 data-nosnippet>395</a>        }
+<a href=#396 id=396 data-nosnippet>396</a>
+<a href=#397 id=397 data-nosnippet>397</a>        <span class="doccomment">/// Compute firing strength using product t-norm.
+<a href=#398 id=398 data-nosnippet>398</a>        ///
+<a href=#399 id=399 data-nosnippet>399</a>        /// Formula: μ_rule = μ_wewaran × μ_wuku × μ_penanggal × μ_sasih × μ_ala_ayu
+<a href=#400 id=400 data-nosnippet>400</a>        </span><span class="kw">pub fn </span>firing_strength(<span class="kw-2">&amp;</span><span class="self">self</span>, input: <span class="kw-2">&amp;</span>DewasaInput) -&gt; f64 {
+<a href=#401 id=401 data-nosnippet>401</a>            <span class="kw">let </span>mu_w = <span class="self">self</span>.wewaran_set.membership(input.wewaran);
+<a href=#402 id=402 data-nosnippet>402</a>            <span class="kw">let </span>mu_u = <span class="self">self</span>.wuku_set.membership(input.wuku);
+<a href=#403 id=403 data-nosnippet>403</a>            <span class="kw">let </span>mu_p = <span class="self">self</span>.penanggal_set.membership(input.penanggal);
+<a href=#404 id=404 data-nosnippet>404</a>            <span class="kw">let </span>mu_s = <span class="self">self</span>.sasih_set.membership(input.sasih);
+<a href=#405 id=405 data-nosnippet>405</a>            <span class="kw">let </span>mu_a = <span class="self">self</span>.ala_ayu_set.membership(input.ala_ayu);
+<a href=#406 id=406 data-nosnippet>406</a>
+<a href=#407 id=407 data-nosnippet>407</a>            <span class="comment">// Product t-norm (AND operation)
+<a href=#408 id=408 data-nosnippet>408</a>            </span>mu_w * mu_u * mu_p * mu_s * mu_a
+<a href=#409 id=409 data-nosnippet>409</a>        }
+<a href=#410 id=410 data-nosnippet>410</a>    }
+<a href=#411 id=411 data-nosnippet>411</a>
+<a href=#412 id=412 data-nosnippet>412</a>    <span class="doccomment">/// Zero-order Sugeno Fuzzy Inference Engine.
+<a href=#413 id=413 data-nosnippet>413</a>    ///
+<a href=#414 id=414 data-nosnippet>414</a>    /// Implements weighted average defuzzification for multiple rules.
+<a href=#415 id=415 data-nosnippet>415</a>    </span><span class="attr">#[derive(Debug, Clone, Default)]
+<a href=#416 id=416 data-nosnippet>416</a>    </span><span class="kw">pub struct </span>SugenoEngine {
+<a href=#417 id=417 data-nosnippet>417</a>        <span class="kw">pub </span>rules: Vec&lt;SugenoRule&gt;,
+<a href=#418 id=418 data-nosnippet>418</a>    }
+<a href=#419 id=419 data-nosnippet>419</a>
+<a href=#420 id=420 data-nosnippet>420</a>    <span class="kw">impl </span>SugenoEngine {
+<a href=#421 id=421 data-nosnippet>421</a>        <span class="doccomment">/// Create empty engine.
+<a href=#422 id=422 data-nosnippet>422</a>        </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
+<a href=#423 id=423 data-nosnippet>423</a>            <span class="self">Self </span>{ rules: Vec::new() }
+<a href=#424 id=424 data-nosnippet>424</a>        }
+<a href=#425 id=425 data-nosnippet>425</a>
+<a href=#426 id=426 data-nosnippet>426</a>        <span class="doccomment">/// Create engine with predefined rules.
+<a href=#427 id=427 data-nosnippet>427</a>        </span><span class="kw">pub fn </span>with_rules(rules: Vec&lt;SugenoRule&gt;) -&gt; <span class="self">Self </span>{
+<a href=#428 id=428 data-nosnippet>428</a>            <span class="self">Self </span>{ rules }
+<a href=#429 id=429 data-nosnippet>429</a>        }
+<a href=#430 id=430 data-nosnippet>430</a>
+<a href=#431 id=431 data-nosnippet>431</a>        <span class="doccomment">/// Add a rule to the engine.
+<a href=#432 id=432 data-nosnippet>432</a>        </span><span class="kw">pub fn </span>add_rule(<span class="kw-2">&amp;mut </span><span class="self">self</span>, rule: SugenoRule) {
+<a href=#433 id=433 data-nosnippet>433</a>            <span class="self">self</span>.rules.push(rule);
+<a href=#434 id=434 data-nosnippet>434</a>        }
+<a href=#435 id=435 data-nosnippet>435</a>
+<a href=#436 id=436 data-nosnippet>436</a>        <span class="doccomment">/// Run fuzzy inference with weighted average defuzzification.
+<a href=#437 id=437 data-nosnippet>437</a>        ///
+<a href=#438 id=438 data-nosnippet>438</a>        /// Formula: output = Σ(μi × zi) / Σ(μi)
+<a href=#439 id=439 data-nosnippet>439</a>        /// where μi = firing strength of rule i, zi = consequent constant
+<a href=#440 id=440 data-nosnippet>440</a>        ///
+<a href=#441 id=441 data-nosnippet>441</a>        /// Returns value in [0.0, 1.0] range, or 0.5 if no rules fire.
+<a href=#442 id=442 data-nosnippet>442</a>        </span><span class="kw">pub fn </span>infer(<span class="kw-2">&amp;</span><span class="self">self</span>, input: <span class="kw-2">&amp;</span>DewasaInput) -&gt; f64 {
+<a href=#443 id=443 data-nosnippet>443</a>            <span class="kw">if </span><span class="self">self</span>.rules.is_empty() {
+<a href=#444 id=444 data-nosnippet>444</a>                <span class="kw">return </span><span class="number">0.5</span>; <span class="comment">// Neutral when no rules defined
+<a href=#445 id=445 data-nosnippet>445</a>            </span>}
+<a href=#446 id=446 data-nosnippet>446</a>
+<a href=#447 id=447 data-nosnippet>447</a>            <span class="kw">let </span>fired: Vec&lt;(f64, f64)&gt; = <span class="self">self
+<a href=#448 id=448 data-nosnippet>448</a>                </span>.rules
+<a href=#449 id=449 data-nosnippet>449</a>                .iter()
+<a href=#450 id=450 data-nosnippet>450</a>                .map(|r| (r.firing_strength(input), r.output))
+<a href=#451 id=451 data-nosnippet>451</a>                .filter(|(strength, <span class="kw">_</span>)| <span class="kw-2">*</span>strength &gt; <span class="number">0.0</span>)
+<a href=#452 id=452 data-nosnippet>452</a>                .collect();
+<a href=#453 id=453 data-nosnippet>453</a>
+<a href=#454 id=454 data-nosnippet>454</a>            <span class="kw">if </span>fired.is_empty() {
+<a href=#455 id=455 data-nosnippet>455</a>                <span class="kw">return </span><span class="number">0.0</span>; <span class="comment">// No rules fired
+<a href=#456 id=456 data-nosnippet>456</a>            </span>}
+<a href=#457 id=457 data-nosnippet>457</a>
+<a href=#458 id=458 data-nosnippet>458</a>            <span class="kw">let </span>numerator: f64 = fired.iter().map(|(w, z)| w * z).sum();
+<a href=#459 id=459 data-nosnippet>459</a>            <span class="kw">let </span>denominator: f64 = fired.iter().map(|(w, <span class="kw">_</span>)| <span class="kw-2">*</span>w).sum();
+<a href=#460 id=460 data-nosnippet>460</a>
+<a href=#461 id=461 data-nosnippet>461</a>            <span class="kw">if </span>denominator == <span class="number">0.0 </span>{ <span class="number">0.0 </span>} <span class="kw">else </span>{ (numerator / denominator).clamp(<span class="number">0.0</span>, <span class="number">1.0</span>) }
+<a href=#462 id=462 data-nosnippet>462</a>        }
+<a href=#463 id=463 data-nosnippet>463</a>
+<a href=#464 id=464 data-nosnippet>464</a>        <span class="doccomment">/// Check if inference result qualifies as Dewasa Ayu (auspicious).
+<a href=#465 id=465 data-nosnippet>465</a>        </span><span class="kw">pub fn </span>is_auspicious(<span class="kw-2">&amp;</span><span class="self">self</span>, input: <span class="kw-2">&amp;</span>DewasaInput, threshold: f64) -&gt; bool {
+<a href=#466 id=466 data-nosnippet>466</a>            <span class="self">self</span>.infer(input) &gt;= threshold.clamp(<span class="number">0.0</span>, <span class="number">1.0</span>)
+<a href=#467 id=467 data-nosnippet>467</a>        }
+<a href=#468 id=468 data-nosnippet>468</a>    }
+<a href=#469 id=469 data-nosnippet>469</a>
+<a href=#470 id=470 data-nosnippet>470</a>    <span class="doccomment">/// Predefined fuzzy sets for standard 5-value classification.
+<a href=#471 id=471 data-nosnippet>471</a>    </span><span class="kw">pub mod </span>standard_sets {
+<a href=#472 id=472 data-nosnippet>472</a>        <span class="kw">use super</span>::<span class="kw-2">*</span>;
+<a href=#473 id=473 data-nosnippet>473</a>
+<a href=#474 id=474 data-nosnippet>474</a>        <span class="doccomment">/// Get triangular fuzzy sets for 5 linguistic values spanning [0, 1].
+<a href=#475 id=475 data-nosnippet>475</a>        ///
+<a href=#476 id=476 data-nosnippet>476</a>        /// Breakpoints: SBr(0-0.25), Br(0.15-0.45), S(0.35-0.65), B(0.55-0.85), SB(0.75-1.0)
+<a href=#477 id=477 data-nosnippet>477</a>        </span><span class="kw">pub fn </span>triangular_five() -&gt; Vec&lt;FuzzySet&gt; {
+<a href=#478 id=478 data-nosnippet>478</a>            <span class="macro">vec!</span>[
+<a href=#479 id=479 data-nosnippet>479</a>                FuzzySet::triangular(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.25</span>, LinguisticValue::SBr),
+<a href=#480 id=480 data-nosnippet>480</a>                FuzzySet::triangular(<span class="number">0.15</span>, <span class="number">0.3</span>, <span class="number">0.45</span>, LinguisticValue::Br),
+<a href=#481 id=481 data-nosnippet>481</a>                FuzzySet::triangular(<span class="number">0.35</span>, <span class="number">0.5</span>, <span class="number">0.65</span>, LinguisticValue::S),
+<a href=#482 id=482 data-nosnippet>482</a>                FuzzySet::triangular(<span class="number">0.55</span>, <span class="number">0.7</span>, <span class="number">0.85</span>, LinguisticValue::B),
+<a href=#483 id=483 data-nosnippet>483</a>                FuzzySet::triangular(<span class="number">0.75</span>, <span class="number">0.9</span>, <span class="number">1.0</span>, LinguisticValue::SB),
+<a href=#484 id=484 data-nosnippet>484</a>            ]
+<a href=#485 id=485 data-nosnippet>485</a>        }
+<a href=#486 id=486 data-nosnippet>486</a>
+<a href=#487 id=487 data-nosnippet>487</a>        <span class="doccomment">/// Get trapezoidal fuzzy sets for 5 linguistic values with plateaus.
+<a href=#488 id=488 data-nosnippet>488</a>        </span><span class="kw">pub fn </span>trapezoidal_five() -&gt; Vec&lt;FuzzySet&gt; {
+<a href=#489 id=489 data-nosnippet>489</a>            <span class="macro">vec!</span>[
+<a href=#490 id=490 data-nosnippet>490</a>                FuzzySet::trapezoidal(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.1</span>, <span class="number">0.2</span>, LinguisticValue::SBr),
+<a href=#491 id=491 data-nosnippet>491</a>                FuzzySet::trapezoidal(<span class="number">0.15</span>, <span class="number">0.25</span>, <span class="number">0.35</span>, <span class="number">0.45</span>, LinguisticValue::Br),
+<a href=#492 id=492 data-nosnippet>492</a>                FuzzySet::trapezoidal(<span class="number">0.35</span>, <span class="number">0.45</span>, <span class="number">0.55</span>, <span class="number">0.65</span>, LinguisticValue::S),
+<a href=#493 id=493 data-nosnippet>493</a>                FuzzySet::trapezoidal(<span class="number">0.55</span>, <span class="number">0.65</span>, <span class="number">0.75</span>, <span class="number">0.85</span>, LinguisticValue::B),
+<a href=#494 id=494 data-nosnippet>494</a>                FuzzySet::trapezoidal(<span class="number">0.75</span>, <span class="number">0.85</span>, <span class="number">1.0</span>, <span class="number">1.0</span>, LinguisticValue::SB),
+<a href=#495 id=495 data-nosnippet>495</a>            ]
+<a href=#496 id=496 data-nosnippet>496</a>        }
+<a href=#497 id=497 data-nosnippet>497</a>    }
+<a href=#498 id=498 data-nosnippet>498</a>
+<a href=#499 id=499 data-nosnippet>499</a>    <span class="doccomment">/// The Alahaning Dewasa rule base.
+<a href=#500 id=500 data-nosnippet>500</a>    ///
+<a href=#501 id=501 data-nosnippet>501</a>    /// Hand-authored conjunctive (product t-norm) Sugeno rules ordered by the
+<a href=#502 id=502 data-nosnippet>502</a>    /// traditional override hierarchy (low → high): Wewaran → Wuku → Penanggal
+<a href=#503 id=503 data-nosnippet>503</a>    /// → Sasih → Dauh. `DewasaInput::ala_ayu` stands in for Dauh until the
+<a href=#504 id=504 data-nosnippet>504</a>    /// Ariana &amp; Budayoga bobot tables are available (see module docs).
+<a href=#505 id=505 data-nosnippet>505</a>    ///
+<a href=#506 id=506 data-nosnippet>506</a>    /// The hierarchy is encoded as *veto strength*: a variable higher in the
+<a href=#507 id=507 data-nosnippet>507</a>    /// chain can override an otherwise-excellent Wewaran, and the higher its
+<a href=#508 id=508 data-nosnippet>508</a>    /// rank, the harder it drags the output down when its value is bad. This
+<a href=#509 id=509 data-nosnippet>509</a>    /// gives the literal DoD requirement — a "good" output needs high Wewaran
+<a href=#510 id=510 data-nosnippet>510</a>    /// **and** acceptable Wuku/Penanggal/Sasih — without special-cased
+<a href=#511 id=511 data-nosnippet>511</a>    /// branching: the "auspicious" rules simply have zero membership (and so
+<a href=#512 id=512 data-nosnippet>512</a>    /// don't fire) once one of those falls into weak/prohibited territory,
+<a href=#513 id=513 data-nosnippet>513</a>    /// leaving only the override rules to determine the (low) blended output.
+<a href=#514 id=514 data-nosnippet>514</a>    ///
+<a href=#515 id=515 data-nosnippet>515</a>    /// Wuku, Penanggal, and Sasih have no validated prohibition data yet (the
+<a href=#516 id=516 data-nosnippet>516</a>    /// Ariana &amp; Budayoga bobot tables are pending — see module docs), and
+<a href=#517 id=517 data-nosnippet>517</a>    /// `verify_finding_experts_span_space` (tests/dewasa_ayu_test.rs) shows the
+<a href=#518 id=518 data-nosnippet>518</a>    /// 16 Candana 2021 expert dates occupy nearly the *entire* Wuku/Penanggal/
+<a href=#519 id=519 data-nosnippet>519</a>    /// Sasih range while Wewaran stays tightly clustered at 0.875–1.0. That
+<a href=#520 id=520 data-nosnippet>520</a>    /// spread makes the two DoDs — a full-year positive rate under 3% (the
+<a href=#521 id=521 data-nosnippet>521</a>    /// hard gate; see `test_scaffold_rarity_over_full_year`) and 16/16 expert
+<a href=#522 id=522 data-nosnippet>522</a>    /// recall — mutually exclusive with only a marginal "exclude the deep low
+<a href=#523 id=523 data-nosnippet>523</a>    /// tail" band on Wuku/Penanggal/Sasih (empirically that band alone leaves
+<a href=#524 id=524 data-nosnippet>524</a>    /// ~94% of days classified "good", nowhere near 3%). Since Plans.md scopes
+<a href=#525 id=525 data-nosnippet>525</a>    /// rarity as the hard gate and exact metric replication as best-effort,
+<a href=#526 id=526 data-nosnippet>526</a>    /// `moderate_or_better` below trades some recall for rarity: Wuku,
+<a href=#527 id=527 data-nosnippet>527</a>    /// Penanggal, and Sasih must each clear a real (if still provisional)
+<a href=#528 id=528 data-nosnippet>528</a>    /// floor, not just avoid the extreme tail. This keeps the 3 expert dates
+<a href=#529 id=529 data-nosnippet>529</a>    /// where all three are comfortably clear of that floor, and lets the
+<a href=#530 id=530 data-nosnippet>530</a>    /// override rules (branch C) continue to handle genuinely bad values.
+<a href=#531 id=531 data-nosnippet>531</a>    /// Precise prohibition calibration remains best-effort until the bobot
+<a href=#532 id=532 data-nosnippet>532</a>    /// tables land (tracked by task 3.7 in Plans.md).
+<a href=#533 id=533 data-nosnippet>533</a>    </span><span class="kw">pub mod </span>rule_base {
+<a href=#534 id=534 data-nosnippet>534</a>        <span class="kw">use super</span>::<span class="kw-2">*</span>;
+<a href=#535 id=535 data-nosnippet>535</a>
+<a href=#536 id=536 data-nosnippet>536</a>        <span class="doccomment">/// Build the populated `SugenoEngine` for Dewasa Ayu (Pawiwahan) classification.
+<a href=#537 id=537 data-nosnippet>537</a>        </span><span class="kw">pub fn </span>alahaning_dewasa_rules() -&gt; SugenoEngine {
+<a href=#538 id=538 data-nosnippet>538</a>            <span class="kw">let </span>sets = standard_sets::triangular_five();
+<a href=#539 id=539 data-nosnippet>539</a>            <span class="kw">let </span>sbr = sets[<span class="number">0</span>];
+<a href=#540 id=540 data-nosnippet>540</a>            <span class="kw">let </span>br = sets[<span class="number">1</span>];
+<a href=#541 id=541 data-nosnippet>541</a>            <span class="kw">let </span>s = sets[<span class="number">2</span>];
+<a href=#542 id=542 data-nosnippet>542</a>            <span class="kw">let </span>b = sets[<span class="number">3</span>];
+<a href=#543 id=543 data-nosnippet>543</a>            <span class="comment">// `standard_sets::triangular_five()`'s SB is a symmetric triangle
+<a href=#544 id=544 data-nosnippet>544</a>            // that returns membership 0 exactly at x=1.0 — the wrong shape
+<a href=#545 id=545 data-nosnippet>545</a>            // for an extremal "highest" category. Real Wewaran/ala_ayu
+<a href=#546 id=546 data-nosnippet>546</a>            // values commonly land exactly at 1.0 (e.g. Wraspati paired with
+<a href=#547 id=547 data-nosnippet>547</a>            // Wage or Kliwon), so use a proper right-shoulder trapezoid
+<a href=#548 id=548 data-nosnippet>548</a>            // (plateau from 0.9 through 1.0) scoped to this rule base.
+<a href=#549 id=549 data-nosnippet>549</a>            </span><span class="kw">let </span>sb = FuzzySet::trapezoidal(<span class="number">0.75</span>, <span class="number">0.9</span>, <span class="number">1.0</span>, <span class="number">1.05</span>, LinguisticValue::SB);
+<a href=#550 id=550 data-nosnippet>550</a>
+<a href=#551 id=551 data-nosnippet>551</a>            <span class="comment">// Provisional "acceptable" floor for Wuku/Penanggal/Sasih — see the
+<a href=#552 id=552 data-nosnippet>552</a>            // module-level doc comment above for why this can't yet be a
+<a href=#553 id=553 data-nosnippet>553</a>            // validated prohibition band, and why it must be tighter than a
+<a href=#554 id=554 data-nosnippet>554</a>            // "just avoid the extreme tail" band to satisfy the rarity gate.
+<a href=#555 id=555 data-nosnippet>555</a>            </span><span class="kw">let </span>moderate_or_better =
+<a href=#556 id=556 data-nosnippet>556</a>                FuzzySet::trapezoidal(<span class="number">0.50</span>, <span class="number">0.65</span>, <span class="number">1.0</span>, <span class="number">1.05</span>, LinguisticValue::B);
+<a href=#557 id=557 data-nosnippet>557</a>
+<a href=#558 id=558 data-nosnippet>558</a>            <span class="kw">let </span><span class="kw-2">mut </span>engine = SugenoEngine::new();
+<a href=#559 id=559 data-nosnippet>559</a>
+<a href=#560 id=560 data-nosnippet>560</a>            <span class="comment">// A. Auspicious branch — requires high Wewaran AND acceptable
+<a href=#561 id=561 data-nosnippet>561</a>            // Wuku/Penanggal/Sasih.
+<a href=#562 id=562 data-nosnippet>562</a>            </span>engine.add_rule(SugenoRule::new(sb, sb, sb, sb, sb, <span class="number">0.95</span>)); <span class="comment">// excellent: everything aligned
+<a href=#563 id=563 data-nosnippet>563</a>            </span>engine.add_rule(SugenoRule::new(
+<a href=#564 id=564 data-nosnippet>564</a>                sb,
+<a href=#565 id=565 data-nosnippet>565</a>                moderate_or_better,
+<a href=#566 id=566 data-nosnippet>566</a>                moderate_or_better,
+<a href=#567 id=567 data-nosnippet>567</a>                moderate_or_better,
+<a href=#568 id=568 data-nosnippet>568</a>                sb,
+<a href=#569 id=569 data-nosnippet>569</a>                <span class="number">0.80</span>,
+<a href=#570 id=570 data-nosnippet>570</a>            )); <span class="comment">// good (SB tier)
+<a href=#571 id=571 data-nosnippet>571</a>
+<a href=#572 id=572 data-nosnippet>572</a>            // B. Moderate branch — all signals agree but none are extreme.
+<a href=#573 id=573 data-nosnippet>573</a>            </span>engine.add_rule(SugenoRule::new(s, s, s, s, s, <span class="number">0.50</span>));
+<a href=#574 id=574 data-nosnippet>574</a>            engine.add_rule(SugenoRule::new(b, s, s, s, s, <span class="number">0.55</span>));
+<a href=#575 id=575 data-nosnippet>575</a>
+<a href=#576 id=576 data-nosnippet>576</a>            <span class="comment">// C. Override branch — a bad value on a higher-priority variable
+<a href=#577 id=577 data-nosnippet>577</a>            // vetoes an otherwise-excellent Wewaran. Damage increases up the
+<a href=#578 id=578 data-nosnippet>578</a>            // hierarchy: Penanggal &lt; Sasih &lt; Dauh (ala_ayu).
+<a href=#579 id=579 data-nosnippet>579</a>            </span>engine.add_rule(SugenoRule::new(sb, sb, sbr, s, s, <span class="number">0.15</span>));
+<a href=#580 id=580 data-nosnippet>580</a>            engine.add_rule(SugenoRule::new(sb, sb, s, sbr, s, <span class="number">0.10</span>));
+<a href=#581 id=581 data-nosnippet>581</a>            engine.add_rule(SugenoRule::new(sb, sb, s, s, sbr, <span class="number">0.05</span>));
+<a href=#582 id=582 data-nosnippet>582</a>
+<a href=#583 id=583 data-nosnippet>583</a>            <span class="comment">// D. Weak-Wewaran branch — the base signal alone cannot carry a
+<a href=#584 id=584 data-nosnippet>584</a>            // good day, regardless of the higher-priority variables.
+<a href=#585 id=585 data-nosnippet>585</a>            </span>engine.add_rule(SugenoRule::new(sbr, s, s, s, s, <span class="number">0.20</span>));
+<a href=#586 id=586 data-nosnippet>586</a>            engine.add_rule(SugenoRule::new(br, s, s, s, s, <span class="number">0.30</span>));
+<a href=#587 id=587 data-nosnippet>587</a>
+<a href=#588 id=588 data-nosnippet>588</a>            engine
+<a href=#589 id=589 data-nosnippet>589</a>        }
+<a href=#590 id=590 data-nosnippet>590</a>    }
+<a href=#591 id=591 data-nosnippet>591</a>}
+<a href=#592 id=592 data-nosnippet>592</a>
+<a href=#593 id=593 data-nosnippet>593</a><span class="attr">#[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#594 id=594 data-nosnippet>594</a></span><span class="kw">pub use </span>sugeno::<span class="kw-2">*</span>;
+<a href=#595 id=595 data-nosnippet>595</a>
+<a href=#596 id=596 data-nosnippet>596</a><span class="comment">// ─────────────────────────────────────────────────────────────────────────────
+<a href=#597 id=597 data-nosnippet>597</a>
+<a href=#598 id=598 data-nosnippet>598</a></span><span class="attr">#[cfg(test)]
+<a href=#599 id=599 data-nosnippet>599</a></span><span class="kw">mod </span>tests {
+<a href=#600 id=600 data-nosnippet>600</a>    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+<a href=#601 id=601 data-nosnippet>601</a>    <span class="kw">use </span><span class="kw">crate</span>::BalineseDate;
+<a href=#602 id=602 data-nosnippet>602</a>
+<a href=#603 id=603 data-nosnippet>603</a>    <span class="attr">#[test]
+<a href=#604 id=604 data-nosnippet>604</a>    </span><span class="kw">fn </span>test_debug_score() {
+<a href=#605 id=605 data-nosnippet>605</a>        <span class="kw">let </span>date = BalineseDate::from_ymd(<span class="number">2020</span>, <span class="number">2</span>, <span class="number">15</span>).unwrap();
+<a href=#606 id=606 data-nosnippet>606</a>        <span class="macro">println!</span>(<span class="string">"Date: 2020-02-15"</span>);
+<a href=#607 id=607 data-nosnippet>607</a>        <span class="macro">println!</span>(<span class="string">"Saptawara: {:?}"</span>, date.saptawara);
+<a href=#608 id=608 data-nosnippet>608</a>        <span class="macro">println!</span>(<span class="string">"Pancawara: {:?}"</span>, date.pancawara);
+<a href=#609 id=609 data-nosnippet>609</a>        <span class="macro">println!</span>(<span class="string">"Sapta urip: {}"</span>, date.saptawara.urip());
+<a href=#610 id=610 data-nosnippet>610</a>        <span class="macro">println!</span>(<span class="string">"Panca urip: {}"</span>, date.pancawara.urip());
+<a href=#611 id=611 data-nosnippet>611</a>
+<a href=#612 id=612 data-nosnippet>612</a>        <span class="kw">let </span>sapta_score = score_saptawara(<span class="kw-2">&amp;</span>date.saptawara);
+<a href=#613 id=613 data-nosnippet>613</a>        <span class="kw">let </span>panca_score = score_pancawara(<span class="kw-2">&amp;</span>date.pancawara);
+<a href=#614 id=614 data-nosnippet>614</a>        <span class="macro">println!</span>(<span class="string">"Sapta score: {}"</span>, sapta_score);
+<a href=#615 id=615 data-nosnippet>615</a>        <span class="macro">println!</span>(<span class="string">"Panca score: {}"</span>, panca_score);
+<a href=#616 id=616 data-nosnippet>616</a>
+<a href=#617 id=617 data-nosnippet>617</a>        <span class="kw">let </span>config = DewasaAyuConfig::default();
+<a href=#618 id=618 data-nosnippet>618</a>        <span class="macro">println!</span>(<span class="string">"Config: {:?}"</span>, config);
+<a href=#619 id=619 data-nosnippet>619</a>
+<a href=#620 id=620 data-nosnippet>620</a>        <span class="kw">let </span>score = date.dewasa_ayu_score();
+<a href=#621 id=621 data-nosnippet>621</a>        <span class="macro">println!</span>(<span class="string">"Final score: {}"</span>, score);
+<a href=#622 id=622 data-nosnippet>622</a>    }
+<a href=#623 id=623 data-nosnippet>623</a>
+<a href=#624 id=624 data-nosnippet>624</a>    <span class="attr">#[test]
+<a href=#625 id=625 data-nosnippet>625</a>    </span><span class="kw">fn </span>test_check_expert_dates() {
+<a href=#626 id=626 data-nosnippet>626</a>        <span class="comment">// Verify that all fixture expert dates match their expected wewaran values
+<a href=#627 id=627 data-nosnippet>627</a>        // These are the actual dates from candana_2021_dewasa.json with library-computed values
+<a href=#628 id=628 data-nosnippet>628</a>        </span><span class="kw">let </span>expert_dates = [
+<a href=#629 id=629 data-nosnippet>629</a>            (<span class="number">2020</span>, <span class="number">2</span>, <span class="number">13</span>, <span class="string">"Wraspati"</span>, <span class="string">"Wage"</span>),    <span class="comment">// score 80
+<a href=#630 id=630 data-nosnippet>630</a>            </span>(<span class="number">2020</span>, <span class="number">4</span>, <span class="number">17</span>, <span class="string">"Sukra"</span>, <span class="string">"Pon"</span>),        <span class="comment">// score 80
+<a href=#631 id=631 data-nosnippet>631</a>            </span>(<span class="number">2020</span>, <span class="number">6</span>, <span class="number">18</span>, <span class="string">"Wraspati"</span>, <span class="string">"Kliwon"</span>),  <span class="comment">// score 78
+<a href=#632 id=632 data-nosnippet>632</a>            </span>(<span class="number">2020</span>, <span class="number">8</span>, <span class="number">21</span>, <span class="string">"Sukra"</span>, <span class="string">"Wage"</span>),       <span class="comment">// score 76
+<a href=#633 id=633 data-nosnippet>633</a>            </span>(<span class="number">2020</span>, <span class="number">10</span>, <span class="number">23</span>, <span class="string">"Sukra"</span>, <span class="string">"Paing"</span>),     <span class="comment">// score 75
+<a href=#634 id=634 data-nosnippet>634</a>            </span>(<span class="number">2020</span>, <span class="number">12</span>, <span class="number">25</span>, <span class="string">"Sukra"</span>, <span class="string">"Kliwon"</span>),    <span class="comment">// score 74
+<a href=#635 id=635 data-nosnippet>635</a>            </span>(<span class="number">2021</span>, <span class="number">2</span>, <span class="number">11</span>, <span class="string">"Wraspati"</span>, <span class="string">"Pon"</span>),     <span class="comment">// score 73
+<a href=#636 id=636 data-nosnippet>636</a>            </span>(<span class="number">2021</span>, <span class="number">4</span>, <span class="number">15</span>, <span class="string">"Wraspati"</span>, <span class="string">"Umanis"</span>),  <span class="comment">// score 72
+<a href=#637 id=637 data-nosnippet>637</a>            </span>(<span class="number">2021</span>, <span class="number">6</span>, <span class="number">17</span>, <span class="string">"Wraspati"</span>, <span class="string">"Wage"</span>),    <span class="comment">// score 71
+<a href=#638 id=638 data-nosnippet>638</a>            </span>(<span class="number">2021</span>, <span class="number">8</span>, <span class="number">19</span>, <span class="string">"Wraspati"</span>, <span class="string">"Paing"</span>),   <span class="comment">// score 70
+<a href=#639 id=639 data-nosnippet>639</a>            </span>(<span class="number">2021</span>, <span class="number">10</span>, <span class="number">21</span>, <span class="string">"Wraspati"</span>, <span class="string">"Kliwon"</span>), <span class="comment">// score 70
+<a href=#640 id=640 data-nosnippet>640</a>            </span>(<span class="number">2020</span>, <span class="number">3</span>, <span class="number">12</span>, <span class="string">"Wraspati"</span>, <span class="string">"Paing"</span>),   <span class="comment">// score 76
+<a href=#641 id=641 data-nosnippet>641</a>            </span>(<span class="number">2020</span>, <span class="number">5</span>, <span class="number">14</span>, <span class="string">"Wraspati"</span>, <span class="string">"Kliwon"</span>),  <span class="comment">// score 75
+<a href=#642 id=642 data-nosnippet>642</a>            </span>(<span class="number">2020</span>, <span class="number">7</span>, <span class="number">16</span>, <span class="string">"Wraspati"</span>, <span class="string">"Pon"</span>),     <span class="comment">// score 74
+<a href=#643 id=643 data-nosnippet>643</a>            </span>(<span class="number">2020</span>, <span class="number">9</span>, <span class="number">17</span>, <span class="string">"Wraspati"</span>, <span class="string">"Umanis"</span>),  <span class="comment">// score 73
+<a href=#644 id=644 data-nosnippet>644</a>            </span>(<span class="number">2020</span>, <span class="number">11</span>, <span class="number">19</span>, <span class="string">"Wraspati"</span>, <span class="string">"Wage"</span>),   <span class="comment">// score 72
+<a href=#645 id=645 data-nosnippet>645</a>        </span>];
+<a href=#646 id=646 data-nosnippet>646</a>
+<a href=#647 id=647 data-nosnippet>647</a>        <span class="kw">for </span>(y, m, d, expected_sapta, expected_panca) <span class="kw">in </span>expert_dates {
+<a href=#648 id=648 data-nosnippet>648</a>            <span class="kw">let </span>date = BalineseDate::from_ymd(y, m, d).unwrap();
+<a href=#649 id=649 data-nosnippet>649</a>            <span class="kw">let </span>actual_sapta = date.saptawara.name();
+<a href=#650 id=650 data-nosnippet>650</a>            <span class="kw">let </span>actual_panca = date.pancawara.name();
+<a href=#651 id=651 data-nosnippet>651</a>
+<a href=#652 id=652 data-nosnippet>652</a>            <span class="macro">assert_eq!</span>(
+<a href=#653 id=653 data-nosnippet>653</a>                actual_sapta, expected_sapta,
+<a href=#654 id=654 data-nosnippet>654</a>                <span class="string">"Saptawara mismatch for {}-{}-{}: expected {}, got {}"</span>,
+<a href=#655 id=655 data-nosnippet>655</a>                y, m, d, expected_sapta, actual_sapta
+<a href=#656 id=656 data-nosnippet>656</a>            );
+<a href=#657 id=657 data-nosnippet>657</a>            <span class="macro">assert_eq!</span>(
+<a href=#658 id=658 data-nosnippet>658</a>                actual_panca, expected_panca,
+<a href=#659 id=659 data-nosnippet>659</a>                <span class="string">"Pancawara mismatch for {}-{}-{}: expected {}, got {}"</span>,
+<a href=#660 id=660 data-nosnippet>660</a>                y, m, d, expected_panca, actual_panca
+<a href=#661 id=661 data-nosnippet>661</a>            );
+<a href=#662 id=662 data-nosnippet>662</a>        }
+<a href=#663 id=663 data-nosnippet>663</a>    }
+<a href=#664 id=664 data-nosnippet>664</a>
+<a href=#665 id=665 data-nosnippet>665</a>    <span class="attr">#[test]
+<a href=#666 id=666 data-nosnippet>666</a>    </span><span class="kw">fn </span>test_dewasa_ayu_score_range() {
+<a href=#667 id=667 data-nosnippet>667</a>        <span class="comment">// Test that all dates produce valid scores
+<a href=#668 id=668 data-nosnippet>668</a>        </span><span class="kw">let </span>test_dates = [
+<a href=#669 id=669 data-nosnippet>669</a>            (<span class="number">2020</span>, <span class="number">2</span>, <span class="number">13</span>), <span class="comment">// Expert date: Wraspati Wage, score 80
+<a href=#670 id=670 data-nosnippet>670</a>            </span>(<span class="number">2020</span>, <span class="number">4</span>, <span class="number">17</span>), <span class="comment">// Expert date: Sukra Pon, score 80
+<a href=#671 id=671 data-nosnippet>671</a>            </span>(<span class="number">2020</span>, <span class="number">6</span>, <span class="number">18</span>), <span class="comment">// Expert date: Wraspati Kliwon, score 78
+<a href=#672 id=672 data-nosnippet>672</a>            </span>(<span class="number">2020</span>, <span class="number">1</span>, <span class="number">5</span>),  <span class="comment">// Redite (excluded)
+<a href=#673 id=673 data-nosnippet>673</a>            </span>(<span class="number">2020</span>, <span class="number">1</span>, <span class="number">11</span>), <span class="comment">// Saniscara (excluded)
+<a href=#674 id=674 data-nosnippet>674</a>        </span>];
+<a href=#675 id=675 data-nosnippet>675</a>
+<a href=#676 id=676 data-nosnippet>676</a>        <span class="kw">for </span>(y, m, d) <span class="kw">in </span>test_dates {
+<a href=#677 id=677 data-nosnippet>677</a>            <span class="kw">let </span>date = BalineseDate::from_ymd(y, m, d).unwrap();
+<a href=#678 id=678 data-nosnippet>678</a>            <span class="kw">let </span>score = date.dewasa_ayu_score();
+<a href=#679 id=679 data-nosnippet>679</a>            <span class="macro">assert!</span>(
+<a href=#680 id=680 data-nosnippet>680</a>                (<span class="number">0.0</span>..=<span class="number">1.0</span>).contains(<span class="kw-2">&amp;</span>score),
+<a href=#681 id=681 data-nosnippet>681</a>                <span class="string">"Score for {}-{}-{} out of range: {}"</span>,
+<a href=#682 id=682 data-nosnippet>682</a>                y,
+<a href=#683 id=683 data-nosnippet>683</a>                m,
+<a href=#684 id=684 data-nosnippet>684</a>                d,
+<a href=#685 id=685 data-nosnippet>685</a>                score
+<a href=#686 id=686 data-nosnippet>686</a>            );
+<a href=#687 id=687 data-nosnippet>687</a>        }
+<a href=#688 id=688 data-nosnippet>688</a>    }
+<a href=#689 id=689 data-nosnippet>689</a>
+<a href=#690 id=690 data-nosnippet>690</a>    <span class="attr">#[test]
+<a href=#691 id=691 data-nosnippet>691</a>    </span><span class="kw">fn </span>test_expert_dates_are_dewasa_ayu() {
+<a href=#692 id=692 data-nosnippet>692</a>        <span class="comment">// Task 3.6 wired `DewasaAyu` to the Sugeno engine and calibrated it to
+<a href=#693 id=693 data-nosnippet>693</a>        // satisfy the &lt;3% full-year rarity gate (see
+<a href=#694 id=694 data-nosnippet>694</a>        // `test_scaffold_rarity_over_full_year` in tests/dewasa_ayu_test.rs).
+<a href=#695 id=695 data-nosnippet>695</a>        // Candana 2021 dates whose Wuku/Penanggal/Sasih are all comfortably
+<a href=#696 id=696 data-nosnippet>696</a>        // clear of the (still-provisional) `moderate_or_better` floor keep
+<a href=#697 id=697 data-nosnippet>697</a>        // scoring "good"; the rest are now false negatives — see the
+<a href=#698 id=698 data-nosnippet>698</a>        // `alahaning_dewasa_rules` doc comment for why 100% recall and &lt;3%
+<a href=#699 id=699 data-nosnippet>699</a>        // rarity are mutually exclusive given the current (unvalidated)
+<a href=#700 id=700 data-nosnippet>700</a>        // Wuku/Penanggal/Sasih prohibition bands.
+<a href=#701 id=701 data-nosnippet>701</a>        </span><span class="kw">let </span>dewasa_ayu_dates = [
+<a href=#702 id=702 data-nosnippet>702</a>            (<span class="number">2020</span>, <span class="number">4</span>, <span class="number">17</span>), <span class="comment">// Sukra Pon: wuku/penanggal/sasih all comfortably clear
+<a href=#703 id=703 data-nosnippet>703</a>            </span>(<span class="number">2020</span>, <span class="number">6</span>, <span class="number">18</span>), <span class="comment">// Wraspati Kliwon: wuku/penanggal/sasih all comfortably clear
+<a href=#704 id=704 data-nosnippet>704</a>        </span>];
+<a href=#705 id=705 data-nosnippet>705</a>        <span class="kw">for </span>(y, m, d) <span class="kw">in </span>dewasa_ayu_dates {
+<a href=#706 id=706 data-nosnippet>706</a>            <span class="kw">let </span>date = BalineseDate::from_ymd(y, m, d).unwrap();
+<a href=#707 id=707 data-nosnippet>707</a>            <span class="macro">assert!</span>(
+<a href=#708 id=708 data-nosnippet>708</a>                date.is_dewasa_ayu(),
+<a href=#709 id=709 data-nosnippet>709</a>                <span class="string">"Expert date {}-{}-{} should be Dewasa Ayu, score: {:.2}"</span>,
+<a href=#710 id=710 data-nosnippet>710</a>                y,
+<a href=#711 id=711 data-nosnippet>711</a>                m,
+<a href=#712 id=712 data-nosnippet>712</a>                d,
+<a href=#713 id=713 data-nosnippet>713</a>                date.dewasa_ayu_score()
+<a href=#714 id=714 data-nosnippet>714</a>            );
+<a href=#715 id=715 data-nosnippet>715</a>        }
+<a href=#716 id=716 data-nosnippet>716</a>
+<a href=#717 id=717 data-nosnippet>717</a>        <span class="kw">let </span>false_negative_dates = [
+<a href=#718 id=718 data-nosnippet>718</a>            (<span class="number">2020</span>, <span class="number">2</span>, <span class="number">13</span>),  <span class="comment">// Wraspati Wage: Wuku below the acceptable floor
+<a href=#719 id=719 data-nosnippet>719</a>            </span>(<span class="number">2020</span>, <span class="number">8</span>, <span class="number">21</span>),  <span class="comment">// Sukra Wage: Wuku/Penanggal/Sasih all below floor
+<a href=#720 id=720 data-nosnippet>720</a>            </span>(<span class="number">2020</span>, <span class="number">10</span>, <span class="number">23</span>), <span class="comment">// Sukra Paing: Penanggal/Sasih below floor
+<a href=#721 id=721 data-nosnippet>721</a>        </span>];
+<a href=#722 id=722 data-nosnippet>722</a>        <span class="kw">for </span>(y, m, d) <span class="kw">in </span>false_negative_dates {
+<a href=#723 id=723 data-nosnippet>723</a>            <span class="kw">let </span>date = BalineseDate::from_ymd(y, m, d).unwrap();
+<a href=#724 id=724 data-nosnippet>724</a>            <span class="macro">assert!</span>(
+<a href=#725 id=725 data-nosnippet>725</a>                !date.is_dewasa_ayu(),
+<a href=#726 id=726 data-nosnippet>726</a>                <span class="string">"Expert date {}-{}-{} is a known rarity-gate false negative, score: {:.2}"</span>,
+<a href=#727 id=727 data-nosnippet>727</a>                y,
+<a href=#728 id=728 data-nosnippet>728</a>                m,
+<a href=#729 id=729 data-nosnippet>729</a>                d,
+<a href=#730 id=730 data-nosnippet>730</a>                date.dewasa_ayu_score()
+<a href=#731 id=731 data-nosnippet>731</a>            );
+<a href=#732 id=732 data-nosnippet>732</a>        }
+<a href=#733 id=733 data-nosnippet>733</a>    }
+<a href=#734 id=734 data-nosnippet>734</a>
+<a href=#735 id=735 data-nosnippet>735</a>    <span class="attr">#[test]
+<a href=#736 id=736 data-nosnippet>736</a>    </span><span class="kw">fn </span>test_excluded_dates_never_dewasa_ayu() {
+<a href=#737 id=737 data-nosnippet>737</a>        <span class="comment">// The expert NEVER selects Redite or Saniscara. Their low base scores
+<a href=#738 id=738 data-nosnippet>738</a>        // (0.15 / 0.20) keep wewaran below the SB-tier threshold for
+<a href=#739 id=739 data-nosnippet>739</a>        // ANY pancawara, so excluded days are never classified Dewasa Ayu.
+<a href=#740 id=740 data-nosnippet>740</a>        </span><span class="kw">let </span>redite = BalineseDate::from_ymd(<span class="number">2020</span>, <span class="number">1</span>, <span class="number">5</span>).unwrap(); <span class="comment">// Redite
+<a href=#741 id=741 data-nosnippet>741</a>        </span><span class="kw">let </span>saniscara = BalineseDate::from_ymd(<span class="number">2020</span>, <span class="number">1</span>, <span class="number">11</span>).unwrap(); <span class="comment">// Saniscara
+<a href=#742 id=742 data-nosnippet>742</a>
+<a href=#743 id=743 data-nosnippet>743</a>        </span><span class="macro">assert!</span>(
+<a href=#744 id=744 data-nosnippet>744</a>            !redite.is_dewasa_ayu(),
+<a href=#745 id=745 data-nosnippet>745</a>            <span class="string">"Redite should never be Dewasa Ayu (score {:.2})"</span>,
+<a href=#746 id=746 data-nosnippet>746</a>            redite.dewasa_ayu_score()
+<a href=#747 id=747 data-nosnippet>747</a>        );
+<a href=#748 id=748 data-nosnippet>748</a>        <span class="macro">assert!</span>(
+<a href=#749 id=749 data-nosnippet>749</a>            !saniscara.is_dewasa_ayu(),
+<a href=#750 id=750 data-nosnippet>750</a>            <span class="string">"Saniscara should never be Dewasa Ayu (score {:.2})"</span>,
+<a href=#751 id=751 data-nosnippet>751</a>            saniscara.dewasa_ayu_score()
+<a href=#752 id=752 data-nosnippet>752</a>        );
+<a href=#753 id=753 data-nosnippet>753</a>    }
+<a href=#754 id=754 data-nosnippet>754</a>
+<a href=#755 id=755 data-nosnippet>755</a>    <span class="attr">#[test]
+<a href=#756 id=756 data-nosnippet>756</a>    </span><span class="kw">fn </span>test_configurable_threshold() {
+<a href=#757 id=757 data-nosnippet>757</a>        <span class="comment">// Use a date from the fixture that has a good score
+<a href=#758 id=758 data-nosnippet>758</a>        </span><span class="kw">let </span>date = BalineseDate::from_ymd(<span class="number">2020</span>, <span class="number">4</span>, <span class="number">17</span>).unwrap(); <span class="comment">// Sukra Pon, score 80
+<a href=#759 id=759 data-nosnippet>759</a>
+<a href=#760 id=760 data-nosnippet>760</a>        // Low threshold should always pass
+<a href=#761 id=761 data-nosnippet>761</a>        </span><span class="kw">let </span>low_config = DewasaAyuConfig::with_threshold(<span class="number">0.5</span>);
+<a href=#762 id=762 data-nosnippet>762</a>        <span class="macro">assert!</span>(date.is_dewasa_ayu_with_config(<span class="kw-2">&amp;</span>low_config));
+<a href=#763 id=763 data-nosnippet>763</a>
+<a href=#764 id=764 data-nosnippet>764</a>        <span class="comment">// High threshold should be more restrictive
+<a href=#765 id=765 data-nosnippet>765</a>        </span><span class="kw">let </span>high_config = DewasaAyuConfig::with_threshold(<span class="number">0.95</span>);
+<a href=#766 id=766 data-nosnippet>766</a>        <span class="comment">// May or may not pass depending on exact score
+<a href=#767 id=767 data-nosnippet>767</a>        </span><span class="kw">let _ </span>= date.is_dewasa_ayu_with_config(<span class="kw-2">&amp;</span>high_config);
+<a href=#768 id=768 data-nosnippet>768</a>    }
+<a href=#769 id=769 data-nosnippet>769</a>
+<a href=#770 id=770 data-nosnippet>770</a>    <span class="attr">#[test]
+<a href=#771 id=771 data-nosnippet>771</a>    #[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#772 id=772 data-nosnippet>772</a>    </span><span class="kw">fn </span>test_sugeno_engine_default() {
+<a href=#773 id=773 data-nosnippet>773</a>        <span class="kw">let </span>engine = SugenoEngine::default();
+<a href=#774 id=774 data-nosnippet>774</a>        <span class="kw">let </span>input = DewasaInput::default();
+<a href=#775 id=775 data-nosnippet>775</a>        <span class="kw">let </span>score = engine.infer(<span class="kw-2">&amp;</span>input);
+<a href=#776 id=776 data-nosnippet>776</a>        <span class="macro">assert_eq!</span>(score, <span class="number">0.5</span>); <span class="comment">// Neutral when no rules
+<a href=#777 id=777 data-nosnippet>777</a>    </span>}
+<a href=#778 id=778 data-nosnippet>778</a>
+<a href=#779 id=779 data-nosnippet>779</a>    <span class="attr">#[test]
+<a href=#780 id=780 data-nosnippet>780</a>    #[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#781 id=781 data-nosnippet>781</a>    </span><span class="kw">fn </span>test_fuzzy_set_triangular() {
+<a href=#782 id=782 data-nosnippet>782</a>        <span class="kw">use </span>sugeno::{FuzzySet, LinguisticValue};
+<a href=#783 id=783 data-nosnippet>783</a>
+<a href=#784 id=784 data-nosnippet>784</a>        <span class="kw">let </span>set = FuzzySet::triangular(<span class="number">0.0</span>, <span class="number">0.5</span>, <span class="number">1.0</span>, LinguisticValue::B);
+<a href=#785 id=785 data-nosnippet>785</a>        <span class="macro">assert_eq!</span>(set.membership(<span class="number">0.0</span>), <span class="number">0.0</span>);
+<a href=#786 id=786 data-nosnippet>786</a>        <span class="macro">assert_eq!</span>(set.membership(<span class="number">0.25</span>), <span class="number">0.5</span>);
+<a href=#787 id=787 data-nosnippet>787</a>        <span class="macro">assert_eq!</span>(set.membership(<span class="number">0.5</span>), <span class="number">1.0</span>);
+<a href=#788 id=788 data-nosnippet>788</a>        <span class="macro">assert_eq!</span>(set.membership(<span class="number">0.75</span>), <span class="number">0.5</span>);
+<a href=#789 id=789 data-nosnippet>789</a>        <span class="macro">assert_eq!</span>(set.membership(<span class="number">1.0</span>), <span class="number">0.0</span>);
+<a href=#790 id=790 data-nosnippet>790</a>    }
+<a href=#791 id=791 data-nosnippet>791</a>
+<a href=#792 id=792 data-nosnippet>792</a>    <span class="attr">#[test]
+<a href=#793 id=793 data-nosnippet>793</a>    #[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#794 id=794 data-nosnippet>794</a>    </span><span class="kw">fn </span>test_fuzzy_set_trapezoidal() {
+<a href=#795 id=795 data-nosnippet>795</a>        <span class="kw">use </span>sugeno::{FuzzySet, LinguisticValue};
+<a href=#796 id=796 data-nosnippet>796</a>
+<a href=#797 id=797 data-nosnippet>797</a>        <span class="kw">let </span>set = FuzzySet::trapezoidal(<span class="number">0.0</span>, <span class="number">0.25</span>, <span class="number">0.75</span>, <span class="number">1.0</span>, LinguisticValue::B);
+<a href=#798 id=798 data-nosnippet>798</a>        <span class="macro">assert_eq!</span>(set.membership(<span class="number">0.0</span>), <span class="number">0.0</span>);
+<a href=#799 id=799 data-nosnippet>799</a>        <span class="macro">assert_eq!</span>(set.membership(<span class="number">0.125</span>), <span class="number">0.5</span>);
+<a href=#800 id=800 data-nosnippet>800</a>        <span class="macro">assert_eq!</span>(set.membership(<span class="number">0.5</span>), <span class="number">1.0</span>); <span class="comment">// Plateau
+<a href=#801 id=801 data-nosnippet>801</a>        </span><span class="macro">assert_eq!</span>(set.membership(<span class="number">0.875</span>), <span class="number">0.5</span>);
+<a href=#802 id=802 data-nosnippet>802</a>        <span class="macro">assert_eq!</span>(set.membership(<span class="number">1.0</span>), <span class="number">0.0</span>);
+<a href=#803 id=803 data-nosnippet>803</a>    }
+<a href=#804 id=804 data-nosnippet>804</a>
+<a href=#805 id=805 data-nosnippet>805</a>    <span class="attr">#[test]
+<a href=#806 id=806 data-nosnippet>806</a>    #[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#807 id=807 data-nosnippet>807</a>    </span><span class="kw">fn </span>test_sugeno_rule_firing_strength() {
+<a href=#808 id=808 data-nosnippet>808</a>        <span class="kw">use </span>sugeno::{DewasaInput, FuzzySet, LinguisticValue, SugenoRule};
+<a href=#809 id=809 data-nosnippet>809</a>
+<a href=#810 id=810 data-nosnippet>810</a>        <span class="comment">// Create a rule where all antecedents peak at 0.6
+<a href=#811 id=811 data-nosnippet>811</a>        </span><span class="kw">let </span>fuzzy_b = FuzzySet::triangular(<span class="number">0.4</span>, <span class="number">0.6</span>, <span class="number">0.8</span>, LinguisticValue::B);
+<a href=#812 id=812 data-nosnippet>812</a>        <span class="kw">let </span>rule = SugenoRule::new(
+<a href=#813 id=813 data-nosnippet>813</a>            fuzzy_b, fuzzy_b, fuzzy_b, fuzzy_b, fuzzy_b, <span class="number">0.75</span>, <span class="comment">// consequent for "B" (Good)
+<a href=#814 id=814 data-nosnippet>814</a>        </span>);
+<a href=#815 id=815 data-nosnippet>815</a>
+<a href=#816 id=816 data-nosnippet>816</a>        <span class="comment">// Input at 0.6 (peak) should have membership 1.0 for all
+<a href=#817 id=817 data-nosnippet>817</a>        </span><span class="kw">let </span>input = DewasaInput::new(<span class="number">0.6</span>, <span class="number">0.6</span>, <span class="number">0.6</span>, <span class="number">0.6</span>, <span class="number">0.6</span>);
+<a href=#818 id=818 data-nosnippet>818</a>        <span class="kw">let </span>strength = rule.firing_strength(<span class="kw-2">&amp;</span>input);
+<a href=#819 id=819 data-nosnippet>819</a>        <span class="macro">assert!</span>(
+<a href=#820 id=820 data-nosnippet>820</a>            (strength - <span class="number">1.0</span>).abs() &lt; <span class="number">0.001</span>,
+<a href=#821 id=821 data-nosnippet>821</a>            <span class="string">"Expected firing strength ~1.0, got {}"</span>,
+<a href=#822 id=822 data-nosnippet>822</a>            strength
+<a href=#823 id=823 data-nosnippet>823</a>        );
+<a href=#824 id=824 data-nosnippet>824</a>
+<a href=#825 id=825 data-nosnippet>825</a>        <span class="comment">// Input at 0.5 should have membership 0.5 for triangular(0.4,0.6,0.8)
+<a href=#826 id=826 data-nosnippet>826</a>        </span><span class="kw">let </span>input2 = DewasaInput::new(<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>);
+<a href=#827 id=827 data-nosnippet>827</a>        <span class="kw">let </span>strength2 = rule.firing_strength(<span class="kw-2">&amp;</span>input2);
+<a href=#828 id=828 data-nosnippet>828</a>        <span class="kw">let </span>expected = <span class="number">0.5f64</span>.powi(<span class="number">5</span>); <span class="comment">// 0.5^5 = 0.03125
+<a href=#829 id=829 data-nosnippet>829</a>        </span><span class="macro">assert!</span>(
+<a href=#830 id=830 data-nosnippet>830</a>            (strength2 - expected).abs() &lt; <span class="number">0.001</span>,
+<a href=#831 id=831 data-nosnippet>831</a>            <span class="string">"Expected ~{}, got {}"</span>,
+<a href=#832 id=832 data-nosnippet>832</a>            expected,
+<a href=#833 id=833 data-nosnippet>833</a>            strength2
+<a href=#834 id=834 data-nosnippet>834</a>        );
+<a href=#835 id=835 data-nosnippet>835</a>    }
+<a href=#836 id=836 data-nosnippet>836</a>
+<a href=#837 id=837 data-nosnippet>837</a>    <span class="attr">#[test]
+<a href=#838 id=838 data-nosnippet>838</a>    #[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#839 id=839 data-nosnippet>839</a>    </span><span class="kw">fn </span>test_sugeno_engine_inference() {
+<a href=#840 id=840 data-nosnippet>840</a>        <span class="kw">use </span>sugeno::{DewasaInput, LinguisticValue, SugenoEngine, SugenoRule, standard_sets};
+<a href=#841 id=841 data-nosnippet>841</a>
+<a href=#842 id=842 data-nosnippet>842</a>        <span class="comment">// Create a simple engine with two rules
+<a href=#843 id=843 data-nosnippet>843</a>        </span><span class="kw">let </span>sets = standard_sets::triangular_five();
+<a href=#844 id=844 data-nosnippet>844</a>        <span class="kw">let </span>sb_set = sets[<span class="number">4</span>]; <span class="comment">// Sangat Baik
+<a href=#845 id=845 data-nosnippet>845</a>        </span><span class="kw">let </span>s_set = sets[<span class="number">2</span>]; <span class="comment">// Sedang
+<a href=#846 id=846 data-nosnippet>846</a>
+<a href=#847 id=847 data-nosnippet>847</a>        </span><span class="kw">let </span><span class="kw-2">mut </span>engine = SugenoEngine::new();
+<a href=#848 id=848 data-nosnippet>848</a>
+<a href=#849 id=849 data-nosnippet>849</a>        <span class="comment">// Rule 1: If all are SB, output is 0.9 (SB center)
+<a href=#850 id=850 data-nosnippet>850</a>        </span>engine.add_rule(SugenoRule::new(
+<a href=#851 id=851 data-nosnippet>851</a>            sb_set,
+<a href=#852 id=852 data-nosnippet>852</a>            sb_set,
+<a href=#853 id=853 data-nosnippet>853</a>            sb_set,
+<a href=#854 id=854 data-nosnippet>854</a>            sb_set,
+<a href=#855 id=855 data-nosnippet>855</a>            sb_set,
+<a href=#856 id=856 data-nosnippet>856</a>            LinguisticValue::SB.center(),
+<a href=#857 id=857 data-nosnippet>857</a>        ));
+<a href=#858 id=858 data-nosnippet>858</a>
+<a href=#859 id=859 data-nosnippet>859</a>        <span class="comment">// Rule 2: If all are S, output is 0.5 (S center)
+<a href=#860 id=860 data-nosnippet>860</a>        </span>engine.add_rule(SugenoRule::new(
+<a href=#861 id=861 data-nosnippet>861</a>            s_set,
+<a href=#862 id=862 data-nosnippet>862</a>            s_set,
+<a href=#863 id=863 data-nosnippet>863</a>            s_set,
+<a href=#864 id=864 data-nosnippet>864</a>            s_set,
+<a href=#865 id=865 data-nosnippet>865</a>            s_set,
+<a href=#866 id=866 data-nosnippet>866</a>            LinguisticValue::S.center(),
+<a href=#867 id=867 data-nosnippet>867</a>        ));
+<a href=#868 id=868 data-nosnippet>868</a>
+<a href=#869 id=869 data-nosnippet>869</a>        <span class="comment">// Input that perfectly matches Rule 1
+<a href=#870 id=870 data-nosnippet>870</a>        </span><span class="kw">let </span>input1 = DewasaInput::new(<span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.9</span>);
+<a href=#871 id=871 data-nosnippet>871</a>        <span class="kw">let </span>output1 = engine.infer(<span class="kw-2">&amp;</span>input1);
+<a href=#872 id=872 data-nosnippet>872</a>        <span class="macro">assert!</span>((output1 - <span class="number">0.9</span>).abs() &lt; <span class="number">0.05</span>, <span class="string">"Expected ~0.9, got {}"</span>, output1);
+<a href=#873 id=873 data-nosnippet>873</a>
+<a href=#874 id=874 data-nosnippet>874</a>        <span class="comment">// Input that perfectly matches Rule 2
+<a href=#875 id=875 data-nosnippet>875</a>        </span><span class="kw">let </span>input2 = DewasaInput::new(<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>);
+<a href=#876 id=876 data-nosnippet>876</a>        <span class="kw">let </span>output2 = engine.infer(<span class="kw-2">&amp;</span>input2);
+<a href=#877 id=877 data-nosnippet>877</a>        <span class="macro">assert!</span>((output2 - <span class="number">0.5</span>).abs() &lt; <span class="number">0.05</span>, <span class="string">"Expected ~0.5, got {}"</span>, output2);
+<a href=#878 id=878 data-nosnippet>878</a>    }
+<a href=#879 id=879 data-nosnippet>879</a>
+<a href=#880 id=880 data-nosnippet>880</a>    <span class="attr">#[test]
+<a href=#881 id=881 data-nosnippet>881</a>    #[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#882 id=882 data-nosnippet>882</a>    </span><span class="kw">fn </span>test_sugeno_is_auspicious() {
+<a href=#883 id=883 data-nosnippet>883</a>        <span class="kw">use </span>sugeno::{DewasaInput, FuzzySet, LinguisticValue, SugenoEngine, SugenoRule};
+<a href=#884 id=884 data-nosnippet>884</a>
+<a href=#885 id=885 data-nosnippet>885</a>        <span class="comment">// Create a rule that outputs high (0.9) when all inputs are high
+<a href=#886 id=886 data-nosnippet>886</a>        </span><span class="kw">let </span>sb = FuzzySet::triangular(<span class="number">0.7</span>, <span class="number">0.9</span>, <span class="number">1.0</span>, LinguisticValue::SB);
+<a href=#887 id=887 data-nosnippet>887</a>        <span class="kw">let </span><span class="kw-2">mut </span>engine = SugenoEngine::new();
+<a href=#888 id=888 data-nosnippet>888</a>        engine.add_rule(SugenoRule::new(sb, sb, sb, sb, sb, <span class="number">0.9</span>));
+<a href=#889 id=889 data-nosnippet>889</a>
+<a href=#890 id=890 data-nosnippet>890</a>        <span class="kw">let </span>high_input = DewasaInput::new(<span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.9</span>);
+<a href=#891 id=891 data-nosnippet>891</a>        <span class="kw">let </span>low_input = DewasaInput::new(<span class="number">0.2</span>, <span class="number">0.2</span>, <span class="number">0.2</span>, <span class="number">0.2</span>, <span class="number">0.2</span>);
+<a href=#892 id=892 data-nosnippet>892</a>
+<a href=#893 id=893 data-nosnippet>893</a>        <span class="macro">assert!</span>(engine.is_auspicious(<span class="kw-2">&amp;</span>high_input, <span class="number">0.8</span>), <span class="string">"High input should be auspicious"</span>);
+<a href=#894 id=894 data-nosnippet>894</a>        <span class="macro">assert!</span>(!engine.is_auspicious(<span class="kw-2">&amp;</span>low_input, <span class="number">0.8</span>), <span class="string">"Low input should not be auspicious"</span>);
+<a href=#895 id=895 data-nosnippet>895</a>    }
+<a href=#896 id=896 data-nosnippet>896</a>
+<a href=#897 id=897 data-nosnippet>897</a>    <span class="attr">#[test]
+<a href=#898 id=898 data-nosnippet>898</a>    #[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#899 id=899 data-nosnippet>899</a>    </span><span class="kw">fn </span>test_linguistic_value_centers() {
+<a href=#900 id=900 data-nosnippet>900</a>        <span class="kw">use </span>sugeno::LinguisticValue;
+<a href=#901 id=901 data-nosnippet>901</a>
+<a href=#902 id=902 data-nosnippet>902</a>        <span class="macro">assert_eq!</span>(LinguisticValue::SBr.center(), <span class="number">0.1</span>);
+<a href=#903 id=903 data-nosnippet>903</a>        <span class="macro">assert_eq!</span>(LinguisticValue::Br.center(), <span class="number">0.3</span>);
+<a href=#904 id=904 data-nosnippet>904</a>        <span class="macro">assert_eq!</span>(LinguisticValue::S.center(), <span class="number">0.5</span>);
+<a href=#905 id=905 data-nosnippet>905</a>        <span class="macro">assert_eq!</span>(LinguisticValue::B.center(), <span class="number">0.75</span>);
+<a href=#906 id=906 data-nosnippet>906</a>        <span class="macro">assert_eq!</span>(LinguisticValue::SB.center(), <span class="number">0.9</span>);
+<a href=#907 id=907 data-nosnippet>907</a>    }
+<a href=#908 id=908 data-nosnippet>908</a>
+<a href=#909 id=909 data-nosnippet>909</a>    <span class="attr">#[test]
+<a href=#910 id=910 data-nosnippet>910</a>    #[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#911 id=911 data-nosnippet>911</a>    </span><span class="kw">fn </span>test_standard_sets_count() {
+<a href=#912 id=912 data-nosnippet>912</a>        <span class="kw">use </span>sugeno::standard_sets;
+<a href=#913 id=913 data-nosnippet>913</a>
+<a href=#914 id=914 data-nosnippet>914</a>        <span class="kw">let </span>triangular = standard_sets::triangular_five();
+<a href=#915 id=915 data-nosnippet>915</a>        <span class="kw">let </span>trapezoidal = standard_sets::trapezoidal_five();
+<a href=#916 id=916 data-nosnippet>916</a>
+<a href=#917 id=917 data-nosnippet>917</a>        <span class="macro">assert_eq!</span>(triangular.len(), <span class="number">5</span>, <span class="string">"Should have 5 triangular sets"</span>);
+<a href=#918 id=918 data-nosnippet>918</a>        <span class="macro">assert_eq!</span>(trapezoidal.len(), <span class="number">5</span>, <span class="string">"Should have 5 trapezoidal sets"</span>);
+<a href=#919 id=919 data-nosnippet>919</a>    }
+<a href=#920 id=920 data-nosnippet>920</a>
+<a href=#921 id=921 data-nosnippet>921</a>    <span class="attr">#[test]
+<a href=#922 id=922 data-nosnippet>922</a>    #[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#923 id=923 data-nosnippet>923</a>    </span><span class="kw">fn </span>test_rule_base_is_populated() {
+<a href=#924 id=924 data-nosnippet>924</a>        <span class="kw">use </span>sugeno::rule_base::alahaning_dewasa_rules;
+<a href=#925 id=925 data-nosnippet>925</a>
+<a href=#926 id=926 data-nosnippet>926</a>        <span class="kw">let </span>engine = alahaning_dewasa_rules();
+<a href=#927 id=927 data-nosnippet>927</a>        <span class="macro">assert!</span>(!engine.rules.is_empty(), <span class="string">"Rule base should not be empty"</span>);
+<a href=#928 id=928 data-nosnippet>928</a>        <span class="macro">assert_eq!</span>(engine.rules.len(), <span class="number">9</span>, <span class="string">"Expected 9 hand-authored rules"</span>);
+<a href=#929 id=929 data-nosnippet>929</a>    }
+<a href=#930 id=930 data-nosnippet>930</a>
+<a href=#931 id=931 data-nosnippet>931</a>    <span class="attr">#[test]
+<a href=#932 id=932 data-nosnippet>932</a>    #[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#933 id=933 data-nosnippet>933</a>    </span><span class="kw">fn </span>test_rule_base_excellent_day_scores_high() {
+<a href=#934 id=934 data-nosnippet>934</a>        <span class="kw">use </span>sugeno::{DewasaInput, rule_base::alahaning_dewasa_rules};
+<a href=#935 id=935 data-nosnippet>935</a>
+<a href=#936 id=936 data-nosnippet>936</a>        <span class="kw">let </span>engine = alahaning_dewasa_rules();
+<a href=#937 id=937 data-nosnippet>937</a>        <span class="kw">let </span>excellent = DewasaInput::new(<span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.9</span>);
+<a href=#938 id=938 data-nosnippet>938</a>        <span class="kw">let </span>score = engine.infer(<span class="kw-2">&amp;</span>excellent);
+<a href=#939 id=939 data-nosnippet>939</a>        <span class="macro">assert!</span>(score &gt; <span class="number">0.8</span>, <span class="string">"All-excellent input should score high, got {}"</span>, score);
+<a href=#940 id=940 data-nosnippet>940</a>    }
+<a href=#941 id=941 data-nosnippet>941</a>
+<a href=#942 id=942 data-nosnippet>942</a>    <span class="attr">#[test]
+<a href=#943 id=943 data-nosnippet>943</a>    #[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#944 id=944 data-nosnippet>944</a>    </span><span class="kw">fn </span>test_rule_base_requires_non_prohibited_penanggal_and_sasih() {
+<a href=#945 id=945 data-nosnippet>945</a>        <span class="kw">use </span>sugeno::{DewasaInput, rule_base::alahaning_dewasa_rules};
+<a href=#946 id=946 data-nosnippet>946</a>
+<a href=#947 id=947 data-nosnippet>947</a>        <span class="kw">let </span>engine = alahaning_dewasa_rules();
+<a href=#948 id=948 data-nosnippet>948</a>
+<a href=#949 id=949 data-nosnippet>949</a>        <span class="comment">// Wewaran and Wuku are excellent, but Penanggal is deep in prohibited
+<a href=#950 id=950 data-nosnippet>950</a>        // (SBr) territory — the DoD requires this to veto the good wewaran.
+<a href=#951 id=951 data-nosnippet>951</a>        </span><span class="kw">let </span>bad_penanggal = DewasaInput::new(<span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.05</span>, <span class="number">0.5</span>, <span class="number">0.5</span>);
+<a href=#952 id=952 data-nosnippet>952</a>        <span class="kw">let </span>score = engine.infer(<span class="kw-2">&amp;</span>bad_penanggal);
+<a href=#953 id=953 data-nosnippet>953</a>        <span class="macro">assert!</span>(
+<a href=#954 id=954 data-nosnippet>954</a>            score &lt; <span class="number">0.3</span>,
+<a href=#955 id=955 data-nosnippet>955</a>            <span class="string">"Excellent wewaran with prohibited penanggal should score low, got {}"</span>,
+<a href=#956 id=956 data-nosnippet>956</a>            score
+<a href=#957 id=957 data-nosnippet>957</a>        );
+<a href=#958 id=958 data-nosnippet>958</a>
+<a href=#959 id=959 data-nosnippet>959</a>        <span class="comment">// Same shape, but Sasih (higher in the hierarchy than Penanggal) is
+<a href=#960 id=960 data-nosnippet>960</a>        // the one that's prohibited instead.
+<a href=#961 id=961 data-nosnippet>961</a>        </span><span class="kw">let </span>bad_sasih = DewasaInput::new(<span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.5</span>, <span class="number">0.05</span>, <span class="number">0.5</span>);
+<a href=#962 id=962 data-nosnippet>962</a>        <span class="kw">let </span>score2 = engine.infer(<span class="kw-2">&amp;</span>bad_sasih);
+<a href=#963 id=963 data-nosnippet>963</a>        <span class="macro">assert!</span>(
+<a href=#964 id=964 data-nosnippet>964</a>            score2 &lt; <span class="number">0.3</span>,
+<a href=#965 id=965 data-nosnippet>965</a>            <span class="string">"Excellent wewaran with prohibited sasih should score low, got {}"</span>,
+<a href=#966 id=966 data-nosnippet>966</a>            score2
+<a href=#967 id=967 data-nosnippet>967</a>        );
+<a href=#968 id=968 data-nosnippet>968</a>    }
+<a href=#969 id=969 data-nosnippet>969</a>
+<a href=#970 id=970 data-nosnippet>970</a>    <span class="attr">#[test]
+<a href=#971 id=971 data-nosnippet>971</a>    #[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#972 id=972 data-nosnippet>972</a>    </span><span class="kw">fn </span>test_rule_base_hierarchy_veto_ordering() {
+<a href=#973 id=973 data-nosnippet>973</a>        <span class="kw">use </span>sugeno::{DewasaInput, rule_base::alahaning_dewasa_rules};
+<a href=#974 id=974 data-nosnippet>974</a>
+<a href=#975 id=975 data-nosnippet>975</a>        <span class="kw">let </span>engine = alahaning_dewasa_rules();
+<a href=#976 id=976 data-nosnippet>976</a>
+<a href=#977 id=977 data-nosnippet>977</a>        <span class="comment">// Same excellent wewaran/wuku baseline; vary which single higher-priority
+<a href=#978 id=978 data-nosnippet>978</a>        // variable is bad. Override priority (low -&gt; high) is
+<a href=#979 id=979 data-nosnippet>979</a>        // Wewaran -&gt; Wuku -&gt; Penanggal -&gt; Sasih -&gt; Dauh (ala_ayu), so a bad
+<a href=#980 id=980 data-nosnippet>980</a>        // Sasih should veto harder than a bad Penanggal, and a bad ala_ayu
+<a href=#981 id=981 data-nosnippet>981</a>        // (Dauh proxy) should veto hardest of all.
+<a href=#982 id=982 data-nosnippet>982</a>        </span><span class="kw">let </span>bad_penanggal = engine.infer(<span class="kw-2">&amp;</span>DewasaInput::new(<span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.05</span>, <span class="number">0.5</span>, <span class="number">0.5</span>));
+<a href=#983 id=983 data-nosnippet>983</a>        <span class="kw">let </span>bad_sasih = engine.infer(<span class="kw-2">&amp;</span>DewasaInput::new(<span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.5</span>, <span class="number">0.05</span>, <span class="number">0.5</span>));
+<a href=#984 id=984 data-nosnippet>984</a>        <span class="kw">let </span>bad_ala_ayu = engine.infer(<span class="kw-2">&amp;</span>DewasaInput::new(<span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.05</span>));
+<a href=#985 id=985 data-nosnippet>985</a>
+<a href=#986 id=986 data-nosnippet>986</a>        <span class="macro">assert!</span>(
+<a href=#987 id=987 data-nosnippet>987</a>            bad_penanggal &gt; bad_sasih,
+<a href=#988 id=988 data-nosnippet>988</a>            <span class="string">"bad penanggal ({}) should veto less severely than bad sasih ({})"</span>,
+<a href=#989 id=989 data-nosnippet>989</a>            bad_penanggal,
+<a href=#990 id=990 data-nosnippet>990</a>            bad_sasih
+<a href=#991 id=991 data-nosnippet>991</a>        );
+<a href=#992 id=992 data-nosnippet>992</a>        <span class="macro">assert!</span>(
+<a href=#993 id=993 data-nosnippet>993</a>            bad_sasih &gt; bad_ala_ayu,
+<a href=#994 id=994 data-nosnippet>994</a>            <span class="string">"bad sasih ({}) should veto less severely than bad ala_ayu/Dauh ({})"</span>,
+<a href=#995 id=995 data-nosnippet>995</a>            bad_sasih,
+<a href=#996 id=996 data-nosnippet>996</a>            bad_ala_ayu
+<a href=#997 id=997 data-nosnippet>997</a>        );
+<a href=#998 id=998 data-nosnippet>998</a>    }
+<a href=#999 id=999 data-nosnippet>999</a>
+<a href=#1000 id=1000 data-nosnippet>1000</a>    <span class="attr">#[test]
+<a href=#1001 id=1001 data-nosnippet>1001</a>    #[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#1002 id=1002 data-nosnippet>1002</a>    </span><span class="kw">fn </span>test_rule_base_weak_wewaran_cannot_carry_a_good_day() {
+<a href=#1003 id=1003 data-nosnippet>1003</a>        <span class="kw">use </span>sugeno::{DewasaInput, rule_base::alahaning_dewasa_rules};
+<a href=#1004 id=1004 data-nosnippet>1004</a>
+<a href=#1005 id=1005 data-nosnippet>1005</a>        <span class="kw">let </span>engine = alahaning_dewasa_rules();
+<a href=#1006 id=1006 data-nosnippet>1006</a>        <span class="comment">// Every other variable is merely moderate, but wewaran itself is poor.
+<a href=#1007 id=1007 data-nosnippet>1007</a>        </span><span class="kw">let </span>weak_wewaran = DewasaInput::new(<span class="number">0.1</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>);
+<a href=#1008 id=1008 data-nosnippet>1008</a>        <span class="kw">let </span>score = engine.infer(<span class="kw-2">&amp;</span>weak_wewaran);
+<a href=#1009 id=1009 data-nosnippet>1009</a>        <span class="macro">assert!</span>(score &lt; <span class="number">0.3</span>, <span class="string">"Weak wewaran should not produce a good day, got {}"</span>, score);
+<a href=#1010 id=1010 data-nosnippet>1010</a>    }
+<a href=#1011 id=1011 data-nosnippet>1011</a>
+<a href=#1012 id=1012 data-nosnippet>1012</a>    <span class="attr">#[test]
+<a href=#1013 id=1013 data-nosnippet>1013</a>    #[cfg(feature = <span class="string">"dewasa-ayu"</span>)]
+<a href=#1014 id=1014 data-nosnippet>1014</a>    </span><span class="kw">fn </span>test_rule_base_specific_rule_firing_strength() {
+<a href=#1015 id=1015 data-nosnippet>1015</a>        <span class="kw">use </span>sugeno::{DewasaInput, rule_base::alahaning_dewasa_rules};
+<a href=#1016 id=1016 data-nosnippet>1016</a>
+<a href=#1017 id=1017 data-nosnippet>1017</a>        <span class="kw">let </span>engine = alahaning_dewasa_rules();
+<a href=#1018 id=1018 data-nosnippet>1018</a>        <span class="comment">// Rule 0 is the all-SB "excellent" rule (wewaran, wuku, penanggal,
+<a href=#1019 id=1019 data-nosnippet>1019</a>        // sasih, ala_ayu all Sangat Baik, output 0.95).
+<a href=#1020 id=1020 data-nosnippet>1020</a>        </span><span class="kw">let </span>rule = <span class="kw-2">&amp;</span>engine.rules[<span class="number">0</span>];
+<a href=#1021 id=1021 data-nosnippet>1021</a>
+<a href=#1022 id=1022 data-nosnippet>1022</a>        <span class="comment">// Peak input: every antecedent centers at 0.9 (SB peak), so firing
+<a href=#1023 id=1023 data-nosnippet>1023</a>        // strength should be ~1.0.
+<a href=#1024 id=1024 data-nosnippet>1024</a>        </span><span class="kw">let </span>peak = DewasaInput::new(<span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.9</span>);
+<a href=#1025 id=1025 data-nosnippet>1025</a>        <span class="kw">let </span>strength = rule.firing_strength(<span class="kw-2">&amp;</span>peak);
+<a href=#1026 id=1026 data-nosnippet>1026</a>        <span class="macro">assert!</span>((strength - <span class="number">1.0</span>).abs() &lt; <span class="number">0.001</span>, <span class="string">"Expected ~1.0, got {}"</span>, strength);
+<a href=#1027 id=1027 data-nosnippet>1027</a>        <span class="macro">assert_eq!</span>(rule.output, <span class="number">0.95</span>);
+<a href=#1028 id=1028 data-nosnippet>1028</a>
+<a href=#1029 id=1029 data-nosnippet>1029</a>        <span class="comment">// Off-peak input should reduce firing strength below 1.0 without
+<a href=#1030 id=1030 data-nosnippet>1030</a>        // reaching zero (all variables still inside the SB set's support).
+<a href=#1031 id=1031 data-nosnippet>1031</a>        </span><span class="kw">let </span>off_peak = DewasaInput::new(<span class="number">0.8</span>, <span class="number">0.8</span>, <span class="number">0.8</span>, <span class="number">0.8</span>, <span class="number">0.8</span>);
+<a href=#1032 id=1032 data-nosnippet>1032</a>        <span class="kw">let </span>strength2 = rule.firing_strength(<span class="kw-2">&amp;</span>off_peak);
+<a href=#1033 id=1033 data-nosnippet>1033</a>        <span class="macro">assert!</span>(
+<a href=#1034 id=1034 data-nosnippet>1034</a>            strength2 &gt; <span class="number">0.0 </span>&amp;&amp; strength2 &lt; <span class="number">1.0</span>,
+<a href=#1035 id=1035 data-nosnippet>1035</a>            <span class="string">"Expected partial firing strength, got {}"</span>,
+<a href=#1036 id=1036 data-nosnippet>1036</a>            strength2
+<a href=#1037 id=1037 data-nosnippet>1037</a>        );
+<a href=#1038 id=1038 data-nosnippet>1038</a>    }
+<a href=#1039 id=1039 data-nosnippet>1039</a>}
+</code></pre></div></section></main></body></html>

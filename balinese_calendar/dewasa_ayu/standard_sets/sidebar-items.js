@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["trapezoidal_five","triangular_five"]};
