@@ -51,10 +51,10 @@ it unreleased on `main` has no cost.
 ### Release gate for v0.3.0 (do NOT tag until ALL pass)
 - [x] Phase 2 Sugeno engine complete; `test_scaffold_rarity_over_full_year` passes **un-ignored** (<3% positive rate) — done in task 3.6
 - [x] Sugeno performance measured against Candana targets and the gap documented in Plans.md + code (task 3.7: F-1 20.0% vs 82.76% target). **Gate relaxed 2026-07-28**: exact Candana replication is not required for release — it depends on the still-unobtained Ariana & Budayoga (2016) bobot tables (Phase 3). Meeting the rarity gate with the gap honestly documented is sufficient to ship as a best-effort classifier.
-- [ ] CHANGELOG.md updated with v0.3.0 notes (working classifier + documented accuracy gap, not a scaffold caveat)
-- [ ] `cargo semver-checks` passes
-- [ ] Bump `Cargo.toml` version to `0.3.0`
-- [ ] Git tag `v0.3.0` created
+- [x] CHANGELOG.md updated with v0.3.0 notes (working classifier + documented accuracy gap, not a scaffold caveat)
+- [x] `cargo semver-checks` passes (0.2→0.3 bump correctly clears the `DewasaAyuConfig.exclusion_penalty` field removal under 0.x semver rules)
+- [x] Bump `Cargo.toml` version to `0.3.0`
+- [x] Git tag `v0.3.0` created
 
 ## v0.3.0 — Dewasa Ayu Phase 2 (Functional Sugeno Classifier)
 

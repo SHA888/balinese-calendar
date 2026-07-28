@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.3.0] — 2026-07-28
+
 ### ✨ Added
 
 - **Dewasa Ayu (auspicious-day classification)** — new `dewasa-ayu` feature flag (the crate's only floating-point component):
