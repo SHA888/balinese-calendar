@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### ✨ Added
+
+- **Dewasa Ayu (auspicious-day classification)** — new `dewasa-ayu` feature flag (the crate's only floating-point component):
+  - `DewasaAyu` trait (`dewasa_ayu_score()`, `is_dewasa_ayu()`, and `_with_config` variants) implemented for `BalineseDate`
+  - `DewasaAyuConfig` for configurable Saptawara/Pancawara weights and classification threshold
+  - Zero-order Sugeno fuzzy inference engine (`SugenoEngine`, `SugenoRule`, `FuzzySet`, `LinguisticValue`) with a hand-authored rule base (`rule_base::alahaning_dewasa_rules`) encoding the traditional Alahaning Dewasa override hierarchy (Wewaran → Wuku → Penanggal → Sasih → Dauh)
+  - `DewasaInput` derivation from `BalineseDate`, normalizing Wewaran, Wuku, Penanggal, and Sasih into `[0.0, 1.0]` fuzzy inputs
+  - Calibrated so full-year "auspicious" classifications stay under 3% of days, matching the traditional rarity of Dewasa Ayu days
+  - Validation fixture `tests/fixtures/candana_2021_dewasa.json` (79 prediction dates from Candana et al. 2021, including all 16 expert-labeled ground-truth dates)
+
+### ⚠️ Known limitations
+
+- Measured against the Candana et al. (2021) 731-day validation corpus: precision 21.43%, recall 18.75%, F-1 20.00% — well below the source paper's own Sugeno FIS figures (92.31% / 75% / 82.76%). This gap is the direct, documented cost of prioritizing the <3% full-year rarity gate without the Ariana & Budayoga (2016) bobot tables for Wuku/Penanggal/Sasih prohibition data, which have not yet been obtained. See `Plans.md` task 3.7 and `tests/dewasa_ayu_test.rs::test_accuracy_report_against_candana_corpus` for the full report. Closing this gap is tracked as a future phase, blocked on that source.
+
+### 🧪 Testing
+
+- New `tests/dewasa_ayu_test.rs` integration suite covering fixture loading, expert-date classification, full-year rarity-gate compliance, and the accuracy report against the Candana 2021 corpus
+
 ## [0.2.2] — 2026-05-22
 
 ### ✨ Added
