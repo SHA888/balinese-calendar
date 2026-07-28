@@ -69,4 +69,37 @@ principled-but-approximate until that source lands in Phase 3).
 | 3.4 | **Input derivation + empirical characterization** — `DewasaInput` from a `BalineseDate` (5 normalized vars: wewaran, wuku, penanggal, sasih, ala_ayu); characterize the 16 expert dates across all 5 vars to find the rarity-preserving filter pattern | derivation fn returns clamped [0,1] inputs for any date; analysis test dumps the 16 experts' full profile + distributions | 3.3 | cc:done |
 | 3.5 | **Sugeno rule base** — conjunctive (product t-norm) rules ordered by the Alahaning Dewasa hierarchy (Wewaran→Wuku→Penanggal→Sasih→Dauh); "good" output requires high wewaran AND non-prohibited penanggal/sasih | rule base builder returns a populated `SugenoEngine`; unit tests on firing strength for representative inputs | 3.4 | cc:done [e72c9d7f] |
 | 3.6 | **Wire trait to engine + rarity gate** — `DewasaAyu` scoring delegates to the Sugeno engine; un-ignore `test_scaffold_rarity_over_full_year` and make it pass (<3% positives over 2020) | trait uses engine; rarity test passes un-ignored; all expert dates whose wewaran qualifies are still classified correctly | 3.5 | cc:done [bac4cc2f] |
-| 3.7 | **Fixture validation + accuracy report** — measure TP/FP/precision/recall vs the 16 expert dates; document achieved metrics against Candana targets and the bobot-source limitation | accuracy test prints metrics; gap vs 82% F-1 documented in code + Plans.md; no overfitting beyond the 16-date fixture without corpus note | 3.6 | cc:TODO |
+| 3.7 | **Fixture validation + accuracy report** — measure TP/FP/precision/recall vs the 16 expert dates; document achieved metrics against Candana targets and the bobot-source limitation | accuracy test prints metrics; gap vs 82% F-1 documented in code + Plans.md; no overfitting beyond the 16-date fixture without corpus note | 3.6 | cc:done |
+
+### Task 3.7 accuracy report
+
+`tests/dewasa_ayu_test.rs::test_accuracy_report_against_candana_corpus` walks the full
+731-day study period (2020-01-01..2021-12-31) and classifies every day with the current
+`DewasaAyu` Sugeno engine, scoring against the 16 Candana 2021 expert dates as ground
+truth (a day not in the 16 is treated as an implicit expert negative — the same
+convention the source paper's own reported precision/recall imply, since it never
+publishes a full day-by-day expert ledger for the other 715 days).
+
+Measured (pinned as a regression guard in the test):
+
+| Metric | Achieved | Candana 2021 Sugeno FIS | Gap |
+|--------|----------|--------------------------|-----|
+| TP / FP / FN / TN | 3 / 11 / 13 / 704 | 12 / 1 / 4 / 714 | — |
+| Precision | 21.43% | 92.31% | -70.9pp |
+| Recall | 18.75% | 75.00% | -56.3pp |
+| F-1 | 20.00% | 82.76% | -62.8pp |
+
+This gap is the direct, expected cost of task 3.6's calibration choice, not an
+unaddressed defect: with no validated Ariana & Budayoga (2016) bobot tables for
+Wuku/Penanggal/Sasih prohibition, the engine cannot satisfy both the <3% full-year
+rarity gate (`test_scaffold_rarity_over_full_year`) and full recall on the 16 expert
+dates — `verify_finding_experts_span_space` shows they are empirically mutually
+exclusive, since the 16 expert dates span nearly the entire Wuku/Penanggal/Sasih range.
+Task 3.6 prioritized the rarity gate per its DoD, which caps recall at 3/16.
+
+**Corpus-limitation note**: the 16-date fixture is 46x smaller than the paper's own
+731-day corpus and carries no per-day expert label outside those 16 dates. Closing this
+gap requires the real bobot-source data (tracked for Phase 3), not further tuning
+against this fixture — a rule base hand-fitted tighter to reproduce more of these
+specific 16 dates without new source data would be overfitting to the fixture, not a
+generalizable accuracy improvement.

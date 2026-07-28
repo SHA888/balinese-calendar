@@ -674,6 +674,132 @@ fn verify_finding_experts_span_space() {
     println!("(target rarity: <3%). Any filter strict enough for 3% must drop expert days.");
 }
 
+/// Task 3.7 — full confusion-matrix accuracy report against the Candana 2021
+/// corpus, and the closing measurement for the Phase 2 Sugeno engine.
+///
+/// Walks every valid day of the study period (2020-01-01..2021-12-31, the
+/// 731 days behind the fixture's `total_days`/`expert_good_percentage`) and
+/// classifies each with the current `DewasaAyu` engine. A day counts as an
+/// expert positive only if it is one of the 16 dates tagged
+/// `category == "expert"` in `candana_2021_dewasa.json`; the fixture has no
+/// per-day label for the other 715 days (Candana 2021 itself only publishes
+/// the 16 expert picks plus the three FIS engines' own outputs, not a full
+/// day-by-day expert ledger), so — same as the paper's own reported
+/// precision/recall — "not one of the 16" is treated as an implicit expert
+/// negative. That is a corpus limitation inherited from the source paper,
+/// not an assumption introduced here: any positive this crate produces
+/// outside the 16 is scored as a false positive even though the real expert
+/// was never asked about that specific day.
+///
+/// Current measured performance (task 3.7, pinned as a regression guard):
+///   TP=3  FP=11  FN=13  TN=704  (n=731)
+///   precision ≈ 21.4%   recall ≈ 18.8%   F-1 ≈ 20.0%
+/// vs. Candana 2021's own Sugeno FIS: precision=92.31%, recall=75%, F1=82.76%.
+/// Gap: precision -70.9pp, recall -56.3pp, F1 -62.8pp.
+///
+/// This gap is the direct, expected cost of task 3.6's calibration choice:
+/// with no validated Ariana & Budayoga bobot tables for Wuku/Penanggal/Sasih
+/// prohibition (see the `dewasa_ayu.rs` module docs and
+/// `rule_base::alahaning_dewasa_rules`'s doc comment), the engine cannot
+/// satisfy both the <3% full-year rarity gate (`test_scaffold_rarity_over_full_year`)
+/// and 100% recall on the 16 expert dates — they are empirically mutually
+/// exclusive (`verify_finding_experts_span_space`). Task 3.6 prioritized the
+/// rarity gate, which caps recall at 3/16. Closing this gap requires the real
+/// bobot-source data, not further tuning against this 16-date fixture: a rule
+/// base fitted tighter to reproduce more of these specific 16 dates without
+/// new source data would be overfitting to a fixture 46x smaller than the
+/// paper's own 731-day corpus, not a generalizable accuracy improvement.
+#[test]
+fn test_accuracy_report_against_candana_corpus() {
+    let fixture = load_fixture();
+    let config = DewasaAyuConfig::default();
+
+    let expert_dates: HashSet<String> = fixture
+        .entries
+        .iter()
+        .filter(|e| e.category == "expert")
+        .map(|e| e.date.clone())
+        .collect();
+    assert_eq!(expert_dates.len(), 16, "corpus should have exactly 16 expert-good days");
+
+    let mut tp = 0usize;
+    let mut fp = 0usize;
+    let mut fnc = 0usize;
+    let mut tn = 0usize;
+    let mut total = 0usize;
+
+    for year in [2020, 2021] {
+        for month in 1..=12u32 {
+            for day in 1..=31u32 {
+                if let Ok(date) = BalineseDate::from_ymd(year, month, day) {
+                    total += 1;
+                    let date_str = format!("{year:04}-{month:02}-{day:02}");
+                    let expert_good = expert_dates.contains(&date_str);
+                    let predicted_good = date.is_dewasa_ayu_with_config(&config);
+                    match (expert_good, predicted_good) {
+                        (true, true) => tp += 1,
+                        (false, true) => fp += 1,
+                        (true, false) => fnc += 1,
+                        (false, false) => tn += 1,
+                    }
+                }
+            }
+        }
+    }
+
+    assert_eq!(total, 731, "study period should cover exactly 731 valid days (2020 + 2021)");
+    assert_eq!(tp + fnc, 16, "every expert day must fall into TP or FN");
+
+    let precision = if tp + fp > 0 { tp as f64 / (tp + fp) as f64 } else { 0.0 };
+    let recall = tp as f64 / (tp + fnc) as f64;
+    let f1 = if precision + recall > 0.0 {
+        2.0 * precision * recall / (precision + recall)
+    } else {
+        0.0
+    };
+
+    println!("\n=== Dewasa Ayu accuracy report vs. Candana 2021 corpus (task 3.7) ===");
+    println!(
+        "corpus: {total} days (2020-01-01..2021-12-31), {} expert-good",
+        expert_dates.len()
+    );
+    println!("TP={tp} FP={fp} FN={fnc} TN={tn}");
+    println!(
+        "precision={:.2}%  recall={:.2}%  F1={:.2}%",
+        precision * 100.0,
+        recall * 100.0,
+        f1 * 100.0
+    );
+    println!("Candana 2021 Sugeno target: precision=92.31%  recall=75.00%  F1=82.76%");
+    println!(
+        "gap: precision {:+.2}pp  recall {:+.2}pp  F1 {:+.2}pp",
+        (precision * 100.0) - 92.31,
+        (recall * 100.0) - 75.0,
+        (f1 * 100.0) - 82.76
+    );
+
+    // Regression guard pinning the currently achieved figures. If this
+    // changes, it means the rule base or `DewasaAyu` wiring changed — update
+    // this assertion, the doc comment above, and the Plans.md 3.7 note
+    // together so they can't silently drift apart.
+    assert_eq!(
+        tp, 3,
+        "true positive count changed — recompute and update this test's doc comment"
+    );
+    assert_eq!(
+        fp, 11,
+        "false positive count changed — recompute and update this test's doc comment"
+    );
+    assert_eq!(
+        fnc, 13,
+        "false negative count changed — recompute and update this test's doc comment"
+    );
+    assert_eq!(
+        tn, 704,
+        "true negative count changed — recompute and update this test's doc comment"
+    );
+}
+
 #[test]
 fn test_candidate_1_sasih_normalization_reaches_but_never_exceeds_1() {
     // Regression guard: `sasih_norm` previously computed as (idx + 1.0) / 13.0,
