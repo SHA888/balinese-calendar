@@ -198,12 +198,11 @@ Pulled forward from v0.4.0 — belongs thematically in the Wariga computation la
 - [x] Tests: exhaustive coverage for all 6 variants on both methods
 - [x] Doc comment citing: I.B.S. Ardhana, *Pokok-Pokok Wariga* (2005); I Made Bidja bibliography
 
-### Implemented on `main`, unreleased — Dewasa Ayu Phase 1 + Phase 2
+### Released in v0.3.0 (2026-07-28) — Dewasa Ayu Phase 1 + Phase 2
 
-Both phases are implemented on `main` behind the `dewasa-ayu` feature flag but have
-**not shipped in a release yet** — `Cargo.toml` is still `0.2.2` and no `v0.3.0` tag
-exists. The task-level breakdown remains under "v0.3.0 — Dewasa Ayu" below as the
-authoritative record; the items below are the implementation-level summary.
+Both phases shipped in `v0.3.0` behind the `dewasa-ayu` feature flag. The task-level
+breakdown remains under "v0.3.0 — Dewasa Ayu" below as the authoritative record; the
+items below are the release-level summary.
 
 - [x] **Phase 1** — validation fixture (`tests/fixtures/candana_2021_dewasa.json`)
       + scoring scaffold
