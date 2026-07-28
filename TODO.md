@@ -198,11 +198,12 @@ Pulled forward from v0.4.0 — belongs thematically in the Wariga computation la
 - [x] Tests: exhaustive coverage for all 6 variants on both methods
 - [x] Doc comment citing: I.B.S. Ardhana, *Pokok-Pokok Wariga* (2005); I Made Bidja bibliography
 
-### Shipped ahead of v0.3.0 plan — Dewasa Ayu Phase 1 + Phase 2
+### Implemented on `main`, unreleased — Dewasa Ayu Phase 1 + Phase 2
 
-Both phases were originally scheduled for v0.3.0 but were completed and released
-in v0.2.1. The task-level breakdown remains under "v0.3.0 — Dewasa Ayu" below as
-the historical record; the items below are the release-level summary.
+Both phases are implemented on `main` behind the `dewasa-ayu` feature flag but have
+**not shipped in a release yet** — `Cargo.toml` is still `0.2.2` and no `v0.3.0` tag
+exists. The task-level breakdown remains under "v0.3.0 — Dewasa Ayu" below as the
+authoritative record; the items below are the implementation-level summary.
 
 - [x] **Phase 1** — validation fixture (`tests/fixtures/candana_2021_dewasa.json`)
       + scoring scaffold
@@ -210,6 +211,12 @@ the historical record; the items below are the release-level summary.
       feature-gated behind `dewasa-ayu`)
 - [x] **Research resources** — fetcher tooling, Tier A/B archive, Git LFS for
       large PDFs, `references/downloads/MANIFEST.json`
+- [x] **Accuracy report** (task 3.7) — measured against the Candana 2021 corpus:
+      F-1 20.0% vs. the paper's own Sugeno FIS 82.76%. The gap is the documented,
+      expected cost of prioritizing the <3% rarity gate without the Ariana &
+      Budayoga bobot tables (Phase 3); see `Plans.md` task 3.7 for the full report.
+      The v0.3.0 release gate was relaxed to ship as a best-effort classifier with
+      this gap documented rather than block on Phase 3.
 
 v0.3.0 retains **Phase 3** (bobot tables) and **Phase 4** (multi-category Dewasa
 Ayu) — both blocked on the Ariana & Budayoga (2016) source.
@@ -303,6 +310,11 @@ Any implementation producing >3% good days is likely too permissive.
       - Standard preset sets: `standard_sets::triangular_five()`, `trapezoidal_five()`
 - [x] Feature-gate behind `#[cfg(feature = "dewasa-ayu")]` — enables f64 ops and Sugeno types
       Exported: `DewasaInput`, `FuzzySet`, `LinguisticValue`, `MembershipShape`, `SugenoEngine`, `SugenoRule`
+- [x] Accuracy report vs. the 731-day Candana 2021 corpus: TP=3, FP=11, FN=13, TN=704 —
+      precision 21.43%, recall 18.75%, F-1 20.00% vs. the paper's Sugeno FIS
+      (92.31% / 75% / 82.76%). Gap documented as the expected cost of the <3%
+      rarity-gate calibration without the Phase 3 bobot tables; see
+      `tests/dewasa_ayu_test.rs::test_accuracy_report_against_candana_corpus`.
 
 #### Research Resources Acquisition (completed)
 Supporting materials for Phase 3–4 bobot derivation and rule extraction.
