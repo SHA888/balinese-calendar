@@ -103,3 +103,34 @@ gap requires the real bobot-source data (tracked for Phase 3), not further tunin
 against this fixture — a rule base hand-fitted tighter to reproduce more of these
 specific 16 dates without new source data would be overfitting to the fixture, not a
 generalizable accuracy improvement.
+
+---
+
+## Dewasa Ayu Phase 3+4 — Bobot Tables & Multi-Category (blocked)
+
+Follow-on work from the v0.3.0 Dewasa Ayu epic (Phase 1+2 shipped in `v0.3.0`,
+2026-07-28). Every task below is blocked on primary source material that has not
+been obtained — none should move to `cc:WIP` until its blocking resource lands. This
+section exists so the backlog is tracked in the active sprint file instead of only
+living in `TODO.md`.
+
+| Task | Description | DoD | Depends | Status |
+|------|-------------|-----|---------|--------|
+| 3.8 | **Tier C resource acquisition** — manually acquire remaining Tier C research resources per `references/downloads/README.md` (ANRI archives, JoMEaL articles, Proudfoot 2007, Scribd-gated lontar transcriptions); BasaBali Wiki already acquired | each resource either downloaded to `references/downloads/` with `MANIFEST.json` updated (local path + SHA256), or explicitly documented as permanently inaccessible with the reason | - | blocked |
+| 3.9 | **Wewaran bobot table** — derive weight table from expert pattern analysis (Buddha and Sukra highest-weighted saptawara, Redite/Saniscara effectively zero; Pon highest-weighted pancawara) to constrain the μ-functions | bobot table documented and wired into `rule_base::alahaning_dewasa_rules`; test asserts weights match the documented expert pattern | - | blocked |
+| 3.10 | **Sasih bobot table** — from Ariana & Budayoga (2016), or reverse-engineered from kalenderbali.info if the source remains unobtained | bobot table documented and wired into the rule base; test coverage on representative Sasih inputs | Ariana & Budayoga (2016) source | blocked |
+| 3.11 | **Penanggal/Pangelong bobot table** — same source as 3.10 | bobot table documented and wired into the rule base; test coverage on representative Penanggal/Pangelong inputs | Ariana & Budayoga (2016) source | blocked |
+| 3.12 | **Ala Ayu Dewasa binary overlay** — prohibition overlay from Wariga Gemet, layered on top of the Sugeno score | overlay implemented and tested against known prohibited days | Wariga Gemet source | blocked |
+| 3.13 | **Multi-category Dewasa Ayu** — extend beyond Pawiwahan to Menggunakan, Dewa Yadnya, Kerja/Pembangunan, Pertanian, Metatah, Ngaben, and Pemberangkatan, each potentially with its own bobot weights on the same Sugeno engine | per-category classification available; rule bases cross-checked against "Pedoman Ala Ayuning Dewasa" right-column entries | 3.9, 3.10, 3.11, 3.12 | blocked |
+
+### Required resources (blocking Phase 3+4)
+- [ ] Ariana & Budayoga (2016). *Ala Ayuning Dewasa Ketut Bangbang Gde Rawi (Sebuah Canang Sari)*, II. Denpasar: ESBE Buku. → bobot tables for each Wariga element (blocks 3.10, 3.11)
+- [ ] Suwintana (2014). *Lontar Komputer* 5(1), 392–401. → full Mamdani rule base, useful for cross-validation even though this crate uses Sugeno
+- [ ] Pasek Swastika (2015). *Wariga Padewasan*. Denpasar: CV. Kayumas Agung. → additional Dewasa Ayu classification rules
+
+### Tier C acquisition status (see `references/downloads/README.md`)
+- [x] BasaBali Wiki — acquired locally
+- [ ] ANRI archives — blocked (Cloudflare 403)
+- [ ] JoMEaL articles — blocked (404, no Wayback snapshot)
+- [ ] Proudfoot 2007 — blocked (paywall/403 on all mirrors)
+- [ ] Scribd-gated lontar transcriptions — blocked (subscription required)
