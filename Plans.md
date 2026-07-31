@@ -134,3 +134,65 @@ living in `TODO.md`.
 - [ ] JoMEaL articles — blocked (404, no Wayback snapshot)
 - [ ] Proudfoot 2007 — blocked (paywall/403 on all mirrors)
 - [ ] Scribd-gated lontar transcriptions — blocked (subscription required)
+
+---
+
+## v0.4.0 — Export & Completeness
+
+Ships the `TraditionalMarker` export API and batch generators data-pipeline consumers
+need. Does **not** depend on v0.3.0 — nullable Dewasa Ayu fields handle its absence.
+
+| Task | Description | DoD | Depends | Status |
+|------|-------------|-----|---------|--------|
+| 4.1 | **`SakaSeason` enum** (`src/marker.rs`) — `Pancaroba`/`MusimHujan`/`MusimKemarau` variants; `const fn from_sasih(s: Sasih)`; `const fn name() -> &'static str` (snake_case); serde derive under `serde` feature | enum compiles, `from_sasih` mapping matches `Sasih::season_tag()`, `name()` returns the documented snake_case strings, module doc notes single-direction pancaroba + Nampih Sasih non-effect | - | cc:TODO |
+| 4.2 | **`TraditionalMarker` struct** — new public struct in `src/marker.rs` bundling gregorian_date/jdn/saka_year/saka_sasih/sasih_day/is_nampih/pawukon_day/wuku/traditional_season/is_pancaroba/ingkel(+domain fields)/tri_pramana/dewasa_pertanian/agricultural_guidance/saptawara/pancawara/combined_urip/rahinan | struct compiles with every field per the TODO.md spec; serde derive under `serde` feature; serde caveat on `&'static str` fields documented (same as `FlatRecord`) | 4.1 | cc:TODO |
+| 4.3 | **`BalineseDate::to_traditional_marker()`** — method returning a populated `TraditionalMarker`; `dewasa_pertanian`/`agricultural_guidance` return `None` until Phase 4 Dewasa Ayu lands | method compiles and populates every field from `self`; the two `None` fields are documented as pending Phase 4 | 4.2 | cc:TODO |
+| 4.4 | **Batch generators** — `generate_markers(start, end_inclusive)`, `generate_markers_for_saka_year(saka_year)`, `pawukon_positions(start, end_inclusive)`; iterate by JDN to avoid repeated Gregorian→JDN cost; re-export all four items from `lib.rs` | full Saka year (~355 days) generates in under 1ms on commodity hardware; `generate_markers_for_saka_year` ends the day before the next Nyepi; all items re-exported | 4.3 | cc:TODO |
+| 4.5 | **Marker export tests** (`tests/marker_export_test.rs`) — round-trip serde, 5 known-date anchors (Nyepi/Galungan/Kuningan/Saraswati/Tilem Kasanga) asserted by hand, `SakaSeason::from_sasih` exhaustiveness, `generate_markers` 365-day contiguity/monotonic-JDN check, `generate_markers_for_saka_year(1948)` boundary check, `pawukon_positions` 210-day full-Wuku coverage check | all listed test cases present and passing with `cargo test --all-features` | 4.4 | cc:TODO |
+| 4.6 | **Pedoman Ala Ayuning Dewasa** — `BalineseDate::ala_ayuning_dewasa() -> AlaAyuningDewasa` (Kala list, positive qualities, deity associations) from the 210 day-specific Kawi guidance entries printed in every Balinese calendar | blocked — source text is classical Kawi and OCR extraction is unreliable; needs a Kawi specialist / Wariga practitioner review before extraction can start | - | blocked |
+| 4.7 | **Extended Rahinan** — Buda Cemeng (30 wuku variants), Anggara Kasih (30 wuku variants), post-Saraswati chain (Banyupinaruh→Soma Ribek→Sabuh Mas→Pagerwesi), pre-Galungan chain (Sugihan Jawa→Sugihan Bali→Penyajaan→Penampahan), post-Galungan chain (Umanis/Paing/Pon/Wage/Kliwon Galungan→Kuningan), per-Sasih Purnama/Tilem names (e.g. Purnama Kadasa = Besakih) | all listed Rahinan variants detected correctly against corpus dates; fixture/unit tests cover each named chain | - | cc:TODO |
+| 4.8 | **Sasih-specific ceremonies** — `ceremonies_for_sasih(sasih: Sasih) -> Vec<SasihCeremony>` (Piodalan Sad Kahyangan); data from OCR supplement_5 covering all Bali regencies + Lombok + East Java | function returns the documented ceremony list per Sasih; fixture JSON sourced from supplement_5 | - | cc:TODO |
+| 4.9 | **Candra Praleka** — `candra_praleka(sasih: Sasih) -> CandraPosition`; 12 stellar diagrams (Pleiades/Orion positions) extracted from OCR; connects to the `astronomical` feature flag | blocked — needs OCR extraction and validation of the 12 stellar diagrams from the source manuscript before implementation can start | - | blocked |
+| 4.10 | **Multi-year Sasih transition table** — pre-compute Sasih transitions 2020–2035 for O(1) lookup; must account for Nampih Sasih (PHDI overrides need annual verification) | table generated and covers the full 2020–2035 range; cross-checked against the existing walk-forward algorithm output for the same range | - | cc:TODO |
+
+---
+
+## v0.5.0 — Climate-Aware Extension (blocked on v0.4.0 SakaSeason)
+
+Feature-gated behind `#[cfg(feature = "climate")]`. Zero new dependencies.
+WASM-compatible (`f32` ops only, no `std::time`, no allocation in compute path).
+
+| Task | Description | DoD | Depends | Status |
+|------|-------------|-----|---------|--------|
+| 5.1 | **`climate` feature setup** — add `climate = []` feature (zero deps) to `Cargo.toml`; add a wasm32-unknown-unknown CI job for `--features climate` | `cargo build --features climate` succeeds; CI matrix includes the wasm job | - | cc:TODO |
+| 5.2 | **`ClimateObservation` input type** — new struct in `src/climate.rs`: `rainfall_mm`, `temperature_c`, `wind_speed_kmh: f32`, `humidity_pct`/`solar_radiation_wm2: Option<f32>` | struct compiles under `#[cfg(feature = "climate")]`, all fields `f32`-only (WASM-compatible) | 5.1 | cc:TODO |
+| 5.3 | **Climate enums** — `ObservedSeason` (`Wet`/`Dry`/`Transitioning`), `SeasonAlignment` (`Aligned`/`EarlyOnset`/`LateOnset`/`ExtendedTransition`/`Inverted`), `PancarobaSubPhase` (`PersistentMoisture`/`ThermalConvection`/`FalseDry`/`WavePulse`/`CyclonicFeed`, vocabulary only — classification stays downstream) | all three enums compile and are exported; doc comment states `PancarobaSubPhase` classification is a downstream concern | 5.2 | cc:TODO |
+| 5.4 | **Seasonal reference envelopes** — `SeasonalEnvelope { rainfall_mm_mean, rainfall_mm_std, temperature_c_mean, temperature_c_std: f32 }`; `impl SakaSeason { const fn envelope(sasih: Sasih) -> SeasonalEnvelope }` calibrated from BMKG long-term Bali means partitioned by Sasih | envelope values documented as canonical starting points; `envelope()` returns a value for every `Sasih` variant | 4.1, 5.3 | cc:TODO |
+| 5.5 | **`SeasonalState::compute()`** — `SeasonalState { saka_season, observed_season, alignment, divergence_score: f32, pancaroba_subphase: Option<PancarobaSubPhase> }`; deterministic stateless computation: season via `SakaSeason::from_sasih`, `observed_season` from documented rainfall threshold bands, `alignment` from a decision matrix, `divergence_score = sqrt(z_rain² + z_temp²)` (NaN-safe), `pancaroba_subphase` always `None` at this layer | `compute()` implemented per the 5-step spec; `divergence_score` NaN-safe for all float inputs; doc explains the multi-day window requirement for `pancaroba_subphase` | 5.4 | cc:TODO |
+| 5.6 | **Climate tests** (`tests/climate_test.rs`, gated) — `SakaSeason`×`ObservedSeason` matrix vs expected `SeasonAlignment` for all combinations, aligned-baseline divergence ≈ 0.0, anomalous observation (heavy rain in Sasih Karo) → `Inverted` + high score, determinism check, `divergence_score >= 0.0 && is_finite()` for all float inputs | all listed test cases present and passing with `cargo test --features climate` | 5.5 | cc:TODO |
+
+---
+
+## v1.0.0 — Stable API
+
+| Task | Description | DoD | Depends | Status |
+|------|-------------|-----|---------|--------|
+| 6.1 | **API stability commitment** — freeze all public types/methods; add `#[non_exhaustive]` to enums that may gain variants; document MSRV policy | `cargo semver-checks` baseline established for 1.0; MSRV policy documented in README/CONTRIBUTING | - | cc:TODO |
+| 6.2 | **`no_std` support** — gate `std`-only code behind a `std` feature flag to enable embedded/IoT targets | `cargo build --no-default-features --features <core-set>` succeeds on a `no_std` target | 6.1 | cc:TODO |
+| 6.3 | **C FFI** — expose a C ABI via `cbindgen` | generated header compiles; smoke-tested from a minimal C consumer | 6.1 | cc:TODO |
+| 6.4 | **Python bindings** — `balinese-calendar-py` via `pyo3`/`maturin` | package builds and installs via `maturin develop`; smoke test imports and calls the core API from Python | 6.1 | cc:TODO |
+| 6.5 | **Swift/Kotlin wrappers** — mobile bindings | wrapper packages build for iOS/Android targets; smoke test from each platform | 6.1 | cc:TODO |
+| 6.6 | **Aksara Bali output** — Unicode Balinese script output for all calendar term names | representative name set (Wuku, Sasih, Wewaran) renders the correct Aksara Bali Unicode | - | cc:TODO |
+| 6.7 | **Indonesian language strings** — Indonesian-language labels alongside existing English strings | every public name-returning method has an Indonesian variant; tested for at least one full cycle of each enum | - | cc:TODO |
+
+---
+
+## Backlog (untargeted)
+
+| Task | Description | DoD | Depends | Status |
+|------|-------------|-----|---------|--------|
+| 7.1 | **PHDI Nampih Sasih automation** — structured data file or scraping to track official PHDI intercalary-month declarations | annual PHDI declarations captured in a structured, versioned file; documented process for yearly refresh | - | cc:TODO |
+| 7.2 | **Annual validation corpus generation** — generate a validation corpus from each year's printed calendar (process already established for 2026) | documented repeatable process; at least one additional year's corpus added | - | cc:TODO |
+| 7.3 | **Additional-year corpora + peradnya cross-validation** — add corpora from other years/publishers; cross-validate against peradnya for multi-year ranges | corpus test suite covers 2+ years; peradnya cross-validation results documented | 7.2 | cc:TODO |
+| 7.4 | **Document calendar-authority disagreements** — Ngunaratri boundary, PancaSuda naming, Nampih Sasih placement, and any other known divergences | disagreements documented in code + `references/BIBLIOGRAPHY.md` with source citations for each side | - | cc:TODO |
+| 7.5 | **Historical date support** — dates before the current epoch for inscription/lontar (prasasti) research | `from_ymd`/`from_jdn` accept dates before the current epoch with documented accuracy bounds; at least one prasasti-dated smoke test | - | cc:TODO |
